@@ -19,7 +19,7 @@ ng serve --open
 ## 1- Fork the project
 
 ## 2- Clone the forked project
-git clone https://github.com/<username>/<repository>.git
+git clone https://github.com/username>/repository.git
 
 ## 3- open the project directory
 cd LogframeLab-client
