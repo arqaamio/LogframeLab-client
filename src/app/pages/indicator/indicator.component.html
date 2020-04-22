@@ -1,7 +1,14 @@
 <div>
   <div class="content-section">
-    <nz-upload nzType="drag" [nzMultiple]="false" nzAccept=".doc,.docx" [nzLimit]="1"
-      [nzAction]="urlfileUpload" (nzChange)="handleChange($event)" [nzSize]="25000">
+    <nz-upload
+      nzType="drag"
+      [nzMultiple]="false"
+      nzAccept=".doc,.docx"
+      [nzLimit]="1"
+      [nzAction]="urlfileUpload"
+      (nzChange)="handleChange($event)"
+      [nzSize]="25000"
+    >
       <p class="ant-upload-drag-icon">
         <i nz-icon nzType="inbox"></i>
       </p>
@@ -12,13 +19,23 @@
     </nz-upload>
   </div>
   <div class="content-section">
-    <div style="display:flex;flex-direction:row;">
+    <div style="display: flex; flex-direction: row;">
       <div style="flex-grow: 5;">
-
         <div style="position: relative;">
-          <input (input)="search()" style="padding-right:30px;" type="text" nz-input placeholder="Search indicator"
-            [(ngModel)]="searchValue">
-          <i style="position: absolute;top:9px;right: 10px;color:grey;" nz-icon nzType="search" nzTheme="outline"></i>
+          <input
+            (input)="search()"
+            style="padding-right: 30px;"
+            type="text"
+            nz-input
+            placeholder="Search indicator"
+            [(ngModel)]="searchValue"
+          />
+          <i
+            style="position: absolute; top: 9px; right: 10px; color: grey;"
+            nz-icon
+            nzType="search"
+            nzTheme="outline"
+          ></i>
         </div>
         <!--button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
             Search
@@ -26,35 +43,97 @@
           <button nz-button nzSize="small" (click)="reset()">Reset</button-->
       </div>
       <div style="flex-grow: 2;">
-        <nz-select nzMode="multiple" (nzOpenChange)="onChangethemeFiler()" style="width: 100%"
-          nzPlaceHolder="Filter by themes" [(ngModel)]="listOfSelectedValue">
-          <nz-option *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option"
-            [nzHide]="!isNotSelected(option)"></nz-option>
+        <nz-select
+          nzMode="multiple"
+          (nzOpenChange)="onChangethemeFiler()"
+          style="width: 100%;"
+          nzPlaceHolder="Filter by themes"
+          [(ngModel)]="listOfSelectedValue"
+        >
+          <nz-option
+            *ngFor="let option of listOfOption"
+            [nzLabel]="option"
+            [nzValue]="option"
+            [nzHide]="!isNotSelected(option)"
+          ></nz-option>
         </nz-select>
       </div>
-      <button style="margin-left: 5px;" [disabled]="downloadDisabled" type='button' nz-button (click)="downloadFile()">
+      <button
+        style="margin-left: 5px;"
+        [disabled]="downloadDisabled"
+        type="button"
+        nz-button
+        (click)="downloadFile()"
+      >
         <i nz-icon nzType="download"></i>Download Indicators
       </button>
     </div>
   </div>
   <div class="content-section">
-
-    <nz-table #dynamicTable [nzData]="displayData" [nzLoading]="loading" [nzPaginationPosition]="'top'"
-      [nzShowPagination]="true" [nzShowSizeChanger]="true" nzBordered>
+    <nz-table
+      #dynamicTable
+      [nzData]="displayData"
+      [nzLoading]="loading"
+      [nzPaginationPosition]="'top'"
+      [nzShowPagination]="true"
+      [nzShowSizeChanger]="true"
+      nzBordered
+    >
       <thead (nzSortChange)="sort($event)" nzSingleSort>
         <tr>
-          <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
-            (nzCheckedChange)="checkAll($event)"></th>
-          <th nzShowSort nzSortKey="level" nzWidth="100px">
+          <th
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+          ></th>
+          <th
+            nzShowSort
+            nzSortKey="level"
+            nzWidth="100px"
+            tooltip="Description of column goes here"
+            [options]="myOptions"
+          >
             Level
           </th>
-          <th nzShowSort nzSortKey="level">
+          <th
+            nzShowSort
+            nzSortKey="level"
+            tooltip="Description of column goes here"
+            [options]="myOptions"
+          >
             Indicator
           </th>
-          <th nzShowSort nzSortKey="description" nzWidth="100px">Description</th>
-          <th nzShowSort nzSortKey="description" nzWidth="100px">Thematic Area</th>
-          <th nzShowSort nzSortKey="description" nzWidth="100px">Source/Attribution</th>
-          <th nzShowSort nzSortKey="description" nzWidth="100px">Disaggregation</th>
+          <th nzShowSort nzSortKey="description" nzWidth="100px">
+            Description
+          </th>
+          <th
+            nzShowSort
+            nzSortKey="description"
+            nzWidth="100px"
+            tooltip="Description of column goes here"
+            [options]="myOptions"
+          >
+            Thematic Area
+          </th>
+          <th
+            nzShowSort
+            nzSortKey="description"
+            nzWidth="100px"
+            tooltip="Description of column goes here"
+            [options]="myOptions"
+          >
+            Source/Attribution
+          </th>
+          <th
+            nzShowSort
+            nzSortKey="description"
+            nzWidth="100px"
+            tooltip="Description of column goes here"
+            [options]="myOptions"
+          >
+            Disaggregation
+          </th>
 
           <!--th nzShowSort nzSortKey="level" nzCustomFilter nzWidth="200px">
               Indicator
@@ -71,7 +150,11 @@
       <tbody>
         <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
           <tr>
-            <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td>
+            <td
+              nzShowCheckbox
+              [(nzChecked)]="mapOfCheckedId[data.id]"
+              (nzCheckedChange)="refreshStatus()"
+            ></td>
             <td>
               <nz-tag [nzColor]="data.color">{{ data.level }} </nz-tag>
             </td>
@@ -80,7 +163,9 @@
             <td>{{ data.description }}</td>
             <td></td>
             <td></td>
-            <td> <span *ngFor="let key of data.keys"> {{ key }}, </span> </td>
+            <td>
+              <span *ngFor="let key of data.keys"> {{ key }}, </span>
+            </td>
           </tr>
         </ng-template>
       </tbody>

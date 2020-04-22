@@ -21,6 +21,7 @@
     "@angular/router": "~8.2.14",
     "@babel/compat-data": "^7.8.0",
     "ng-zorro-antd": "^8.5.2",
+    "ng2-tooltip-directive": "^2.9.20",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

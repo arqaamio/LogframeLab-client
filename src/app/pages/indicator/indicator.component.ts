@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzMessageService, UploadChangeParam } from 'ng-zorro-antd';
 import { FileService } from 'src/app/services/file.service';
 import { element } from 'protractor';
+import { BoundElementProperty } from '@angular/compiler';
 
 interface ItemData {
   id: number;
@@ -16,13 +17,12 @@ interface ItemData {
 @Component({
   selector: 'app-indicator',
   templateUrl: './indicator.component.html',
-  styleUrls: ['./indicator.component.scss']
+  styleUrls: ['./indicator.component.scss'],
 })
 export class IndicatorComponent implements OnInit {
-
   title = 'Indicator';
 
-  urlfileUpload = "/indicator/upload";
+  urlfileUpload = '/indicator/upload';
 
   downloadDisabled = true;
   isAllDisplayDataChecked = false;
@@ -42,12 +42,21 @@ export class IndicatorComponent implements OnInit {
   listOfOption = [];
   listOfSelectedValue: string[] = [];
 
-  constructor(private msg: NzMessageService, private fileService: FileService) {
+  //options for Tooltip can be found here: https://www.npmjs.com/package/ng2-tooltip-directive
+  myOptions = {
+    placement: 'top',
+    trigger: 'hover',
+    theme: 'light',
+    'hide-delay': 0,
+  };
 
-  }
+  constructor(
+    private msg: NzMessageService,
+    private fileService: FileService
+  ) {}
 
   ngOnInit() {
-    this.urlfileUpload = this.fileService.getBaseUrl() + "/indicator/upload";
+    this.urlfileUpload = this.fileService.getBaseUrl() + '/indicator/upload';
   }
 
   isNotSelected(value: string): boolean {
@@ -56,11 +65,9 @@ export class IndicatorComponent implements OnInit {
     //
     return this.listOfSelectedValue.indexOf(value) === -1;
   }
-  onChangethemeFiler() {
-
-  }
+  onChangethemeFiler() {}
   checkAll(value: boolean): void {
-    this.displayData.forEach(item => (this.mapOfCheckedId[item.id] = value));
+    this.displayData.forEach((item) => (this.mapOfCheckedId[item.id] = value));
     this.refreshStatus();
   }
   sort(sort: { key: string; value: string }): void {
@@ -75,13 +82,16 @@ export class IndicatorComponent implements OnInit {
   search(): void {
     /** filter data **/
     // filter by theme
-    let data:ItemData[] = this.listOfData;
+    let data: ItemData[] = this.listOfData;
     if (this.listOfSelectedValue && this.listOfSelectedValue.length > 0) {
-      data = this.listOfData.filter((item: ItemData) => (this.listOfSelectedValue.indexOf(item.description) > -1));
+      data = this.listOfData.filter(
+        (item: ItemData) =>
+          this.listOfSelectedValue.indexOf(item.description) > -1
+      );
     }
     // filter by indicator
     const filterFunc = (item: ItemData) => {
-      return (item.label.indexOf(this.searchValue) !== -1);
+      return item.label.indexOf(this.searchValue) !== -1;
     };
     data = data.filter((item: ItemData) => filterFunc(item));
     /** sort data **/
@@ -92,8 +102,8 @@ export class IndicatorComponent implements OnInit {
             ? 1
             : -1
           : b[this.sortName!] > a[this.sortName!]
-            ? 1
-            : -1
+          ? 1
+          : -1
       );
     } else {
       this.displayData = data;
@@ -118,16 +128,20 @@ export class IndicatorComponent implements OnInit {
     // if (status !== 'uploading') {
     //}
     if (status == 'uploading' && event != null) {
-      console.log("progress " + event.percent)
+      console.log('progress ' + event.percent);
       this.loading = true;
     }
     if (status === 'done') {
       this.msg.success(`${file.name} file uploaded successfully.`);
       this.listOfData = file.response;
       this.displayData = this.listOfData;
-      this.listOfOption = []
-      this.listOfData.forEach(element => {
-        if (element.description && this.listOfOption.indexOf(element.description) === -1) this.listOfOption.push(element.description)
+      this.listOfOption = [];
+      this.listOfData.forEach((element) => {
+        if (
+          element.description &&
+          this.listOfOption.indexOf(element.description) === -1
+        )
+          this.listOfOption.push(element.description);
       });
       this.loading = false;
     } else if (status === 'error') {
@@ -136,9 +150,14 @@ export class IndicatorComponent implements OnInit {
     }
   }
   downloadFile() {
-    const exportData = this.displayData.filter(item => (this.mapOfCheckedId[item.id]));
-    this.fileService.downloadInidicators(exportData).subscribe((
-      response => this.downLoadFile(response, "application/octet-stream")));
+    const exportData = this.displayData.filter(
+      (item) => this.mapOfCheckedId[item.id]
+    );
+    this.fileService
+      .downloadInidicators(exportData)
+      .subscribe((response) =>
+        this.downLoadFile(response, 'application/octet-stream')
+      );
   }
   downLoadFile(response: any, type: string) {
     let blob = new Blob([response.body], { type: type });
