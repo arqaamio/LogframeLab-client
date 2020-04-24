@@ -11,6 +11,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -31,13 +32,13 @@ import { ImprintComponent } from './pages/imprint/imprint.component';
 registerLocaleData(en);
 
 const routes: Routes = [
-  { path:'dataprotection', component: DataprotectionComponent },
-  { path:'terms', component: TermsofuseComponent },
-  { path:'imprint', component: ImprintComponent },
-  { path:'signin', component: SigninComponent },
-  { path:'signup', component: SignupComponent },
-  { path:'', component: IndicatorComponent }
-]
+  { path: 'dataprotection', component: DataprotectionComponent },
+  { path: 'terms', component: TermsofuseComponent },
+  { path: 'imprint', component: ImprintComponent },
+  { path: 'signin', component: SigninComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: '', component: IndicatorComponent },
+];
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,7 @@ const routes: Routes = [
     DataprotectionComponent,
     SigninComponent,
     SignupComponent,
-    ImprintComponent
+    ImprintComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,9 +64,10 @@ const routes: Routes = [
     NzListModule,
     NzTagModule,
     NzButtonModule,
-    NzTableModule
+    NzTableModule,
+    TooltipModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
