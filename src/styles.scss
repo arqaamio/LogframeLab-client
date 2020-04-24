@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+
+.modal-backdrop.in {
+    filter: alpha(opacity=7);
+    opacity: 0.7;
+}
+.modal-content {
+    background: white;
+    border: 0;
+}
+.modal-body {
+    padding: 0 25px 25px 25px;
+    background: white;   
+}
+.modal-header {
+    padding: 25px 25px 15px 25px;
+    text-align: right;
+    color: black;
+    font-weight: 300;
+    text-shadow: none;
+}
+.modal-header, .modal-footer {
+    border: 0;
+    background: white;
+}
+//close button
+.close {
+    float: right;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 0.5;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+  }
+  //Show me! button (bottom Right)
+  .btn {
+    color: white;
+    background-color: rgb(126, 96, 197);
+  }
+  .text {
+      background-color: white;
+  }

@@ -1,13 +1,70 @@
 <!doctype html>
+
+
 <html lang="en">
 <head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
   <meta charset="utf-8">
   <title>logframelab | Arqaam</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
 </head>
+
+<!--Pop up Module HTML starts here-->
+
 <body>
   <app-root></app-root>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header"><h2 class='col-12 modal-title text-center'><b>
+        Learn Arqaam Goals
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </b></h2>
+      </div>
+      <div class="modal-body">
+        <div class="modal-video">
+      <div id="headerPopup" class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/qN3OueBm9F4?autoplay=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+      <div class="text"><h4 class='col-12 modal-title text-center'>The Goals of this organication are... Click below to learn more! <p></p></h4>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Show me!</button><!--Set to close window for now-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Pop up Module HTML over here-->
+<!--Start of Pop up Module scripts-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+  //show the pop up only once per session.  Browser must be fully closed and reopened to load the pop-up again.  
+  $(document).ready(function(){
+    var firstTime = sessionStorage.getItem("firstTime");
+    if(! firstTime){//if not the first time, the pop-up will not show.
+  $('#exampleModal').modal('show');
+  sessionStorage.setItem("firstTime", true);
+    }
+});
+  //kill the video if it was played
+  $(function(){
+    $('#exampleModal').on('hidden.bs.modal', function (e) {
+      $iframe = $(this).find("iframe");
+      $iframe.attr("src", $iframe.attr("src"));
+  });
+      });
+      </script>
+      <!--End of Pop up Module scripts-->
 </body>
 </html>
+
+
