@@ -2,7 +2,7 @@
   <nz-header style="text-align: left;">
     <div nz-row>
       <div nz-col nzSpan="6">
-        <span style="font-size: 18px;"> <a routerLink="/" routerLinkActive="active">ARQAAM - Logframe Lab</a></span>
+        <span style="font-size: 18px;"> <a style="color: black;" routerLink="/" routerLinkActive="active">ARQAAM - Logframe Lab</a></span>
       </div>
       <div nz-col nzSpan="18">
         <div style="display: inline-block;float:right;">
@@ -17,10 +17,11 @@
     <router-outlet></router-outlet>
   </nz-content>
   <nz-footer>
-        <a href="http://arqaam.org" target="_blank">Arqaam website</a><br>
+    <div style="text-align: center;font-size: 12px;">
         <a href="/terms">Terms of Use </a><br>
-        <a href="/imprint">Imprint</a>
-        <a href="/dataprotection">Data Protection Declaration</a>
-        <a href="#" style="float: right;">Logframe Lab ©2020 developed By Arqaam GmbH</a>
+        <a href="/imprint">Imprint</a><br>
+        <a href="/dataprotection">Data Protection Declaration</a><br>
+        <a href="http://arqaam.org" target="_blank" href="#">Logframe Lab ©2020 developed By Arqaam GmbH</a>
+      </div>
   </nz-footer>
 </nz-layout>

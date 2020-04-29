@@ -1,5 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { registerLocaleData } from '@angular/common';
+
+import en from '@angular/common/locales/en';
 
 import { AppComponent } from './app.component';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
@@ -11,13 +17,8 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
-
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { registerLocaleData } from '@angular/common';
-
-import en from '@angular/common/locales/en';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 import { HomeComponent } from './pages/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -27,6 +28,12 @@ import { DataprotectionComponent } from './pages/dataprotection/dataprotection.c
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ImprintComponent } from './pages/imprint/imprint.component';
+import { SelectdocumentComponent } from './pages/indicator/selectdocument/selectdocument.component';
+import { IndicatorfiltersComponent } from './pages/indicator/indicatorfilters/indicatorfilters.component';
+import { ScanresultComponent } from './pages/indicator/scanresult/scanresult.component';
+import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
+import { DownloadresultComponent } from './pages/indicator/downloadresult/downloadresult.component';
+import { ScanDocumentComponent } from './pages/indicator/scandocument/scandocument.component';
 
 registerLocaleData(en);
 
@@ -47,7 +54,13 @@ const routes: Routes = [
     DataprotectionComponent,
     SigninComponent,
     SignupComponent,
-    ImprintComponent
+    ImprintComponent,
+    SelectdocumentComponent,
+    IndicatorfiltersComponent,
+    ScanDocumentComponent,
+    ScanresultComponent,
+    VisualisationresultComponent,
+    DownloadresultComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +76,9 @@ const routes: Routes = [
     NzListModule,
     NzTagModule,
     NzButtonModule,
-    NzTableModule
+    NzTableModule,
+    NzStepsModule,
+    NzProgressModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

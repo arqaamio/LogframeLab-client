@@ -2,38 +2,17 @@
   width: 80%;
   margin: 15px auto;
 }
-.indicator-label {
-  padding: 5px;
-  font-weight: bold;
-}
-.indicator-description {
-  padding: 5px;
-  color: grey;
+
+.steps-content {
+  margin-top: 16px;
+  border: 1px dashed #e9e9e9;
+  border-radius: 6px;
+  background-color: #fafafa;
+  min-height: 400px;
+  text-align: center;
 }
 
-.search-box {
-  padding: 8px;
+.steps-action {
+  margin-top: 24px;
 }
 
-.search-box input {
-  width: 188px;
-  margin-bottom: 8px;
-  display: block;
-}
-
-.search-box button {
-  width: 90px;
-}
-
-.search-button {
-  margin-right: 8px;
-}
-
-.components-table-demo-control-bar {
-  margin-bottom: 12px;
-}
-
-.nz-form-item {
-  margin-right: 16px;
-  margin-bottom: 8px;
-}

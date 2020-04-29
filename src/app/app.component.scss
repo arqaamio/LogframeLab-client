@@ -2,8 +2,7 @@ nz-header,
 nz-content,
 nz-footer {
   background-color: white;
-  color: black;
-  display: block !important;
+  color: #000000;
 }
 nz-header {
 border-bottom-style: solid;
@@ -11,14 +10,13 @@ border-bottom-color: #e8e8e8;
 border-bottom-width: 1px;
 }
 nz-footer {
+  padding: 10px;
   border-top-style: solid;
   border-top-color: #e8e8e8;
   border-top-width: 1px;
   color: white;
-  background-color: #630060;
-  a {
-    color: white;
-  }
+  background-color: #ffffff;
+
 }
 nz-layout {
   min-height: 100%;

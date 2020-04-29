@@ -1,0 +1,15 @@
+<div style="margin:50px;">
+  <div style="display: flex;flex-direction: column;">
+    <label>Themes:</label><br>
+    <nz-select
+      nzMode="multiple"
+      (ngModelChange)="onChangeThemeFiler($event)"
+      style="width: 100%"
+      nzPlaceHolder="Filter by themes"
+      [(ngModel)]="listOfSelectedValue"
+      >
+    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option"
+      [nzHide]="!isNotSelected(option)"></nz-option>
+   </nz-select>
+
+</div>

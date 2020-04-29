@@ -1,0 +1,92 @@
+<div style="position: relative;">
+  <input
+    (input)="search()"
+    nzSize="large"
+    style="padding-right:30px;"
+    type="text"
+    nz-input
+    placeholder="Search indicator"
+    [(ngModel)]="searchValue"
+    >
+</div>
+<div style="display: flex;flex-direction: row;margin: 10px;">
+  <span>Total:  {{ listOfData.length }} - selected: Imact  {{ impactCount }}, Outcome  {{ outcomeCount }}, Output  {{ outputCount }}</span>
+</div>
+<nz-table
+  #dynamicTable
+  [nzData]="displayData"
+  nzShowPagination="false"
+  nzShowSizeChanger="false"
+  nzBordered
+  >
+  <thead
+    (nzSortChange)="sort($event)"
+    nzSingleSort
+    >
+    <tr>
+      <th
+        nzShowCheckbox
+        [(nzChecked)]="isAllDisplayDataChecked"
+        [nzIndeterminate]="isIndeterminate"
+        (nzCheckedChange)="checkAll($event)"
+        ></th>
+      <th
+        nzShowSort
+        nzSortKey="level"
+        nzWidth="100px"
+        >
+        Level
+      </th>
+      <th
+        nzShowSort
+        nzSortKey="label"
+        >
+        Indicator
+      </th>
+      <th
+        nzWidth="100px"
+        >Description</th>
+      <th
+        nzShowSort
+        nzSortKey="description"
+        nzWidth="100px"
+        >Thematic Area</th>
+      <th
+        nzWidth="100px"
+        >
+        Source/Attribution
+      </th>
+      <th
+        nzWidth="100px"
+        >
+        Disaggregation
+      </th>
+      <th>
+        Keywords
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
+      <tr
+        (click)="selectindicator(data.id)"
+        [class.row-checked]="mapOfCheckedId[data.id]"
+        >
+        <td
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedId[data.id]"
+          (nzCheckedChange)="refreshStatus()"
+          ></td>
+        <td>
+          <nz-tag [nzColor]="data.color">{{ data.level }} </nz-tag>
+        </td>
+        <td>{{ data.label }}</td>
+        <td></td>
+        <td>{{ data.description }}</td>
+        <td></td>
+        <td></td>
+        <td> <span *ngFor="let key of data.keys"> {{ key }}, </span> </td>
+      </tr>
+    </ng-template>
+  </tbody>
+</nz-table>
