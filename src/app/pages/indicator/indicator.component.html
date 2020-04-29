@@ -90,19 +90,19 @@
           <th
             nzShowSort
             nzSortKey="level"
-            nzWidth="100px"
+            nzWidth="200px"
             tooltip="Description of column goes here"
             [options]="myOptions"
           >
             Level
           </th>
-          <th nzShowSort nzSortKey="description" nzWidth="100px">
+          <th nzShowSort nzSortKey="description" nzWidth="200px">
             Description
           </th>
           <th
             nzShowSort
             nzSortKey="description"
-            nzWidth="100px"
+            nzWidth="200px"
             tooltip="Description of column goes here"
             [options]="myOptions"
           >
@@ -111,7 +111,7 @@
           <th
             nzShowSort
             nzSortKey="description"
-            nzWidth="100px"
+            nzWidth="200px"
             tooltip="Description of column goes here"
             [options]="myOptions"
           >
@@ -120,7 +120,7 @@
           <th
             nzShowSort
             nzSortKey="description"
-            nzWidth="100px"
+            nzWidth="200px"
             tooltip="Description of column goes here"
             [options]="myOptions"
           >
@@ -150,7 +150,9 @@
             <td>
               <nz-tag [nzColor]="data.color">{{ data.level }} </nz-tag>
             </td>
-            <td><b>{{ data.label }}</b></td>
+            <td>
+              <b>{{ data.label }}</b>
+            </td>
             <td></td>
             <td>{{ data.description }}</td>
             <td></td>
