@@ -30,14 +30,7 @@ git clone https://github.com/username/repository.git
 
 cd LogframeLab-client
 
-<<<<<<< HEAD
-## 4- Sync the loacl forked repository with the main repo 
-=======
 ## 4- Sync the loacl forked repository with the main repo
-
->>>>>>> 9de2af5fa39a52447f3ef69dc743b58495119561
-git remote add upstream https://github.com/arqaamio/LogframeLab-client.git
-git fetch upstream
 
 ## 5- Check the updated develop branch from the main repo
 
