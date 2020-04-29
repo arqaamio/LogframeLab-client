@@ -2,26 +2,37 @@
   <nz-header style="text-align: left;">
     <div nz-row>
       <div nz-col nzSpan="6">
-        <span style="font-size: 18px;"> <a style="color: black;" routerLink="/" routerLinkActive="active">ARQAAM - Logframe Lab</a></span>
+        <a style="color: black;" routerLink="/" routerLinkActive="active">
+          <img src="assets/logo-11-1.png">
+        </a>
       </div>
-      <div nz-col nzSpan="18">
+      <!--div nz-col nzSpan="18">
         <div style="display: inline-block;float:right;">
           <button [nzSize]="'large'"	 nz-button [nzType]="'primary'" nzGhost>
             <span>Login</span>
           </button>
         </div>
-      </div>
+      </div-->
     </div>
   </nz-header>
   <nz-content>
     <router-outlet></router-outlet>
   </nz-content>
   <nz-footer>
-    <div style="text-align: center;font-size: 12px;">
-        <a href="/terms">Terms of Use </a><br>
-        <a href="/imprint">Imprint</a><br>
+    <div><br>
+        <img src="assets/arqaam-13 1.png"><br>
+        <a href="/terms">Terms Of Use </a><br>
         <a href="/dataprotection">Data Protection Declaration</a><br>
-        <a href="http://arqaam.org" target="_blank" href="#">Logframe Lab ©2020 developed By Arqaam GmbH</a>
+        <a href="/imprint">Imprint</a><br><br>
+      </div>
+      <div
+        style="height:28px;background-color: #222222;">
+        <a style="line-height: 28px;"
+          href="http://arqaam.org"
+          target="_blank" href="#"
+          >
+          Logframe Lab ©2020 developed By Arqaam GmbH
+        </a>
       </div>
   </nz-footer>
 </nz-layout>

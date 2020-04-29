@@ -3,20 +3,27 @@ nz-content,
 nz-footer {
   background-color: white;
   color: #000000;
+  margin: 0;
+  padding: 0;
 }
 nz-header {
 border-bottom-style: solid;
 border-bottom-color: #e8e8e8;
 border-bottom-width: 1px;
+background-image: url('/assets/Rectangle3.png');
 }
 nz-footer {
-  padding: 10px;
   border-top-style: solid;
   border-top-color: #e8e8e8;
   border-top-width: 1px;
   color: white;
   background-color: #ffffff;
-
+  background-image: url('/assets/Rectangle3.png');
+  text-align: center;
+  font-size: 11px;
+  a {
+    color: white;
+  }
 }
 nz-layout {
   min-height: 100%;
