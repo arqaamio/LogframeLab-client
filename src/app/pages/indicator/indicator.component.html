@@ -1,166 +1,35 @@
-<div>
-  <div class="content-section">
-    <nz-upload
-      nzType="drag"
-      [nzMultiple]="false"
-      nzAccept=".doc,.docx"
-      [nzLimit]="1"
-      [nzAction]="urlfileUpload"
-      (nzChange)="handleChange($event)"
-      [nzSize]="25000"
-    >
-      <p class="ant-upload-drag-icon">
-        <i nz-icon nzType="inbox"></i>
-      </p>
-      <p class="ant-upload-text">Click to this area to upload</p>
-      <p class="ant-upload-hint">
-        Support for a single word file upload.
-      </p>
-    </nz-upload>
+<div class="content-section">
+  <nz-steps [nzCurrent]="current">
+    <nz-step nzTitle="SELECT"></nz-step>
+    <nz-step nzTitle="FILTERS"></nz-step>
+    <nz-step nzTitle="PROGRESS"></nz-step>
+    <nz-step nzTitle="RESULT"></nz-step>
+    <nz-step nzTitle="VISUALISATION"></nz-step>
+    <nz-step nzTitle="DOWNLOAD"></nz-step>
+  </nz-steps>
+  <div class="steps-action">
+    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+      <span>Previous</span>
+    </button>
+    <button [disabled]="!isNext" nz-button nzType="default" (click)="next()" *ngIf="current < 5">
+      <span>Next</span>
+    </button>
+    <button nz-button nzType="primary" (click)="done()" *ngIf="current === 5">
+      <span>Done</span>
+    </button>
   </div>
-  <div class="content-section">
-    <div style="display: flex; flex-direction: row;">
-      <div style="flex-grow: 5;">
-        <div style="position: relative;">
-          <input
-            (input)="search()"
-            style="padding-right: 30px;"
-            type="text"
-            nz-input
-            placeholder="Search indicator"
-            [(ngModel)]="searchValue"
-          />
-          <i
-            style="position: absolute; top: 9px; right: 10px; color: grey;"
-            nz-icon
-            nzType="search"
-            nzTheme="outline"
-          ></i>
-        </div>
-        <!--button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
-            Search
-          </button>
-          <button nz-button nzSize="small" (click)="reset()">Reset</button-->
-      </div>
-      <div style="flex-grow: 2;">
-        <nz-select
-          nzMode="multiple"
-          (nzOpenChange)="onChangethemeFiler()"
-          style="width: 100%;"
-          nzPlaceHolder="Filter by themes"
-          [(ngModel)]="listOfSelectedValue"
-        >
-          <nz-option
-            *ngFor="let option of listOfOption"
-            [nzLabel]="option"
-            [nzValue]="option"
-            [nzHide]="!isNotSelected(option)"
-          ></nz-option>
-        </nz-select>
-      </div>
-      <button
-        style="margin-left: 5px;"
-        [disabled]="downloadDisabled"
-        type="button"
-        nz-button
-        (click)="downloadFile()"
-      >
-        <i nz-icon nzType="download"></i>Download Indicators
-      </button>
-    </div>
-  </div>
-  <div class="content-section">
-    <nz-table
-      #dynamicTable
-      [nzData]="displayData"
-      [nzLoading]="loading"
-      [nzPaginationPosition]="'top'"
-      [nzShowPagination]="true"
-      [nzShowSizeChanger]="true"
-      nzBordered
-    >
-      <thead (nzSortChange)="sort($event)" nzSingleSort>
-        <tr>
-          <th
-            nzShowCheckbox
-            [(nzChecked)]="isAllDisplayDataChecked"
-            [nzIndeterminate]="isIndeterminate"
-            (nzCheckedChange)="checkAll($event)"
-          ></th>
-          <th
-            nzShowSort
-            nzSortKey="level"
-            nzWidth="100px"
-            tooltip="Description of column goes here"
-            [options]="myOptions"
-          >
-            Level
-          </th>
-          <th nzShowSort nzSortKey="description" nzWidth="100px">
-            Description
-          </th>
-          <th
-            nzShowSort
-            nzSortKey="description"
-            nzWidth="100px"
-            tooltip="Description of column goes here"
-            [options]="myOptions"
-          >
-            Thematic Area
-          </th>
-          <th
-            nzShowSort
-            nzSortKey="description"
-            nzWidth="100px"
-            tooltip="Description of column goes here"
-            [options]="myOptions"
-          >
-            Source/Attribution
-          </th>
-          <th
-            nzShowSort
-            nzSortKey="description"
-            nzWidth="100px"
-            tooltip="Description of column goes here"
-            [options]="myOptions"
-          >
-            Disaggregation
-          </th>
-
-          <!--th nzShowSort nzSortKey="level" nzCustomFilter nzWidth="200px">
-              Indicator
-              <i nz-th-extra class="ant-table-filter-icon" nz-icon nz-dropdown #dropdown="nzDropdown" nzType="search"
-                [nzDropdownMenu]="menu" [class.ant-table-filter-open]="dropdown.nzVisible" nzTrigger="click"
-                nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter></i>
-            </th-->
-
-          <th nzShowSort nzSortKey="key" nzWidth="200px">
-            Keywords
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
-          <tr>
-            <td
-              nzShowCheckbox
-              [(nzChecked)]="mapOfCheckedId[data.id]"
-              (nzCheckedChange)="refreshStatus()"
-            ></td>
-            <td>
-              <nz-tag [nzColor]="data.color">{{ data.level }} </nz-tag>
-            </td>
-            <td><b>{{ data.label }}</b></td>
-            <td></td>
-            <td>{{ data.description }}</td>
-            <td></td>
-            <td></td>
-            <td>
-              <span *ngFor="let key of data.keys"> {{ key }}, </span>
-            </td>
-          </tr>
-        </ng-template>
-      </tbody>
-    </nz-table>
+  <div class="steps-content">
+    <app-selectdocument *ngIf="current === 0">
+    </app-selectdocument>
+    <app-indicatorfilters *ngIf="current === 1">
+    </app-indicatorfilters>
+    <app-scandocument *ngIf="current === 2">
+    </app-scandocument>
+    <app-scanresult *ngIf="current === 3">
+    </app-scanresult>
+    <app-visualisationresult *ngIf="current === 4">
+    </app-visualisationresult>
+    <app-downloadresult *ngIf="current === 5">
+    </app-downloadresult>
   </div>
 </div>

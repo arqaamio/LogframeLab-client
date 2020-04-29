@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+app-selectdocument {
+  .ant-upload.ant-upload-drag .ant-upload-btn{
+    min-height: 400px !important;
+  }
+}
