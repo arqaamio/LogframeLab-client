@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpRequest, HttpHeaders, HttpResponse, HttpEventType, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest, HttpHeaders, HttpResponse, HttpEventType, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { UploadFile } from 'ng-zorro-antd';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BehaviorSubject, throwError } from 'rxjs';
@@ -60,8 +60,14 @@ export class IndicatorService {
   public getBaseUrl() {
     return this.baseUrl;
   }
-  public downloadInidicators(indicatorsList) {
-    return this.http.post(this.baseUrl + '/indicator/download', indicatorsList,
+  public downloadInidicators(indicatorsList, format) {
+
+    let param;
+    if(format === 'xlsx')
+      param = 'worksheet=true';
+    else
+      param = 'worksheet=false';
+    return this.http.post(this.baseUrl + '/indicator/download?' + param, indicatorsList,
       { responseType: "blob", observe: 'response' });
   }
   handleUpload() {

@@ -36,8 +36,8 @@ export class DownloadresultComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.indicatorSubscribtion.unsubscribe();
   }
-  downloadFile() {
-    this.indicatorService.downloadInidicators(this.dataExport).subscribe((
+  downloadFile(format:string) {
+    this.indicatorService.downloadInidicators(this.dataExport, format).subscribe((
       response => this.downLoadFile(response, "application/octet-stream")));
   }
   //

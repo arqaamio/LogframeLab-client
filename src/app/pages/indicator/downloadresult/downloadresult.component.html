@@ -2,7 +2,13 @@
   <button
     type='button'
     nz-button
-    (click)="downloadFile()">
-    <i nz-icon nzType="download"></i>Download Indicators
+    (click)="downloadFile('docx')">
+    <i nz-icon nzType="download"></i>Download Indicators Word
  </button>
+ <button
+ type='button'
+ nz-button
+ (click)="downloadFile('xlsx')">
+ <i nz-icon nzType="download"></i>Download Indicators Excel
+</button>
 </div>
