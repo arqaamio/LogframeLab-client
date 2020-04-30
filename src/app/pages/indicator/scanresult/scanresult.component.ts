@@ -59,7 +59,6 @@ export class ScanresultComponent implements OnInit, OnDestroy {
         this.listOfData = data.dataResponse;
         this.displayData = data.dataResponse;
         console.log('total:  '+ this.displayData.length);
-        console.log(this.displayData);
         this.initData = false;
       }
       if (data != null && data.selectedData != null)
