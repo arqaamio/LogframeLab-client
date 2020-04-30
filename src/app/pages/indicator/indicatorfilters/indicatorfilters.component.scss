@@ -1,0 +1,15 @@
+.flex-container {
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+}
+
+.flex-container > div {
+  width: 25%;
+  margin: 10px;
+  text-align: left;
+}
+
+.flex-container nz-select {
+  width: 100%;
+}
