@@ -38,10 +38,10 @@ export class DownloadresultComponent implements OnInit, OnDestroy {
   }
   downloadFile(format:string) {
     this.indicatorService.downloadInidicators(this.dataExport, format).subscribe((
-      response => this.downLoadFile(response, "application/octet-stream")));
+      response => this.downLoadFile(response, "application/octet-stream",format)));
   }
   //
-  downLoadFile(response: any, type: string) {
+  downLoadFile(response: any, type: string, format:string) {
     let blob = new Blob([response.body], { type: type });
     var link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
