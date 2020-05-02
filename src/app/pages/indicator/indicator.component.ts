@@ -47,7 +47,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   }
   done(): void {
     this.current = 0;
-    this.indicatorService.clearInicatorData();
+    this.indicatorService.clearIndicatorData();
   }
   ngOnDestroy(){
     this.indicatorSubscribtion.unsubscribe();
