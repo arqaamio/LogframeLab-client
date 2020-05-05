@@ -10,7 +10,7 @@
     >
 </div>
 <div style="display: flex;flex-direction: row;margin: 10px;">
-  <span>Total:  {{ listOfData.length }} - selected: Imact  {{ impactCount }}, Outcome  {{ outcomeCount }}, Output  {{ outputCount }}</span>
+  <span>Total:  {{ listOfData.length }} - selected: Impact  {{ impactCount }}, Outcome  {{ outcomeCount }}, Output  {{ outputCount }}</span>
 </div>
 <nz-table
   #dynamicTable
@@ -33,47 +33,42 @@
         (nzCheckedChange)="checkAll($event)"
         ></th>
       <th
-        nzShowSort
-        nzSortKey="level"
-        tooltip="Level of indicator"
+        tooltip="Indicator level"
         nzWidth="100px"
         >
         Level
       </th>
       <th
-        nzShowSort
-        nzSortKey="label"
-        tooltip="Indicator name"
+        tooltip="Indicator"
         style="font-weight: bold;"
         >
         Indicator
       </th>
       <th
         nzWidth="100px"
-        tooltip="Indicator description"
-        >Description</th>
-      <th
-        nzShowSort
-        tooltip="Thematic Area"
-        nzSortKey="description"
-        nzWidth="100px"
-        >Thematic Area</th>
-      <th
-        nzWidth="100px"
-        tooltip="Source/Attribution"
-        >
-        Source/Attribution
-      </th>
+        tooltip="Source"
+        >Source</th>
       <th
         tooltip="Disaggregation"
         nzWidth="100px"
+        >Disaggregation</th>
+      <th
+        nzWidth="100px"
+        tooltip="Thematic Area"
         >
-        Disaggregation
+        Thematic Area
       </th>
       <th
-      tooltip="Keywords"
+        tooltip="OECD DAC/CRS Code"
+        nzWidth="100px"
+        >
+        OECD DAC/CRS Code
+      </th>
+      <th
+        tooltip="SDG Code"
+        nzWidth="100px"
       >
-        Keywords
+        SDG Code
       </th>
     </tr>
   </thead>
@@ -91,12 +86,28 @@
         <td>
           <nz-tag [nzColor]="data.color">{{ data.level }} </nz-tag>
         </td>
-        <td>{{ data.label }}</td>
-        <td></td>
-        <td>{{ data.description }}</td>
-        <td></td>
-        <td></td>
-        <td> <span *ngFor="let key of data.keys"> {{ key }}, </span> </td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.source }}</td>
+        <td style="text-align: center;">
+          <div style="text-align: center;">
+            <i
+              *ngIf="!data.disaggregation"
+              style="font-size: 25px;color: rgb(216, 126, 126);"
+              nz-icon
+              nzType="close"
+              nzTheme="outline"></i>
+            <i
+              *ngIf="data.disaggregation"
+              style="font-size: 25px;color:#A5C2AE;"
+              nz-icon
+              nzType="check"
+              nzTheme="outline"
+              ></i>
+          </div>
+        </td>
+        <td>{{ data.themes }}</td>
+        <td>{{ data.crsCode | number:'1.0-0'}}</td>
+        <td>{{ data.sdgCode }}</td>
       </tr>
     </ng-template>
   </tbody>

@@ -37,6 +37,8 @@ import { VisualisationresultComponent } from './pages/indicator/visualisationres
 import { DownloadresultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { ScanDocumentComponent } from './pages/indicator/scandocument/scandocument.component';
 
+import { DialogComponent } from './dialog/dialog.component';
+
 registerLocaleData(en);
 
 const routes: Routes = [
@@ -51,6 +53,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     IndicatorComponent,
+    DialogComponent,
     HomeComponent,
     TermsofuseComponent,
     DataprotectionComponent,

@@ -11,7 +11,7 @@
     <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
       <span>Previous</span>
     </button>
-    <button [disabled]="!isNext" nz-button nzType="default" (click)="next()" *ngIf="current < 5">
+    <button [(disabled)]="!isNext" nz-button nzType="default" (click)="next()" *ngIf="current < 5">
       <span>Next</span>
     </button>
     <button nz-button nzType="primary" (click)="done()" *ngIf="current === 5">

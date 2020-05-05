@@ -61,8 +61,14 @@ export class IndicatorService {
   public getBaseUrl() {
     return this.baseUrl;
   }
-  public downloadInidicators(indicatorsList) {
-    return this.http.post(this.baseUrl + '/indicator/download', indicatorsList,
+  public downloadInidicators(indicatorsList, format) {
+
+    let param;
+    if(format === 'xlsx')
+      param = 'worksheet=true';
+    else
+      param = 'worksheet=false';
+    return this.http.post(this.baseUrl + '/indicator/download?' + param, indicatorsList,
       { responseType: "blob", observe: 'response' });
   }
 

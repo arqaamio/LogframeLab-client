@@ -6,8 +6,13 @@ interface ItemData {
   id: number;
   level: string;
   color: string;
-  label: string;
+  name: string;
   description: string;
+  themes: string;
+  source: string;
+  disaggregation: boolean;
+  crsCode: string;
+  sdgCode: string;
   keys: Array<string>;
   var: string;
 }
@@ -54,7 +59,6 @@ export class ScanresultComponent implements OnInit, OnDestroy {
         this.listOfData = data.dataResponse;
         this.displayData = data.dataResponse;
         console.log('total:  '+ this.displayData.length);
-        console.log(this.displayData.length);
         this.initData = false;
       }
       if (data != null && data.selectedData != null)
@@ -79,12 +83,11 @@ export class ScanresultComponent implements OnInit, OnDestroy {
     let data: ItemData[] = this.listOfData;
     // filter by indicator
     const filterFunc = (item: ItemData) => {
-      if (item.label.indexOf(this.searchValue) !== -1){
+      if (item.name.indexOf(this.searchValue) !== -1){
         return true;
       }
       this.mapOfCheckedId[item.id]= false;
       return false;
-    //  return (item.label.indexOf(this.searchValue) !== -1);
     };
     this.displayData  = data.filter((item: ItemData) => filterFunc(item));
     /** sort data **/

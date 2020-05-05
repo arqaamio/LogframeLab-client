@@ -1,8 +1,19 @@
-<div style="margin:50px;">
-  <button
-    type='button'
-    nz-button
-    (click)="downloadFile()">
-    <i nz-icon nzType="download"></i>Download Indicators
- </button>
+<div style="flex-direction: row;display: inline-flex;margin: 50px;min-height: 300px;">
+
+  <a
+    style="display: inline-block;text-align: center;min-height: 300px;margin-top: 20px;"
+    (click)="downloadFile('docx')"
+    >
+    <img src="assets/icons-ms-word-96.png"><br>
+    <i nz-icon nzType="download"></i>
+    Download Indicators Word<br> (EU format)
+   </a>
+ <a
+  style="display:inline-block;text-align: center;margin-left: 20px;margin-top: 20px;min-height: 300px;"
+  (click)="downloadFile('xlsx')"
+  >
+    <img src="assets/icons-microsoft-excel-2019-96.png"><br>
+    <i nz-icon nzType="download"></i>
+    Download Indicators Excel<br>
+</a>
 </div>
