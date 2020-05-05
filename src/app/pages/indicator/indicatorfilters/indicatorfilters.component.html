@@ -6,8 +6,7 @@
         nzMode="multiple"
         (ngModelChange)="onChangeFilter('themes', $event)"
         nzPlaceHolder="Filter by themes"
-        [(ngModel)]="selectedValues.themes"
-      >
+        [(ngModel)]="selectedValues.themes">
         <nz-option *ngFor="let option of filterOptions.themes" [nzLabel]="option" [nzValue]="option"
                    [nzHide]="!isNotSelected(selectedValues.themes, option)"></nz-option>
       </nz-select>
@@ -17,7 +16,7 @@
       <nz-select nzMode="multiple" nzPlaceHolder="Filter by sources" [(ngModel)]="selectedValues.source"
                  (ngModelChange)="onChangeFilter('source', $event)">
         <nz-option *ngFor="let option of filterOptions.source" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedValues.themes, option)"></nz-option>
+                   [nzHide]="!isNotSelected(selectedValues.source, option)"></nz-option>
       </nz-select>
     </div>
     <div>
@@ -32,8 +31,8 @@
       <label>Levels:</label><br>
       <nz-select nzMode="multiple" nzPlaceHolder="Filter by levels" [(ngModel)]="selectedValues.level"
                  (ngModelChange)="onChangeFilter('level', $event)">
-        <nz-option *ngFor="let option of filterOptions.level" [nzLabel]="option.name" [nzValue]="option.id"
-                   [nzHide]="!isNotSelected(selectedValues.level, option.id)"></nz-option>
+        <nz-option *ngFor="let option of filterOptions.level" [nzLabel]="option.name" [nzValue]="option"
+                   [nzHide]="!isNotSelected(selectedValues.level, option)"></nz-option>
       </nz-select>
     </div>
     <div>
