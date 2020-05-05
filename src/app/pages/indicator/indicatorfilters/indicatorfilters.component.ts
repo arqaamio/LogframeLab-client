@@ -18,7 +18,16 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
 
   // themes filter
   listOfOption = [];
-  listOfSelectedValue: string[] = [];
+  listOfSelectedThemeValues: string[] = [];
+  selectedSources: String[] = [];
+  selectedLevels: Number[] = [];
+  selectedSdgCodes: String[] = [];
+
+  public themesFilterOptions: String[];
+  public descriptionsFilterOptions: String[];
+  public sourcesFilterOptions: String[];
+  public levelsFilterOptions: Level[];
+  public sdgCodesFilterOptions: String[];
 
   constructor(private indicatorService: IndicatorService) { }
 
@@ -27,12 +36,20 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
       console.log("fetch filters");
       if (data != null && data.filters != null) {
         if (data.filters.themes != null)
-          this.listOfSelectedValue = data.filters.themes;
+          this.listOfSelectedThemeValues = data.filters.themes;
       }
     })).subscribe();
 
     this.indicatorService.getThemes().subscribe(data => {
       this.listOfOption = data;
+    });
+
+    this.indicatorService.getFilters().subscribe(filters => {
+      this.themesFilterOptions = filters.themes;
+      this.descriptionsFilterOptions = filters.descriptions;
+      this.sourcesFilterOptions = filters.sources;
+      this.levelsFilterOptions = filters.levels;
+      this.sdgCodesFilterOptions = filters.sdgCodes;
     });
   }
   ngOnDestroy(){
@@ -43,7 +60,7 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
       themes: event
     })
   }
-  isNotSelected(value: string): boolean {
-    return this.listOfSelectedValue.indexOf(value) === -1;
+  isNotSelected(selectedValues: any[], value: any): boolean {
+    return selectedValues.indexOf(value) === -1;
   }
 }

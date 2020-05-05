@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpRequest, HttpHeaders, HttpResponse, HttpEventType, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { UploadFile } from 'ng-zorro-antd';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { BehaviorSubject, throwError } from 'rxjs';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -105,8 +105,17 @@ export class IndicatorService {
     return this.http.get<string[]>(this.baseUrl + '/indicator/themes').pipe(catchError((error: HttpErrorResponse) => {
       const errorMsg = this.getErrorMessage(error)
       console.log(errorMsg);
-      this.msg.error('loading themes faild.');
+      this.msg.error('loading themes failed.');
       return throwError(errorMsg);
-    }));;
+    }));
+  }
+
+  getFilters(): Observable<FilterOptionsDto> {
+    return this.http.get<FilterOptionsDto>(this.baseUrl + '/indicator/filters').pipe(catchError((error: HttpErrorResponse) => {
+      const errorMsg = this.getErrorMessage(error)
+      console.log(errorMsg);
+      this.msg.error('loading filters failed.');
+      return throwError(errorMsg);
+    }));
   }
 }
