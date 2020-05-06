@@ -90,4 +90,4 @@ const routes: Routes = [
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

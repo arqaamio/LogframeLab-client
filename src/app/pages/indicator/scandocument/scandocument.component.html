@@ -1,13 +1,26 @@
 <div style="margin: 50px;">
   <div *ngIf="!isUploaded">
     <h2>Uploading ...</h2>
-    <nz-progress [nzPercent]="progress" nzType="circle" [nzWidth]="200"></nz-progress>
+    <nz-progress
+      [nzPercent]="progress"
+      nzType="circle"
+      [nzWidth]="200"
+    ></nz-progress>
   </div>
   <div *ngIf="isUploaded && !isScanned">
     <h2>Scanning ...</h2>
-    <i style="font-size: 150px;color:#1890ff;" nz-icon [nzType]="'loading'"></i>
+    <i
+      style="font-size: 150px; color: #1890ff;"
+      nz-icon
+      [nzType]="'loading'"
+    ></i>
   </div>
   <div *ngIf="isUploaded && isScanned">
     <h2>Done</h2>
-       <nz-progress [nzPercent]="100" nzType="circle" [nzWidth]="200"></nz-progress>
+    <nz-progress
+      [nzPercent]="100"
+      nzType="circle"
+      [nzWidth]="200"
+    ></nz-progress>
   </div>
+</div>

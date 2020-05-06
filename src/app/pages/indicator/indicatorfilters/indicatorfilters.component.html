@@ -1,36 +1,64 @@
-<div style="margin:50px;">
+<div style="margin: 50px;">
   <div class="flex-container">
     <div>
-      <label>Themes:</label><br>
+      <label>Themes:</label><br />
       <nz-select
         nzMode="multiple"
         (ngModelChange)="onChangeThemeFiler($event)"
         nzPlaceHolder="Filter by themes"
         [(ngModel)]="listOfSelectedThemeValues"
       >
-        <nz-option *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(listOfSelectedThemeValues, option)"></nz-option>
+        <nz-option
+          *ngFor="let option of listOfOption"
+          [nzLabel]="option"
+          [nzValue]="option"
+          [nzHide]="!isNotSelected(listOfSelectedThemeValues, option)"
+        ></nz-option>
       </nz-select>
     </div>
     <div>
-      <label>Sources:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by sources" [(ngModel)]="selectedSources">
-        <nz-option *ngFor="let option of sourcesFilterOptions" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedSources, option)"></nz-option>
+      <label>Sources:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by sources"
+        [(ngModel)]="selectedSources"
+      >
+        <nz-option
+          *ngFor="let option of sourcesFilterOptions"
+          [nzLabel]="option"
+          [nzValue]="option"
+          [nzHide]="!isNotSelected(selectedSources, option)"
+        ></nz-option>
       </nz-select>
     </div>
     <div>
-      <label>SDGs:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by SDG" [(ngModel)]="selectedSdgCodes">
-        <nz-option *ngFor="let option of sdgCodesFilterOptions" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedSdgCodes, option)"></nz-option>
+      <label>SDGs:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by SDG"
+        [(ngModel)]="selectedSdgCodes"
+      >
+        <nz-option
+          *ngFor="let option of sdgCodesFilterOptions"
+          [nzLabel]="option"
+          [nzValue]="option"
+          [nzHide]="!isNotSelected(selectedSdgCodes, option)"
+        ></nz-option>
       </nz-select>
     </div>
     <div>
-      <label>Levels:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by levels" [(ngModel)]="selectedLevels">
-        <nz-option *ngFor="let option of levelsFilterOptions" [nzLabel]="option.name" [nzValue]="option.id"
-                   [nzHide]="!isNotSelected(selectedLevels, option.id)"></nz-option>
+      <label>Levels:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by levels"
+        [(ngModel)]="selectedLevels"
+      >
+        <nz-option
+          *ngFor="let option of levelsFilterOptions"
+          [nzLabel]="option.name"
+          [nzValue]="option.id"
+          [nzHide]="!isNotSelected(selectedLevels, option.id)"
+        ></nz-option>
       </nz-select>
     </div>
   </div>
