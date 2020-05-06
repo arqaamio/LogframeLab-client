@@ -135,6 +135,12 @@ export class ScanresultComponent implements OnInit, OnDestroy {
       this.indicatorService.setSelectedData(null);
     else
       this.indicatorService.setSelectedData(this.mapOfCheckedId);
+  }
 
+  formatCrsCode(code:string):string {
+    if(code) {
+      return code.split('.')[0];
+    }
+    return '';
   }
 }
