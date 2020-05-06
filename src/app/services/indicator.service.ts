@@ -4,13 +4,14 @@ import { UploadFile } from 'ng-zorro-antd';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IndicatorService {
 
-  private baseUrl = "http://localhost:8082";
+  private baseUrl = environment.apiBaseUrl;
 
   private fileList: UploadFile[] = null;
   private filters: any = null;
