@@ -1,18 +1,34 @@
 <nz-layout [@dialog] *ngIf="visible" class="dialog">
-	<button nz-button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">&#x2716;
-	</button>
-	<h1 class="dialog__title" ><b>How to use Logframe Lab</b>
-	</h1>
-	<div class="dialog__video" style="text-align: center;">
+  <button
+    nz-button
+    *ngIf="closable"
+    (click)="close()"
+    aria-label="Close"
+    class="dialog__close-btn"
+  >
+    &#x2716;
+  </button>
+  <h1 class="dialog__title"><b>How to use Logframe Lab</b></h1>
+  <div class="dialog__video" style="text-align: center;">
     <!--iframe width="auto" height="auto" src="https://www.youtube.com/embed/6wD4V0rvlDI?list=PLEsfXFp6DpzQThMU768hTZInWUqfoyTEW" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe -->
     <h3 style="margin-top: 50px;">Coming Soon</h3>
   </div>
-	<div>
-	<h3 class="dialog__about">The goals of Arqaam are... This test example text will now run to the next line to show how text is displayed.
-	</h3>
-</div>
-	<div>
-	<button nz-button nzType="primary"*ngIf="closable" (click)="close()" class="dialog__lower-close-btn">Show me!</button>
-</div>
+  <div>
+    <h3 class="dialog__about">
+      The goals of Arqaam are... This test example text will now run to the next
+      line to show how text is displayed.
+    </h3>
+  </div>
+  <div>
+    <button
+      nz-button
+      nzType="primary"
+      *ngIf="closable"
+      (click)="close()"
+      class="dialog__lower-close-btn"
+    >
+      Show me!
+    </button>
+  </div>
 </nz-layout>
 <div *ngIf="visible" class="overlay" (click)="close()"></div>

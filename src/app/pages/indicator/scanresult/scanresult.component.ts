@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IndicatorService } from 'src/app/services/indicator.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { IndicatorService } from "src/app/services/indicator.service";
+import { Subscription } from "rxjs";
 
 interface ItemData {
   id: number;
@@ -18,13 +18,12 @@ interface ItemData {
 }
 
 @Component({
-  selector: 'app-scanresult',
-  templateUrl: './scanresult.component.html',
-  styleUrls: ['./scanresult.component.scss']
+  selector: "app-scanresult",
+  templateUrl: "./scanresult.component.html",
+  styleUrls: ["./scanresult.component.scss"],
 })
 export class ScanresultComponent implements OnInit, OnDestroy {
-
-  indicatorSubscribtion:Subscription = null;
+  indicatorSubscribtion: Subscription = null;
 
   downloadDisabled = true;
   isAllDisplayDataChecked = false;
@@ -34,42 +33,42 @@ export class ScanresultComponent implements OnInit, OnDestroy {
   displayData: ItemData[] = [];
   sortName: string | null = null;
   sortValue: string | null = null;
-  searchValue = '';
+  searchValue = "";
 
-  impactCount = 0
-  outcomeCount = 0
-  outputCount = 0
+  impactCount = 0;
+  outcomeCount = 0;
+  outputCount = 0;
 
   initData = true;
 
   myOptions = {
-    placement: 'top',
-    trigger: 'hover',
-    theme: 'light',
-    'hide-delay': 0,
+    placement: "top",
+    trigger: "hover",
+    theme: "light",
+    "hide-delay": 0,
   };
 
-  constructor(private indicatorService: IndicatorService) {
-
-  }
+  constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit() {
-    this.indicatorSubscribtion = this.indicatorService.getIndicatorSubject().subscribe(data => {
-      if (this.initData && data != null && data.dataResponse != null) {
-        this.listOfData = data.dataResponse;
-        this.displayData = data.dataResponse;
-        console.log('total:  '+ this.displayData.length);
-        this.initData = false;
-      }
-      if (data != null && data.selectedData != null)
-        this.mapOfCheckedId = data.selectedData;
-    });
+    this.indicatorSubscribtion = this.indicatorService
+      .getIndicatorSubject()
+      .subscribe((data) => {
+        if (this.initData && data != null && data.dataResponse != null) {
+          this.listOfData = data.dataResponse;
+          this.displayData = data.dataResponse;
+          console.log("total:  " + this.displayData.length);
+          this.initData = false;
+        }
+        if (data != null && data.selectedData != null)
+          this.mapOfCheckedId = data.selectedData;
+      });
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.indicatorSubscribtion.unsubscribe();
   }
   checkAll(value: boolean): void {
-    this.displayData.forEach(item => (this.mapOfCheckedId[item.id] = value));
+    this.displayData.forEach((item) => (this.mapOfCheckedId[item.id] = value));
     this.refreshStatus();
   }
   sort(sort: { key: string; value: string }): void {
@@ -83,34 +82,34 @@ export class ScanresultComponent implements OnInit, OnDestroy {
     let data: ItemData[] = this.listOfData;
     // filter by indicator
     const filterFunc = (item: ItemData) => {
-      if (item.name.indexOf(this.searchValue) !== -1){
+      if (item.name.indexOf(this.searchValue) !== -1) {
         return true;
       }
-      this.mapOfCheckedId[item.id]= false;
+      this.mapOfCheckedId[item.id] = false;
       return false;
     };
-    this.displayData  = data.filter((item: ItemData) => filterFunc(item));
+    this.displayData = data.filter((item: ItemData) => filterFunc(item));
     /** sort data **/
     if (this.sortName && this.sortValue) {
-      this.displayData  = this.displayData.sort((a, b) =>
-        this.sortValue === 'ascend'
+      this.displayData = this.displayData.sort((a, b) =>
+        this.sortValue === "ascend"
           ? a[this.sortName!] > b[this.sortName!]
             ? 1
             : -1
           : b[this.sortName!] > a[this.sortName!]
-            ? 1
-            : -1
+          ? 1
+          : -1
       );
     }
     this.refreshStatus();
   }
-  selectindicator(id){
+  selectindicator(id) {
     this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
     this.refreshStatus();
   }
   refreshStatus() {
     this.outputCount = 0;
-    this.impactCount = 0
+    this.impactCount = 0;
     this.outcomeCount = 0;
     if (this.displayData.length > 0) {
       this.downloadDisabled = true;
@@ -118,11 +117,11 @@ export class ScanresultComponent implements OnInit, OnDestroy {
       for (let item of this.displayData) {
         if (this.mapOfCheckedId[item.id]) {
           this.downloadDisabled = false;
-          if(item.level === 'OUTPUT'){
+          if (item.level === "OUTPUT") {
             this.outputCount++;
-          } else if(item.level === 'IMPACT'){
-            this.impactCount++
-          } else if(item.level === 'OUTCOME'){
+          } else if (item.level === "IMPACT") {
+            this.impactCount++;
+          } else if (item.level === "OUTCOME") {
             this.outcomeCount++;
           }
         }
@@ -131,16 +130,14 @@ export class ScanresultComponent implements OnInit, OnDestroy {
         }
       }
     }
-    if (this.downloadDisabled)
-      this.indicatorService.setSelectedData(null);
-    else
-      this.indicatorService.setSelectedData(this.mapOfCheckedId);
+    if (this.downloadDisabled) this.indicatorService.setSelectedData(null);
+    else this.indicatorService.setSelectedData(this.mapOfCheckedId);
   }
 
-  formatCrsCode(code:string):string {
-    if(code) {
-      return code.split('.')[0];
+  formatCrsCode(code: string): string {
+    if (code) {
+      return code.split(".")[0];
     }
-    return '';
+    return "";
   }
 }

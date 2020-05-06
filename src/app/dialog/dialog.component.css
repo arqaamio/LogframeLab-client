@@ -1,4 +1,3 @@
-
 .overlay {
   position: fixed;
   top: 0;
@@ -7,13 +6,17 @@
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
-  opacity: .5; 
+  opacity: 0.5;
 }
 .dialog {
   background-repeat: no-repeat;
   background-size: 100% 10px;
-  background-image: linear-gradient(to right, rgb(135, 17, 168)  0%, rgba(0,212,255,1) 100%);
-  border-radius:10px;
+  background-image: linear-gradient(
+    to right,
+    rgb(135, 17, 168) 0%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  border-radius: 10px;
   z-index: 1000;
   position: fixed;
   right: 0;
@@ -30,7 +33,8 @@
   padding-right: 40px;
   padding-left: 40px;
   padding-bottom: 20px;
-  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14), 0 5px 24px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
+    0 13px 19px 2px rgba(0, 0, 0, 0.14), 0 5px 24px 4px rgba(0, 0, 0, 0.12);
 }
 
 @media (min-width: 768px) {
@@ -39,23 +43,23 @@
   }
 }
 .dialog__close-btn {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   border: none;
   background: none;
   color: #575656;
-  opacity: .7;
+  opacity: 0.7;
   position: absolute;
   top: 30px;
   right: 40px;
   font-size: 25px;
   padding: 0px;
 }
-.dialog__title{
+.dialog__title {
   text-align: center;
   font-size: 35px;
   padding-top: 0px;
 }
-.dialog__video{
+.dialog__video {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
@@ -68,20 +72,20 @@
   height: 100%;
   padding: 0px;
 }
-.dialog__about{
+.dialog__about {
   text-align: center;
-  opacity: .8;
+  opacity: 0.8;
   color: #808080;
   font-weight: 550;
-  padding-top:20px;
+  padding-top: 20px;
   padding-bottom: 0px;
-}  
+}
 .dialog__lower-close-btn {
   color: rgb(231, 222, 222);
   background-color: rgb(108, 76, 184);
   border-radius: 3px;
   border-color: rgb(126, 96, 197);
-  opacity: .8;
+  opacity: 0.8;
   font-weight: 700;
   height: 40px;
   width: 110px;

@@ -1,17 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IndicatorService } from 'src/app/services/indicator.service';
-import { take, tap } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { IndicatorService } from "src/app/services/indicator.service";
+import { take, tap } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-indicatorfilters',
-  templateUrl: './indicatorfilters.component.html',
-  styleUrls: ['./indicatorfilters.component.scss']
+  selector: "app-indicatorfilters",
+  templateUrl: "./indicatorfilters.component.html",
+  styleUrls: ["./indicatorfilters.component.scss"],
 })
 export class IndicatorfiltersComponent implements OnInit, OnDestroy {
-
-
-  indicatorSubscribtion:Subscription = null;
+  indicatorSubscribtion: Subscription = null;
 
   indicatorFilter: string = "";
   themeFilter: string = "";
@@ -29,22 +27,28 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
   public levelsFilterOptions: Level[];
   public sdgCodesFilterOptions: String[];
 
-  constructor(private indicatorService: IndicatorService) { }
+  constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit() {
-    this.indicatorSubscribtion = this.indicatorService.getIndicatorSubject().pipe(take(1), tap(data => {
-      console.log("fetch filters");
-      if (data != null && data.filters != null) {
-        if (data.filters.themes != null)
-          this.listOfSelectedThemeValues = data.filters.themes;
-      }
-    })).subscribe();
+    this.indicatorSubscribtion = this.indicatorService
+      .getIndicatorSubject()
+      .pipe(
+        take(1),
+        tap((data) => {
+          console.log("fetch filters");
+          if (data != null && data.filters != null) {
+            if (data.filters.themes != null)
+              this.listOfSelectedThemeValues = data.filters.themes;
+          }
+        })
+      )
+      .subscribe();
 
-    this.indicatorService.getThemes().subscribe(data => {
+    this.indicatorService.getThemes().subscribe((data) => {
       this.listOfOption = data;
     });
 
-    this.indicatorService.getFilters().subscribe(filters => {
+    this.indicatorService.getFilters().subscribe((filters) => {
       this.themesFilterOptions = filters.themes;
       this.descriptionsFilterOptions = filters.descriptions;
       this.sourcesFilterOptions = filters.sources;
@@ -52,13 +56,13 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
       this.sdgCodesFilterOptions = filters.sdgCodes;
     });
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.indicatorSubscribtion.unsubscribe();
   }
   onChangeThemeFiler(event) {
     this.indicatorService.setFilers({
-      themes: event
-    })
+      themes: event,
+    });
   }
   isNotSelected(selectedValues: any[], value: any): boolean {
     return selectedValues.indexOf(value) === -1;
