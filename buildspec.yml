@@ -9,10 +9,10 @@ phases:
         - npm install
         - echo Installing Angular...
         - npm install -g @angular/cli
-  #pre_build:
-  #  commands:
-  #      - echo run Angular unit Tests
-  #      - ng test --watch=false --browsers=ChromeHeadless
+  pre_build:
+    commands:
+        - echo run Angular unit Tests
+        - ng test --watch=false --browsers=ChromeHeadless
   build:
     commands:
         - echo Build started
