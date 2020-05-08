@@ -1,6 +1,13 @@
 version: 0.2
+
+env:
+    variables:
+        CACHE_CONTROL: "86400"
+        BUILD_FOLDER: "dist"
 phases:
   install:
+    runtime-versions:
+        nodejs: 10
     commands:
         - echo Installing source NPM dependencies...
         - npm install
@@ -11,6 +18,6 @@ phases:
         - ng build --prod
 artifacts:
     files:
-       - dist/**/*
-       - server.js
-       - package.json
+        - '**/*'
+    base-directory: 'dist*'
+    discard-paths: yes
