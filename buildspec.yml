@@ -1,9 +1,5 @@
 version: 0.2
 
-env:
-    variables:
-        CACHE_CONTROL: "86400"
-        BUILD_FOLDER: "dist"
 phases:
   install:
     runtime-versions:
@@ -18,6 +14,7 @@ phases:
         - ng build --prod
 artifacts:
     files:
-        - '**/*'
-    base-directory: 'dist*'
-    discard-paths: yes
+        - dist/**/*
+        - server.js
+        - package.json
+        - node_modules/**/*
