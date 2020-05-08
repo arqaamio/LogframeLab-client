@@ -17,8 +17,6 @@ import { NzListModule } from "ng-zorro-antd/list";
 import { NzTagModule } from "ng-zorro-antd/tag";
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzTableModule } from "ng-zorro-antd/table";
-import { TooltipModule } from "ng2-tooltip-directive";
-
 import { NzStepsModule } from "ng-zorro-antd/steps";
 import { NzProgressModule } from "ng-zorro-antd/progress";
 
@@ -38,6 +36,7 @@ import { DownloadresultComponent } from "./pages/indicator/downloadresult/downlo
 import { ScanDocumentComponent } from "./pages/indicator/scandocument/scandocument.component";
 
 import { DialogComponent } from "./dialog/dialog.component";
+import { TooltipModule } from "ng2-tooltip-directive";
 
 registerLocaleData(en);
 
@@ -84,7 +83,7 @@ const routes: Routes = [
     NzTableModule,
     TooltipModule,
     NzStepsModule,
-    NzProgressModule,
+    NzProgressModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

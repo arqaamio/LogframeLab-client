@@ -14,6 +14,7 @@ import { NzMessageService } from "ng-zorro-antd/message";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { environment } from "../../environments/environment";
+import * as FilterOptions from "src/app/services/dto/filter-options.dto";
 
 @Injectable({
   providedIn: "root",
@@ -127,9 +128,9 @@ export class IndicatorService {
     );
   }
 
-  getFilters(): Observable<FilterOptionsDto> {
+  getFilters(): Observable<FilterOptions.FilterOptionsDto> {
     return this.http
-      .get<FilterOptionsDto>(this.baseUrl + "/indicator/filters")
+      .get<FilterOptions.FilterOptionsDto>(this.baseUrl + "/indicator/filters")
       .pipe(
         catchError((error: HttpErrorResponse) => {
           const errorMsg = this.getErrorMessage(error);

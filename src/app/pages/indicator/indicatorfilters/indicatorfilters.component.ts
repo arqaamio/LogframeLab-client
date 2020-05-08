@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
 import { take, tap } from "rxjs/operators";
 import { Subscription } from "rxjs";
+import * as FilterOptions from "src/app/services/dto/filter-options.dto";
 
 @Component({
   selector: "app-indicatorfilters",
@@ -24,7 +25,7 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
   public themesFilterOptions: String[];
   public descriptionsFilterOptions: String[];
   public sourcesFilterOptions: String[];
-  public levelsFilterOptions: Level[];
+  public levelsFilterOptions: FilterOptions.Level[];
   public sdgCodesFilterOptions: String[];
 
   constructor(private indicatorService: IndicatorService) {}

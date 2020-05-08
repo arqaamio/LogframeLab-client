@@ -1,4 +1,4 @@
-class FilterOptionsDto {
+export class FilterOptionsDto {
   public themes: String[];
   public descriptions: String[];
   public sources: String[];
@@ -6,10 +6,11 @@ class FilterOptionsDto {
   public sdgCodes: String[];
 }
 
-class Level {
+export class Level {
   public id: Number;
   public name: String;
   public description: String;
   public templateVar: String;
   public color: String;
 }
+
