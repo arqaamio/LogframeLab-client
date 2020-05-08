@@ -9,7 +9,8 @@ phases:
         - npm install
         - echo Installing Angular...
         - npm install -g @angular/cli
-  pre-build:
+  pre_build:
+    commands:
         - echo run Angular unit Tests
         - ng test
   build:
