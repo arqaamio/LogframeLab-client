@@ -1,41 +1,56 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NzMessageService, UploadChangeParam } from 'ng-zorro-antd';
-import { IndicatorService } from 'src/app/services/indicator.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { NzMessageService, UploadChangeParam } from "ng-zorro-antd";
+import { IndicatorService } from "src/app/services/indicator.service";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-indicator',
-  templateUrl: './indicator.component.html',
-  styleUrls: ['./indicator.component.scss'],
+  selector: "app-indicator",
+  templateUrl: "./indicator.component.html",
+  styleUrls: ["./indicator.component.scss"],
 })
 export class IndicatorComponent implements OnInit, OnDestroy {
-
   data = null;
-  indicatorSubscribtion:Subscription;
-  current:number = 0;
-  isNext :boolean = false;
+  indicatorSubscribtion: Subscription;
+  current: number = 0;
+  isNext: boolean = false;
 
-  constructor(private msg: NzMessageService, private indicatorService: IndicatorService) {
-  }
+  constructor(
+    private msg: NzMessageService,
+    private indicatorService: IndicatorService
+  ) {}
   ngOnInit() {
-    this.indicatorSubscribtion = this.indicatorService.getIndicatorSubject()
-    .subscribe(data => {
-      this.data = data;
-      this.stepsValidation();
-     });
+    this.indicatorSubscribtion = this.indicatorService
+      .getIndicatorSubject()
+      .subscribe((data) => {
+        this.data = data;
+        this.stepsValidation();
+      });
   }
-  stepsValidation(){
+  stepsValidation() {
     this.isNext = false;
-    if(this.current === 0 && this.data != null && this.data.files != null && this.data.files.length > 0) {
-      this.isNext = true
-     } else if (this.current === 1 || this.current === 4) {
-      this.isNext = true
-     } else if (this.current === 2  && this.data != null  && this.data.dataResponse != null) {
-      this.isNext = true
-     }else if(this.current === 3 && this.data != null && this.data.selectedData != null
-           && Object.keys(this.data.selectedData).length > 0){
-            this.isNext = true
-     }
+    if (
+      this.current === 0 &&
+      this.data != null &&
+      this.data.files != null &&
+      this.data.files.length > 0
+    ) {
+      this.isNext = true;
+    } else if (this.current === 1 || this.current === 4) {
+      this.isNext = true;
+    } else if (
+      this.current === 2 &&
+      this.data != null &&
+      this.data.dataResponse != null
+    ) {
+      this.isNext = true;
+    } else if (
+      this.current === 3 &&
+      this.data != null &&
+      this.data.selectedData != null &&
+      Object.keys(this.data.selectedData).length > 0
+    ) {
+      this.isNext = true;
+    }
   }
   pre(): void {
     this.current -= 1;
@@ -49,7 +64,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     this.current = 0;
     this.indicatorService.clearIndicatorData();
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.indicatorSubscribtion.unsubscribe();
   }
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IndicatorService } from 'src/app/services/indicator.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { IndicatorService } from "src/app/services/indicator.service";
+import { Subscription } from "rxjs";
 
 interface ItemData {
   id: number;
@@ -13,39 +13,46 @@ interface ItemData {
 }
 
 @Component({
-  selector: 'app-downloadresult',
-  templateUrl: './downloadresult.component.html',
-  styleUrls: ['./downloadresult.component.scss']
+  selector: "app-downloadresult",
+  templateUrl: "./downloadresult.component.html",
+  styleUrls: ["./downloadresult.component.scss"],
 })
 export class DownloadresultComponent implements OnInit, OnDestroy {
-
   dataExport: ItemData[] = [];
-  indicatorSubscribtion:Subscription = null;
+  indicatorSubscribtion: Subscription = null;
 
-  constructor(private indicatorService: IndicatorService) {
-
-  }
+  constructor(private indicatorService: IndicatorService) {}
   ngOnInit() {
-    this.indicatorSubscribtion = this.indicatorService.getIndicatorSubject().subscribe(
-      data => {
-        if (data != null && data.dataResponse != null && data.selectedData != null ) {
-          this.dataExport = data.dataResponse.filter(item => data.selectedData[item.id]);
-      }
+    this.indicatorSubscribtion = this.indicatorService
+      .getIndicatorSubject()
+      .subscribe((data) => {
+        if (
+          data != null &&
+          data.dataResponse != null &&
+          data.selectedData != null
+        ) {
+          this.dataExport = data.dataResponse.filter(
+            (item) => data.selectedData[item.id]
+          );
+        }
       });
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.indicatorSubscribtion.unsubscribe();
   }
-  downloadFile(format:string) {
-    this.indicatorService.downloadInidicators(this.dataExport, format).subscribe((
-      response => this.downLoadFile(response, "application/octet-stream",format)));
+  downloadFile(format: string) {
+    this.indicatorService
+      .downloadInidicators(this.dataExport, format)
+      .subscribe((response) =>
+        this.downLoadFile(response, "application/octet-stream", format)
+      );
   }
   //
-  downLoadFile(response: any, type: string, format:string) {
+  downLoadFile(response: any, type: string, format: string) {
     let blob = new Blob([response.body], { type: type });
-    var link = document.createElement('a');
+    var link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = response.headers.get('filename');
+    link.download = response.headers.get("filename");
     link.click();
   }
 }

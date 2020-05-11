@@ -1,16 +1,26 @@
+<nz-alert
+  nzType="warning"
+  nzMessage="No indicators found during the document scanning"
+  nzShowIcon
+  nzCloseable="true"
+>
+</nz-alert>
 <div style="position: relative;">
   <input
     (input)="search()"
     nzSize="large"
-    style="padding-right:30px;"
+    style="padding-right: 30px;"
     type="text"
     nz-input
     placeholder="Search indicator"
     [(ngModel)]="searchValue"
-    >
+  />
 </div>
-<div style="display: flex;flex-direction: row;margin: 10px;">
-  <span>Total:  {{ listOfData.length }} - selected: Impact  {{ impactCount }}, Outcome  {{ outcomeCount }}, Output  {{ outputCount }}</span>
+<div style="display: flex; flex-direction: row; margin: 10px;">
+  <span
+    >Total: {{ listOfData.length }} - selected: Impact {{ impactCount }},
+    Outcome {{ outcomeCount }}, Output {{ outputCount }}</span
+  >
 </div>
 <nz-table
   #dynamicTable
@@ -18,56 +28,32 @@
   nzShowPagination="false"
   nzShowSizeChanger="false"
   [nzPageSize]="displayData.length"
-  nzSize='middle'
+  nzSize="middle"
   nzBordered
-  >
-  <thead
-    (nzSortChange)="sort($event)"
-    nzSingleSort
-    >
+>
+  <thead (nzSortChange)="sort($event)" nzSingleSort>
     <tr>
       <th
         nzShowCheckbox
         [(nzChecked)]="isAllDisplayDataChecked"
         [nzIndeterminate]="isIndeterminate"
         (nzCheckedChange)="checkAll($event)"
-        ></th>
-      <th
-        tooltip="Indicator level"
-        nzWidth="100px"
-        >
+      ></th>
+      <th tooltip="Indicator level" nzWidth="100px">
         Level
       </th>
-      <th
-        tooltip="Indicator"
-        style="font-weight: bold;"
-        >
+      <th tooltip="Indicator" style="font-weight: bold;">
         Indicator
       </th>
-      <th
-        nzWidth="100px"
-        tooltip="Source"
-        >Source</th>
-      <th
-        tooltip="Disaggregation"
-        nzWidth="100px"
-        >Disaggregation</th>
-      <th
-        nzWidth="100px"
-        tooltip="Thematic Area"
-        >
+      <th nzWidth="100px" tooltip="Source">Source</th>
+      <th tooltip="Disaggregation" nzWidth="100px">Disaggregation</th>
+      <th nzWidth="100px" tooltip="Thematic Area">
         Thematic Area
       </th>
-      <th
-        tooltip="OECD DAC/CRS Code"
-        nzWidth="100px"
-        >
+      <th tooltip="OECD DAC/CRS Code" nzWidth="100px">
         OECD DAC/CRS Code
       </th>
-      <th
-        tooltip="SDG Code"
-        nzWidth="100px"
-      >
+      <th tooltip="SDG Code" nzWidth="100px">
         SDG Code
       </th>
     </tr>
@@ -77,12 +63,12 @@
       <tr
         (click)="selectindicator(data.id)"
         [class.row-checked]="mapOfCheckedId[data.id]"
-        >
+      >
         <td
           nzShowCheckbox
           [(nzChecked)]="mapOfCheckedId[data.id]"
           (nzCheckedChange)="refreshStatus()"
-          ></td>
+        ></td>
         <td>
           <nz-tag [nzColor]="data.color">{{ data.level }} </nz-tag>
         </td>
@@ -92,21 +78,22 @@
           <div style="text-align: center;">
             <i
               *ngIf="!data.disaggregation"
-              style="font-size: 25px;color: rgb(216, 126, 126);"
+              style="font-size: 25px; color: rgb(216, 126, 126);"
               nz-icon
               nzType="close"
-              nzTheme="outline"></i>
+              nzTheme="outline"
+            ></i>
             <i
               *ngIf="data.disaggregation"
-              style="font-size: 25px;color:#A5C2AE;"
+              style="font-size: 25px; color: #a5c2ae;"
               nz-icon
               nzType="check"
               nzTheme="outline"
-              ></i>
+            ></i>
           </div>
         </td>
         <td>{{ data.themes }}</td>
-        <td>{{ data.crsCode | number:'1.0-0'}}</td>
+        <td>{{ formatCrsCode(data.crsCode) }}</td>
         <td>{{ data.sdgCode }}</td>
       </tr>
     </ng-template>
