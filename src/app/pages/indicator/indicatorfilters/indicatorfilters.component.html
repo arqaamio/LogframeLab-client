@@ -21,10 +21,10 @@
     </div>
     <div>
       <label>SDGs:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by SDGs" [(ngModel)]="selectedValues.sdg_code"
-                 (ngModelChange)="onChangeFilter('sdg_code', $event)">
-        <nz-option *ngFor="let option of filterOptions.sdg_code" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedValues.sdg_code, option)"></nz-option>
+      <nz-select nzMode="multiple" nzPlaceHolder="Filter by SDGs" [(ngModel)]="selectedValues.sdgCode"
+                 (ngModelChange)="onChangeFilter('sdgCode', $event)">
+        <nz-option *ngFor="let option of filterOptions.sdgCode" [nzLabel]="option" [nzValue]="option"
+                   [nzHide]="!isNotSelected(selectedValues.sdgCode, option)"></nz-option>
       </nz-select>
     </div>
     <div>
@@ -37,10 +37,10 @@
     </div>
     <div>
       <label>DACs:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by DACs" [(ngModel)]="selectedValues.crs_code"
-                 (ngModelChange)="onChangeFilter('crs_code', $event)">
-        <nz-option *ngFor="let option of filterOptions.crs_code" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedValues.crs_code, option)"></nz-option>
+      <nz-select nzMode="multiple" nzPlaceHolder="Filter by DACs" [(ngModel)]="selectedValues.crsCode"
+                 (ngModelChange)="onChangeFilter('crsCode', $event)">
+        <nz-option *ngFor="let option of filterOptions.crsCode" [nzLabel]="option" [nzValue]="option"
+                   [nzHide]="!isNotSelected(selectedValues.crsCode, option)"></nz-option>
       </nz-select>
     </div>
   </div>

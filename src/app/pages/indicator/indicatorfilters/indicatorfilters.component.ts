@@ -40,6 +40,7 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
     this.selectedValues[filter] = event;
     this.indicatorService.setFilters(this.selectedValues);
   }
+
   isNotSelected(selectedValues: any[], value: any): boolean {
     return selectedValues.indexOf(value) === -1;
   }

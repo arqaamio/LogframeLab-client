@@ -75,7 +75,7 @@ export class IndicatorService {
   handleUpload() {
     const formData = new FormData();
 
-    formData.append('filter', new Blob([JSON.stringify(this.filters)], {type: "application/json"}));
+    formData.append('filter', new Blob([JSON.stringify(this.filters ? this.filters : new FilterDto())], {type: "application/json"}));
 
     const file: any = this.fileList[0];
     formData.append('file', file);
