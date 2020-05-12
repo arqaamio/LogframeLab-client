@@ -13,7 +13,7 @@ app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, 'dist/client/index.html'));
 });
 
-//Starting server on port 8081
+//Starting server on port 8080
 app.listen(8080, () => {
     console.log('Server started!');
     console.log('on port 8080');

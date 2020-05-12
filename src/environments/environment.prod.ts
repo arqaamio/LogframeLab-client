@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://logframelab.ai'
+  apiBaseUrl: 'http://logframelabserver-env.eba-rea7cmic.us-east-1.elasticbeanstalk.com'
 };
