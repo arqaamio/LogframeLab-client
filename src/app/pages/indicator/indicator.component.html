@@ -24,4 +24,12 @@
       <span>Done</span>
     </button>
   </div>
+  <div class="steps-content">
+    <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
+    <app-indicatorfilters *ngIf="current === 1"> </app-indicatorfilters>
+    <app-scandocument *ngIf="current === 2"> </app-scandocument>
+    <app-scanresult *ngIf="current === 3"> </app-scanresult>
+    <app-visualisationresult *ngIf="current === 4"> </app-visualisationresult>
+    <app-downloadresult *ngIf="current === 5"> </app-downloadresult>
+  </div>
 </div>
