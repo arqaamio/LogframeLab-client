@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
 import {
   HttpClient,
-  HttpRequest,
   HttpErrorResponse,
+  HttpRequest,
 } from "@angular/common/http";
-
 import { UploadFile } from "ng-zorro-antd";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { environment } from "../../environments/environment";
+import { FilterDto } from "./dto/filter.dto";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +18,7 @@ export class IndicatorService {
   private baseUrl = environment.apiBaseUrl;
 
   private fileList: UploadFile[] = null;
-  private filters: any = null;
+  private filters: FilterDto = null;
   private uploading = false;
   private dataResponse: any = null;
   private selectedData: { [key: string]: boolean } = null;
@@ -33,7 +33,7 @@ export class IndicatorService {
       selectedData: this.selectedData,
     });
   }
-  clearInicatorData() {
+  clearIndicatorData() {
     this.fileList = null;
     this.filters = null;
     this.dataResponse = null;
@@ -47,11 +47,11 @@ export class IndicatorService {
     this.fileList = files;
     this.nexSubject();
   }
-  setFilers(filters: any) {
+  setFilters(filters: FilterDto) {
     this.filters = filters;
     this.nexSubject();
   }
-  setloadedData(dataResponse: any) {
+  setLoadedData(dataResponse: any) {
     this.dataResponse = dataResponse;
     this.nexSubject();
   }
@@ -74,14 +74,17 @@ export class IndicatorService {
       { responseType: "blob", observe: "response" }
     );
   }
+
   handleUpload() {
     const formData = new FormData();
 
-    let themesFilter: any = [];
-    if (this.filters != null && this.filters.themes != null)
-      themesFilter = this.filters.themes;
-
-    formData.append("themeFilter", themesFilter);
+    formData.append(
+      "filter",
+      new Blob(
+        [JSON.stringify(this.filters ? this.filters : new FilterDto())],
+        { type: "application/json" }
+      )
+    );
 
     const file: any = this.fileList[0];
     formData.append("file", file);
@@ -112,6 +115,7 @@ export class IndicatorService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
   }
+
   getThemes() {
     return this.http.get<string[]>(this.baseUrl + "/indicator/themes").pipe(
       catchError((error: HttpErrorResponse) => {
@@ -122,17 +126,14 @@ export class IndicatorService {
       })
     );
   }
-
-  getFilters(): Observable<FilterOptionsDto> {
-    return this.http
-      .get<FilterOptionsDto>(this.baseUrl + "/indicator/filters")
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          const errorMsg = this.getErrorMessage(error);
-          console.log(errorMsg);
-          this.msg.error("loading filters failed.");
-          return throwError(errorMsg);
-        })
-      );
+  getFilters(): Observable<FilterDto> {
+    return this.http.get<FilterDto>(this.baseUrl + "/indicator/filters").pipe(
+      catchError((error: HttpErrorResponse) => {
+        const errorMsg = this.getErrorMessage(error);
+        console.log(errorMsg);
+        this.msg.error("loading filters failed.");
+        return throwError(errorMsg);
+      })
+    );
   }
 }
