@@ -51,7 +51,7 @@ export class ScanDocumentComponent implements OnInit, OnDestroy {
             this.isScanned = true;
             console.log("document has been successfully scanned ", event.body);
             setTimeout(() => {
-              this.indicatorService.setloadedData(event.body);
+              this.indicatorService.setLoadedData(event.body);
             }, 2000);
         }
       });
