@@ -57,6 +57,9 @@
       <th tooltip="SDG Code" nzWidth="100px">
         SDG Code
       </th>
+      <th tooltip="Keyword Frequency" nzWidth="100px">
+        Keyword Frequency
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -96,6 +99,7 @@
         <td>{{ data.themes }}</td>
         <td>{{ formatCrsCode(data.crsCode) }}</td>
         <td>{{ data.sdgCode }}</td>
+        <td>{{ data.numTimes }}</td>
       </tr>
     </ng-template>
   </tbody>
