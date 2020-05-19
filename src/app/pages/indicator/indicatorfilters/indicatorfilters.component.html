@@ -8,7 +8,7 @@
         nzPlaceHolder="Filter by themes"
         [(ngModel)]="selectedValues.themes">
         <nz-option *ngFor="let option of filterOptions.themes" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedValues.themes, option)"></nz-option>
+                   [nzHide]="!isNotSelected('themes', option)"></nz-option>
       </nz-select>
     </div>
     <div>
@@ -16,7 +16,7 @@
       <nz-select nzMode="multiple" nzPlaceHolder="Filter by sources" [(ngModel)]="selectedValues.source"
                  (ngModelChange)="onChangeFilter('source', $event)">
         <nz-option *ngFor="let option of filterOptions.source" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedValues.source, option)"></nz-option>
+                   [nzHide]="!isNotSelected('source', option)"></nz-option>
       </nz-select>
     </div>
     <div>
@@ -24,15 +24,15 @@
       <nz-select nzMode="multiple" nzPlaceHolder="Filter by SDGs" [(ngModel)]="selectedValues.sdgCode"
                  (ngModelChange)="onChangeFilter('sdgCode', $event)">
         <nz-option *ngFor="let option of filterOptions.sdgCode" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedValues.sdgCode, option)"></nz-option>
+                   [nzHide]="!isNotSelected('sdgCode', option)"></nz-option>
       </nz-select>
     </div>
     <div>
       <label>Levels:</label><br>
       <nz-select nzMode="multiple" nzPlaceHolder="Filter by levels" [(ngModel)]="selectedValues.level"
-                 (ngModelChange)="onChangeFilter('level', $event)">
+                 (ngModelChange)="onChangeFilter('level', $event)" [compareWith]="compare">
         <nz-option *ngFor="let option of filterOptions.level" [nzLabel]="option.name" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedValues.level, option)"></nz-option>
+                   [nzHide]="!isNotSelected('level', option)"></nz-option>
       </nz-select>
     </div>
     <div>
@@ -40,7 +40,7 @@
       <nz-select nzMode="multiple" nzPlaceHolder="Filter by DACs" [(ngModel)]="selectedValues.crsCode"
                  (ngModelChange)="onChangeFilter('crsCode', $event)">
         <nz-option *ngFor="let option of filterOptions.crsCode" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected(selectedValues.crsCode, option)"></nz-option>
+                   [nzHide]="!isNotSelected('crsCode', option)"></nz-option>
       </nz-select>
     </div>
   </div>

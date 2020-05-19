@@ -7,7 +7,7 @@ export class FilterDto {
 }
 
 
-class Level {
+export class Level {
   public id: Number;
   public name: String;
   public description: String;

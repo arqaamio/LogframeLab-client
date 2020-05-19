@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { take, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { FilterDto } from 'src/app/services/dto/filter.dto';
+import {FilterDto, Level} from 'src/app/services/dto/filter.dto';
 
 @Component({
   selector: 'app-indicatorfilters',
@@ -14,7 +14,6 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
 
   indicatorSubscription:Subscription = null;
 
-  // themes filter
   selectedValues = new FilterDto();
 
   filterOptions = new FilterDto();
@@ -23,7 +22,6 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.indicatorSubscription = this.indicatorService.getIndicatorSubject().pipe(take(1), tap(data => {
-      console.log("fetch filters");
       if (data != null && data.filters != null) {
         this.selectedValues = data.filters;
       }
@@ -41,7 +39,9 @@ export class IndicatorfiltersComponent implements OnInit, OnDestroy {
     this.indicatorService.setFilters(this.selectedValues);
   }
 
-  isNotSelected(selectedValues: any[], value: any): boolean {
-    return selectedValues.indexOf(value) === -1;
+  isNotSelected(filter: string, value: any): boolean {
+    return this.selectedValues[filter].indexOf(value) === -1;
   }
+
+  compare = (level1: Level, level2: Level) => (level1 && level2 ? level1.id === level2.id : level1 === level2);
 }
