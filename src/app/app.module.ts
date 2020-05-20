@@ -22,7 +22,6 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 
-
 import { HomeComponent } from './pages/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { IndicatorComponent } from './pages/indicator/indicator.component';
@@ -65,7 +64,7 @@ const routes: Routes = [
     ScanDocumentComponent,
     ScanresultComponent,
     VisualisationresultComponent,
-    DownloadresultComponent
+    DownloadresultComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,9 +84,9 @@ const routes: Routes = [
     TooltipModule,
     NzStepsModule,
     NzProgressModule,
-    NzAlertModule
+    NzAlertModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
