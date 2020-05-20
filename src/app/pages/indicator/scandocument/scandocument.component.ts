@@ -27,8 +27,7 @@ export class ScanDocumentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.indicatorService.setSelectedData(null);
-    this.indicatorService.setloadedData(null);
-
+    this.indicatorService.setLoadedData(null);
     this.indicatorSubscribtion = this.indicatorService
       .handleUpload()
       .subscribe((event: HttpEvent<any>) => {
@@ -52,7 +51,7 @@ export class ScanDocumentComponent implements OnInit, OnDestroy {
             this.isScanned = true;
             console.log("document has been successfully scanned ", event.body);
             setTimeout(() => {
-              this.indicatorService.setloadedData(event.body);
+              this.indicatorService.setLoadedData(event.body);
             }, 2000);
         }
       });

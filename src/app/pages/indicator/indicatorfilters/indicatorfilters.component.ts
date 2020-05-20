@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
 import { take, tap } from "rxjs/operators";
 import { Subscription } from "rxjs";
-import * as FilterOptions from "src/app/services/dto/filter-options.dto";
+
+import { FilterDto, Level } from "src/app/services/dto/filter.dto";
 
 @Component({
   selector: "app-indicatorfilters",
@@ -10,62 +11,42 @@ import * as FilterOptions from "src/app/services/dto/filter-options.dto";
   styleUrls: ["./indicatorfilters.component.scss"],
 })
 export class IndicatorfiltersComponent implements OnInit, OnDestroy {
-  indicatorSubscribtion: Subscription = null;
+  indicatorSubscription: Subscription = null;
 
-  indicatorFilter: string = "";
-  themeFilter: string = "";
+  selectedValues = new FilterDto();
 
-  // themes filter
-  listOfOption = [];
-  listOfSelectedThemeValues: string[] = [];
-  selectedSources: String[] = [];
-  selectedLevels: Number[] = [];
-  selectedSdgCodes: String[] = [];
-
-  public themesFilterOptions: String[];
-  public descriptionsFilterOptions: String[];
-  public sourcesFilterOptions: String[];
-  public levelsFilterOptions: FilterOptions.Level[];
-  public sdgCodesFilterOptions: String[];
+  filterOptions = new FilterDto();
 
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit() {
-    this.indicatorSubscribtion = this.indicatorService
+    this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
       .pipe(
         take(1),
         tap((data) => {
-          console.log("fetch filters");
           if (data != null && data.filters != null) {
-            if (data.filters.themes != null)
-              this.listOfSelectedThemeValues = data.filters.themes;
+            this.selectedValues = data.filters;
           }
         })
       )
       .subscribe();
-
-    this.indicatorService.getThemes().subscribe((data) => {
-      this.listOfOption = data;
-    });
-
     this.indicatorService.getFilters().subscribe((filters) => {
-      this.themesFilterOptions = filters.themes;
-      this.descriptionsFilterOptions = filters.descriptions;
-      this.sourcesFilterOptions = filters.sources;
-      this.levelsFilterOptions = filters.levels;
-      this.sdgCodesFilterOptions = filters.sdgCodes;
+      this.filterOptions = filters;
     });
   }
   ngOnDestroy() {
-    this.indicatorSubscribtion.unsubscribe();
+    this.indicatorSubscription.unsubscribe();
   }
-  onChangeThemeFiler(event) {
-    this.indicatorService.setFilers({
-      themes: event,
-    });
+  onChangeFilter(filter: string, event: any) {
+    this.selectedValues[filter] = event;
+    this.indicatorService.setFilters(this.selectedValues);
   }
-  isNotSelected(selectedValues: any[], value: any): boolean {
-    return selectedValues.indexOf(value) === -1;
+
+  isNotSelected(filter: string, value: any): boolean {
+    return this.selectedValues[filter].indexOf(value) === -1;
   }
+
+  compare = (level1: Level, level2: Level) =>
+    level1 && level2 ? level1.id === level2.id : level1 === level2;
 }
