@@ -15,3 +15,75 @@
 .steps-action {
   margin-top: 24px;
 }
+.welcomeLayout{
+  background-color:  white;
+  align-items: center;
+  padding: 3rem;
+  }
+  
+  .welcomeSection{
+  text-align: left;
+  padding: 2rem 5rem;
+  }
+  .welcomeH3{
+    padding: 1.5rem 0rem 1.5rem 0rem;
+    line-height: 3.5rem;
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+    font-family:montserrat, sans-serif;
+    transform: scale(1, 1.5);
+    }
+  .welcomeMessage{
+  font-size:.90rem;
+  font-weight: 500;
+  line-height: 1rem;
+  background-color: rgb(233, 233, 233);
+  padding: 25px;
+  border-radius: 15px;
+  border-top-left-radius: 15px;
+  box-shadow: .25rem .35rem .1625rem #00000029;
+  max-width: 48rem;
+  }
+  .stepSection{
+    padding: 0rem 2rem 2rem 2rem;
+  }
+  .stepInfo{
+    margin: auto;
+    
+    font-family:montserrat, sans-serif;
+    font-weight: 500;
+    line-height: 1.25rem;
+    font-size: 1.25rem;
+    background-color:#1890ff;
+    color: white;
+    padding: .5rem 1rem .5rem 1rem;
+    border-radius: 1rem;
+    box-shadow: .25rem .35rem .1625rem #00000029;
+    max-width: 30rem;
+  }
+  .stepPara{
+    margin-bottom: 0;
+  }
+  // #step1{
+  //   position: relative;
+  // }
+  // #step2{
+  //   position: relative;
+  //   right: 20%;
+  // }
+  // #step3{
+  //   position: relative;
+  //   right: 5%;
+  // }
+  // #step4{
+  //   position: relative;
+  //   left: 9.75%;
+  // }
+  // #step5{
+  //   position: relative;
+  //   left: 25%;
+  // }
+  // #step6{
+  //   position: relative;
+  // }

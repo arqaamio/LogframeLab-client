@@ -1,3 +1,62 @@
+<nz-layout class="welcomeLayout">
+  <section class="welcomeSection">
+    <div nz-row class="welcomeMessage">
+      <h3 class=welcomeH3>
+        Welcome to Logframe Lab
+      </h3>
+      <hr>
+      <p>
+        Logframe Lab is an open source web application created to help NGOs and community-based organisations match
+        their project ideas with the most relevant metrics for tracking their success. This tool leads you step-by-step
+        through a simple process that results in a formatted, logical framework (logframe) that you can download and use
+        for reporting your progress to your funders.
+      </p>
+    </div>
+  </section>
+</nz-layout>
+<section class =stepSection>
+<div id="step1" class="stepInfo" *ngIf="current ===  0">
+  <p class="stepPara"> First, either upload a single Word document here (.doc or .docx) or start from scratch,
+    adding the relevant text. You can use your grant or project funding application file for this purpose. When you have
+    selected the document you wish to upload, or finished typing your text, click Next.
+  </p>
+</div>
+
+  <div id="step2" class="stepInfo" *ngIf="current ===  1">
+    <p>Now select the theme(s) that best apply to the subject of your project. You may select as many themes as you
+      want.
+      Then click Next.
+    </p>
+    <div>
+      <p class="stepPara">Note: If you are unsure which themes are relevant, don’t worry – you’ll be able to add more filters in Step 4.
+      </p>
+    </div>
+  </div>
+  <div id="step3" class="stepInfo" *ngIf="current ===  2">
+    <p class="stepPara">Your document is now being uploaded and scanned for appropriate keywords. The green check mark lets you know when
+      your document is done. Then click Next.
+    </p>
+  </div>
+  <div id="step4" class="stepInfo" *ngIf="current ===  3">
+    <p >Here are the suggested indicators for you, based on the keywords in your document and the themes selected.
+      Indicators are categorised as Impacts, Outcomes, or Outputs. Select the indicators you want to use to track the
+      success of your project, then click Next.</p>
+    <div>
+      <p class="stepPara" >  Note: In this step, you can select additional themes or indicators that you wish to include in your logframe.
+      </p>
+    </div>
+  </div>
+  <div id="step5" class="stepInfo" *ngIf="current ===  4">
+    <p class="stepPara">Now you can arrange your indicators to note which Outputs belong with which Outcomes, and which Outcomes are
+      assigned to which Impacts. Once you have finished grouping these indicators, click Next.
+    </p>
+  </div>
+  <div id="step6" class="stepInfo" *ngIf="current ===  5">
+    <p class="stepPara">Here the indicators have been put into a logframe that you can now download and use for tracking progress on your
+      project – and for reporting to funders.
+    </p>
+  </div>
+</section>
 <div class="content-section">
   <nz-steps [nzCurrent]="current">
     <nz-step nzTitle="SELECT"></nz-step>
