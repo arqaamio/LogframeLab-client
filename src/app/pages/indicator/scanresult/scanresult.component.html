@@ -46,19 +46,22 @@
       <th tooltip="Indicator" style="font-weight: bold;">
         Indicator
       </th>
-      <th nzWidth="100px" tooltip="Source">Source</th>
-      <th tooltip="Disaggregation" nzWidth="100px">Disaggregation</th>
-      <th nzWidth="100px" tooltip="Thematic Area">
+      <th nzShowSort nzWidth="100px" tooltip="Source">Source</th>
+      <th nzShowSort tooltip="Disaggregation" nzWidth="100px">
+        Disaggregation
+      </th>
+      <th nzShowSort nzWidth="100px" tooltip="Thematic Area">
         Thematic Area
       </th>
-      <th tooltip="OECD DAC/CRS Code" nzWidth="100px">
+      <th nzShowSort tooltip="OECD DAC/CRS Code" nzWidth="100px">
         OECD DAC/CRS Code
       </th>
-      <th tooltip="SDG Code" nzWidth="100px">
+      <th nzShowSort tooltip="SDG Code" nzWidth="100px">
         SDG Code
       </th>
       <th tooltip="Keyword Frequency" nzWidth="100px">
         Keyword Frequency
+        <nz-slider [nzTooltipVisible]="'default'"></nz-slider>
       </th>
     </tr>
   </thead>
