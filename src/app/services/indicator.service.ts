@@ -67,8 +67,9 @@ export class IndicatorService {
   }
   public downloadInidicators(indicatorsList, format) {
     let param;
-    if (format === "xlsx") param = "worksheet=true";
-    else param = "worksheet=false";
+    if (format === "xlsx") param = "format=xlsx";
+    else param = "format=docx";
+
     return this.http.post(
       this.baseUrl + "/indicator/download?" + param,
       indicatorsList,
