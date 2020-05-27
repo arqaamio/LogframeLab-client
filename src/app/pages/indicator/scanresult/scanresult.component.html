@@ -73,7 +73,10 @@
       </th>
       <th tooltip="Keyword Frequency" nzWidth="100px">
         Keyword Frequency
-        <nz-slider [nzTooltipVisible]="'default'"></nz-slider>
+        <nz-slider
+          (nzOnAfterChange)="onAfterChange($event)"
+          [nzTooltipVisible]="'default'"
+        ></nz-slider>
       </th>
     </tr>
   </thead>
