@@ -9,11 +9,12 @@
   </div>
   <div *ngIf="isUploaded && !isScanned">
     <h2>Scanning ...</h2>
-    <i
+    <!-- <i
       style="font-size: 150px; color: #1890ff;"
       nz-icon
       [nzType]="'loading'"
-    ></i>
+    ></i> -->
+    <nz-progress [nzPercent]="50" nzType="circle" [nzWidth]="200"></nz-progress>
   </div>
   <div *ngIf="isUploaded && isScanned">
     <h2>Done</h2>
