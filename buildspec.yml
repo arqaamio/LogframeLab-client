@@ -19,7 +19,7 @@ phases:
         - ng build --prod
 artifacts:
     files:
-        - .ebextensions/**/*
         - dist/**/*
         - server.js
         - package.json
+        - .ebextensions/**/*
