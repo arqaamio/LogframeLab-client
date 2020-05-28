@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+        nodejs: 10
+    commands:
+        - echo Installing source NPM dependencies...
+        - npm install
+        - echo Installing Angular...
+        - npm install -g @angular/cli
+  pre_build:
+    commands:
+        - echo run Angular unit Tests
+        - ng test --watch=false --browsers=ChromeHeadless
+  build:
+    commands:
+        - echo Build started
+        - ng build --prod
+artifacts:
+    files:
+        - dist/**/*
+        - server.js
+        - package.json
+        - .ebextensions/**/*
