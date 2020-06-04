@@ -1,0 +1,35 @@
+<div nz-col [nzOffset]="4" [nzSpan]="16" class="user-table">
+  <button nz-button nzType="primary" nzSize="small" class="user-table-action" (click)="addUserRow()"
+          [disabled]="isAddingNewUser">
+    Add user
+  </button>
+  <nz-table #users [nzData]="dataset" nzSize="small">
+    <thead>
+    <tr>
+      <th>Username</th>
+      <th>Groups</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users.data">
+      <td style="width: 30%">{{user.username}}</td>
+      <td style="width: 50%">{{userGroups(user.groups)}}</td>
+      <td style="width: 20%">
+        <div nz-row [nzGutter]="2">
+          <div nz-col [nzSpan]="11"><a>Edit user</a></div>
+          <div nz-col [nzSpan]="11"><a>Remove user</a></div>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <ng-template [ngIf]="isAddingNewUser">
+        <td colspan="3">
+          <app-add-user-row (isAddingNewUser)="isAddingNewUserHandler($event)" (addedUser)="addedUserHandler($event)"></app-add-user-row>
+        </td>
+      </ng-template>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

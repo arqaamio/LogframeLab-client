@@ -1,16 +1,16 @@
 export class FilterDto {
-  public themes: String[] = [];
-  public source: String[] = [];
+  public themes: string[] = [];
+  public source: string[] = [];
   public level: Level[] = [];
-  public sdgCode: String[] = [];
-  public crsCode: String[] = [];
+  public sdgCode: string[] = [];
+  public crsCode: string[] = [];
 }
 
 
 export class Level {
-  public id: Number;
-  public name: String;
-  public description: String;
-  public templateVar: String;
-  public color: String;
+  public id: number;
+  public name: string;
+  public description: string;
+  public templateVar: string;
+  public color: string;
 }
