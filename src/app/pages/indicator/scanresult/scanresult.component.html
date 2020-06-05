@@ -40,24 +40,26 @@
         [nzIndeterminate]="isIndeterminate"
         (nzCheckedChange)="checkAll($event)"
       ></th>
-      <th tooltip="Indicator level" nzWidth="100px">
+      <th nz-tooltip nzTooltipTitle="level" nzWidth="100px">
         Level
       </th>
-      <th tooltip="Indicator" style="font-weight: bold;">
+      <th  nz-tooltip nzTooltipTitle="Indicator" style="font-weight: bold;">
         Indicator
       </th>
-      <th nzWidth="100px" tooltip="Source">Source</th>
-      <th tooltip="Disaggregation" nzWidth="100px">Disaggregation</th>
-      <th nzWidth="100px" tooltip="Thematic Area">
+      <th nz-tooltip nzTooltipTitle="Source" nzWidth="100px">
+         Source
+      </th>
+      <th  nz-tooltip nzTooltipTitle="Disaggregation" nzWidth="100px">Disaggregation</th>
+      <th nzWidth="100px"  nz-tooltip nzTooltipTitle="Thematic Area">
         Thematic Area
       </th>
-      <th tooltip="OECD DAC/CRS Code" nzWidth="100px">
+      <th nz-tooltip nzTooltipTitle="OECD DAC/CRS Code" nzWidth="100px">
         OECD DAC/CRS Code
       </th>
-      <th tooltip="SDG Code" nzWidth="100px">
+      <th nz-tooltip nzTooltipTitle="SDG Code" nzWidth="100px">
         SDG Code
       </th>
-      <th tooltip="Keyword Frequency" nzWidth="100px">
+      <th nz-tooltip nzTooltipTitle="Keyword Frequency" nzWidth="100px">
         Keyword Frequency
       </th>
     </tr>

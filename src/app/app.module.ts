@@ -16,7 +16,6 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { TooltipModule } from 'ng2-tooltip-directive';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -81,7 +80,6 @@ const routes: Routes = [
     NzTagModule,
     NzButtonModule,
     NzTableModule,
-    TooltipModule,
     NzStepsModule,
     NzProgressModule,
     NzAlertModule,
