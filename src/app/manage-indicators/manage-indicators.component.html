@@ -1,0 +1,35 @@
+<nz-table #indicators nzShowSizeChanger [nzData]="indicatorList" [nzFrontPagination]="false" [nzLoading]="true" [nzTotal]="totalRowCount"
+          [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageSizeChange)="search()" (nzPageIndexChange)="search()">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Crs Code</th>
+    <th>Data Source</th>
+    <th>Description</th>
+    <th>Disaggregation</th>
+    <th>Keywords</th>
+    <th>Name</th>
+    <th>Sdg Code</th>
+    <th>Source</th>
+    <th>Source Verification</th>
+    <th>Themes</th>
+    <th>Level</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let ind of indicators.data">
+    <td>{{ind.id}}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  </tbody>
+</nz-table>

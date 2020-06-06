@@ -46,6 +46,8 @@ const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: '', component: IndicatorComponent },
+  { path: 'manage-indicators',
+    loadChildren: () => import('./manage-indicators/manage-indicators.module').then(m => m.ManageIndicatorsModule) },
 ];
 @NgModule({
   declarations: [
