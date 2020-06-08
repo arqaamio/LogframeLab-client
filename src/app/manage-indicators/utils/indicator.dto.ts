@@ -1,6 +1,8 @@
+import {Level} from "../../services/dto/filter.dto";
+
 export class IndicatorDto {
   id: number;
-  crsCode: number;
+  crsCode: string;
   dataSource: string;
   description: string;
   disaggregation: boolean;
@@ -10,5 +12,7 @@ export class IndicatorDto {
   source: string;
   sourceVerification: string;
   themes: string;
-  level: string;
+  level: Level;
+  levelId: number;
+  keywordsList: string[]
 }

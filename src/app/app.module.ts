@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 
@@ -36,6 +36,7 @@ import { VisualisationresultComponent } from './pages/indicator/visualisationres
 import { DownloadresultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { ScanDocumentComponent } from './pages/indicator/scandocument/scandocument.component';
 import { DialogComponent } from './dialog/dialog.component';
+import {DefaultHeaderInterceptor} from "./utils/default-header.interceptor";
 
 registerLocaleData(en);
 
@@ -86,7 +87,13 @@ const routes: Routes = [
     NzProgressModule,
     NzAlertModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: DefaultHeaderInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
