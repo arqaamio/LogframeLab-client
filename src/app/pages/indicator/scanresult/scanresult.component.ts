@@ -141,4 +141,9 @@ export class ScanresultComponent implements OnInit, OnDestroy {
     }
     return '';
   }
+
+  onAfterChange(value: number): void {
+    let data: ItemData[] = this.listOfData;
+    this.displayData = data.filter((item: ItemData) => item.numTimes === value);
+  }
 }
