@@ -40,27 +40,44 @@
         [nzIndeterminate]="isIndeterminate"
         (nzCheckedChange)="checkAll($event)"
       ></th>
-      <th nz-tooltip nzTooltipTitle="level" nzWidth="100px">
+      <th nzShowSort nzSortKey="level" nz-tooltip nzTooltipTitle="Indicator level" nzWidth="100px">
         Level
       </th>
       <th  nz-tooltip nzTooltipTitle="Indicator" style="font-weight: bold;">
         Indicator
       </th>
-      <th nz-tooltip nzTooltipTitle="Source" nzWidth="100px">
-         Source
+
+      <th nzShowSort nzSortKey="source" nzWidth="100px" nz-tooltip nzTooltipTitle="Source">
+        Source
       </th>
-      <th  nz-tooltip nzTooltipTitle="Disaggregation" nzWidth="100px">Disaggregation</th>
-      <th nzWidth="100px"  nz-tooltip nzTooltipTitle="Thematic Area">
+      <th
+        nzShowSort
+        nzSortKey="disaggregation"
+        nz-tooltip nzTooltipTitle="Disaggregation"
+        nzWidth="100px"
+      >
+        Disaggregation
+      </th>
+      <th nzShowSort nzSortKey="themes" nzWidth="100px" nz-tooltip nzTooltipTitle="Thematic Area">
         Thematic Area
       </th>
-      <th nz-tooltip nzTooltipTitle="OECD DAC/CRS Code" nzWidth="100px">
+      <th
+        nzShowSort
+        nzSortKey="crsCode"
+        nz-tooltip nzTooltipTitle="OECD DAC/CRS Code"
+        nzWidth="100px"
+      >
         OECD DAC/CRS Code
       </th>
-      <th nz-tooltip nzTooltipTitle="SDG Code" nzWidth="100px">
+      <th nzShowSort nzSortKey="sdgCode" nz-tooltip nzTooltipTitle="SDG Code" nzWidth="100px">
         SDG Code
       </th>
       <th nz-tooltip nzTooltipTitle="Keyword Frequency" nzWidth="100px">
         Keyword Frequency
+        <nz-slider
+          (nzOnAfterChange)="onAfterChange($event)"
+          [nzTooltipVisible]="'default'"
+        ></nz-slider>
       </th>
     </tr>
   </thead>
