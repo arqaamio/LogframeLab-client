@@ -14,8 +14,7 @@ import {AddNewIndicatorService} from "./service/add-new-indicator.service";
 
 @Component({
   selector: 'app-crud-indicator',
-  templateUrl: './crud-indicator.component.html',
-  styleUrls: ['./crud-indicator.component.scss']
+  templateUrl: './crud-indicator.component.html'
 })
 export class CrudIndicatorComponent implements OnInit, OnChanges {
 
