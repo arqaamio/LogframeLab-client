@@ -12,7 +12,6 @@ import { NgZorroAntdModule, NzLayoutModule, NzGridModule, NzUploadModule, NzMess
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TooltipModule } from 'ng2-tooltip-directive';
 import { DialogComponent } from './dialog/dialog.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SelectdocumentComponent } from './pages/indicator/selectdocument/selectdocument.component';
@@ -48,7 +47,6 @@ describe('AppComponent', () => {
         NzTagModule,
         NzButtonModule,
         NzTableModule,
-        TooltipModule,
         NzStepsModule,
         NzProgressModule
       ],
