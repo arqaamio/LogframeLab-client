@@ -1,4 +1,6 @@
-<nz-alert
+<div class="indicatorContent">
+  <div class="warning"> 
+<nz-alert 
   *ngIf="listOfData.length === 0"
   nzType="warning"
   nzMessage="No indicators found during the document scanning"
@@ -6,6 +8,7 @@
   nzCloseable="true"
 >
 </nz-alert>
+</div>
 <div style="position: relative;">
   <input
     (input)="search()"
@@ -106,3 +109,4 @@
     </ng-template>
   </tbody>
 </nz-table>
+</div>

@@ -1,7 +1,14 @@
 .flex-container {
+  position: absolute;
+  top: 4.5rem;
+  left: .0em;
+  width: 100%;
   display: flex;
   align-items: stretch;
   flex-direction: row;
+  background-color: rgba(242, 242, 242, 0.7);
+  border: .25rem dashed #C6C6C5;
+  padding-bottom: 12rem;
 }
 
 .flex-container > div {
@@ -12,4 +19,14 @@
 
 .flex-container nz-select {
   width: 100%;
+}
+.filterIcon{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: #A5C2AE;
+  padding: 12px;
+  border-radius: 1rem;
+  font-size: 4rem;
+  color: #FFFFFF;
 }

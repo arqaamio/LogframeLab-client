@@ -1,4 +1,5 @@
-<nz-upload
+<div class="uploadArea">
+  <nz-upload
   nzType="drag"
   [nzMultiple]="false"
   nzAccept=".doc,.docx"
@@ -8,17 +9,13 @@
   [nzBeforeUpload]="beforeUpload"
   [nzShowUploadList]="false"
 >
-  <div style="margin: auto; min-height: 300px;">
-    <p class="ant-upload-drag-icon">
-      <img src="assets/icons-ms-word-96.png" />
-    </p>
-    <p class="ant-upload-text">Click to this area to upload Word document</p>
+  <div class="uploadText">
+    <i class = "uploadIcon" nz-icon nzType="folder" nzTheme="outline"></i>
+    <p class="ant-upload-text">Click to this area to upload</p><!--Removed from end: "Word document"-->
     <p class="ant-upload-hint">
       Support for a single word file upload.
     </p>
     <p>{{ fileName }}</p>
-  </div>
-  <nz-content>
     <div class="disclaimer">
       <p class="disclaimerText"><!--Disclaimer text added here-->
         <b>Disclaimer:</b> Uploading data here is safe. You can trust us with your info, because we never save it
@@ -27,5 +24,7 @@
         We cannot access your information at any point.
       </p>
     </div>
-  </nz-content>
+  </div>
+
 </nz-upload>
+</div>

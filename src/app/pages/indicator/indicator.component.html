@@ -1,20 +1,5 @@
-<nz-layout class="welcomeLayout">
-  <section class="welcomeSection">
-    <div nz-row class="welcomeMessage">
-      <h3 class=welcomeH3><!--Steps and welcome text added here-->
-        Welcome to Logframe Lab
-      </h3>
-      <hr>
-      <p>
-        Logframe Lab is an open source web application created to help NGOs and community-based organisations match
-        their project ideas with the most relevant metrics for tracking their success. This tool leads you step-by-step
-        through a simple process that results in a formatted, logical framework (logframe) that you can download and use
-        for reporting your progress to your funders.
-      </p>
-    </div>
-  </section>
-</nz-layout>
 <section class =stepSection>
+  <i nz-icon nzType="question" nzTheme="outline" class="stepIcon"></i>
 <div id="step1" class="stepInfo" *ngIf="current ===  0">
   <p class="stepPara"> First, either upload a single Word document here (.doc or .docx) or start from scratch,
     adding the relevant text. You can use your grant or project funding application file for this purpose. When you have
@@ -59,27 +44,30 @@
 </section>
 <div class="content-section">
   <nz-steps [nzCurrent]="current">
-    <nz-step nzTitle="SELECT"></nz-step>
-    <nz-step nzTitle="FILTERS"></nz-step>
-    <nz-step nzTitle="PROGRESS"></nz-step>
-    <nz-step nzTitle="RESULT"></nz-step>
-    <nz-step nzTitle="VISUALISATION"></nz-step>
-    <nz-step nzTitle="DOWNLOAD"></nz-step>
+    <nz-step nzTitle="UPLOAD"  nzIcon="folder" ></nz-step>
+    <nz-step nzTitle="FILTERS" nzIcon="filter"></nz-step>
+    <nz-step nzTitle="PROGRESS" nzIcon="setting"></nz-step>
+    <nz-step nzTitle="RESULT"nzIcon="bars"></nz-step>
+    <nz-step nzTitle="VISUALISATION" nzIcon="eye"></nz-step>
+    <nz-step nzTitle="DOWNLOAD" nzIcon="download"></nz-step>
   </nz-steps>
   <div class="steps-action">
-    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+    <button nz-button class="steps-button" nzType="default" (click)="pre()" *ngIf="current > 0">
       <span>Previous</span>
     </button>
+    <!-- Removed [disabled]="!isNext" from below button for MX -->
     <button
-      [disabled]="!isNext"
+      
       nz-button
+      class ="steps-button"
       nzType="default"
       (click)="next()"
       *ngIf="current < 5"
+
     >
       <span>Next</span>
     </button>
-    <button nz-button nzType="primary" (click)="done()" *ngIf="current === 5">
+    <button nz-button class ="steps-button" nzType="primary" (click)="done()" *ngIf="current === 5">
       <span>Done</span>
     </button>
   </div>

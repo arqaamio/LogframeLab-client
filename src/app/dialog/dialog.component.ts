@@ -26,9 +26,9 @@ export class DialogComponent implements OnInit {
     var firstTime = sessionStorage.getItem("firstTime");//Line 26-31, Pop-up only once per session
     if(! firstTime){ 
       this.visible = true;
-      sessionStorage.setItem("firstTime", "true");//hide line 29 for pop-up maintenance
+      sessionStorage.setItem("firstTime", "true");
     }else{
-      this.visible = false;
+      this.visible = false;//change to true for pop-up mx
     }
    }
   close() {

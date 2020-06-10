@@ -1,15 +1,69 @@
-.disclaimer{
-    width: 60%;
+.uploadArea{
     position: absolute;
-    right: 0rem;
-    bottom: 0rem;
-    border: 2px solid #1890ff;
-    max-height: 9rem;
+    top: 3rem;
+    left: 0rem;
+    height: 20rem;
+    max-width: 61.5rem;
+    //border: .25rem dashed #C6C6C5;
+}
+/*
+@media only screen and (max-width: 48.5rem) {
+    .uploadArea{
+        margin-bottom: 30rem;
+        position: relative;
+        top:25rem;
+        left:0;
+        height: 20rem;
+        max-width: 61.5rem;
+        //border: .25rem dashed #C6C6C5;
+
+    }
+  }
+*/
+.uploadIcon{
+    background: #A5C2AE;
+    padding: 12px;
+    border-radius: 1rem;
+    font-size: 4rem;
+    color: #FFFFFF;
+}
+.uploadText{
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    min-height: 20rem; 
+    background-color: rgba(242, 242, 242, 0.7);
+    border: .25rem dashed #C6C6C5;
+    margin: auto; 
+}
+.ant-upload-text{
+    padding-top: 1rem;
+    font-family:montserrat, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    text-transform: uppercase;
+}
+.disclaimer{
+    padding-top: 2rem;
+    position: relative;
+    width: 60%;
+    max-height: 8rem;
     overflow-x: hidden;
     overflow-y: auto;
+    display: inline-block
 }
 .disclaimerText{
+    font-family:montserrat, sans-serif;
     text-align: left;
-    padding: .2rem;
-    
+    padding: 1rem;
+    background: #FFFFFF;
+    font-size: .7rem;
+    line-height: 11px;
 }
+/*
+nz-upload{
+    padding: 0 !important;//not working
+    border: .25rem dashed #C6C6C5;
+}
+*/
