@@ -68,7 +68,10 @@ export class AuthenticationService {
   }
 
   get userGroups() {
-    return this.http.get<GroupDto[]>(`${environment.apiBaseUrl}/auth/groups`);
+    return this.http.get<GroupDto[]>(`${environment.apiBaseUrl}/auth/groups`, {
+      headers: new HttpHeaders({
+     'Content-Type':  'application/json'
+    })});
   }
 
   provisionUser(user: User): Observable<HttpResponse<User>> {
