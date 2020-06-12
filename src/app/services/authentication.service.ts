@@ -3,7 +3,6 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
-  HttpRequest,
   HttpResponse
 } from "@angular/common/http";
 import {BehaviorSubject, Observable, throwError} from "rxjs";
@@ -34,7 +33,11 @@ export class AuthenticationService {
     return this.http.post<JwtDto>(`${environment.apiBaseUrl}/auth/login`, JSON.stringify({
       username,
       password
-    })).pipe(
+    }),{
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    }).pipe(
       map(jwt => {
         localStorage.setItem(this.JWT_KEY, JSON.stringify(jwt));
         this.currentJwtSubject.next(jwt);
@@ -69,6 +72,11 @@ export class AuthenticationService {
   }
 
   provisionUser(user: User): Observable<HttpResponse<User>> {
-    return this.http.post<User>(`${environment.apiBaseUrl}/auth/users`, JSON.stringify(user), { observe: 'response' });
+    return this.http.post<User>(`${environment.apiBaseUrl}/auth/users`, JSON.stringify(user),
+     {
+       observe: 'response',
+       headers: new HttpHeaders({
+      'Content-Type':  'application/json'
+     })});
   }
 }
