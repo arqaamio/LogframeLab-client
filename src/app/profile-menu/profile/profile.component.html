@@ -1,0 +1,8 @@
+<li nz-submenu nzIcon="user" class="profile">
+  <ng-template [ngIf]="isAuthenticated"  [ngIfElse]="anonymous">
+    <app-authenticated-user-menu [authGroups]="authGroups"></app-authenticated-user-menu>
+  </ng-template>
+  <ng-template #anonymous>
+    <app-anonymous-user-menu></app-anonymous-user-menu>
+  </ng-template>
+</li>

@@ -3,6 +3,7 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpRequest,
+  HttpHeaders,
 } from "@angular/common/http";
 
 import { UploadFile } from "ng-zorro-antd";
@@ -78,16 +79,14 @@ export class IndicatorService {
   }
 
   handleUpload() {
-    const formData = new FormData();
-
-    formData.append(
+   const formData = new FormData();
+   formData.append(
       "filter",
       new Blob(
         [JSON.stringify(this.filters ? this.filters : new FilterDto())],
         { type: "application/json" }
       )
     );
-
     const file: any = this.fileList[0];
     formData.append("file", file);
     const req = new HttpRequest<any>(
