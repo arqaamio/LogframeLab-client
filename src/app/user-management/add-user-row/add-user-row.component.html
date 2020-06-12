@@ -1,0 +1,56 @@
+<div nz-col [nzSpan]="12">
+  <form nz-form nzLayout="inline" [formGroup]="newUserForm" (ngSubmit)="submit()">
+    <div nz-row>
+      <div nz-col>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item class="add-user-item">
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="user">
+                <input nz-input type="text" formControlName="username" name="username" id="username"
+                       placeholder="Username">
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="8">
+          <nz-form-item class="add-user-item">
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="lock">
+                <input nz-input type="password" formControlName="password" name="password"
+                       id="password"
+                       placeholder="Password">
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="8">
+          <nz-form-item class="add-user-item">
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="lock">
+                <input nz-input type="password" formControlName="passwordConfirm"
+                       name="passwordConfirm"
+                       id="passwordConfirm" placeholder="Confirm password">
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div nz-col [nzSpan]="8" style="margin-top: 5px">
+  <nz-select nzMode="multiple" nzPlaceHolder="Groups" id="groups" [(ngModel)]="selectedGroups" style="width: 90%;">
+    <nz-option *ngFor="let group of groupOptions" [nzValue]="group.id"
+               [nzLabel]="group.name"></nz-option>
+  </nz-select>
+</div>
+<div nz-col [nzSpan]="4" style="margin-top: 10px;">
+  <div nz-row>
+    <div nz-col [nzSpan]="8"><a (click)="submit()">Submit</a></div>
+    <div nz-col [nzSpan]="8"><a (click)="reset()">Reset</a></div>
+    <div nz-col [nzSpan]="8"><a (click)="cancel()">Cancel</a></div>
+  </div>
+</div>

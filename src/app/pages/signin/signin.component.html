@@ -1,1 +1,25 @@
-<p>signin works!</p>
+<div nz-col [nzSpan]="6" [nzOffset]="9">
+  <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" class="login-form">
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group nzPrefixIcon="user">
+          <input formControlName="username" nz-input name="username" type="text" id="username"
+                 placeholder="Username" required>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group nzPrefixIcon="lock">
+          <input formControlName="password" nz-input name="password" type="password" id="password"
+                 placeholder="Password" required>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="!loginForm.valid" class="login-button" type="submit">Login</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

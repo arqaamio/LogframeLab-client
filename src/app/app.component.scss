@@ -6,12 +6,19 @@ nz-footer {
   margin: 0;
   padding: 0;
 }
-nz-header {
+.nz-header {
   border-bottom-style: solid;
   border-bottom-color: #e8e8e8;
   border-bottom-width: 1px;
   background-image: url("/assets/Rectangle3.png");
 }
+
+.nz-header .ant-menu-item {
+  padding: 0;
+  border-bottom: 0;
+  margin-bottom: -6px;
+}
+
 nz-footer {
   border-top-style: solid;
   border-top-color: #e8e8e8;
