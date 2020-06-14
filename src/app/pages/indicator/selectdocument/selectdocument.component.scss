@@ -6,6 +6,10 @@
     max-width: 61.5rem;
     //border: .25rem dashed #C6C6C5;
 }
+
+::ng-deep .ant-upload.ant-upload-drag {
+    border: none;
+}
 /*
 @media only screen and (max-width: 48.5rem) {
     .uploadArea{

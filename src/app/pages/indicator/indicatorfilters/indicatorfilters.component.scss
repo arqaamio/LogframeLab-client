@@ -20,10 +20,16 @@
 .flex-container nz-select {
   width: 100%;
 }
+.filterText{
+  position: relative;
+  top: 6rem;
+  text-transform: uppercase;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
 .filterIcon{
-  position: absolute;
-  top: 50%;
-  left: 50%;
   background: #A5C2AE;
   padding: 12px;
   border-radius: 1rem;

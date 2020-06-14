@@ -37,9 +37,7 @@
   }
 }
 */
-nz-step.stepIcon{
-  color: red !important;
-}
+
 .steps-button{
   background: #453457;
   border: 1px solid #FFFFFF;
@@ -59,6 +57,123 @@ nz-step.stepIcon{
 
 color: #FFFFFF;
 }
+/*
+//before selection text color
+::ng-deep .ant-steps-item-custom .ant-steps-item-icon > .ant-steps-icon {
+ color: white;
+}
+//starting icon background color
+::ng-deep .ant-steps-item-custom .ant-steps-item-icon {
+  background: #453457;
+  font-size: 1.5rem;
+  border-radius: .6rem;
+  padding: 0 .3rem .3rem .3rem;
+}
+//selected text color
+::ng-deep .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: #453457;
+}
+//icon color after
+::ng-deep .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+}
+//selected icon color (The step one is currently viewing)
+::ng-deep .ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+  font-size: 1.5rem;
+}
+//text color before
+::ng-deep .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color:  #453457; 
+  opacity: 0.5;
+}
+//line color
+::ng-deep .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
+background-color: #453457;
+}
+*/
+
+//slider
+//rail color when hovering
+::ng-deep .ant-slider:hover .ant-slider-rail {
+  background-color: #A5C2AE;
+}
+//before color and hover
+::ng-deep .ant-slider:hover .ant-slider-track {
+  background-color: #A5C2AE;
+}
+//unused portion of rail
+::ng-deep .ant-slider-rail {
+  background-color: #A5C2AE;
+  opacity: .5;
+}
+//hover color of slider ball
+::ng-deep .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+  border-color: #A5C2AE;
+}
+//slider button color when hovering
+::ng-deep .ant-slider:hover .ant-slider-handle.ant-tooltip-open {
+border-color: #A5C2AE;
+}
+//after slider color
+::ng-deep .ant-slider-track {
+  background-color: #453457;
+}
+::ng-deep .ant-slider:hover .ant-slider-track {
+  color: green;
+}
+::ng-deep .ant-slider-handle {
+  background-color: #453457;
+  border: solid 2px   #453457;
+}
+
+//before icon color
+::ng-deep .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+  background-color: #453457;
+  font-size: 1.5rem;
+  border-radius: .6rem;
+  padding: 0 .3rem .3rem .3rem;
+  opacity: .5;
+}
+
+//selected text color
+::ng-deep .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: #453457;
+}
+//finished icon color
+::ng-deep .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+  background-color: #453457;
+  font-size: 1.5rem;
+  border-radius: .6rem;
+  padding: 0 .3rem .3rem .3rem;
+}
+//selected icon color (The tep one is currently viewing)
+::ng-deep .ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+  font-size: 1.5rem;
+  background-color: #453457;
+  font-size: 1.5rem;
+  border-radius: .6rem;
+  padding: 0 .3rem .3rem .3rem;
+}
+//text color before
+::ng-deep .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color:  #453457;
+  opacity:0.5; 
+}
+//line color
+::ng-deep .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
+background-color: #453457;
+}
+
+
 .stepIcon{
   position: relative;
   top: 1rem;
