@@ -1,26 +1,259 @@
 .content-section {
-  width: 80%;
-  margin: 15px auto;
+  position: relative;
+  max-width: 61.5rem;
+  padding: 10px;
+  width: 984px;
+  //height: 56px;
+  //left: 299px;
+  //top: 155px;
+  border: 2px solid #F2F2F2;
 }
 
 .steps-content {
   margin-top: 16px;
-  border: 1px dashed #e9e9e9;
+  //border: 1px dashed #e9e9e9;
   border-radius: 6px;
-  background-color: #fafafa;
+  //background-color: #fafafa;
   //min-height: 300px;
   text-align: center;
 }
 
 .steps-action {
-  margin-top: 24px;
+  position: static;
+  margin: 10px auto;
+  width: fit-content;
 }
-.welcomeLayout{
+/*
+@media only screen and (max-width: 48.5rem) {
+  .steps-action {
+    // margin-top: 24px;
+    display: inline;
+    position: absolute;
+    left: 35%;
+    top: 55rem;
+    z-index: 1;
+  }
+}
+*/
+
+.steps-button{
+  background: #453457;
+  border: 1px solid #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 15px;
+  padding: 0 1.5rem 0 1.5rem;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+  align-items: center;
+  text-align: center;
+  text-transform: uppercase;
+
+/* White */
+
+color: #FFFFFF;
+}
+/*
+//before selection text color
+::ng-deep .ant-steps-item-custom .ant-steps-item-icon > .ant-steps-icon {
+ color: white;
+}
+//starting icon background color
+::ng-deep .ant-steps-item-custom .ant-steps-item-icon {
+  background: #453457;
+  font-size: 1.5rem;
+  border-radius: .6rem;
+  padding: 0 .3rem .3rem .3rem;
+}
+//selected text color
+::ng-deep .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: #453457;
+}
+//icon color after
+::ng-deep .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+}
+//selected icon color (The step one is currently viewing)
+::ng-deep .ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+  font-size: 1.5rem;
+}
+//text color before
+::ng-deep .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color:  #453457;
+  opacity: 0.5;
+}
+//line color
+::ng-deep .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
+background-color: #453457;
+}
+*/
+
+//slider
+//rail color when hovering
+::ng-deep .ant-slider:hover .ant-slider-rail {
+  background-color: #A5C2AE;
+}
+//before color and hover
+::ng-deep .ant-slider:hover .ant-slider-track {
+  background-color: #A5C2AE;
+}
+//unused portion of rail
+::ng-deep .ant-slider-rail {
+  background-color: #A5C2AE;
+  opacity: .5;
+}
+//hover color of slider ball
+::ng-deep .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+  border-color: #A5C2AE;
+}
+//slider button color when hovering
+::ng-deep .ant-slider:hover .ant-slider-handle.ant-tooltip-open {
+border-color: #A5C2AE;
+}
+//after slider color
+::ng-deep .ant-slider-track {
+  background-color: #453457;
+}
+::ng-deep .ant-slider:hover .ant-slider-track {
+  color: green;
+}
+::ng-deep .ant-slider-handle {
+  background-color: #453457;
+  border: solid 2px   #453457;
+}
+
+//before icon color
+::ng-deep .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+  background-color: #453457;
+  font-size: 1.5rem;
+  border-radius: .6rem;
+  padding: 0 .3rem .3rem .3rem;
+  opacity: .5;
+}
+
+//selected text color
+::ng-deep .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: #453457;
+}
+//finished icon color
+::ng-deep .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+  background-color: #453457;
+  font-size: 1.5rem;
+  border-radius: .6rem;
+  padding: 0 .3rem .3rem .3rem;
+}
+//selected icon color (The tep one is currently viewing)
+::ng-deep .ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+  background: #453457;
+  color: white;
+  font-size: 1.5rem;
+  background-color: #453457;
+  font-size: 1.5rem;
+  border-radius: .6rem;
+  padding: 0 .3rem .3rem .3rem;
+}
+//text color before
+::ng-deep .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color:  #453457;
+  opacity:0.5;
+}
+//line color
+::ng-deep .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
+background-color: #453457;
+}
+
+
+.stepIcon{
+  position: relative;
+  top: 1rem;
+  left: 5rem;
+  background: #A5C2AE;
+  padding: .3rem;
+  border-radius: .6rem;
+  font-size: 1.6rem;
+  color: #FFFFFF;
+  margin: 1rem 0 1rem 0;
+}
+.stepSection{
+  position: relative;
+  width: 12.5rem;
+  border-radius: .6rem;
+  box-shadow: .25rem .35rem .1625rem #00000029;
+  max-width: 30rem;
+  background: #453457;
+  margin-left: 5rem !important;
+  margin-top: 4rem !important;
+  margin-right: 20px !important;
+  margin-bottom: 10px;
+}
+  /*
+  @media only screen and (max-width: 48.5rem) {
+    .stepSection{
+      position: absolute;
+      left: 50%;
+      margin-left: -80px;
+      width: 12.5rem;
+      height: 348px;
+      border-radius: .6rem;
+      box-shadow: .25rem .35rem .1625rem #00000029;
+      max-width: 30rem;
+      background: #453457;
+    }
+  }
+  */
+  .stepInfo{
+    margin: auto;
+    font-family:montserrat, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1rem;
+    line-height: 17px;
+    background: #453457;
+    color: white;
+    padding: 1.25rem;
+    border-radius: .6rem;
+  }
+  .stepPara{
+    margin-bottom: 0;
+  }
+
+  // #step1{
+  //   position: relative;
+  // }
+  // #step2{
+  //   position: relative;
+  //   right: 20%;
+  // }
+  // #step3{
+  //   position: relative;
+  //   right: 5%;
+  // }
+  // #step4{
+  //   position: relative;
+  //   left: 9.75%;
+  // }
+  // #step5{
+  //   position: relative;
+  //   left: 25%;
+  // }
+  // #step6{
+  //   position: relative;
+  // }
+  /*.welcomeLayout{
   background-color:  white;
   align-items: center;
   padding: 3rem;
   }
-  
+
   .welcomeSection{
   text-align: left;
   padding: 2rem 5rem;
@@ -44,46 +277,5 @@
   border-top-left-radius: 15px;
   box-shadow: .25rem .35rem .1625rem #00000029;
   max-width: 48rem;
-  }
-  .stepSection{
-    padding: 0rem 2rem 2rem 2rem;
-  }
-  .stepInfo{
-    margin: auto;
-    
-    font-family:montserrat, sans-serif;
-    font-weight: 500;
-    line-height: 1.25rem;
-    font-size: 1.25rem;
-    background-color:#1890ff;
-    color: white;
-    padding: .5rem 1rem .5rem 1rem;
-    border-radius: 1rem;
-    box-shadow: .25rem .35rem .1625rem #00000029;
-    max-width: 30rem;
-  }
-  .stepPara{
-    margin-bottom: 0;
-  }
-  // #step1{
-  //   position: relative;
-  // }
-  // #step2{
-  //   position: relative;
-  //   right: 20%;
-  // }
-  // #step3{
-  //   position: relative;
-  //   right: 5%;
-  // }
-  // #step4{
-  //   position: relative;
-  //   left: 9.75%;
-  // }
-  // #step5{
-  //   position: relative;
-  //   left: 25%;
-  // }
-  // #step6{
-  //   position: relative;
-  // }
+  }*/
+
