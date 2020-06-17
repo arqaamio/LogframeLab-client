@@ -1,11 +1,11 @@
 .content-section {
-  position: absolute;
+  position: relative;
   max-width: 61.5rem;
   padding: 10px;
   width: 984px;
-  height: 56px;
-  left: 299px;
-  top: 155px;
+  //height: 56px;
+  //left: 299px;
+  //top: 155px;
   border: 2px solid #F2F2F2;
 }
 
@@ -19,11 +19,9 @@
 }
 
 .steps-action {
-  // margin-top: 24px;
-  display: inline;
-  position: relative;
-  left: 25rem;
-  top: 23rem;
+  position: static;
+  margin: 10px auto;
+  width: fit-content;
 }
 /*
 @media only screen and (max-width: 48.5rem) {
@@ -86,7 +84,7 @@ color: #FFFFFF;
 }
 //text color before
 ::ng-deep .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
-  color:  #453457; 
+  color:  #453457;
   opacity: 0.5;
 }
 //line color
@@ -166,7 +164,7 @@ border-color: #A5C2AE;
 //text color before
 ::ng-deep .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
   color:  #453457;
-  opacity:0.5; 
+  opacity:0.5;
 }
 //line color
 ::ng-deep .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
@@ -185,17 +183,18 @@ background-color: #453457;
   color: #FFFFFF;
   margin: 1rem 0 1rem 0;
 }
-  .stepSection{
-    position: absolute;
-    left: 5rem;
-    top: 10rem;
-    width: 12.5rem;
-    height: 348px;
-    border-radius: .6rem;
-    box-shadow: .25rem .35rem .1625rem #00000029;
-    max-width: 30rem;
-    background: #453457;
-  }
+.stepSection{
+  position: relative;
+  width: 12.5rem;
+  border-radius: .6rem;
+  box-shadow: .25rem .35rem .1625rem #00000029;
+  max-width: 30rem;
+  background: #453457;
+  margin-left: 5rem !important;
+  margin-top: 4rem !important;
+  margin-right: 20px !important;
+  margin-bottom: 10px;
+}
   /*
   @media only screen and (max-width: 48.5rem) {
     .stepSection{
@@ -226,6 +225,7 @@ background-color: #453457;
   .stepPara{
     margin-bottom: 0;
   }
+
   // #step1{
   //   position: relative;
   // }
@@ -253,7 +253,7 @@ background-color: #453457;
   align-items: center;
   padding: 3rem;
   }
-  
+
   .welcomeSection{
   text-align: left;
   padding: 2rem 5rem;
@@ -278,3 +278,4 @@ background-color: #453457;
   box-shadow: .25rem .35rem .1625rem #00000029;
   max-width: 48rem;
   }*/
+

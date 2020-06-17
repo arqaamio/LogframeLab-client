@@ -1,14 +1,15 @@
 .flex-container {
-  position: absolute;
-  top: 4.5rem;
-  left: .0em;
+  position: static;
+ // top: 4.5rem;
+ // left: .0em;
   width: 100%;
   display: flex;
   align-items: stretch;
   flex-direction: row;
   background-color: rgba(242, 242, 242, 0.7);
   border: .25rem dashed #C6C6C5;
-  padding-bottom: 12rem;
+  min-height: 20rem;
+  padding: 16px 0;
 }
 
 .flex-container > div {
@@ -21,7 +22,8 @@
   width: 100%;
 }
 .filterText{
-  position: relative;
+  position: absolute;
+  left: 23rem;
   top: 6rem;
   text-transform: uppercase;
   font-family: Montserrat, sans-serif;
@@ -29,10 +31,13 @@
   font-weight: bold;
   font-size: 1.5rem;
 }
-.filterIcon{
+.filterIcon {
   background: #A5C2AE;
   padding: 12px;
   border-radius: 1rem;
   font-size: 4rem;
   color: #FFFFFF;
+}
+.filterContent {
+  position: relative;
 }

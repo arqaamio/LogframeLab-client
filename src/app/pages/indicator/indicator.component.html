@@ -51,13 +51,21 @@
     <nz-step nzTitle="VISUALISATION" nzIcon="eye"></nz-step>
     <nz-step nzTitle="DOWNLOAD" nzIcon="download"></nz-step>
   </nz-steps>
+  <div class="steps-content">
+    <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
+    <app-indicatorfilters *ngIf="current === 1"> </app-indicatorfilters>
+    <app-scandocument *ngIf="current === 2"> </app-scandocument>
+    <app-scanresult *ngIf="current === 3"> </app-scanresult>
+    <app-visualisationresult *ngIf="current === 4"> </app-visualisationresult>
+    <app-downloadresult *ngIf="current === 5"> </app-downloadresult>
+  </div>
   <div class="steps-action">
     <button nz-button class="steps-button" nzType="default" (click)="pre()" *ngIf="current > 0">
       <span>Previous</span>
     </button>
-    <!-- Remove [disabled]="!isNext" and hidden]="!isNext" from below button for MX 
+    <!-- Remove [disabled]="!isNext" and hidden]="!isNext" from below button for MX
           added hidden to hide the button when nothing is uploaded
--->
+     -->
     <button
       [disabled]="!isNext"
       [hidden]="!isNext"
@@ -73,13 +81,5 @@
     <button nz-button class ="steps-button" nzType="primary" (click)="done()" *ngIf="current === 5">
       <span>Done</span>
     </button>
-  </div>
-  <div class="steps-content">
-    <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
-    <app-indicatorfilters *ngIf="current === 1"> </app-indicatorfilters>
-    <app-scandocument *ngIf="current === 2"> </app-scandocument>
-    <app-scanresult *ngIf="current === 3"> </app-scanresult>
-    <app-visualisationresult *ngIf="current === 4"> </app-visualisationresult>
-    <app-downloadresult *ngIf="current === 5"> </app-downloadresult>
   </div>
 </div>

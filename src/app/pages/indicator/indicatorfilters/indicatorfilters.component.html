@@ -1,4 +1,8 @@
 <div class="filterContent">
+  <div class="filterText">
+    <i class="filterIcon" nz-icon nzType="filter" nzTheme="outline"></i>
+    <p style="padding: 0.5rem;">Themes</p>
+  </div>
   <div class="flex-container">
     <div>
       <label>Themes:</label><br />
@@ -6,50 +10,84 @@
         nzMode="multiple"
         (ngModelChange)="onChangeFilter('themes', $event)"
         nzPlaceHolder="Filter by themes"
-        [(ngModel)]="selectedValues.themes">
-        <nz-option *ngFor="let option of filterOptions.themes" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected('themes', option)"></nz-option>
+        [(ngModel)]="selectedValues.themes"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.themes"
+          [nzLabel]="option"
+          [nzValue]="option"
+          [nzHide]="!isNotSelected('themes', option)"
+        ></nz-option>
       </nz-select>
     </div>
     <div>
-      <label>Sources:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by sources" [(ngModel)]="selectedValues.source"
-                 (ngModelChange)="onChangeFilter('source', $event)">
-        <nz-option *ngFor="let option of filterOptions.source" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected('source', option)"></nz-option>
+      <label>Sources:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by sources"
+        [(ngModel)]="selectedValues.source"
+        (ngModelChange)="onChangeFilter('source', $event)"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.source"
+          [nzLabel]="option"
+          [nzValue]="option"
+          [nzHide]="!isNotSelected('source', option)"
+        ></nz-option>
       </nz-select>
     </div>
     <div>
-      <label>SDGs:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by SDGs" [(ngModel)]="selectedValues.sdgCode"
-                 (ngModelChange)="onChangeFilter('sdgCode', $event)">
-        <nz-option *ngFor="let option of filterOptions.sdgCode" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected('sdgCode', option)"></nz-option>
+      <label>SDGs:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by SDGs"
+        [(ngModel)]="selectedValues.sdgCode"
+        (ngModelChange)="onChangeFilter('sdgCode', $event)"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.sdgCode"
+          [nzLabel]="option"
+          [nzValue]="option"
+          [nzHide]="!isNotSelected('sdgCode', option)"
+        ></nz-option>
       </nz-select>
     </div>
     <div>
-      <label>Levels:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by levels" [(ngModel)]="selectedValues.level"
-                 (ngModelChange)="onChangeFilter('level', $event)" [compareWith]="compare">
-        <nz-option *ngFor="let option of filterOptions.level" [nzLabel]="option.name" [nzValue]="option"
-                   [nzHide]="!isNotSelected('level', option)"></nz-option>
+      <label>Levels:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by levels"
+        [(ngModel)]="selectedValues.level"
+        (ngModelChange)="onChangeFilter('level', $event)"
+        [compareWith]="compare"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.level"
+          [nzLabel]="option.name"
+          [nzValue]="option"
+          [nzHide]="!isNotSelected('level', option)"
+        ></nz-option>
       </nz-select>
     </div>
     <div>
-      <label>DACs:</label><br>
-      <nz-select nzMode="multiple" nzPlaceHolder="Filter by DACs" [(ngModel)]="selectedValues.crsCode"
-                 (ngModelChange)="onChangeFilter('crsCode', $event)">
-        <nz-option *ngFor="let option of filterOptions.crsCode" [nzLabel]="option" [nzValue]="option"
-                   [nzHide]="!isNotSelected('crsCode', option)"></nz-option>
+      <label>DACs:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by DACs"
+        [(ngModel)]="selectedValues.crsCode"
+        (ngModelChange)="onChangeFilter('crsCode', $event)"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.crsCode"
+          [nzLabel]="option"
+          [nzValue]="option"
+          [nzHide]="!isNotSelected('crsCode', option)"
+        ></nz-option>
       </nz-select>
     </div>
     <div>
       <label>Frequency of Keywords:</label><br />
       <nz-slider [nzTooltipVisible]="'default'"></nz-slider>
     </div>
-  </div>
-    <div class="filterText">
-    <i class = "filterIcon" nz-icon nzType="filter" nzTheme="outline"></i>
-    <p style="padding: .5rem;">Themes</p>
   </div>
 </div>
