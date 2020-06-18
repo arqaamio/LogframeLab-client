@@ -51,8 +51,7 @@ const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   { path: 'login', component: SigninComponent, canActivate: [AuthGuard]},
   { path: 'signup', component: SignupComponent },
-  { path: '', redirectTo: 'indicator', pathMatch: 'full' },
-  { path: 'indicator', component: IndicatorComponent},
+  { path: '', component: IndicatorComponent, pathMatch: 'full' },
   {
     path: 'user-management',
     loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
