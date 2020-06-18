@@ -1,6 +1,7 @@
 FROM node:13 as build-step
 WORKDIR /app
 COPY package.json ./
+RUN npm install
 RUN npm install -g @angular/cli
 COPY . .
 # Build application for production
