@@ -186,6 +186,7 @@ background-color: #453457;
 .stepSection{
   position: relative;
   width: 12.5rem;
+  height: fit-content !important;
   border-radius: .6rem;
   box-shadow: .25rem .35rem .1625rem #00000029;
   max-width: 30rem;
