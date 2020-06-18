@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {IndicatorDto} from "./utils/indicator.dto";
-import {Sort} from "./utils/sort";
-import {ManageIndicatorsService} from "./service/manage-indicators.service";
-import {Operation} from "./crud-indicator/crud-indicator.component";
+import {IndicatorDto} from './utils/indicator.dto';
+import {Sort} from './utils/sort';
+import {ManageIndicatorsService} from './service/manage-indicators.service';
+import {Operation} from './crud-indicator/crud-indicator.component';
 
 @Component({
   selector: 'app-manage-indicators',
@@ -38,7 +38,7 @@ export class ManageIndicatorsComponent implements OnInit {
       data => {
         this.isLoading = false;
         if (data.ok) {
-          let page = data.body;
+          const page = data.body;
           this.totalRowCount = page.totalElements;
           this.indicatorList = page.content;
         }
@@ -59,7 +59,7 @@ export class ManageIndicatorsComponent implements OnInit {
     this.displayCrudModal = !event;
   }
 
-  refreshIndicatorList () {
+  refreshIndicatorList() {
     this.search(true);
   }
 
