@@ -1,30 +1,22 @@
 <nz-layout>
-  <nz-header style="text-align: left;">
-    <div nz-row>
-      <div nz-col nzSpan="6">
-        <a style="color: black;" routerLink="/" routerLinkActive="active">
-          <img src="assets/logo-11-1.png" />
-        </a>
-      </div>
-      <!--div nz-col nzSpan="18">
-        <div style="display: inline-block;float:right;">
-          <button [nzSize]="'large'"	 nz-button [nzType]="'primary'" nzGhost>
-            <span>Login</span>
-          </button>
-        </div>
-      </div-->
-    </div>
-  </nz-header>
+  <ul nz-menu nzMode="horizontal" class="nz-header">
+    <li nz-menu-item>
+      <a style="color: black;" routerLink="/" routerLinkActive="active">
+        <img src="assets/logo-11-1.png" alt="Logframe Lab Logo"/>
+      </a>
+    </li>
+    <app-profile></app-profile>
+  </ul>
   <nz-content>
     <router-outlet></router-outlet>
   </nz-content>
   <nz-footer>
     <div>
-      <br />
-      <img src="assets/arqaam-13 1.png" /><br />
-      <a href="/terms">Terms Of Use </a><br />
-      <a href="/dataprotection">Data Protection Declaration</a><br />
-      <a href="/imprint">Imprint</a><br /><br />
+      <br/>
+      <img src="assets/arqaam-13 1.png"/><br/>
+      <a routerLink="/terms">Terms Of Use </a><br/>
+      <a routerLink="/dataprotection">Data Protection Declaration</a><br/>
+      <a routerLink="/imprint">Imprint</a><br/><br/>
     </div>
     <div style="height: 28px; background-color: #222222;">
       <a

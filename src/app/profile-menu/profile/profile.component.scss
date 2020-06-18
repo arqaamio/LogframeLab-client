@@ -1,0 +1,17 @@
+.profile {
+  border-radius: 100px;
+  background-color: #e8e8e8;
+  margin-right: 150px;
+  margin-top: 15px;
+  float: right;
+  padding: 0 !important;
+}
+
+::ng-deep .profile .ant-menu-submenu-title {
+  padding: 1px 10px !important;
+  line-height: 30px;
+}
+
+::ng-deep .profile .anticon {
+  margin-right: 0 !important;
+}
