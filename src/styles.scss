@@ -3,4 +3,20 @@ app-selectdocument {
   .ant-upload.ant-upload-drag .ant-upload-btn{
    // min-height: 300px !important;
   }
+  .ng-star-inserted.ant-upload.ant-upload-drag {
+    height: unset !important;
+  }
+  .uploadArea{
+    position: static !important;
+    height: auto !important;
+  }
 }
+
+app-indicator {
+  display: inline-flex;
+}
+
+.content-section {
+  margin-top: 4rem !important;
+}
+

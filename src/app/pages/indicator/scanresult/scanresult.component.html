@@ -1,11 +1,52 @@
+<div class="indicatorContent">
+  <div class="warning">
 <nz-alert
   *ngIf="listOfData.length === 0"
   nzType="warning"
-  nzMessage="No indicators found during the document scanning"
+  nzMessage="No indicators were found during the document scanning."
   nzShowIcon
   nzCloseable="true"
 >
 </nz-alert>
+
+<nz-alert
+  *ngIf="
+    this.impactCount === 0 || this.outcomeCount === 0 || this.outputCount === 0
+  "
+  nzType="info"
+  nzMessage="It is recommended to have at least one indicator per level."
+  nzShowIcon
+  nzCloseable="true"
+>
+</nz-alert>
+
+<nz-alert
+  *ngIf="this.impactCount > 3"
+  nzType="info"
+  nzMessage="It is recommended to have less than 4 indicators of the Impact level."
+  nzShowIcon
+  nzCloseable="true"
+>
+</nz-alert>
+
+<nz-alert
+  *ngIf="this.outcomeCount > 5"
+  nzType="info"
+  nzMessage="It is recommended to have less than 6 indicators of the Outcome level."
+  nzShowIcon
+  nzCloseable="true"
+>
+</nz-alert>
+
+<nz-alert
+  *ngIf="this.outputCount > 15"
+  nzType="info"
+  nzMessage="It is recommended to have less than 16 indicators of the Output level."
+  nzShowIcon
+  nzCloseable="true"
+>
+</nz-alert>
+
 <div style="position: relative;">
   <input
     (input)="search()"
@@ -123,3 +164,4 @@
     </ng-template>
   </tbody>
 </nz-table>
+</div>

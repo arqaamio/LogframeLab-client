@@ -35,3 +35,9 @@ nz-footer {
 nz-layout {
   min-height: 100%;
 }
+
+nz-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
