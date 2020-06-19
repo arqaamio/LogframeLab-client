@@ -29,7 +29,8 @@ export class ScanresultComponent implements OnInit, OnDestroy {
   downloadDisabled = true;
   isAllDisplayDataChecked = false;
   isIndeterminate = false;
-  mapOfCheckedId: { [key: string]: boolean } = {};
+  mapOfCheckedId: { [key: number]: boolean } = {};
+  checkedItemIds: number[];
   listOfData: ItemData[] = [];
   displayData: ItemData[] = [];
   sortName: string | null = null;
@@ -115,8 +116,9 @@ export class ScanresultComponent implements OnInit, OnDestroy {
     if (this.displayData.length > 0) {
       this.downloadDisabled = true;
       this.isAllDisplayDataChecked = true;
+      // console.log('DATA', this.displayData); //ARRAY
       for (let item of this.displayData) {
-        if (this.mapOfCheckedId[item.id]) {
+        if (this.mapOfCheckedId) {
           this.downloadDisabled = false;
           if (item.level === 'OUTPUT') {
             this.outputCount++;
@@ -126,6 +128,26 @@ export class ScanresultComponent implements OnInit, OnDestroy {
             this.outcomeCount++;
           }
         }
+
+        //An array of the IDs of the checked indicators
+        this.checkedItemIds = Object.keys(this.mapOfCheckedId).map(Number);
+
+        //If that array includes it IDs of the items
+        if (this.checkedItemIds.includes(item.id)) {
+          //this gives the index of that item
+          let indexOfItem = this.displayData.indexOf(item);
+          console.log('CHECKED INDEX', indexOfItem);
+
+          //this removes that item from the displayed data
+          let itemCutOut = this.displayData.splice(indexOfItem, 1);
+          console.log('item cut out', itemCutOut);
+
+          //and this moves it to the top of the array of displayed data
+          this.displayData.unshift(itemCutOut[0]);
+
+          console.log('rearranged data', this.displayData);
+        }
+
         if (!this.mapOfCheckedId[item.id]) {
           this.isAllDisplayDataChecked = false;
         }
