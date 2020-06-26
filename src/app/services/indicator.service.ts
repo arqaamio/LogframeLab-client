@@ -127,6 +127,7 @@ export class IndicatorService {
       })
     );
   }
+
   getFilters(): Observable<FilterDto> {
     return this.http.get<FilterDto>(this.baseUrl + "/indicator/filters").pipe(
       catchError((error: HttpErrorResponse) => {
