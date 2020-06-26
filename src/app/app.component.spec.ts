@@ -8,8 +8,8 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { IndicatorComponent } from './pages/indicator/indicator.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgZorroAntdModule, NzLayoutModule, NzGridModule, NzUploadModule, NzMessageModule, NzListModule, NzTagModule, NzButtonModule, NzTableModule, NzStepsModule, NzProgressModule } from 'ng-zorro-antd';
-import { FormsModule } from '@angular/forms';
+import { NgZorroAntdModule, NzLayoutModule, NzGridModule, NzUploadModule, NzMessageModule, NzListModule, NzTagModule, NzButtonModule, NzTableModule, NzStepsModule, NzProgressModule, NzAlertModule } from 'ng-zorro-antd';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './dialog/dialog.component';
@@ -17,17 +17,24 @@ import { HomeComponent } from './pages/home/home.component';
 import { SelectdocumentComponent } from './pages/indicator/selectdocument/selectdocument.component';
 import { IndicatorfiltersComponent } from './pages/indicator/indicatorfilters/indicatorfilters.component';
 import { ScanDocumentComponent } from './pages/indicator/scandocument/scandocument.component';
-import { ScanresultComponent } from './pages/indicator/scanresult/scanresult.component';
+import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.component';
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
 import { DownloadresultComponent } from './pages/indicator/downloadresult/downloadresult.component';
+import { ProfileMenuModule } from './profile-menu/profile-menu.module';
+import { AuthGuard } from './utils/auth.guard';
 
 const routes: Routes = [
-  { path: "dataprotection", component: DataprotectionComponent },
-  { path: "terms", component: TermsofuseComponent },
-  { path: "imprint", component: ImprintComponent },
-  { path: "signin", component: SigninComponent },
-  { path: "signup", component: SignupComponent },
-  { path: "", component: IndicatorComponent },
+  { path: 'dataprotection', component: DataprotectionComponent },
+  { path: 'terms', component: TermsofuseComponent },
+  { path: 'imprint', component: ImprintComponent },
+  { path: 'login', component: SigninComponent, canActivate: [AuthGuard]},
+  { path: 'signup', component: SignupComponent },
+  { path: '', component: IndicatorComponent, pathMatch: 'full' },
+  {
+    path: 'user-management',
+    loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
+    canActivate: [AuthGuard]
+  },
 ];
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -37,6 +44,7 @@ describe('AppComponent', () => {
         RouterModule.forRoot(routes),
         NgZorroAntdModule,
         FormsModule,
+        ReactiveFormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
         NzLayoutModule,
@@ -48,7 +56,9 @@ describe('AppComponent', () => {
         NzButtonModule,
         NzTableModule,
         NzStepsModule,
-        NzProgressModule
+        NzProgressModule,
+        NzAlertModule,
+        ProfileMenuModule,
       ],
       declarations: [
         AppComponent,
@@ -63,7 +73,7 @@ describe('AppComponent', () => {
         SelectdocumentComponent,
         IndicatorfiltersComponent,
         ScanDocumentComponent,
-        ScanresultComponent,
+        ScanResultComponent,
         VisualisationresultComponent,
         DownloadresultComponent,
       ],
