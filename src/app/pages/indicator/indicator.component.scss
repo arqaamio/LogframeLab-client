@@ -1,6 +1,7 @@
+//resize for smaller screens
 .content-section {
   position: absolute;
-  max-width: 61.5rem;
+  max-width: 60%;
   padding: 10px;
   width: 984px;
   height: 56px;
@@ -57,43 +58,6 @@
 
 color: #FFFFFF;
 }
-/*
-//before selection text color
-::ng-deep .ant-steps-item-custom .ant-steps-item-icon > .ant-steps-icon {
- color: white;
-}
-//starting icon background color
-::ng-deep .ant-steps-item-custom .ant-steps-item-icon {
-  background: #453457;
-  font-size: 1.5rem;
-  border-radius: .6rem;
-  padding: 0 .3rem .3rem .3rem;
-}
-//selected text color
-::ng-deep .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
-  color: #453457;
-}
-//icon color after
-::ng-deep .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
-  background: #453457;
-  color: white;
-}
-//selected icon color (The step one is currently viewing)
-::ng-deep .ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
-  background: #453457;
-  color: white;
-  font-size: 1.5rem;
-}
-//text color before
-::ng-deep .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
-  color:  #453457; 
-  opacity: 0.5;
-}
-//line color
-::ng-deep .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
-background-color: #453457;
-}
-*/
 
 //slider
 //rail color when hovering
@@ -196,7 +160,7 @@ background-color: #453457;
     max-width: 30rem;
     background: #453457;
   }
-  /*
+  
   @media only screen and (max-width: 48.5rem) {
     .stepSection{
       position: absolute;
@@ -209,8 +173,18 @@ background-color: #453457;
       max-width: 30rem;
       background: #453457;
     }
+    .content-section {
+      position: absolute;
+      top: 35rem;
+      max-width: 100%;
+      width: 984px;
+      left: auto;
+    }
+    ::ng-deep .ant-layout {
+      height: 72rem;
+    }
   }
-  */
+  
   .stepInfo{
     margin: auto;
     font-family:montserrat, sans-serif;
@@ -226,55 +200,3 @@ background-color: #453457;
   .stepPara{
     margin-bottom: 0;
   }
-  // #step1{
-  //   position: relative;
-  // }
-  // #step2{
-  //   position: relative;
-  //   right: 20%;
-  // }
-  // #step3{
-  //   position: relative;
-  //   right: 5%;
-  // }
-  // #step4{
-  //   position: relative;
-  //   left: 9.75%;
-  // }
-  // #step5{
-  //   position: relative;
-  //   left: 25%;
-  // }
-  // #step6{
-  //   position: relative;
-  // }
-  /*.welcomeLayout{
-  background-color:  white;
-  align-items: center;
-  padding: 3rem;
-  }
-  
-  .welcomeSection{
-  text-align: left;
-  padding: 2rem 5rem;
-  }
-  .welcomeH3{
-    padding: 1.5rem 0rem 1.5rem 0rem;
-    line-height: 3.5rem;
-    font-size: 3rem;
-    font-weight: 900;
-    text-align: center;
-    font-family:montserrat, sans-serif;
-    transform: scale(1, 1.5);
-    }
-  .welcomeMessage{
-  font-size:.90rem;
-  font-weight: 500;
-  line-height: 1rem;
-  background-color: rgb(233, 233, 233);
-  padding: 25px;
-  border-radius: 15px;
-  border-top-left-radius: 15px;
-  box-shadow: .25rem .35rem .1625rem #00000029;
-  max-width: 48rem;
-  }*/
