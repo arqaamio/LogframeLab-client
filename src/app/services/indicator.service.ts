@@ -3,7 +3,6 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpRequest,
-  HttpHeaders,
 } from "@angular/common/http";
 
 import { UploadFile } from "ng-zorro-antd";
@@ -115,6 +114,7 @@ export class IndicatorService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    return errorMessage;
   }
 
   getThemes() {

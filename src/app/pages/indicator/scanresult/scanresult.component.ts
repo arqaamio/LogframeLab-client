@@ -23,8 +23,8 @@ interface ItemData {
   templateUrl: './scanresult.component.html',
   styleUrls: ['./scanresult.component.scss'],
 })
-export class ScanresultComponent implements OnInit, OnDestroy {
-  indicatorSubscribtion: Subscription = null;
+export class ScanResultComponent implements OnInit, OnDestroy {
+  indicatorSubscription: Subscription = null;
 
   downloadDisabled = true;
   isAllDisplayDataChecked = false;
@@ -52,7 +52,7 @@ export class ScanresultComponent implements OnInit, OnDestroy {
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit() {
-    this.indicatorSubscribtion = this.indicatorService
+    this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
       .subscribe((data) => {
         if (this.initData && data != null && data.dataResponse != null) {
@@ -66,7 +66,7 @@ export class ScanresultComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
-    this.indicatorSubscribtion.unsubscribe();
+    this.indicatorSubscription.unsubscribe();
   }
   checkAll(value: boolean): void {
     this.displayData.forEach((item) => (this.mapOfCheckedId[item.id] = value));
@@ -83,7 +83,7 @@ export class ScanresultComponent implements OnInit, OnDestroy {
     let data: ItemData[] = this.listOfData;
     // filter by indicator
     const filterFunc = (item: ItemData) => {
-      if (item.name.indexOf(this.searchValue) !== -1) {
+      if (item.name.toUpperCase().indexOf(this.searchValue.toUpperCase()) !== -1) {
         return true;
       }
       this.mapOfCheckedId[item.id] = false;
