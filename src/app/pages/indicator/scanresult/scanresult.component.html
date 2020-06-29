@@ -118,6 +118,9 @@
         <nz-slider
           (nzOnAfterChange)="onAfterChange($event)"
           [nzTooltipVisible]="'default'"
+          [nzRange]='true'
+          [nzMin]='sliderMinValue'
+          [nzMax]='sliderMaxValue'
         ></nz-slider>
       </th>
     </tr>
