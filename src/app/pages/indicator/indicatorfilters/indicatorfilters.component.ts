@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
 import { take, tap } from "rxjs/operators";
 import { Subscription } from "rxjs";
+
 import { FilterDto, Level } from "src/app/services/dto/filter.dto";
 
 @Component({

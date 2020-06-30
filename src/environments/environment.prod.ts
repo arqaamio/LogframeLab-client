@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://logframelab.ai'
+  apiBaseUrl: 'https://logframelab.ai/api'
 };
