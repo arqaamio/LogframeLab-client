@@ -7,10 +7,10 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {IndicatorDto} from "../utils/indicator.dto";
-import {Level} from "../../services/dto/filter.dto";
-import {IndicatorService} from "../../services/indicator.service";
-import {AddNewIndicatorService} from "./service/add-new-indicator.service";
+import {IndicatorDto} from '../utils/indicator.dto';
+import {Level} from '../../services/dto/filter.dto';
+import {IndicatorService} from '../../services/indicator.service';
+import {AddNewIndicatorService} from './service/add-new-indicator.service';
 
 @Component({
   selector: 'app-crud-indicator',
@@ -20,28 +20,28 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
 
   indicator = new IndicatorDto();
 
-  @Input("indicator")
-  indicatorForOperation;
+  @Input()
+  indicatorForOperation: IndicatorDto = undefined;
 
-  levels: Level[];
+  levels: Level[] = [];
 
-  @Input("displayCrudModal")
+  @Input()
   displayCrudModal = false;
 
-  @Output("hideCrudModal")
+  @Output()
   hideCrudModal = new EventEmitter<boolean>();
 
-  @Output("indicatorAdded")
+  @Output()
   indicatorAdded = new EventEmitter();
 
-  @Output("indicatorUpdated")
+  @Output()
   indicatorUpdated = new EventEmitter();
 
-  @Output("indicatorDeleted")
+  @Output()
   indicatorDeleted = new EventEmitter();
 
-  @Input("operation")
-  operation: Operation;
+  @Input()
+  operation: Operation = undefined;
 
   constructor(private indicatorService: IndicatorService,
               private newIndicatorService: AddNewIndicatorService) {
@@ -50,7 +50,7 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.indicatorService.getFilters().subscribe(filters => {
       this.levels = filters.level;
-    })
+    });
   }
 
   createIndicator() {
@@ -59,7 +59,7 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
         this.cancel();
         this.indicatorAdded.emit(true);
       }
-    })
+    });
   }
 
   updateIndicator() {
@@ -77,17 +77,14 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
         this.cancel();
         this.indicatorDeleted.emit(true);
       }
-    })
+    });
   }
 
   reset() {
     this.indicator = new IndicatorDto();
-    this.operation = null;
   }
 
   cancel() {
-    this.reset();
-    this.displayCrudModal = false;
     this.hideCrudModal.emit(true);
   }
 
@@ -100,13 +97,16 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
   }
 
   isDeleting(): boolean {
-    return this.operation == Operation.DELETE;
+    return this.operation === Operation.DELETE;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.isEditing() || this.isDeleting()) {
+    if (this.isEditing()) {
+      this.indicator = IndicatorDto.clone(this.indicatorForOperation);
+    } else if (this.isDeleting()) {
       this.indicator = this.indicatorForOperation;
-      this.indicator.levelId = this.indicatorForOperation.level.id;
+    } else if (this.isNew()) {
+      this.indicator = new IndicatorDto();
     }
   }
 }

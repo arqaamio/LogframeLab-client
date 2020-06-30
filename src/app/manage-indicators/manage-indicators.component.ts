@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {IndicatorDto} from './utils/indicator.dto';
 import {Sort} from './utils/sort';
-import {ManageIndicatorsService} from './service/manage-indicators.service';
+import {ManageIndicatorsService} from '../services/indicators-management/manage-indicators.service';
 import {Operation} from './crud-indicator/crud-indicator.component';
+import {forkJoin} from 'rxjs';
+import {IndicatorService} from '../services/indicator.service';
+import {FilterDto} from '../services/dto/filter.dto';
 
 @Component({
   selector: 'app-manage-indicators',
@@ -16,12 +19,22 @@ export class ManageIndicatorsComponent implements OnInit {
   indicatorList: IndicatorDto[];
   isLoading = false;
   sortBy: Sort;
-  displayCrudModal = false;
 
+  displayCrudModal = false;
   operation: Operation;
   indicator: IndicatorDto;
 
-  constructor(private manageIndicatorsService: ManageIndicatorsService) {
+  themeFilter: FilterData[];
+  sourceFilter: FilterData[];
+  levelFilter: FilterData[];
+  sdgCodeFilter: FilterData[];
+  crsCodeFilter: FilterData[];
+
+  filters = new FilterDto();
+
+  hasFilters = false;
+
+  constructor(private manageIndicatorsService: ManageIndicatorsService, private indicatorService: IndicatorService) {
   }
 
   ngOnInit(): void {
@@ -34,15 +47,25 @@ export class ManageIndicatorsComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.manageIndicatorsService.getIndicators(this.page, this.pageSize, this.sortBy).subscribe(
-      data => {
-        this.isLoading = false;
-        if (data.ok) {
-          const page = data.body;
-          this.totalRowCount = page.totalElements;
-          this.indicatorList = page.content;
-        }
-      });
+
+    const filtersRequest = this.indicatorService.getFilters();
+    const indicatorsRequest = this.manageIndicatorsService.getIndicators(this.page,
+      this.pageSize,
+      this.filters,
+      this.sortBy);
+
+    forkJoin([filtersRequest, indicatorsRequest]).subscribe(results => {
+      const filters = results[0];
+
+      this.processFilters(filters);
+
+      this.isLoading = false;
+      if (results[1].ok) {
+        const page = results[1].body;
+        this.totalRowCount = page.totalElements;
+        this.indicatorList = page.content;
+      }
+    });
   }
 
   sort(event: { key: string; value: string }) {
@@ -57,6 +80,8 @@ export class ManageIndicatorsComponent implements OnInit {
 
   hideCrudModal(event) {
     this.displayCrudModal = !event;
+    this.operation = undefined;
+    this.indicator = undefined;
   }
 
   refreshIndicatorList() {
@@ -64,22 +89,58 @@ export class ManageIndicatorsComponent implements OnInit {
   }
 
   edit(ind: IndicatorDto) {
-    this.operation = Operation.UPDATE;
-    this.displayIndicatorInModal(ind);
+    this.displayIndicatorInModal(Operation.UPDATE, ind);
   }
 
   delete(ind: IndicatorDto) {
-    this.operation = Operation.DELETE;
-    this.displayIndicatorInModal(ind);
+    this.displayIndicatorInModal(Operation.DELETE, ind);
   }
 
   read(ind: IndicatorDto) {
-    this.operation = Operation.READ;
-    this.displayIndicatorInModal(ind);
+    this.displayIndicatorInModal(Operation.READ, ind);
   }
 
-  private displayIndicatorInModal(ind: IndicatorDto) {
+  addFilter(filterKey: string, value: string[]) {
+    this.filters[filterKey] = value;
+  }
+
+  fetchByFilters() {
+    this.search();
+  }
+
+  private processFilters(filters: FilterDto) {
+    if (this.hasFilters) {
+      return;
+    }
+    this.themeFilter = filters.themes.map<FilterData>(processFilter);
+    this.sourceFilter = filters.source.map<FilterData>(processFilter);
+    this.levelFilter = filters.level.map(level => {
+      const filter = new FilterData();
+      filter.text = level.name;
+      filter.value = level.id;
+      return filter;
+    });
+    this.sdgCodeFilter = filters.sdgCode.map<FilterData>(processFilter);
+    this.crsCodeFilter = filters.crsCode.map<FilterData>(processFilter);
+
+    this.hasFilters = true;
+  }
+
+  private displayIndicatorInModal(operation: Operation, ind: IndicatorDto) {
+    this.operation = operation;
     this.indicator = ind;
     this.displayCrudModal = true;
   }
+}
+
+function processFilter(value: string) {
+  const filter = new FilterData();
+  filter.text = value;
+  filter.value = value;
+  return filter;
+}
+
+class FilterData {
+  text: string;
+  value: any;
 }

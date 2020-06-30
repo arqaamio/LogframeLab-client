@@ -4,6 +4,7 @@ export class FilterDto {
   public level: Level[] = [];
   public sdgCode: string[] = [];
   public crsCode: string[] = [];
+  public levelIds: number[] = [];
 }
 
 

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../../services/authentication.service";
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-authenticated-user-menu',

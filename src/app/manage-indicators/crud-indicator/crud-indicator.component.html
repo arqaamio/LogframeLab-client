@@ -1,111 +1,126 @@
-<nz-modal [(nzVisible)]="displayCrudModal" [nzFooter]="footer" nzTitle="Add new indicator">
+<nz-modal [(nzVisible)]="displayCrudModal" [nzFooter]="footer" nzClosable="false"
+          nzTitle="Indicator management" nzWidth="1040px">
   <form nz-form>
-    <nz-form-item [hidden]="isNew()">
-      <nz-form-label [nzSpan]="7" nzFor="id"><label for="id">ID</label></nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [ngModel]="indicator.id" id="id" name="id" [disabled]="true">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="crsCode"><label for="crsCode">Crs code</label>
-      </nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.crsCode" id="crsCode" placeholder="Crs code"
-               name="crsCode" [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="dataSource"><label for="dataSource">Data source</label>
-      </nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.dataSource" id="dataSource" placeholder="Data source"
-               name="dataSource" [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="description"><label for="description">Description</label>
-      </nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.description" id="description" name="description"
-               placeholder="Description" [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <nz-form-label [nzSpan]="7"><label for="disaggregation">Disaggregation</label>
-        </nz-form-label>
-        <nz-form-control [nzSpan]="12">
-          <nz-switch [(ngModel)]="indicator.disaggregation" name="disaggregation"
-                     id="disaggregation"
-                     nzCheckedChildren="true" nzUnCheckedChildren="false"
-                     [disabled]="!(isEditing() || isNew())"></nz-switch>
-        </nz-form-control>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="keywords"><label for="keywords">Keywords</label>
-      </nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.keywords" id="keywords" name="keywords"
-               placeholder="Keywords" [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="name"><label for="name">Name</label></nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.name" id="name" name="name" placeholder="Name"
-               [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="sdgCode"><label for="sdgCode">Sdg code</label>
-      </nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.sdgCode" id="sdgCode" name="sdgCode"
-               placeholder="Sdg code" [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="source"><label for="source">Source</label></nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.source" id="source" name="source"
-               placeholder="Source" [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="sourceVerification"><label for="sourceVerification">Source
-        verification</label></nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.sourceVerification" id="sourceVerification"
-               name="sourceVerification" placeholder="Source verification"
-               [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="themes"><label for="themes">Themes</label></nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input [(ngModel)]="indicator.themes" id="themes" name="themes"
-               placeholder="Themes" [disabled]="!(isEditing() || isNew())">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzFor="level">Level</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <nz-select id="level" name="level" [(ngModel)]="indicator.levelId" nzPlaceHolder="Level"
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <nz-form-item [hidden]="isNew()">
+          <nz-form-label [nzSpan]="7" nzFor="id"><label for="id">ID</label></nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [ngModel]="indicator.id" id="id" name="id" [disabled]="true">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="crsCode"><label for="crsCode">Crs code</label>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.crsCode" id="crsCode" placeholder="Crs code"
+                   name="crsCode" [disabled]="!(isEditing() || isNew())">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="dataSource"><label for="dataSource">Data source</label>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.dataSource" id="dataSource"
+                   placeholder="Data source"
+                   name="dataSource" [disabled]="!(isEditing() || isNew())">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="description"><label
+            for="description">Description</label>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.description" id="description" name="description"
+                   placeholder="Description" [disabled]="!(isEditing() || isNew())">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-form-label [nzSpan]="7"><label for="disaggregation">Disaggregation</label>
+            </nz-form-label>
+            <nz-form-control [nzSpan]="12">
+              <nz-switch [(ngModel)]="indicator.disaggregation" name="disaggregation"
+                         id="disaggregation"
+                         nzCheckedChildren="true" nzUnCheckedChildren="false"
+                         [disabled]="!(isEditing() || isNew())"></nz-switch>
+            </nz-form-control>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="keywords"><label for="keywords">Keywords</label>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.keywords" id="keywords" name="keywords"
+                   placeholder="Keywords" [disabled]="!(isEditing() || isNew())">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="name"><label for="name">Name</label></nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.name" id="name" name="name" placeholder="Name"
                    [disabled]="!(isEditing() || isNew())">
-          <nz-option *ngFor="let level of levels" [nzLabel]="level.name"
-                     [nzValue]="level.id"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="sdgCode"><label for="sdgCode">Sdg code</label>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.sdgCode" id="sdgCode" name="sdgCode"
+                   placeholder="Sdg code" [disabled]="!(isEditing() || isNew())">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="source"><label for="source">Source</label>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.source" id="source" name="source"
+                   placeholder="Source" [disabled]="!(isEditing() || isNew())">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="sourceVerification"><label for="sourceVerification">Source
+            verification</label></nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.sourceVerification" id="sourceVerification"
+                   name="sourceVerification" placeholder="Source verification"
+                   [disabled]="!(isEditing() || isNew())">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="themes"><label for="themes">Themes</label>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <input nz-input [(ngModel)]="indicator.themes" id="themes" name="themes"
+                   placeholder="Themes" [disabled]="!(isEditing() || isNew())">
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzFor="level">Level</nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <nz-select id="level" name="level" [(ngModel)]="indicator.levelId" nzPlaceHolder="Level"
+                       [disabled]="!(isEditing() || isNew())">
+              <nz-option *ngFor="let level of levels" [nzLabel]="level.name"
+                         [nzValue]="level.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
   </form>
 
   <ng-template #footer>
     <button nz-button nzType="link" (click)="reset()" [hidden]="!isNew()">Reset</button>
     <button nz-button nzType="default" (click)="cancel()">Cancel</button>
-    <button nz-button nzType="primary" (click)="createIndicator()" [hidden]="!isNew()">Submit</button>
-    <button nz-button nzType="primary" (click)="deleteIndicator()" [hidden]="!isDeleting()">Delete</button>
-    <button nz-button nzType="primary" (click)="updateIndicator()" [hidden]="!isEditing()">Update</button>
+    <button nz-button nzType="primary" (click)="createIndicator()" [hidden]="!isNew()">Submit
+    </button>
+    <button nz-button nzType="primary" (click)="deleteIndicator()" [hidden]="!isDeleting()">Delete
+    </button>
+    <button nz-button nzType="primary" (click)="updateIndicator()" [hidden]="!isEditing()">Update
+    </button>
   </ng-template>
 
 </nz-modal>

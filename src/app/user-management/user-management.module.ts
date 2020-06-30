@@ -8,9 +8,9 @@ import {
   NzGridModule,
   NzInputModule, NzSelectModule,
   NzTableModule
-} from "ng-zorro-antd";
+} from 'ng-zorro-antd';
 import { AddUserRowComponent } from './add-user-row/add-user-row.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 const routes: Routes = [

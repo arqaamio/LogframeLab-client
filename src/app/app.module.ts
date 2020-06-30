@@ -49,14 +49,20 @@ const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   { path: 'login', component: SigninComponent, canActivate: [AuthGuard]},
   { path: 'signup', component: SignupComponent },
-  { path: '', redirectTo: 'indicator', pathMatch: 'full' },
-  { path: 'indicator', component: IndicatorComponent},
-  { path: 'manage-indicators',
-    loadChildren: () => import('./manage-indicators/manage-indicators.module').then(m => m.ManageIndicatorsModule) },
-  { path: 'user-management',
+  {
+    path: 'manage-indicators',
+    loadChildren: () => import('./manage-indicators/manage-indicators.module').then(m => m.ManageIndicatorsModule)
+  },
+  {
+    path: 'user-management',
     loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'indicators-upload',
+    loadChildren: () => import('./indicators-upload/indicators-upload.module').then(m => m.IndicatorsUploadModule)
+  },
+  { path: '', component: IndicatorComponent},
 ];
 @NgModule({
   declarations: [

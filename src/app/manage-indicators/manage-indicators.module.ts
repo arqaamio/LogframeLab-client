@@ -9,17 +9,19 @@ import {
   NzGridModule, NzInputModule,
   NzModalModule,
   NzSelectModule, NzSwitchModule
-} from "ng-zorro-antd";
-import {CrudIndicatorComponent} from "./crud-indicator/crud-indicator.component";
-import {FormsModule} from "@angular/forms";
+} from 'ng-zorro-antd';
+import {CrudIndicatorComponent} from './crud-indicator/crud-indicator.component';
+import {FormsModule} from '@angular/forms';
+import { ApproveUploadedIndicatorsComponent } from './approve-uploaded-indicators/approve-uploaded-indicators.component';
 
 
 const routes: Routes = [
-  { path: '', component: ManageIndicatorsComponent }
+  { path: '', component: ManageIndicatorsComponent },
+  { path: 'approve-uploaded', component: ApproveUploadedIndicatorsComponent}
 ];
 
 @NgModule({
-  declarations: [ManageIndicatorsComponent, CrudIndicatorComponent],
+  declarations: [ManageIndicatorsComponent, CrudIndicatorComponent, ApproveUploadedIndicatorsComponent],
   imports: [
     FormsModule,
     CommonModule,
