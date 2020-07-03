@@ -5,29 +5,29 @@
       Add Indicator
     </button>
 
-    <button nz-button (click)="fetchByFilters()" nzType="link" nzSize="default">Filter</button>
+    <button nz-button (click)="fetchByFilters()" nzType="link" nzSize="default" style="position: absolute; right: 0;">Filter</button>
   </div>
 
   <nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList"
             [nzFrontPagination]="false"
             [nzLoading]="isLoading" [nzTotal]="totalRowCount"
-            [(nzPageIndex)]="page" [(nzPageSize)]="pageSize" (nzPageSizeChange)="search(true)"
-            (nzPageIndexChange)="search()" nzSize="small" [nzScroll]="{x: '1100px'}">
-    <thead (nzSortChange)="sort($event)">
+            [(nzPageIndex)]="page" [(nzPageSize)]="pageSize" (nzPageSizeChange)="search(true, false)"
+            (nzPageIndexChange)="search(false, false)" nzSize="small">
+    <thead>
     <tr>
-      <th style="width: 1%">ID</th>
-      <th style="width: 2%" nzShowFilter [nzFilters]="crsCodeFilter" (nzFilterChange)="addFilter('crsCode', $event)">Crs Code</th>
-      <th style="width: 10%">Data Source</th>
-      <th style="width: 20%">Description</th>
-      <th style="width: 1%">Disaggregation</th>
-      <th style="width: 15%">Keywords</th>
-      <th style="width: 20%">Name</th>
-      <th style="width: 2%" nzShowFilter [nzFilters]="sdgCodeFilter" (nzFilterChange)="addFilter('sdgCode', $event)">Sdg Code</th>
-      <th style="width: 10%" nzShowFilter [nzFilters]="sourceFilter" (nzFilterChange)="addFilter('source', $event)">Source</th>
-      <th style="width: 2%">Source Verification</th>
-      <th style="width: 15%" nzShowFilter [nzFilters]="themeFilter" (nzFilterChange)="addFilter('themes', $event)">Themes</th>
-      <th style="width: 1%" nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">Level</th>
-      <th style="width: 1%">Actions</th>
+      <th>ID</th>
+      <th nzShowFilter [nzFilters]="crsCodeFilter" (nzFilterChange)="addFilter('crsCode', $event)">Crs Code</th>
+      <th>Data Source</th>
+      <th>Description</th>
+      <th>Disaggregation</th>
+      <th>Keywords</th>
+      <th>Name</th>
+      <th nzShowFilter [nzFilters]="sdgCodeFilter" (nzFilterChange)="addFilter('sdgCode', $event)">Sdg Code</th>
+      <th nzShowFilter [nzFilters]="sourceFilter" (nzFilterChange)="addFilter('source', $event)">Source</th>
+      <th>Source Verification</th>
+      <th nzShowFilter [nzFilters]="themeFilter" (nzFilterChange)="addFilter('themes', $event)">Themes</th>
+      <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">Level</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -45,9 +45,9 @@
       <td>{{ind.themes}}</td>
       <td>{{ind.level.name}}</td>
       <td>
-        <div nz-row>
-          <div><a (click)="edit(ind)">Edit</a></div>
-          <div><a (click)="delete(ind)">Remove</a></div>
+        <div>
+          <div nz-row><a (click)="edit(ind)">Edit</a></div>
+          <div nz-row><a (click)="delete(ind)">Remove</a></div>
         </div>
       </td>
     </tr>

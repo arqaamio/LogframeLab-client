@@ -36,15 +36,13 @@
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-control>
-            <nz-form-label [nzSpan]="7"><label for="disaggregation">Disaggregation</label>
-            </nz-form-label>
-            <nz-form-control [nzSpan]="12">
-              <nz-switch [(ngModel)]="indicator.disaggregation" name="disaggregation"
-                         id="disaggregation"
-                         nzCheckedChildren="true" nzUnCheckedChildren="false"
-                         [disabled]="!(isEditing() || isNew())"></nz-switch>
-            </nz-form-control>
+          <nz-form-label [nzSpan]="7"><label for="disaggregation">Disaggregation</label>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="12">
+            <nz-switch [(ngModel)]="indicator.disaggregation" name="disaggregation"
+                       id="disaggregation"
+                       nzCheckedChildren="true" nzUnCheckedChildren="false"
+                       [disabled]="!(isEditing() || isNew())"></nz-switch>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
