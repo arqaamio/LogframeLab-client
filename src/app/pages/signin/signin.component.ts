@@ -4,11 +4,12 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss']
+  selector: "app-signin",
+  templateUrl: "./signin.component.html",
+  styleUrls: ["./signin.component.scss"],
 })
 export class SigninComponent implements OnInit {
+
   loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) {

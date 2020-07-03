@@ -1,7 +1,15 @@
 .flex-container {
+  position: static;
+ // top: 4.5rem;
+ // left: .0em;
+  width: 100%;
   display: flex;
   align-items: stretch;
   flex-direction: row;
+  background-color: rgba(242, 242, 242, 0.7);
+  border: .25rem dashed #C6C6C5;
+  min-height: 20rem;
+  padding: 16px 0;
 }
 
 .flex-container > div {
@@ -12,4 +20,24 @@
 
 .flex-container nz-select {
   width: 100%;
+}
+.filterText{
+  position: absolute;
+  left: 23rem;
+  top: 6rem;
+  text-transform: uppercase;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.filterIcon {
+  background: #A5C2AE;
+  padding: 12px;
+  border-radius: 1rem;
+  font-size: 4rem;
+  color: #FFFFFF;
+}
+.filterContent {
+  position: relative;
 }

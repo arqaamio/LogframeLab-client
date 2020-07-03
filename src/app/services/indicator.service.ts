@@ -3,7 +3,6 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpRequest,
-  HttpHeaders,
 } from '@angular/common/http';
 
 import { UploadFile } from 'ng-zorro-antd';
@@ -119,6 +118,7 @@ export class IndicatorService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    return errorMessage;
   }
 
   getThemes() {
@@ -131,6 +131,7 @@ export class IndicatorService {
       })
     );
   }
+
   getFilters(): Observable<FilterDto> {
     return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters').pipe(
       catchError((error: HttpErrorResponse) => {

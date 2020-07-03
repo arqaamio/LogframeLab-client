@@ -1,94 +1,112 @@
-<nz-layout class="welcomeLayout">
-  <section class="welcomeSection">
-    <div nz-row class="welcomeMessage">
-      <h3 class=welcomeH3><!--Steps and welcome text added here-->
-        Welcome to Logframe Lab
-      </h3>
-      <hr>
+  <section class="stepSection">
+    <i nz-icon nzType="question" nzTheme="outline" class="stepIcon"></i>
+    <div id="step1" class="stepInfo" *ngIf="current === 0">
+      <p class="stepPara">
+        First, either upload a single Word document here (.doc or .docx) or
+        start from scratch, adding the relevant text. You can use your grant or
+        project funding application file for this purpose. When you have
+        selected the document you wish to upload, or finished typing your text,
+        click Next.
+      </p>
+    </div>
+
+    <div id="step2" class="stepInfo" *ngIf="current === 1">
       <p>
-        Logframe Lab is an open source web application created to help NGOs and community-based organisations match
-        their project ideas with the most relevant metrics for tracking their success. This tool leads you step-by-step
-        through a simple process that results in a formatted, logical framework (logframe) that you can download and use
-        for reporting your progress to your funders.
+        Now select the theme(s) that best apply to the subject of your project.
+        You may select as many themes as you want. Then click Next.
+      </p>
+      <div>
+        <p class="stepPara">
+          Note: If you are unsure which themes are relevant, don’t worry –
+          you’ll be able to add more filters in Step 4.
+        </p>
+      </div>
+    </div>
+    <div id="step3" class="stepInfo" *ngIf="current === 2">
+      <p class="stepPara">
+        Your document is now being uploaded and scanned for appropriate
+        keywords. The green check mark lets you know when your document is done.
+        Then click Next.
+      </p>
+    </div>
+    <div id="step4" class="stepInfo" *ngIf="current === 3">
+      <p>
+        Here are the suggested indicators for you, based on the keywords in your
+        document and the themes selected. Indicators are categorised as Impacts,
+        Outcomes, or Outputs. Select the indicators you want to use to track the
+        success of your project, then click Next.
+      </p>
+      <div>
+        <p class="stepPara">
+          Note: In this step, you can select additional themes or indicators
+          that you wish to include in your logframe.
+        </p>
+      </div>
+    </div>
+    <div id="step5" class="stepInfo" *ngIf="current === 4">
+      <p class="stepPara">
+        Now you can arrange your indicators to note which Outputs belong with
+        which Outcomes, and which Outcomes are assigned to which Impacts. Once
+        you have finished grouping these indicators, click Next.
+      </p>
+    </div>
+    <div id="step6" class="stepInfo" *ngIf="current === 5">
+      <p class="stepPara">
+        Here the indicators have been put into a logframe that you can now
+        download and use for tracking progress on your project – and for
+        reporting to funders.
       </p>
     </div>
   </section>
-</nz-layout>
-<section class =stepSection>
-<div id="step1" class="stepInfo" *ngIf="current ===  0">
-  <p class="stepPara"> First, either upload a single Word document here (.doc or .docx) or start from scratch,
-    adding the relevant text. You can use your grant or project funding application file for this purpose. When you have
-    selected the document you wish to upload, or finished typing your text, click Next.
-  </p>
-</div>
-
-  <div id="step2" class="stepInfo" *ngIf="current ===  1">
-    <p>Now select the theme(s) that best apply to the subject of your project. You may select as many themes as you
-      want.
-      Then click Next.
-    </p>
-    <div>
-      <p class="stepPara">Note: If you are unsure which themes are relevant, don’t worry – you’ll be able to add more filters in Step 4.
-      </p>
+  <div class="content-section">
+    <nz-steps [nzCurrent]="current">
+      <nz-step nzTitle="UPLOAD" nzIcon="folder"></nz-step>
+      <nz-step nzTitle="FILTERS" nzIcon="filter"></nz-step>
+      <nz-step nzTitle="PROGRESS" nzIcon="setting"></nz-step>
+      <nz-step nzTitle="RESULT" nzIcon="bars"></nz-step>
+      <nz-step nzTitle="VISUALISATION" nzIcon="eye"></nz-step>
+      <nz-step nzTitle="DOWNLOAD" nzIcon="download"></nz-step>
+    </nz-steps>
+    <div class="steps-content">
+      <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
+      <app-indicatorfilters *ngIf="current === 1"> </app-indicatorfilters>
+      <app-scandocument *ngIf="current === 2"> </app-scandocument>
+      <app-scanresult *ngIf="current === 3"> </app-scanresult>
+      <app-visualisationresult *ngIf="current === 4"> </app-visualisationresult>
+      <app-downloadresult *ngIf="current === 5"> </app-downloadresult>
+    </div>
+    <div class="steps-action">
+      <button
+        nz-button
+        class="steps-button"
+        nzType="default"
+        (click)="pre()"
+        *ngIf="current > 0"
+      >
+        <span>Previous</span>
+      </button>
+      <!-- Remove [disabled]="!isNext" and hidden]="!isNext" from below button for MX
+          added hidden to hide the button when nothing is uploaded
+     -->
+      <button
+        [disabled]="!isNext"
+        [hidden]="!isNext"
+        nz-button
+        class="steps-button"
+        nzType="default"
+        (click)="next()"
+        *ngIf="current < 5"
+      >
+        <span>Next</span>
+      </button>
+      <button
+        nz-button
+        class="steps-button"
+        nzType="primary"
+        (click)="done()"
+        *ngIf="current === 5"
+      >
+        <span>Done</span>
+      </button>
     </div>
   </div>
-  <div id="step3" class="stepInfo" *ngIf="current ===  2">
-    <p class="stepPara">Your document is now being uploaded and scanned for appropriate keywords. The green check mark lets you know when
-      your document is done. Then click Next.
-    </p>
-  </div>
-  <div id="step4" class="stepInfo" *ngIf="current ===  3">
-    <p >Here are the suggested indicators for you, based on the keywords in your document and the themes selected.
-      Indicators are categorised as Impacts, Outcomes, or Outputs. Select the indicators you want to use to track the
-      success of your project, then click Next.</p>
-    <div>
-      <p class="stepPara" >  Note: In this step, you can select additional themes or indicators that you wish to include in your logframe.
-      </p>
-    </div>
-  </div>
-  <div id="step5" class="stepInfo" *ngIf="current ===  4">
-    <p class="stepPara">Now you can arrange your indicators to note which Outputs belong with which Outcomes, and which Outcomes are
-      assigned to which Impacts. Once you have finished grouping these indicators, click Next.
-    </p>
-  </div>
-  <div id="step6" class="stepInfo" *ngIf="current ===  5">
-    <p class="stepPara">Here the indicators have been put into a logframe that you can now download and use for tracking progress on your
-      project – and for reporting to funders.
-    </p>
-  </div>
-</section>
-<div class="content-section">
-  <nz-steps [nzCurrent]="current">
-    <nz-step nzTitle="SELECT"></nz-step>
-    <nz-step nzTitle="FILTERS"></nz-step>
-    <nz-step nzTitle="PROGRESS"></nz-step>
-    <nz-step nzTitle="RESULT"></nz-step>
-    <nz-step nzTitle="VISUALISATION"></nz-step>
-    <nz-step nzTitle="DOWNLOAD"></nz-step>
-  </nz-steps>
-  <div class="steps-action">
-    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
-      <span>Previous</span>
-    </button>
-    <button
-      [disabled]="!isNext"
-      nz-button
-      nzType="default"
-      (click)="next()"
-      *ngIf="current < 5"
-    >
-      <span>Next</span>
-    </button>
-    <button nz-button nzType="primary" (click)="done()" *ngIf="current === 5">
-      <span>Done</span>
-    </button>
-  </div>
-  <div class="steps-content">
-    <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
-    <app-indicatorfilters *ngIf="current === 1"> </app-indicatorfilters>
-    <app-scandocument *ngIf="current === 2"> </app-scandocument>
-    <app-scanresult *ngIf="current === 3"> </app-scanresult>
-    <app-visualisationresult *ngIf="current === 4"> </app-visualisationresult>
-    <app-downloadresult *ngIf="current === 5"> </app-downloadresult>
-  </div>
-</div>
