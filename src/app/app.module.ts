@@ -8,7 +8,7 @@ import {registerLocaleData} from '@angular/common';
 import en from '@angular/common/locales/en';
 
 import { AppComponent } from './app.component';
-import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -40,6 +40,9 @@ import {ProfileMenuModule} from './profile-menu/profile-menu.module';
 import {AuthGuard} from './utils/auth.guard';
 import {JwtInterceptor} from './utils/auth/jwt.interceptor';
 import {DefaultHeaderInterceptor} from './utils/http/header.interceptor';
+import {NzMenuModule} from 'ng-zorro-antd/menu';
+import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzInputModule} from 'ng-zorro-antd/input';
 
 registerLocaleData(en);
 
@@ -85,7 +88,6 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    NgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -102,6 +104,9 @@ const routes: Routes = [
     NzProgressModule,
     NzAlertModule,
     ProfileMenuModule,
+    NzMenuModule,
+    NzInputModule,
+    NzFormModule,
   ],
   providers: [{provide: NZ_I18N, useValue: en_US},
     {
