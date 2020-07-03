@@ -41,6 +41,8 @@ import {ProfileMenuModule} from "./profile-menu/profile-menu.module";
 import {AuthGuard} from "./utils/auth.guard";
 import {JwtInterceptor} from "./utils/auth/jwt.interceptor";
 import {DefaultHeaderInterceptor} from "./utils/http/header.interceptor";
+import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
+import {rxStompConfig} from './configuration/rxstomp.config'
 
 registerLocaleData(en);
 
@@ -108,6 +110,15 @@ const routes: Routes = [
       provide: HTTP_INTERCEPTORS,
       useClass: DefaultHeaderInterceptor,
       multi: true
+    },
+    {
+      provide: InjectableRxStompConfig,
+      useValue: rxStompConfig
+    },
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory,
+      deps: [InjectableRxStompConfig]
     }
   ],
   bootstrap: [AppComponent],

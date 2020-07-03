@@ -24,7 +24,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
     this.fileList.pop();
     this.fileList = this.fileList.concat(file);
     this.fileName = file.name;
-    this.indicatorService.setFileUplpadList(this.fileList);
+    this.indicatorService.setFileUploadList(this.fileList);
     return false;
   };
 
