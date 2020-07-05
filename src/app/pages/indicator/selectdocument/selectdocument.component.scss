@@ -1,15 +1,20 @@
 .uploadArea{
-    position: absolute;
+    position: relative;
     top: 3rem;
     left: 0rem;
     height: 20rem;
     max-width: 61.5rem;
+    width: auto;
     //border: .25rem dashed #C6C6C5;
 }
 
 ::ng-deep .ant-upload.ant-upload-drag {
     border: none;
 }
+
+::ng-deep .ant-upload.ant-upload-drag .ant-upload {
+    padding: none;
+  }
 /*
 @media only screen and (max-width: 48.5rem) {
     .uploadArea{

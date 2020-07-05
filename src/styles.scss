@@ -15,8 +15,28 @@ app-selectdocument {
 app-indicator {
   display: inline-flex;
 }
-
+@media only screen and (max-width: 44.5rem) {
+  app-indicator  {
+    display: block;
+  }
+ .ant-steps{
+    display:grid;
+  }
+}
 .content-section {
   margin-top: 4rem !important;
 }
 
+.ant-steps{
+  display:block;
+}
+
+.ant-steps-item-container {
+padding-bottom: .5rem;
+}
+
+// @media (max-width: 480px){
+// .ant-steps-horizontal.ant-steps-label-horizontal {
+//     display: block;
+// }
+// }

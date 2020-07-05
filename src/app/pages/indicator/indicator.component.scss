@@ -2,11 +2,11 @@
   position: relative;
   max-width: 61.5rem;
   padding: 10px;
-  width: 984px;
-  //height: 56px;
-  //left: 299px;
-  //top: 155px;
-  border: 2px solid #F2F2F2;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+
+  //border: 2px solid #F2F2F2;
 }
 
 .steps-content {
@@ -55,6 +55,15 @@
 
 color: #FFFFFF;
 }
+
+//contain the results
+::ng-deep .indicatorContent{
+height: 37.5REM;
+overflow: scroll;
+margin-left: auto;
+margin-right: auto;
+}
+
 /*
 //before selection text color
 ::ng-deep .ant-steps-item-custom .ant-steps-item-icon > .ant-steps-icon {
@@ -191,10 +200,11 @@ background-color: #453457;
   box-shadow: .25rem .35rem .1625rem #00000029;
   max-width: 30rem;
   background: #453457;
-  margin-left: 5rem !important;
-  margin-top: 4rem !important;
+  //margin-left: 5rem !important;
+  margin-top: 6rem !important;
   margin-right: 20px !important;
   margin-bottom: 10px;
+  min-width: 12rem;
 }
   /*
   @media only screen and (max-width: 48.5rem) {
