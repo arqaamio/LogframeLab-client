@@ -19,9 +19,9 @@ app-indicator {
   app-indicator  {
     display: block;
   }
- .ant-steps{
-    display:grid;
-  }
+  .ant-steps-horizontal.ant-steps-label-horizontal {
+    display: grid;
+}
 }
 .content-section {
   margin-top: 4rem !important;
