@@ -125,12 +125,12 @@
   <tbody>
     <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
       <tr
-        (click)="selectindicator(data.id)"
-        [class.row-checked]="mapOfCheckedId[data.id]"
+        (click)="selectindicator(data.sort_id)"
+        [class.row-checked]="mapOfCheckedId[data.sort_id]"
       >
         <td
           nzShowCheckbox
-          [(nzChecked)]="mapOfCheckedId[data.id]"
+          [(nzChecked)]="mapOfCheckedId[data.sort_id]"
           (nzCheckedChange)="refreshStatus()"
         ></td>
         <td>

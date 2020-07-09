@@ -16,6 +16,7 @@ interface ItemData {
   numTimes: number;
   keys: Array<string>;
   var: string;
+  sort_id:number;
 }
 
 @Component({
@@ -59,7 +60,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           this.listOfData = data.dataResponse;
           // stor the backend sort
           for(var i=0;i<this.listOfData.length;i++){
-            this.listOfData[i].id = i+1;
+            this.listOfData[i].sort_id = i+1;
           }
           this.displayData = this.listOfData;
           console.log("total:  " + this.displayData.length);
@@ -73,7 +74,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.indicatorSubscription.unsubscribe();
   }
   checkAll(value: boolean): void {
-    this.displayData.forEach((item) => (this.mapOfCheckedId[item.id] = value));
+    this.displayData.forEach((item) => (this.mapOfCheckedId[item.sort_id] = value));
     this.refreshStatus();
   }
   sort(sort: { key: string; value: string }): void {
@@ -90,7 +91,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       if (item.name.toUpperCase().indexOf(this.searchValue.toUpperCase()) !== -1) {
         return true;
       }
-      this.mapOfCheckedId[item.id] = false;
+      this.mapOfCheckedId[item.sort_id] = false;
       return false;
     };
     this.displayData = data.filter((item: ItemData) => filterFunc(item));
@@ -111,12 +112,12 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     }
     // checked sort logic
     this.displayData = this.displayData.sort((a, b) =>
-      this.mapOfCheckedId[b.id] && !this.mapOfCheckedId[a.id] ? 1 : -1
+      this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
     );
     // checked backend sort logic
     this.displayData = this.displayData.sort((a, b) =>
-      this.mapOfCheckedId[b.id] && this.mapOfCheckedId[a.id]
-        ? b.id > a.id
+      this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
+        ? b.sort_id > a.sort_id
           ? -1
           : 1
         : 0
@@ -124,8 +125,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     if (!isColumnSort) {
       // unchecked backend sort logic
       this.displayData = this.displayData.sort((a, b) =>
-        !this.mapOfCheckedId[b.id] && !this.mapOfCheckedId[a.id]
-          ? b.id > a.id
+        !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
+          ? b.sort_id > a.sort_id
             ? -1
             : 1
           : 0
@@ -146,7 +147,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       this.downloadDisabled = true;
       this.isAllDisplayDataChecked = true;
       for (let item of this.displayData) {
-        if (this.mapOfCheckedId[item.id]) {
+        if (this.mapOfCheckedId[item.sort_id]) {
           this.downloadDisabled = false;
           if (item.level === "OUTPUT") {
             this.outputCount++;
@@ -156,7 +157,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.outcomeCount++;
           }
         }
-        if (!this.mapOfCheckedId[item.id]) {
+        if (!this.mapOfCheckedId[item.sort_id]) {
           this.isAllDisplayDataChecked = false;
         }
       }

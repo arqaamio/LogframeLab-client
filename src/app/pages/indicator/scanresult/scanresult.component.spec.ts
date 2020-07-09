@@ -34,26 +34,26 @@ describe('ScanResultComponent', () => {
     it('should filter by indicator\'s name without sorting', (inject([HttpTestingController],
         (httpMock: HttpTestingController) => {
             const expectedResult = [
-                { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' }
+                { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '', sort_id: 1 },
+                { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '', sort_id: 3 },
+                { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '', sort_id: 4 }
             ];
             component.listOfData = [
-                { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+                { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '', sort_id: 1},
+                { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '', sort_id: 2 },
+                { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '', sort_id: 3 },
+                { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '', sort_id: 4 },
+                { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '', sort_id: 5 },
             ];
             component.searchValue = 'search';
-            component.mapOfCheckedId = { '1': false, '3': true, '4': true };
+            component.mapOfCheckedId = { '1': true, '3': true, '4': false };
             component.search();
 
             expect(component.displayData).toEqual(expectedResult);
             expect(component.sortName).toBeNull();
             expect(component.sortValue).toBeNull();
-            expect(component.impactCount).toEqual(0);
-            expect(component.outcomeCount).toEqual(1);
+            expect(component.impactCount).toEqual(1);
+            expect(component.outcomeCount).toEqual(0);
             expect(component.outputCount).toEqual(1);
         })));
 
