@@ -43,7 +43,9 @@ import {JwtInterceptor} from './utils/auth/jwt.interceptor';
 import {DefaultHeaderInterceptor} from './utils/http/header.interceptor';
 import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {NzFormModule} from 'ng-zorro-antd/form';
-import {NzInputModule} from 'ng-zorro-antd/input';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 registerLocaleData(en);
 
@@ -110,6 +112,8 @@ const routes: Routes = [
     NzMenuModule,
     NzInputModule,
     NzFormModule,
+    NzSelectModule,
+    NzSliderModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_US},
     {provide: APP_BASE_HREF, useValue : '/' },
