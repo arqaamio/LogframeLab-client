@@ -1,22 +1,22 @@
 version: '3.5'
 services:
     # To run with the Dockerfile
-    # app:
-    #   container_name: logframelab-client
-    #   build: ./ # Location of our Dockerfile
-    #   volumes:
-    #     - .:/usr/src/app
-    #   ports: 
-    #     - 80:80
-    # To run without Dockerfile
-    nginx:
-      image: nginx:latest
+    app:
       container_name: logframelab-client
-      ports:
+      build: ./ # Location of our Dockerfile
+      # volumes:
+      #   - .:/usr/src/app
+      ports: 
         - 80:80
-      volumes:
-        - ./dist/client:/usr/share/nginx/html
-       # - ./nginx.conf:/etc/nginx/nginx.conf
-       # or
-       # - ./nginx.conf:/etc/nginx/conf.d/default.conf
-       #certificates
+    # To run without Dockerfile
+    # nginx:
+    #   image: nginx:latest
+    #   container_name: logframelab-client
+    #   ports:
+    #     - 80:80
+    #   volumes:
+    #     - ./dist/client:/usr/share/nginx/html
+    #    # - ./nginx.conf:/etc/nginx/nginx.conf
+    #    # or
+    #    # - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    #    #certificates
