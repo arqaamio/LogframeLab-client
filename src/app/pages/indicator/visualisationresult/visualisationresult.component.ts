@@ -1,22 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-visualisationresult',
-  templateUrl: './visualisationresult.component.html',
-  styleUrls: ['./visualisationresult.component.scss']
+  selector: "app-visualisationresult",
+  templateUrl: "./visualisationresult.component.html",
+  styleUrls: ["./visualisationresult.component.scss"],
 })
 export class VisualisationresultComponent implements OnInit, OnDestroy {
+  indicatorSubscribtion: Subscription = null;
 
-  indicatorSubscribtion:Subscription = null;
+  constructor() {}
 
-  constructor(){}
-
-  ngOnInit() {
-
-  }
-  ngOnDestroy(){
-
-  }
-
+  ngOnInit() {}
+  ngOnDestroy() {}
 }

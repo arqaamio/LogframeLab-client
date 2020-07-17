@@ -1,25 +1,63 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture, inject } from '@angular/core/testing';
+import { ScanResultComponent } from './scanresult.component';
+import { CommonModule } from '@angular/common';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { NzMessageModule, NzTableModule, NzSliderModule, NzAlertModule, NzTagModule } from 'ng-zorro-antd';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
-import { ScanresultComponent } from './scanresult.component';
 
-describe('ScanresultComponent', () => {
-  let component: ScanresultComponent;
-  let fixture: ComponentFixture<ScanresultComponent>;
+describe('ScanResultComponent', () => {
+    let component: ScanResultComponent;
+    let element: HTMLElement;
+    let fixture: ComponentFixture<ScanResultComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ScanresultComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async () => {
+        TestBed.configureTestingModule({
+            imports: [BrowserAnimationsModule, CommonModule, FormsModule, HttpClientTestingModule, NzAlertModule, NzSliderModule, NzTableModule, NzTagModule, NzMessageModule],
+            providers: [],
+            declarations: [ScanResultComponent],
+        }).compileComponents();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ScanresultComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ScanResultComponent);
+        component = fixture.componentInstance;
+        element = fixture.nativeElement;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it('should filter by indicator\'s name without sorting', (inject([HttpTestingController],
+        (httpMock: HttpTestingController) => {
+            const expectedResult = [
+                { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+                { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+                { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' }
+            ];
+            component.listOfData = [
+                { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+                { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+                { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+                { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+                { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+            ];
+            component.searchValue = 'search';
+            component.mapOfCheckedId = { '1': false, '3': true, '4': true };
+            component.search();
+
+            expect(component.displayData).toEqual(expectedResult);
+            expect(component.sortName).toBeNull();
+            expect(component.sortValue).toBeNull();
+            expect(component.impactCount).toEqual(0);
+            expect(component.outcomeCount).toEqual(1);
+            expect(component.outputCount).toEqual(1);
+        })));
+
+    // afterEach(() => {
+    //     fixture.destroy();
+    // });
 });

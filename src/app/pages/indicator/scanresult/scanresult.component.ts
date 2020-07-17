@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IndicatorService } from 'src/app/services/indicator.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { IndicatorService } from "src/app/services/indicator.service";
+import { Subscription } from "rxjs";
 
 interface ItemData {
   id: number;
@@ -19,12 +19,12 @@ interface ItemData {
 }
 
 @Component({
-  selector: 'app-scanresult',
-  templateUrl: './scanresult.component.html',
-  styleUrls: ['./scanresult.component.scss'],
+  selector: "app-scanresult",
+  templateUrl: "./scanresult.component.html",
+  styleUrls: ["./scanresult.component.scss"],
 })
-export class ScanresultComponent implements OnInit, OnDestroy {
-  indicatorSubscribtion: Subscription = null;
+export class ScanResultComponent implements OnInit, OnDestroy {
+  indicatorSubscription: Subscription = null;
 
   downloadDisabled = true;
   isAllDisplayDataChecked = false;
@@ -34,7 +34,7 @@ export class ScanresultComponent implements OnInit, OnDestroy {
   displayData: ItemData[] = [];
   sortName: string | null = null;
   sortValue: string | null = null;
-  searchValue = '';
+  searchValue = "";
 
   impactCount = 0;
   outcomeCount = 0;
@@ -43,22 +43,26 @@ export class ScanresultComponent implements OnInit, OnDestroy {
   initData = true;
 
   myOptions = {
-    placement: 'top',
-    trigger: 'hover',
-    theme: 'light',
-    'hide-delay': 0,
+    placement: "top",
+    trigger: "hover",
+    theme: "light",
+    "hide-delay": 0,
   };
 
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit() {
-    this.indicatorSubscribtion = this.indicatorService
+    this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
       .subscribe((data) => {
         if (this.initData && data != null && data.dataResponse != null) {
           this.listOfData = data.dataResponse;
-          this.displayData = data.dataResponse;
-          console.log('total:  ' + this.displayData.length);
+          // stor the backend sort
+          for(var i=0;i<this.listOfData.length;i++){
+            this.listOfData[i].id = i+1;
+          }
+          this.displayData = this.listOfData;
+          console.log("total:  " + this.displayData.length);
           this.initData = false;
         }
         if (data != null && data.selectedData != null)
@@ -66,7 +70,7 @@ export class ScanresultComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
-    this.indicatorSubscribtion.unsubscribe();
+    this.indicatorSubscription.unsubscribe();
   }
   checkAll(value: boolean): void {
     this.displayData.forEach((item) => (this.mapOfCheckedId[item.id] = value));
@@ -83,7 +87,7 @@ export class ScanresultComponent implements OnInit, OnDestroy {
     let data: ItemData[] = this.listOfData;
     // filter by indicator
     const filterFunc = (item: ItemData) => {
-      if (item.name.indexOf(this.searchValue) !== -1) {
+      if (item.name.toUpperCase().indexOf(this.searchValue.toUpperCase()) !== -1) {
         return true;
       }
       this.mapOfCheckedId[item.id] = false;
@@ -91,9 +95,12 @@ export class ScanresultComponent implements OnInit, OnDestroy {
     };
     this.displayData = data.filter((item: ItemData) => filterFunc(item));
     /** sort data **/
+    // sort columns
+    var isColumnSort = false;
     if (this.sortName && this.sortValue) {
+      isColumnSort = true;
       this.displayData = this.displayData.sort((a, b) =>
-        this.sortValue === 'ascend'
+        this.sortValue === "ascend"
           ? a[this.sortName!] > b[this.sortName!]
             ? 1
             : -1
@@ -102,11 +109,34 @@ export class ScanresultComponent implements OnInit, OnDestroy {
           : -1
       );
     }
+    // checked sort logic
+    this.displayData = this.displayData.sort((a, b) =>
+      this.mapOfCheckedId[b.id] && !this.mapOfCheckedId[a.id] ? 1 : -1
+    );
+    // checked backend sort logic
+    this.displayData = this.displayData.sort((a, b) =>
+      this.mapOfCheckedId[b.id] && this.mapOfCheckedId[a.id]
+        ? b.id > a.id
+          ? -1
+          : 1
+        : 0
+    );
+    if (!isColumnSort) {
+      // unchecked backend sort logic
+      this.displayData = this.displayData.sort((a, b) =>
+        !this.mapOfCheckedId[b.id] && !this.mapOfCheckedId[a.id]
+          ? b.id > a.id
+            ? -1
+            : 1
+          : 0
+      );
+    }
     this.refreshStatus();
   }
   selectindicator(id) {
     this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
-    this.refreshStatus();
+    //this.refreshStatus();
+    this.search();
   }
   refreshStatus() {
     this.outputCount = 0;
@@ -118,11 +148,11 @@ export class ScanresultComponent implements OnInit, OnDestroy {
       for (let item of this.displayData) {
         if (this.mapOfCheckedId[item.id]) {
           this.downloadDisabled = false;
-          if (item.level === 'OUTPUT') {
+          if (item.level === "OUTPUT") {
             this.outputCount++;
-          } else if (item.level === 'IMPACT') {
+          } else if (item.level === "IMPACT") {
             this.impactCount++;
-          } else if (item.level === 'OUTCOME') {
+          } else if (item.level === "OUTCOME") {
             this.outcomeCount++;
           }
         }
@@ -137,9 +167,9 @@ export class ScanresultComponent implements OnInit, OnDestroy {
 
   formatCrsCode(code: string): string {
     if (code) {
-      return code.split('.')[0];
+      return code.split(".")[0];
     }
-    return '';
+    return "";
   }
 
   onAfterChange(value: number): void {
