@@ -1,11 +1,12 @@
+
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {registerLocaleData} from '@angular/common';
+import {registerLocaleData, APP_BASE_HREF} from '@angular/common';
 
-import en from '@angular/common/locales/en';
+import en from "@angular/common/locales/en";
 
 import { AppComponent } from './app.component';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
@@ -31,7 +32,7 @@ import {SigninComponent} from './pages/signin/signin.component';
 import {SignupComponent} from './pages/signup/signup.component';
 import {ImprintComponent} from './pages/imprint/imprint.component';
 import {SelectdocumentComponent} from './pages/indicator/selectdocument/selectdocument.component';
-import {ScanresultComponent} from './pages/indicator/scanresult/scanresult.component';
+import {ScanResultComponent} from './pages/indicator/scanresult/scanresult.component';
 import {VisualisationresultComponent} from './pages/indicator/visualisationresult/visualisationresult.component';
 import {DownloadresultComponent} from './pages/indicator/downloadresult/downloadresult.component';
 import {ScanDocumentComponent} from './pages/indicator/scandocument/scandocument.component';
@@ -44,6 +45,7 @@ import {DefaultHeaderInterceptor} from "./utils/http/header.interceptor";
 registerLocaleData(en);
 
 const routes: Routes = [
+
   { path: 'dataprotection', component: DataprotectionComponent },
   { path: 'terms', component: TermsofuseComponent },
   { path: 'imprint', component: ImprintComponent },
@@ -70,7 +72,7 @@ const routes: Routes = [
     SelectdocumentComponent,
     IndicatorfiltersComponent,
     ScanDocumentComponent,
-    ScanresultComponent,
+    ScanResultComponent,
     VisualisationresultComponent,
     DownloadresultComponent,
   ],
@@ -96,6 +98,7 @@ const routes: Routes = [
     ProfileMenuModule,
   ],
   providers: [{provide: NZ_I18N, useValue: en_US},
+    {provide: APP_BASE_HREF, useValue : '/' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
