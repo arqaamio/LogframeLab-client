@@ -4,13 +4,13 @@ import {
   HttpErrorResponse,
   HttpHeaders,
   HttpResponse
-} from "@angular/common/http";
-import {BehaviorSubject, Observable, throwError} from "rxjs";
-import {environment} from "../../environments/environment";
-import {JwtDto} from "./dto/jwt.dto";
-import {catchError, map} from "rxjs/operators";
-import {GroupDto} from "./dto/group.dto";
-import {User} from "../user-management/service/user";
+} from '@angular/common/http';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {environment} from '../../environments/environment';
+import {JwtDto} from './dto/jwt.dto';
+import {catchError, map} from 'rxjs/operators';
+import {GroupDto} from './dto/group.dto';
+import {User} from '../user-management/service/user';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class AuthenticationService {
     return this.http.post<JwtDto>(`${environment.apiBaseUrl}/auth/login`, JSON.stringify({
       username,
       password
-    }),{
+    }), {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
@@ -50,7 +50,7 @@ export class AuthenticationService {
   }
 
   getErrorMessage(error: HttpErrorResponse) {
-    let errorMessage = "";
+    let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
     } else {
@@ -63,7 +63,7 @@ export class AuthenticationService {
   // TODO send logout request to api
   logout(username?: string): void {
     localStorage.removeItem(this.JWT_KEY);
-    this.currentJwtSubject.next(null);
+    this.currentJwtSubject.next(undefined);
 
   }
 

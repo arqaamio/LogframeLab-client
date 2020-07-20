@@ -1,18 +1,18 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { NzMessageService, UploadChangeParam } from "ng-zorro-antd";
-import { IndicatorService } from "src/app/services/indicator.service";
-import { Subscription } from "rxjs";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NzMessageService, UploadChangeParam } from 'ng-zorro-antd';
+import { IndicatorService } from 'src/app/services/indicator.service';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "app-indicator",
-  templateUrl: "./indicator.component.html",
-  styleUrls: ["./indicator.component.scss"],
+  selector: 'app-indicator',
+  templateUrl: './indicator.component.html',
+  styleUrls: ['./indicator.component.scss'],
 })
 export class IndicatorComponent implements OnInit, OnDestroy {
   data = null;
   indicatorSubscribtion: Subscription;
-  current: number = 0;
-  isNext: boolean = false;
+  current = 0;
+  isNext = false;
 
   constructor(
     private msg: NzMessageService,
