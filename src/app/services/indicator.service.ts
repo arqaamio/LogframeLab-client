@@ -1,20 +1,20 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
   HttpRequest,
   HttpResponse,
-} from "@angular/common/http";
+} from '@angular/common/http';
 
-import { UploadFile } from "ng-zorro-antd";
-import { NzMessageService } from "ng-zorro-antd/message";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { environment } from "../../environments/environment";
-import { FilterDto } from "./dto/filter.dto";
+import { UploadFile } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { FilterDto } from './dto/filter.dto';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class IndicatorService {
   private baseUrl = environment.apiBaseUrl;
@@ -66,44 +66,45 @@ export class IndicatorService {
   public getBaseUrl() {
     return this.baseUrl;
   }
+
   public downloadIndicators(indicatorsList, format): Observable<HttpResponse<Blob>> {
     return this.http.post(
       this.baseUrl + "/indicator/download?format=" + format,
       indicatorsList,
-      { responseType: "blob", observe: "response" }
+      { responseType: 'blob', observe: 'response' }
     );
   }
 
   handleUpload() {
    const formData = new FormData();
    formData.append(
-      "filter",
+      'filter',
       new Blob(
         [JSON.stringify(this.filters ? this.filters : new FilterDto())],
-        { type: "application/json" }
+        { type: 'application/json' }
       )
     );
-    const file: any = this.fileList[0];
-    formData.append("file", file);
-    const req = new HttpRequest<any>(
-      "POST",
-      this.baseUrl + "/indicator/upload",
+   const file: any = this.fileList[0];
+   formData.append('file', file);
+   const req = new HttpRequest<any>(
+      'POST',
+      this.baseUrl + '/indicator/upload',
       formData,
       {
         reportProgress: true,
       }
     );
-    return this.http.request(req).pipe(
+   return this.http.request(req).pipe(
       catchError((error: HttpErrorResponse) => {
         const errorMsg = this.getErrorMessage(error);
         console.log(errorMsg);
-        this.msg.error("upload failed.");
+        this.msg.error('upload failed.');
         return throwError(errorMsg);
       })
     );
   }
   getErrorMessage(error: HttpErrorResponse) {
-    let errorMessage = "";
+    let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
       errorMessage = error.error.message;
@@ -115,22 +116,22 @@ export class IndicatorService {
   }
 
   getThemes() {
-    return this.http.get<string[]>(this.baseUrl + "/indicator/themes").pipe(
+    return this.http.get<string[]>(this.baseUrl + '/indicator/themes').pipe(
       catchError((error: HttpErrorResponse) => {
         const errorMsg = this.getErrorMessage(error);
         console.log(errorMsg);
-        this.msg.error("loading themes failed.");
+        this.msg.error('loading themes failed.');
         return throwError(errorMsg);
       })
     );
   }
 
   getFilters(): Observable<FilterDto> {
-    return this.http.get<FilterDto>(this.baseUrl + "/indicator/filters").pipe(
+    return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters').pipe(
       catchError((error: HttpErrorResponse) => {
         const errorMsg = this.getErrorMessage(error);
         console.log(errorMsg);
-        this.msg.error("loading filters failed.");
+        this.msg.error('loading filters failed.');
         return throwError(errorMsg);
       })
     );
