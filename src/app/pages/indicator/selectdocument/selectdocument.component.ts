@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { IndicatorService } from "src/app/services/indicator.service";
-import { NzMessageService, UploadFile } from "ng-zorro-antd";
-import { take, tap } from "rxjs/operators";
-import { Subscription } from "rxjs";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { IndicatorService } from 'src/app/services/indicator.service';
+import { NzMessageService, UploadFile } from 'ng-zorro-antd';
+import { take, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "app-selectdocument",
-  templateUrl: "./selectdocument.component.html",
-  styleUrls: ["./selectdocument.component.scss"],
+  selector: 'app-selectdocument',
+  templateUrl: './selectdocument.component.html',
+  styleUrls: ['./selectdocument.component.scss'],
 })
 export class SelectdocumentComponent implements OnInit, OnDestroy {
   indicatorSubscribtion: Subscription = null;
@@ -26,7 +26,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
     this.fileName = file.name;
     this.indicatorService.setFileUploadList(this.fileList);
     return false;
-  };
+  }
 
   ngOnInit() {
     this.indicatorSubscribtion = this.indicatorService
