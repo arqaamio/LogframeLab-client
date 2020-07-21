@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "testheadless": "ng test --watch=false --browsers=ChromeHeadless"
+    "testheadless": "ng test --watch=false --browsers=ChromeHeadless",
+    "testdocker": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox"
   },
   "private": true,
   "dependencies": {
