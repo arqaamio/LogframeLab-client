@@ -14,9 +14,14 @@ exports.config = {
   ],
   capabilities: {
     chromeOptions: {
-      args: [ "--headless" ]
+      args: [ '--headless',
+      '--disable-gpu',
+      '--window-size=800x600',
+      '--disable-dev-shm-usage',
+      '--no-sandbox'
+      ]
     },
-    browserName: 'chrome'
+    browserName:'ChromeHeadless'
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
