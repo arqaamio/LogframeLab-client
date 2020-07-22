@@ -1,14 +1,15 @@
+
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {registerLocaleData} from '@angular/common';
+import {registerLocaleData, APP_BASE_HREF} from '@angular/common';
 
-import en from '@angular/common/locales/en';
+import en from "@angular/common/locales/en";
 
 import { AppComponent } from './app.component';
-import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -31,19 +32,25 @@ import {SigninComponent} from './pages/signin/signin.component';
 import {SignupComponent} from './pages/signup/signup.component';
 import {ImprintComponent} from './pages/imprint/imprint.component';
 import {SelectdocumentComponent} from './pages/indicator/selectdocument/selectdocument.component';
-import {ScanresultComponent} from './pages/indicator/scanresult/scanresult.component';
+import {ScanResultComponent} from './pages/indicator/scanresult/scanresult.component';
 import {VisualisationresultComponent} from './pages/indicator/visualisationresult/visualisationresult.component';
 import {DownloadresultComponent} from './pages/indicator/downloadresult/downloadresult.component';
 import {ScanDocumentComponent} from './pages/indicator/scandocument/scandocument.component';
 import {DialogComponent} from './dialog/dialog.component';
-import {ProfileMenuModule} from "./profile-menu/profile-menu.module";
-import {AuthGuard} from "./utils/auth.guard";
-import {JwtInterceptor} from "./utils/auth/jwt.interceptor";
-import {DefaultHeaderInterceptor} from "./utils/http/header.interceptor";
+import {ProfileMenuModule} from './profile-menu/profile-menu.module';
+import {AuthGuard} from './utils/auth.guard';
+import {JwtInterceptor} from './utils/auth/jwt.interceptor';
+import {DefaultHeaderInterceptor} from './utils/http/header.interceptor';
+import {NzMenuModule} from 'ng-zorro-antd/menu';
+import {NzFormModule} from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 registerLocaleData(en);
 
 const routes: Routes = [
+
   { path: 'dataprotection', component: DataprotectionComponent },
   { path: 'terms', component: TermsofuseComponent },
   { path: 'imprint', component: ImprintComponent },
@@ -51,10 +58,19 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: '', component: IndicatorComponent, pathMatch: 'full' },
   {
+    path: 'manage-indicators',
+    loadChildren: () => import('./manage-indicators/manage-indicators.module').then(m => m.ManageIndicatorsModule)
+  },
+  {
     path: 'user-management',
     loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'indicators-upload',
+    loadChildren: () => import('./indicators-upload/indicators-upload.module').then(m => m.IndicatorsUploadModule)
+  },
+  { path: '', component: IndicatorComponent},
 ];
 @NgModule({
   declarations: [
@@ -70,14 +86,13 @@ const routes: Routes = [
     SelectdocumentComponent,
     IndicatorfiltersComponent,
     ScanDocumentComponent,
-    ScanresultComponent,
+    ScanResultComponent,
     VisualisationresultComponent,
     DownloadresultComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    NgZorroAntdModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -94,8 +109,14 @@ const routes: Routes = [
     NzProgressModule,
     NzAlertModule,
     ProfileMenuModule,
+    NzMenuModule,
+    NzInputModule,
+    NzFormModule,
+    NzSelectModule,
+    NzSliderModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_US},
+    {provide: APP_BASE_HREF, useValue : '/' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
