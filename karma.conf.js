@@ -40,6 +40,7 @@ module.exports = function (config) {
          ]
       }
     },
+    // to see the results of the tests on Jenkins
     junitReporter:{  
       outputDir:'test-reports',
       // results will be saved as $outputDir/$browserName.xml 
