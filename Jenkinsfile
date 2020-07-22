@@ -13,9 +13,23 @@ pipeline {
         }
 
         stage('Build') {
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'master';
+                }
+            }
             steps {
                 sh 'node node_modules/@angular/cli/bin/ng build --verbose'
 //                sh 'node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
+            }
+        }
+
+        stage('Build') {
+            when {
+                branch: 'master'
+            }
+            steps {
+                sh 'node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
             }
         }
 
@@ -25,28 +39,30 @@ pipeline {
             }
         }
 
-    //     stage('Deploy Dev') {
-    //         input{
-    //             message 'Deploy to dev?'
-    //         }
-    //         steps {
-    //             // sh 'cp -R dist/client /usr/share/nginx/html'
-    //             sh 'docker-compose up --build -d'
-    //         }
-    //     }
+        stage('Deploy Dev') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                input message: 'Deploy to the development environment? (Click "Proceed" to continue)'
+                // sh 'cp -R dist/client /usr/share/nginx/html'
+                sh 'docker-compose up --build -d'
+            }
+        }
         
-    //     stage('Deploy Prod') {
-    //         input{
-    //             message 'Deploy to prod?'
-    //         }
-    //         steps {
-    //             echo 'Building production build'
-    //             sh 'node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
-    //             echo 'Sending the build to the production machine'
-    //             // use ssh to send the compilation files to the EC2
-    //             // sh 'cp -R dist/client /usr/share/nginx/html'
-    //             // sh 'docker-compose up --build -d'
-    //         }
-    //     }
+        stage('Deploy Prod') {
+            when {
+                branch: 'master'
+            }
+            input{
+                message 'Deploy to prod?'
+            }
+            steps {
+                echo 'Sending the build to the production machine'
+                // use ssh to send the compilation files to the EC2
+                // sh 'cp -R dist/client /usr/share/nginx/html'
+                // sh 'docker-compose up --build -d'
+            }
+        }
     }
 }
