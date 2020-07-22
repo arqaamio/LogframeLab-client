@@ -31,31 +31,26 @@ describe('ScanResultComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should filter by indicator\'s name without sorting', (inject([HttpTestingController],
-        (httpMock: HttpTestingController) => {
-            const expectedResult = [
-                { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' }
-            ];
-            component.listOfData = [
-                { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-                { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
-            ];
-            component.searchValue = 'search';
-            component.mapOfCheckedId = { '1': false, '3': true, '4': true };
-            component.search();
+    it('should filter by indicator\'s name without sorting and without selected', (inject([HttpTestingController],(httpMock: HttpTestingController) => {
+        component.listOfData = [
+            { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+            { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+            { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+            { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+            { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', themes: '', source: '', disaggregation: false, crsCode: '', sdgCode: '', numTimes: 0, keys: [], var: '' },
+        ];
+        const expectedResult = [component.listOfData[0], component.listOfData[2], component.listOfData[3]];
+        component.searchValue = 'search';
+        component.mapOfCheckedId = { '1': false, '3': false, '4': false };
+        component.search();
 
-            expect(component.displayData).toEqual(expectedResult);
-            expect(component.sortName).toBeNull();
-            expect(component.sortValue).toBeNull();
-            expect(component.impactCount).toEqual(0);
-            expect(component.outcomeCount).toEqual(1);
-            expect(component.outputCount).toEqual(1);
-        })));
+        expect(component.displayData).toEqual(expectedResult);
+        expect(component.sortName).toBeNull();
+        expect(component.sortValue).toBeNull();
+        expect(component.impactCount).toEqual(0);
+        expect(component.outcomeCount).toEqual(0);
+        expect(component.outputCount).toEqual(0);
+    })));
 
     // afterEach(() => {
     //     fixture.destroy();
