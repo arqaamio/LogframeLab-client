@@ -20,13 +20,13 @@ pipeline {
             }
             steps {
                 sh 'node node_modules/@angular/cli/bin/ng build --verbose'
-//                sh 'node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
+                //                sh 'node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
             }
         }
 
-        stage('Build') {
+        stage('Build Prod') {
             when {
-                branch: 'master'
+                branch 'master'
             }
             steps {
                 sh 'node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
@@ -49,12 +49,12 @@ pipeline {
                 sh 'docker-compose up --build -d'
             }
         }
-        
+
         stage('Deploy Prod') {
             when {
-                branch: 'master'
+                branch 'master'
             }
-            input{
+            input {
                 message 'Deploy to prod?'
             }
             steps {
