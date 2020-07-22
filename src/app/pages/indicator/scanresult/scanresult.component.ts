@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs';
+import Utils from 'src/app/utils/utils';
 
 interface ItemData {
   id: number;
@@ -36,7 +37,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   sortName: string | null = null;
   sortValue: string | null = null;
   searchValue = '';
-
+  sliderMinValue = 0;
+  sliderMaxValue = 0;
   impactCount = 0;
   outcomeCount = 0;
   outputCount = 0;
@@ -66,8 +68,12 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           console.log('total:  ' + this.displayData.length);
           this.initData = false;
         }
-        if (data != null && data.selectedData != null) {
-          this.mapOfCheckedId = data.selectedData;
+        if (data != null) {
+          if(data.selectedData != null)
+            this.mapOfCheckedId = data.selectedData;
+          const result = Utils.findMinAndMaxValue(this.listOfData, "numTimes");
+          this.sliderMinValue = result.minValue;
+          this.sliderMaxValue = result.maxValue;
         }
       });
   }
@@ -173,8 +179,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  onAfterChange(value: number): void {
-    const data: ItemData[] = this.listOfData;
-    this.displayData = data.filter((item: ItemData) => item.numTimes === value);
+  onAfterChange(value: number[]): void {
+    this.displayData = this.listOfData.filter((item: ItemData) => value[0] <= item.numTimes && item.numTimes <= value[1]);
   }
 }
