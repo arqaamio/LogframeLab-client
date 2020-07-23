@@ -3,6 +3,7 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpRequest,
+  HttpResponse,
 } from '@angular/common/http';
 
 import { UploadFile } from 'ng-zorro-antd';
@@ -26,7 +27,7 @@ export class IndicatorService {
   private indicatorSubject = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
-  private nexSubject() {
+  private nextSubject() {
     this.indicatorSubject.next({
       files: this.fileList,
       filters: this.filters,
@@ -42,19 +43,19 @@ export class IndicatorService {
   }
   setSelectedData(selectedData) {
     this.selectedData = selectedData;
-    this.nexSubject();
+    this.nextSubject();
   }
   setFileUplpadList(files: UploadFile[]) {
     this.fileList = files;
-    this.nexSubject();
+    this.nextSubject();
   }
   setFilters(filters: FilterDto) {
     this.filters = filters;
-    this.nexSubject();
+    this.nextSubject();
   }
   setLoadedData(dataResponse: any) {
     this.dataResponse = dataResponse;
-    this.nexSubject();
+    this.nextSubject();
   }
   clearIndicatorSubject() {
     this.indicatorSubject.next(null);
@@ -65,17 +66,10 @@ export class IndicatorService {
   public getBaseUrl() {
     return this.baseUrl;
   }
-  public downloadInidicators(indicatorsList, format) {
-    let param;
-    if (format === 'xlsx') {
-      param = 'format=xlsx';
-    }
-    else {
-      param = 'format=docx';
-    }
 
+  public downloadIndicators(indicatorsList, format): Observable<HttpResponse<Blob>> {
     return this.http.post(
-      this.baseUrl + '/indicator/download?' + param,
+      this.baseUrl + "/indicator/download?format=" + format,
       indicatorsList,
       { responseType: 'blob', observe: 'response' }
     );
