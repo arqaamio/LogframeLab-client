@@ -54,10 +54,8 @@ pipeline {
             when {
                 branch 'master'
             }
-            input {
-                message 'Deploy to prod?'
-            }
             steps {
+                input message: 'Deploy to the production environment? (Click "Proceed" to continue)'
                 echo 'Sending the build to the production machine'
                 // use ssh to send the compilation files to the EC2
                 // sh 'cp -R dist/client /usr/share/nginx/html'
