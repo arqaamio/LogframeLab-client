@@ -1,17 +1,17 @@
-import {Injectable} from "@angular/core";
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
-@Injectable({providedIn: "root"})
+@Injectable({providedIn: 'root'})
 export class DefaultHeaderInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-   /* if (!req.headers.has("Content-Type")) {
+    if (!req.headers.has('Content-Type') && !(req.body instanceof FormData)) {
       req = req.clone({
         setHeaders: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json'
         }
-      })
-    } */
+      });
+    }
     return next.handle(req);
   }
 

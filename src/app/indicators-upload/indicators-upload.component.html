@@ -1,0 +1,39 @@
+<div nz-col nzOffset="5" style="margin-top: 80px;">
+  <div nz-row>
+    <div nz-col nzSpan="7">
+      <a href="assets/indicators_upload_template.xlsx">
+        <div class="ant-upload ant-upload-drag">
+          <div class="ant-upload ant-upload-btn">
+            <div class="ant-upload-drag-container">
+              <p class="ant-upload-drag-icon">
+                <i nz-icon nzType="file-excel"></i>
+              </p>
+              <p class="ant-upload-text">
+                Click to download template for indicators upload
+              </p>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div nz-col nzSpan="2"></div>
+
+    <div nz-col nzSpan="7" style="text-align: center;">
+      <nz-upload nzType="drag" nzMultiple="false" nzAccept=".xlsx,.xls" nzLimit="1"
+                 [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
+                 [nzShowUploadList]="false">
+        <p class="ant-upload-drag-icon">
+          <i nz-icon nzType="inbox"></i>
+        </p>
+        <p class="ant-upload-text">
+          Click or drag indicators file to this area
+        </p>
+      </nz-upload>
+      <button nz-button nzType="primary" [nzLoading]="uploading" (click)="handleUploaded()"
+              [disabled]="fileList.length === 0">
+        {{uploading ? 'Uploading' : 'Upload'}}
+      </button>
+    </div>
+  </div>
+</div>
