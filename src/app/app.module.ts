@@ -34,7 +34,7 @@ import {ImprintComponent} from './pages/imprint/imprint.component';
 import {SelectdocumentComponent} from './pages/indicator/selectdocument/selectdocument.component';
 import {ScanResultComponent} from './pages/indicator/scanresult/scanresult.component';
 import {VisualisationresultComponent} from './pages/indicator/visualisationresult/visualisationresult.component';
-import {DownloadresultComponent} from './pages/indicator/downloadresult/downloadresult.component';
+import {DownloadResultComponent} from './pages/indicator/downloadresult/downloadresult.component';
 import {ScanDocumentComponent} from './pages/indicator/scandocument/scandocument.component';
 import {DialogComponent} from './dialog/dialog.component';
 import {ProfileMenuModule} from './profile-menu/profile-menu.module';
@@ -88,7 +88,7 @@ const routes: Routes = [
     ScanDocumentComponent,
     ScanResultComponent,
     VisualisationresultComponent,
-    DownloadresultComponent,
+    DownloadResultComponent,
   ],
   imports: [
     BrowserModule,
