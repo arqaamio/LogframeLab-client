@@ -33,7 +33,7 @@ export class AuthenticationService {
     return this.http.post<JwtDto>(`${environment.apiBaseUrl}/auth/login`, JSON.stringify({
       username,
       password
-    }), {
+    }),{
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
@@ -50,7 +50,7 @@ export class AuthenticationService {
   }
 
   getErrorMessage(error: HttpErrorResponse) {
-    let errorMessage = '';
+    let errorMessage = "";
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
     } else {

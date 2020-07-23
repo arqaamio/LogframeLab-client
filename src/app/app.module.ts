@@ -6,7 +6,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {registerLocaleData, APP_BASE_HREF} from '@angular/common';
 
-import en from "@angular/common/locales/en";
+import en from '@angular/common/locales/en';
 
 import { AppComponent } from './app.component';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
@@ -41,6 +41,8 @@ import {ProfileMenuModule} from './profile-menu/profile-menu.module';
 import {AuthGuard} from './utils/auth.guard';
 import {JwtInterceptor} from './utils/auth/jwt.interceptor';
 import {DefaultHeaderInterceptor} from './utils/http/header.interceptor';
+import {ResponseJwtInterceptor} from './utils/auth/response-jwt.interceptor';
+import {InvalidJwtInterceptor} from './utils/auth/invalid-jwt.interceptor';
 import {NzMenuModule} from 'ng-zorro-antd/menu';
 import {NzFormModule} from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -125,6 +127,16 @@ const routes: Routes = [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: DefaultHeaderInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseJwtInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InvalidJwtInterceptor,
       multi: true
     }
   ],
