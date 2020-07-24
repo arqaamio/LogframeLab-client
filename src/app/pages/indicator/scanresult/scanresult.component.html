@@ -69,8 +69,8 @@
     <nz-table
       #dynamicTable
       [nzData]="displayData"
-      [nzPageSize]="10"
-      [nzScroll]="{ y: '300px' }"
+      [nzPageSize]="displayData.length"
+      [nzScroll]="{ y: '1000px' }"
       nzShowPagination="false"
       nzShowSizeChanger="false"
       nzSize="middle"
