@@ -10,6 +10,6 @@ FROM nginx:latest as prod-stage
 COPY ./dist/client /usr/share/nginx/html
 #COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./cert/ /etc/nginx
+COPY ./cert/ /etc/nginx/cert
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
