@@ -4,6 +4,8 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NzIconModule} from 'ng-zorro-antd/icon';
+
 import {registerLocaleData, APP_BASE_HREF} from '@angular/common';
 
 import en from "@angular/common/locales/en";
@@ -113,7 +115,8 @@ const routes: Routes = [
     NzInputModule,
     NzFormModule,
     NzSelectModule,
-    NzSliderModule
+    NzSliderModule,
+    NzIconModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_US},
     {provide: APP_BASE_HREF, useValue : '/' },
