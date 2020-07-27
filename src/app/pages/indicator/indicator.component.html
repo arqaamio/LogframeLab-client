@@ -1,112 +1,215 @@
-  <section class="stepSection">
-    <i nz-icon nzType="question" nzTheme="outline" class="stepIcon"></i>
-    <div id="step1" class="stepInfo" *ngIf="current === 0">
-      <p class="stepPara">
-        First, either upload a single Word document here (.doc or .docx) or
-        start from scratch, adding the relevant text. You can use your grant or
-        project funding application file for this purpose. When you have
-        selected the document you wish to upload, or finished typing your text,
-        click Next.
-      </p>
-    </div>
-
-    <div id="step2" class="stepInfo" *ngIf="current === 1">
-      <p>
-        Now select the theme(s) that best apply to the subject of your project.
-        You may select as many themes as you want. Then click Next.
-      </p>
-      <div>
-        <p class="stepPara">
-          Note: If you are unsure which themes are relevant, don’t worry –
-          you’ll be able to add more filters in Step 4.
+<section class="stepSection">
+  <div id="step1" *ngIf="current === 0">
+    <button
+      nz-button
+      nzType="question"
+      nz-popover
+      nzPopoverTitle="Step 1"
+      [(nzPopoverVisible)]="visible"
+      (nzPopoverVisibleChange)="change($event)"
+      nzPopoverTrigger="click"
+      [nzPopoverContent]="contentTemplate"
+      class="stepIcon"
+    >
+      ?
+    </button>
+    <ng-template #contentTemplate>
+      <div class="stepInfo">
+        <p>
+          First, either upload a single Word document here (.doc or .docx) or
+          start from scratch, adding the relevant text. You can use your grant
+          or project funding application file for this purpose. When you have
+          selected the document you wish to upload, or finished typing your
+          text, click Next.
         </p>
       </div>
-    </div>
-    <div id="step3" class="stepInfo" *ngIf="current === 2">
-      <p class="stepPara">
-        Your document is now being uploaded and scanned for appropriate
-        keywords. The green check mark lets you know when your document is done.
-        Then click Next.
-      </p>
-    </div>
-    <div id="step4" class="stepInfo" *ngIf="current === 3">
-      <p>
-        Here are the suggested indicators for you, based on the keywords in your
-        document and the themes selected. Indicators are categorised as Impacts,
-        Outcomes, or Outputs. Select the indicators you want to use to track the
-        success of your project, then click Next.
-      </p>
-      <div>
-        <p class="stepPara">
+      <a (click)="clickClose()">Close</a>
+    </ng-template>
+  </div>
+
+  <div id="step2" *ngIf="current === 1">
+    <button
+      nz-button
+      nzType="question"
+      nz-popover
+      nzPopoverTitle="Step 2"
+      [(nzPopoverVisible)]="visible"
+      (nzPopoverVisibleChange)="change($event)"
+      nzPopoverTrigger="click"
+      [nzPopoverContent]="contentTemplate"
+      class="stepIcon"
+    >
+      ?
+    </button>
+    <ng-template #contentTemplate>
+      <div class="stepInfo">
+        <p>
+          Now select the theme(s) that best apply to the subject of your
+          project. You may select as many themes as you want. Then click Next.
+        </p>
+      </div>
+      <a (click)="clickClose()">Close</a>
+    </ng-template>
+  </div>
+
+  <div id="step3" *ngIf="current === 2">
+    <button
+      nz-button
+      nzType="question"
+      nz-popover
+      nzPopoverTitle="Step 3"
+      [(nzPopoverVisible)]="visible"
+      (nzPopoverVisibleChange)="change($event)"
+      nzPopoverTrigger="click"
+      [nzPopoverContent]="contentTemplate"
+      class="stepIcon"
+    >
+      ?
+    </button>
+    <ng-template #contentTemplate>
+      <div class="stepInfo">
+        <p>
+          Your document is now being uploaded and scanned for appropriate
+          keywords. The green check mark lets you know when your document is
+          done. Then click Next.
+        </p>
+      </div>
+      <a (click)="clickClose()">Close</a>
+    </ng-template>
+  </div>
+
+  <div id="step4" *ngIf="current === 3">
+    <button
+      nz-button
+      nzType="question"
+      nz-popover
+      nzPopoverTitle="Step 4"
+      [(nzPopoverVisible)]="visible"
+      (nzPopoverVisibleChange)="change($event)"
+      nzPopoverTrigger="click"
+      [nzPopoverContent]="contentTemplate"
+      class="stepIcon"
+    >
+      ?
+    </button>
+    <ng-template #contentTemplate>
+      <div class="step4Info">
+        <p>
+          Here are the suggested indicators for you, based on the keywords in
+          your document and the themes selected. Indicators are categorised as
+          Impacts, Outcomes, or Outputs. Select the indicators you want to use
+          to track the success of your project, then click Next.
+        </p>
+        <p>
           Note: In this step, you can select additional themes or indicators
           that you wish to include in your logframe.
         </p>
       </div>
-    </div>
-    <div id="step5" class="stepInfo" *ngIf="current === 4">
-      <p class="stepPara">
-        Now you can arrange your indicators to note which Outputs belong with
-        which Outcomes, and which Outcomes are assigned to which Impacts. Once
-        you have finished grouping these indicators, click Next.
-      </p>
-    </div>
-    <div id="step6" class="stepInfo" *ngIf="current === 5">
-      <p class="stepPara">
-        Here the indicators have been put into a logframe that you can now
-        download and use for tracking progress on your project – and for
-        reporting to funders.
-      </p>
-    </div>
-  </section>
-  <div class="content-section">
-    <nz-steps [nzCurrent]="current">
-      <nz-step nzTitle="UPLOAD" nzIcon="folder"></nz-step>
-      <nz-step nzTitle="FILTERS" nzIcon="filter"></nz-step>
-      <nz-step nzTitle="PROGRESS" nzIcon="setting"></nz-step>
-      <nz-step nzTitle="RESULT" nzIcon="bars"></nz-step>
-      <nz-step nzTitle="VISUALISATION" nzIcon="eye"></nz-step>
-      <nz-step nzTitle="DOWNLOAD" nzIcon="download"></nz-step>
-    </nz-steps>
-    <div class="steps-content">
-      <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
-      <app-indicatorfilters *ngIf="current === 1"> </app-indicatorfilters>
-      <app-scandocument *ngIf="current === 2"> </app-scandocument>
-      <app-scanresult *ngIf="current === 3"> </app-scanresult>
-      <app-visualisationresult *ngIf="current === 4"> </app-visualisationresult>
-      <app-downloadresult *ngIf="current === 5"> </app-downloadresult>
-    </div>
-    <div class="steps-action">
-      <button
-        nz-button
-        class="steps-button"
-        nzType="default"
-        (click)="pre()"
-        *ngIf="current > 0"
-      >
-        <span>Previous</span>
-      </button>
-      <!-- Remove [disabled]="!isNext" and hidden]="!isNext" from below button for MX
+      <a (click)="clickClose()">Close</a>
+    </ng-template>
+  </div>
+
+  <div id="step5" *ngIf="current === 4">
+    <button
+      nz-button
+      nzType="question"
+      nz-popover
+      nzPopoverTitle="Step 5"
+      [(nzPopoverVisible)]="visible"
+      (nzPopoverVisibleChange)="change($event)"
+      nzPopoverTrigger="click"
+      [nzPopoverContent]="contentTemplate"
+      class="stepIcon"
+    >
+      ?
+    </button>
+    <ng-template #contentTemplate>
+      <div class="stepInfo">
+        <p>
+          Now you can arrange your indicators to note which Outputs belong with
+          which Outcomes, and which Outcomes are assigned to which Impacts. Once
+          you have finished grouping these indicators, click Next.
+        </p>
+      </div>
+      <a (click)="clickClose()">Close</a>
+    </ng-template>
+  </div>
+
+  <div id="step6" *ngIf="current === 5">
+    <button
+      nz-button
+      nzType="question"
+      nz-popover
+      nzPopoverTitle="Step 6"
+      [(nzPopoverVisible)]="visible"
+      (nzPopoverVisibleChange)="change($event)"
+      nzPopoverTrigger="click"
+      [nzPopoverContent]="contentTemplate"
+      class="stepIcon"
+    >
+      ?
+    </button>
+    <ng-template #contentTemplate>
+      <div class="stepInfo">
+        <p>
+          Here the indicators have been put into a logframe that you can now
+          download and use for tracking progress on your project – and for
+          reporting to funders.
+        </p>
+      </div>
+      <a (click)="clickClose()">Close</a>
+    </ng-template>
+  </div>
+</section>
+<div class="content-section">
+  <nz-steps [nzCurrent]="current">
+    <nz-step nzTitle="UPLOAD" nzIcon="folder"></nz-step>
+    <nz-step nzTitle="FILTERS" nzIcon="filter"></nz-step>
+    <nz-step nzTitle="PROGRESS" nzIcon="setting"></nz-step>
+    <nz-step nzTitle="RESULT" nzIcon="bars"></nz-step>
+    <nz-step nzTitle="VISUALISATION" nzIcon="eye"></nz-step>
+    <nz-step nzTitle="DOWNLOAD" nzIcon="download"></nz-step>
+  </nz-steps>
+  <div class="steps-content">
+    <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
+    <app-indicatorfilters *ngIf="current === 1"> </app-indicatorfilters>
+    <app-scandocument *ngIf="current === 2"> </app-scandocument>
+    <app-scanresult *ngIf="current === 3"> </app-scanresult>
+    <app-visualisationresult *ngIf="current === 4"> </app-visualisationresult>
+    <app-downloadresult *ngIf="current === 5"> </app-downloadresult>
+  </div>
+  <div class="steps-action">
+    <button
+      nz-button
+      class="steps-button"
+      nzType="default"
+      (click)="pre()"
+      *ngIf="current > 0"
+    >
+      <span>Previous</span>
+    </button>
+    <!-- Remove [disabled]="!isNext" and hidden]="!isNext" from below button for MX
           added hidden to hide the button when nothing is uploaded
      -->
-      <button
-        [disabled]="!isNext"
-        [hidden]="!isNext"
-        nz-button
-        class="steps-button"
-        nzType="default"
-        (click)="next()"
-        *ngIf="current < 5"
-      >
-        <span>Next</span>
-      </button>
-      <button
-        nz-button
-        class="steps-button"
-        nzType="primary"
-        (click)="done()"
-        *ngIf="current === 5"
-      >
-        <span>Done</span>
-      </button>
-    </div>
+    <button
+      [disabled]="!isNext"
+      [hidden]="!isNext"
+      nz-button
+      class="steps-button"
+      nzType="default"
+      (click)="next()"
+      *ngIf="current < 5"
+    >
+      <span>Next</span>
+    </button>
+    <button
+      nz-button
+      class="steps-button"
+      nzType="primary"
+      (click)="done()"
+      *ngIf="current === 5"
+    >
+      <span>Done</span>
+    </button>
   </div>
+</div>

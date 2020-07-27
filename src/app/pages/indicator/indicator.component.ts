@@ -13,6 +13,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   indicatorSubscribtion: Subscription;
   current = 0;
   isNext = false;
+  visible: boolean = false;
 
   constructor(
     private msg: NzMessageService,
@@ -31,24 +32,20 @@ export class IndicatorComponent implements OnInit, OnDestroy {
    * Enables or disables the next button
    */
   stepsValidation(): void {
-    this.isNext = (this.current === 0 &&
-      this.data != null &&
-      this.data.files != null &&
-      this.data.files.length > 0) ||
-      
-      (this.current === 1 || this.current === 4) ||
-      
+    this.isNext =
+      (this.current === 0 &&
+        this.data != null &&
+        this.data.files != null &&
+        this.data.files.length > 0) ||
+      this.current === 1 ||
+      this.current === 4 ||
       (this.current === 2 &&
         this.data != null &&
-        this.data.dataResponse != null
-      ) ||
-
-      (
-        this.current === 3 &&
+        this.data.dataResponse != null) ||
+      (this.current === 3 &&
         this.data != null &&
         this.data.selectedData != null &&
-        Object.keys(this.data.selectedData).length > 0
-      );
+        Object.keys(this.data.selectedData).length > 0);
   }
 
   pre(): void {
@@ -65,5 +62,13 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.indicatorSubscribtion.unsubscribe();
+  }
+
+  clickClose(): void {
+    this.visible = false;
+  }
+
+  change(value: boolean): void {
+    console.log(value);
   }
 }
