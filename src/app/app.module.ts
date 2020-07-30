@@ -29,7 +29,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { IndicatorComponent } from './pages/indicator/indicator.component';
 import { TermsofuseComponent } from './pages/termsofuse/termsofuse.component';
 import { DataprotectionComponent } from './pages/dataprotection/dataprotection.component';
-import { IndicatorfiltersComponent } from './pages/indicator/indicatorfilters/indicatorfilters.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ImprintComponent } from './pages/imprint/imprint.component';
@@ -37,7 +36,6 @@ import { SelectdocumentComponent } from './pages/indicator/selectdocument/select
 import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.component';
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
-import { ScanDocumentComponent } from './pages/indicator/scandocument/scandocument.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { AuthGuard } from './utils/auth.guard';
@@ -94,8 +92,6 @@ const routes: Routes = [
     SignupComponent,
     ImprintComponent,
     SelectdocumentComponent,
-    IndicatorfiltersComponent,
-    ScanDocumentComponent,
     ScanResultComponent,
     VisualisationresultComponent,
     DownloadResultComponent,

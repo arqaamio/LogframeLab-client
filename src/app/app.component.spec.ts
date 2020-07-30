@@ -8,15 +8,25 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { IndicatorComponent } from './pages/indicator/indicator.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgZorroAntdModule, NzLayoutModule, NzGridModule, NzUploadModule, NzMessageModule, NzListModule, NzTagModule, NzButtonModule, NzTableModule, NzStepsModule, NzProgressModule, NzAlertModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzListModule } from 'ng-zorro-antd';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './dialog/dialog.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SelectdocumentComponent } from './pages/indicator/selectdocument/selectdocument.component';
-import { IndicatorfiltersComponent } from './pages/indicator/indicatorfilters/indicatorfilters.component';
-import { ScanDocumentComponent } from './pages/indicator/scandocument/scandocument.component';
 import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.component';
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
@@ -71,8 +81,6 @@ describe('AppComponent', () => {
         SignupComponent,
         ImprintComponent,
         SelectdocumentComponent,
-        IndicatorfiltersComponent,
-        ScanDocumentComponent,
         ScanResultComponent,
         VisualisationresultComponent,
         DownloadResultComponent,

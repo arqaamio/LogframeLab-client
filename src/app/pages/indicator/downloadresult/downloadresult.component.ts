@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs/internal/Subscription';
 
 interface ItemData {
   id: number;

@@ -1,4 +1,91 @@
 <div class="uploadArea">
+    <div class="flex-container" *ngIf='progress==0'>
+      <div>
+        <label>Themes:</label><br />
+        <nz-select
+          nzMode="multiple"
+          (ngModelChange)="onChangeFilter('themes', $event)"
+          nzPlaceHolder="Filter by themes"
+          [(ngModel)]="selectedValues.themes"
+        >
+          <nz-option
+            *ngFor="let option of filterOptions.themes"
+            [nzLabel]="option"
+            [nzValue]="option"
+            [nzHide]="!isNotSelected('themes', option)"
+          ></nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <label>Sources:</label><br />
+        <nz-select
+          nzMode="multiple"
+          nzPlaceHolder="Filter by sources"
+          [(ngModel)]="selectedValues.source"
+          (ngModelChange)="onChangeFilter('source', $event)"
+        >
+          <nz-option
+            *ngFor="let option of filterOptions.source"
+            [nzLabel]="option"
+            [nzValue]="option"
+            [nzHide]="!isNotSelected('source', option)"
+          ></nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <label>SDGs:</label><br />
+        <nz-select
+          nzMode="multiple"
+          nzPlaceHolder="Filter by SDGs"
+          [(ngModel)]="selectedValues.sdgCode"
+          (ngModelChange)="onChangeFilter('sdgCode', $event)"
+        >
+          <nz-option
+            *ngFor="let option of filterOptions.sdgCode"
+            [nzLabel]="option"
+            [nzValue]="option"
+            [nzHide]="!isNotSelected('sdgCode', option)"
+          ></nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <label>Levels:</label><br />
+        <nz-select
+          nzMode="multiple"
+          nzPlaceHolder="Filter by levels"
+          [(ngModel)]="selectedValues.level"
+          (ngModelChange)="onChangeFilter('level', $event)"
+          [compareWith]="compare"
+        >
+          <nz-option
+            *ngFor="let option of filterOptions.level"
+            [nzLabel]="option.name"
+            [nzValue]="option"
+            [nzHide]="!isNotSelected('level', option)"
+          ></nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <label>DACs:</label><br />
+        <nz-select
+          nzMode="multiple"
+          nzPlaceHolder="Filter by DACs"
+          [(ngModel)]="selectedValues.crsCode"
+          (ngModelChange)="onChangeFilter('crsCode', $event)"
+        >
+          <nz-option
+            *ngFor="let option of filterOptions.crsCode"
+            [nzLabel]="option"
+            [nzValue]="option"
+            [nzHide]="!isNotSelected('crsCode', option)"
+          ></nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <label>Frequency of Keywords:</label><br />
+        <nz-slider [nzTooltipVisible]="'default'"></nz-slider>
+      </div>
+  </div>
   <nz-upload
   nzType="drag"
   [nzMultiple]="false"
@@ -6,12 +93,13 @@
   [nzLimit]="1"
   [nzSize]="25000"
   [(nzFileList)]="fileList"
-  [nzBeforeUpload]="beforeUpload"
   [nzShowUploadList]="false"
+  [nzCustomRequest]="uploadAndScan"
+  [nzDisabled]="!fileScanned"
 >
-  <div class="uploadText">
+  <div class="uploadText" *ngIf='progress==0'>
     <i class = "uploadIcon" nz-icon nzType="folder" nzTheme="outline"></i>
-    <p class="ant-upload-text">Click to this area to upload</p><!--Removed from end: "Word document"-->
+    <p class="ant-upload-text">Click to this area to upload</p>
     <p class="ant-upload-hint">
       Support for a single word file upload.
     </p>
@@ -25,6 +113,10 @@
       </p>
     </div>
   </div>
-
+  <div *ngIf="progress!=0">
+    <h2>{{uploadStateTitle}}</h2>
+    <nz-progress [nzPercent]="progress" nzType="circle" [nzWidth]="150">
+    </nz-progress>
+  </div>
 </nz-upload>
 </div>

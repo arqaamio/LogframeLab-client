@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { IndicatorService } from 'src/app/services/indicator.service';
 
 @Component({
   selector: "app-visualisationresult",
@@ -7,9 +7,10 @@ import { Subscription } from "rxjs";
   styleUrls: ["./visualisationresult.component.scss"],
 })
 export class VisualisationresultComponent implements OnInit, OnDestroy {
-  indicatorSubscribtion: Subscription = null;
 
-  constructor() {}
+  constructor(private indicatorService: IndicatorService) {
+    this.indicatorService.updateNextButton(true);
+  }
 
   ngOnInit() {}
   ngOnDestroy() {}
