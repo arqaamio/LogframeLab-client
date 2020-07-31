@@ -20,7 +20,7 @@ export const DONE_TITLE: string = 'Done';
 })
 export class ScanDocumentComponent implements OnInit, OnDestroy {
   indicatorSubscription: Subscription = null;
-
+  stompSubscription: Subscription = null;
   files: UploadFile[] = null;
   progress: number = 0;
   stepTitle = UPLOADING_TITLE;
@@ -32,12 +32,17 @@ export class ScanDocumentComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.rxStompService.activate();
+
     this.indicatorService.setSelectedData(null);
     this.indicatorService.setLoadedData(null);
-
-    this.rxStompService.watch(WEBSOCKET_BROKER_URL).subscribe((message) => {
-      this.progress = JSON.parse(message.body).value;
-    });
+    
+    //TODO: remove timeout in its new major release https://github.com/stomp-js/ng2-stompjs/issues/198
+    setTimeout(()=> {
+      this.stompSubscription = this.rxStompService.watch(WEBSOCKET_BROKER_URL).subscribe((message) => {
+        this.progress = JSON.parse(message.body).value;
+      });
+    }, 1000);
 
     this.indicatorSubscription = this.indicatorService
       .handleUpload()
@@ -69,6 +74,7 @@ export class ScanDocumentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
+    this.stompSubscription.unsubscribe();
     this.rxStompService.deactivate();
   }
 }
