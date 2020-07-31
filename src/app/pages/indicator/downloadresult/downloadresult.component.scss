@@ -1,0 +1,18 @@
+div {
+    flex-direction: row;
+    display: inline-flex;
+    margin: 50px;
+    min-height: 300px;
+}
+
+a {
+    display: inline-block;
+    text-align: center;
+    min-height: 300px;
+    margin-top: 20px;
+}
+
+#downloadExcel {
+    margin-left: 40px;
+    margin-right: 40px;
+}

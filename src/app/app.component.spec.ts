@@ -19,7 +19,7 @@ import { IndicatorfiltersComponent } from './pages/indicator/indicatorfilters/in
 import { ScanDocumentComponent } from './pages/indicator/scandocument/scandocument.component';
 import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.component';
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
-import { DownloadresultComponent } from './pages/indicator/downloadresult/downloadresult.component';
+import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { AuthGuard } from './utils/auth.guard';
 
@@ -75,7 +75,7 @@ describe('AppComponent', () => {
         ScanDocumentComponent,
         ScanResultComponent,
         VisualisationresultComponent,
-        DownloadresultComponent,
+        DownloadResultComponent,
       ],
     }).compileComponents();
   }));
