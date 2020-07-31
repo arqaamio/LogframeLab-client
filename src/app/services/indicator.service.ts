@@ -7,7 +7,9 @@ import {
 } from '@angular/common/http';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { BehaviorSubject, Observable, throwError, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Observable } from 'rxjs/internal/Observable';
+import { throwError } from 'rxjs/internal/observable/throwError';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
@@ -156,17 +158,6 @@ export class IndicatorService {
     return errorMessage;
   }
 
-  getThemes() {
-    return this.http.get<string[]>(this.baseUrl + '/indicator/themes').pipe(
-      catchError((error: HttpErrorResponse) => {
-        const errorMsg = this.getErrorMessage(error);
-        console.log(errorMsg);
-        this.msg.error('loading themes failed.');
-        return throwError(errorMsg);
-      })
-    );
-  }
-
   getFilters(): Observable<FilterDto> {
     return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters').pipe(
       catchError((error: HttpErrorResponse) => {
@@ -193,7 +184,7 @@ export class IndicatorService {
       });
 
       filtersDto.level.forEach(element => {
-        args+='levels='+element+'&';
+        args+='levels='+element.id+'&';
       });
       
       filtersDto.sdgCode.forEach(element => {

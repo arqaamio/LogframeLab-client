@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/internal/Subscription';
 import Utils from 'src/app/utils/utils';
 import { IndicatorResponse } from 'src/app/models/indicatorresponse.model';
 import { FilterData } from 'src/app/services/dto/filter-data.dto';
@@ -78,48 +78,47 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         let isNewInfo = data==null ? true : data.isNewInfo;  
         // show keyword column if document was uploaded
         this.showKeywordCol = data != null && data.dataResponse != null;
-        
-        // with document
-        if (isNewInfo && data != null && data.dataResponse != null) {
-          this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
-          this.indicatorService.setLoadedData(this.listOfData);
-          this.displayData = this.listOfData;
-  
-          const result = Utils.findMinAndMaxValue(data.dataResponse, 'numTimes');
-          this.sliderMinValue = result.minValue;
-          this.sliderMaxValue = result.maxValue;
-          this.showLoading = false;
-        }
+        if(data!=null){
+          // with document
+          if (isNewInfo && data.dataResponse != null) {
+            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+            this.indicatorService.setLoadedData(this.listOfData);
+            this.displayData = this.listOfData;
+    
+            const result = Utils.findMinAndMaxValue(data.dataResponse, 'numTimes');
+            this.sliderMinValue = result.minValue;
+            this.sliderMaxValue = result.maxValue;
+            this.showLoading = false;
+          }
 
-        // without document
-        if (isNewInfo && data.dataResponse == null){
-          this.indicatorService.getIndicators(data.filters).subscribe((response) => {
-            
-            if(response != null && response.length > 0) {
-              this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+          // without document
+          if (isNewInfo && data.dataResponse == null){
+            this.indicatorService.getIndicators(data.filters).subscribe((response) => {
               
-              this.indicatorService.setLoadedData(this.listOfData);
-              this.displayData = this.listOfData;
-              this.sliderMinValue = this.sliderMaxValue = 1;
-              this.showLoading = false;
-            }
-          });
-        }
+              if(response != null && response.length > 0) {
+                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+                
+                this.indicatorService.setLoadedData(this.listOfData);
+                this.displayData = this.listOfData;
+                this.sliderMinValue = this.sliderMaxValue = 1;
+                this.showLoading = false;
+              }
+            });
+          }
 
-        // without changes in the filters or documents
-        if(!data.isNewInfo && data != null && data.dataResponse != null){
-          this.listOfData = data.dataResponse;
-          this.displayData = this.listOfData;
-          this.mapOfCheckedId = data.selectedData;
-          this.showLoading = false;
-        }
-        if(this.listOfData!=null){
-          let mapLevels: Map<String, FilterData> = new Map();
-          let mapSource: Map<String, FilterData> = new Map();
-          let mapSDGCode: Map<String, FilterData> = new Map();
-          let mapCRSCode: Map<String, FilterData> = new Map();
-          let mapThemes: Map<String, FilterData> = new Map();
-          let mapDisag: Map<String, FilterData> = new Map();
+          // without changes in the filters or documents
+          if(!data.isNewInf && data.dataResponse != null){
+            this.listOfData = data.dataResponse;
+            this.displayData = this.listOfData;
+            this.mapOfCheckedId = data.selectedData;
+            this.showLoading = false;
+          }
+          let mapLevels: Map<string, FilterData> = new Map();
+          let mapSource: Map<string, FilterData> = new Map();
+          let mapSDGCode: Map<string, FilterData> = new Map();
+          let mapCRSCode: Map<string, FilterData> = new Map();
+          let mapThemes: Map<string, FilterData> = new Map();
+          let mapDisag: Map<string, FilterData> = new Map();
 
           
           this.listOfData.forEach((x)=>{
@@ -129,7 +128,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             mapCRSCode.set(x.indicator.crsCode,new FilterData(x.indicator.crsCode));
             mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
             mapThemes.set(x.indicator.themes,new FilterData(x.indicator.themes));
-            
           })
           mapLevels.forEach((value, _)=> {this.searchFilter.level.push(value);});
           mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
@@ -147,7 +145,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
               }            
             }
           }
-          this.indicatorService.updateNextButton(enableNextButton);
+          this.indicatorService.updateNextButton(enableNextButton);  
         }
         this.indicatorService.setIsNewInfo(false);
       })).subscribe();

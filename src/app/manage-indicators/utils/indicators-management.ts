@@ -1,9 +1,9 @@
 import {FilterDto} from '../../services/dto/filter.dto';
 import {FilterData} from '../../services/dto/filter-data.dto';
-import {forkJoin} from 'rxjs';
 import {IndicatorDto} from './indicator.dto';
 import {ManageIndicatorsService} from '../../services/indicators-management/manage-indicators.service';
 import {IndicatorService} from '../../services/indicator.service';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 export class IndicatorsManagement {
 

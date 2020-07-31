@@ -22,7 +22,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './dialog/dialog.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -55,7 +55,7 @@ describe('AppComponent', () => {
         NgZorroAntdModule,
         FormsModule,
         ReactiveFormsModule,
-        HttpClientModule,
+        HttpClientTestingModule,
         BrowserAnimationsModule,
         NzLayoutModule,
         NzGridModule,

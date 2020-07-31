@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NzMessageService, UploadChangeParam } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-indicator',
