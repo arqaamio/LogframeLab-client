@@ -20,3 +20,112 @@ app-indicator {
   margin-top: 4rem !important;
 }
 
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: #a5c2ae;
+}
+
+//slider wheel after moving color
+//converted HEX green to RBG so that it can be 50% transparent (to offset the color scheme a little better).  
+.ant-slider-handle:focus {
+  border-color: #a5c2ae;
+  box-shadow: 0 0 0 5px rgb(165,194,174, 0.5);
+}
+
+//slider wheel actively moving color
+.ant-slider-handle.ant-tooltip-open {
+  border-color: #a5c2ae;
+}
+
+//all search boxes box when hovering
+.ant-input:hover {
+  border-color: #a5c2ae;
+  border-right-width: 1px !important;
+}
+//"Search indicator in "Result" after selection border color
+.ant-input:focus {
+  border-color: #453457;
+  box-shadow: 0 0 0 2px rgb(69,52,87, 0.5);
+}
+//all search boxes in "Filters" after selection (focused)
+.ant-select-focused.ant-select-multiple .ant-select-selector {
+  border-color: #453457;
+  box-shadow: 0 0 0 2px rgb(69,52,87, 0.5);
+}
+
+//alert  about selecting "... at least one indicator per level"
+//may change all alerts for entire website!
+.ant-alert-info {
+  background-color: #a5c2ae;
+  border: #5d7063;
+}
+//icon inside alert
+.ant-alert-info  .ant-alert-icon {
+  color: #453457;
+}
+
+//Warning about "no indicators were found..."
+//may change all warnings for entire website!
+.ant-alert-warning {
+  background-color: rgb(165,194,174, 0.5);
+  border: 1px solid #5d7063;
+}
+//warning icon color
+.ant-alert-warning .ant-alert-icon {
+  color: #453457;
+}
+//warning and alert text color
+.ant-alert-message {
+  color: #453457;
+}
+
+//CSS for USER Icon at top right of screen
+
+//hover for user icon
+.ant-menu-item:hover, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:hover {
+  color: #a5c2ae;
+}
+//menu after selecting the user icon
+.ant-menu-submenu > .ant-menu {
+  background-color:rgba(242, 242, 242);
+  border-radius: 4px;
+}
+//item text inside menu when hovering over
+.ant-menu-item > a:hover {
+  color: #453457;
+}
+.ant-menu-item > a {
+  color: #a5c2ae;
+  font-weight: 500;
+}
+
+//indicator upload icon color
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
+  color: #a5c2ae;
+}
+//color for an "a" types
+a{
+  color: #453457;
+}
+//mouse hovering over the a
+a:hover{
+  color: #a5c2ae;
+}
+//button hover (specifically the green help button)
+.ant-btn:hover, .ant-btn:focus {
+  border-color: #453457;
+}
+//Selecting indicators in the results step (hover purple and change text color to white)
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background: #453457;
+  color: white;
+}
+
+//login input (username and password input
+.ant-input-affix-wrapper-focused {
+  border-color: #453457;
+  box-shadow: 0 0 0 2px rgb(69,52,87, 0.5);
+
+}
+.ant-input-affix-wrapper:hover {
+  border-color: #a5c2ae;
+  }
