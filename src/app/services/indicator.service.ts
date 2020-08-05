@@ -45,7 +45,7 @@ export class IndicatorService {
     this.selectedData = selectedData;
     this.nextSubject();
   }
-  setFileUplpadList(files: UploadFile[]) {
+  setFileUploadList(files: UploadFile[]) {
     this.fileList = files;
     this.nextSubject();
   }

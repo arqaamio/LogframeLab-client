@@ -1,16 +1,22 @@
 <div>
-  <a (click)="downloadFile('docx')">
+  <a class='start-item' (click)="downloadFile('docx')">
     <img src="assets/icons-ms-word-96.png" /><br />
     <i nz-icon nzType="download"></i>
     Download Indicators Word<br />
     (EU format)
   </a>
-  <a id='downloadExcel' (click)="downloadFile('xlsx')">
+  <a class='center-item' (click)="downloadFile('prm')">
+    <img src="assets/icons-ms-word-96.png" alt="Microsoft Word Logo"/><br />
+    <em nz-icon nzType="download"></em>
+    Download Indicators Word<br />
+    (PRM format)
+  </a>
+  <a class='center-item' (click)="downloadFile('xlsx')">
     <img src="assets/icons-microsoft-excel-2019-96.png" /><br />
     <i nz-icon nzType="download"></i>
     Download Indicators Excel<br />
   </a>
-  <a (click)="downloadFile('dfid')">
+  <a class='end-item' (click)="downloadFile('dfid')">
     <img src="assets/icons-microsoft-excel-2019-96.png" alt="excel logo"/><br />
     <em nz-icon nzType="download"></em>
     Download Indicators Excel<br />
