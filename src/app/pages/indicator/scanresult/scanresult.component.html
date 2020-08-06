@@ -62,7 +62,7 @@
     </div>
     <div style="display: flex; flex-direction: row; margin: 10px;">
       <span
-        >Total: {{ listOfData.length }} - selected: Impact {{ impactCount }},
+        >Total: {{ displayData.length }} - selected: Impact {{ impactCount }},
         Outcome {{ outcomeCount }}, Output {{ outputCount }}</span
       >
     </div>
@@ -149,9 +149,9 @@
             <nz-slider
               (nzOnAfterChange)="onAfterChange($event)"
               [nzTooltipVisible]="'default'"
-              [nzRange]='true'
-              [nzMin]='sliderMinValue'
-              [nzMax]='sliderMaxValue'
+              [nzRange]="true"
+              [nzMin]="sliderMinValue"
+              [nzMax]="sliderMaxValue"
             ></nz-slider>
           </th>
         </tr>
@@ -159,8 +159,8 @@
       <tbody>
         <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
           <tr
-          (click)="selectindicator(data.sort_id)"
-          [class.row-checked]="mapOfCheckedId[data.sort_id]"
+            (click)="selectindicator(data.sort_id)"
+            [class.row-checked]="mapOfCheckedId[data.sort_id]"
           >
             <td
               nzShowCheckbox

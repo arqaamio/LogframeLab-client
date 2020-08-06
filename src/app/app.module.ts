@@ -48,6 +48,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
+import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
+import {rxStompConfig} from './configuration/rxstomp.config'
 
 registerLocaleData(en);
 
@@ -138,8 +140,17 @@ const routes: Routes = [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: DefaultHeaderInterceptor,
-      multi: true,
+      multi: true
     },
+    {
+      provide: InjectableRxStompConfig,
+      useValue: rxStompConfig
+    },
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory,
+      deps: [InjectableRxStompConfig]
+    }
   ],
   bootstrap: [AppComponent],
 })
