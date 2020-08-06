@@ -1,10 +1,11 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {registerLocaleData, APP_BASE_HREF} from '@angular/common';
+import { registerLocaleData, APP_BASE_HREF } from '@angular/common';
 
 import en from '@angular/common/locales/en';
 
@@ -21,6 +22,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import {HomeComponent} from './pages/home/home.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -48,31 +50,41 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
+import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
+import {rxStompConfig} from './configuration/rxstomp.config'
 
 registerLocaleData(en);
 
 const routes: Routes = [
-
   { path: 'dataprotection', component: DataprotectionComponent },
   { path: 'terms', component: TermsofuseComponent },
   { path: 'imprint', component: ImprintComponent },
-  { path: 'login', component: SigninComponent, canActivate: [AuthGuard]},
+  { path: 'login', component: SigninComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
   { path: '', component: IndicatorComponent, pathMatch: 'full' },
   {
     path: 'manage-indicators',
-    loadChildren: () => import('./manage-indicators/manage-indicators.module').then(m => m.ManageIndicatorsModule)
+    loadChildren: () =>
+      import('./manage-indicators/manage-indicators.module').then(
+        (m) => m.ManageIndicatorsModule
+      ),
   },
   {
     path: 'user-management',
-    loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
-    canActivate: [AuthGuard]
+    loadChildren: () =>
+      import('./user-management/user-management.module').then(
+        (m) => m.UserManagementModule
+      ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'indicators-upload',
-    loadChildren: () => import('./indicators-upload/indicators-upload.module').then(m => m.IndicatorsUploadModule)
+    loadChildren: () =>
+      import('./indicators-upload/indicators-upload.module').then(
+        (m) => m.IndicatorsUploadModule
+      ),
   },
-  { path: '', component: IndicatorComponent},
+  { path: '', component: IndicatorComponent },
 ];
 @NgModule({
   declarations: [
@@ -115,14 +127,17 @@ const routes: Routes = [
     NzInputModule,
     NzFormModule,
     NzSelectModule,
-    NzSliderModule
+    NzSliderModule,
+    NzIconModule,
+    NzPopoverModule,
   ],
-  providers: [{provide: NZ_I18N, useValue: en_US},
-    {provide: APP_BASE_HREF, useValue : '/' },
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
@@ -138,6 +153,15 @@ const routes: Routes = [
       provide: HTTP_INTERCEPTORS,
       useClass: InvalidJwtInterceptor,
       multi: true
+    },
+    {
+      provide: InjectableRxStompConfig,
+      useValue: rxStompConfig
+    },
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory,
+      deps: [InjectableRxStompConfig]
     }
   ],
   bootstrap: [AppComponent],
