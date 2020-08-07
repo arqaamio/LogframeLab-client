@@ -110,7 +110,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           if(!data.isNewInfo && data.dataResponse != null){
             this.listOfData = data.dataResponse;
             this.displayData = this.listOfData;
-            this.mapOfCheckedId = data.selectedData;
+            this.mapOfCheckedId = data.selectedData== null ? [] : data.selectedData;
             this.showLoading = false;
           }
           let mapLevels: Map<string, FilterData> = new Map();

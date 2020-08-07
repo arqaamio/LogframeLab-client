@@ -35,6 +35,14 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
     this.indicatorService.updateNextButton(true);
   }
 
+  beforeUpload = (file: UploadFile): boolean => {
+    this.fileList.pop();
+    this.fileList = this.fileList.concat(file);
+    this.fileName = file.name;
+    this.indicatorService.setFileUploadList(this.fileList);
+    return false;
+  }
+
   ngOnInit() {
     if(this.filterOptions.level.length === 0){
       this.indicatorService.getFilters().subscribe((filters) => {

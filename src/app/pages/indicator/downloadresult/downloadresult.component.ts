@@ -33,7 +33,7 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
         ) {
           this.dataExport = data.dataResponse.filter(
             (item) => data.selectedData[item.sort_id]
-          );
+            ).map((x)=> x.indicator);
         }
       });
   }

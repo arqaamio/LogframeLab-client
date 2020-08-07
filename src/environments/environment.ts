@@ -4,7 +4,11 @@
 
 export const environment = {
   production: false,
+<<<<<<< HEAD
   apiBaseUrl: 'http://localhost:8080', // http://dev.logframelab.ai
+=======
+  apiBaseUrl: 'http://localhost:8080',
+>>>>>>> git-ari_feature/remove_2_steps_saave
   webSocketUrl: 'ws://localhost:8080/stomp'
 };
 
