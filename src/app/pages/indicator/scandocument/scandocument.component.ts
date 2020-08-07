@@ -44,7 +44,7 @@ export class ScanDocumentComponent implements OnInit, OnDestroy {
     }, 1000);
 
     this.indicatorSubscription = this.indicatorService.handleUpload()
-      .subscribe((event: HttpEvent<any>) => {
+    .subscribe((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.Sent:
             console.log("Request has been made!");
