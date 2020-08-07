@@ -75,7 +75,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         tap((data) => {
-        let isNewInfo = data==null ? true : data.isNewInfo;  
+        let isNewInfo = data==null ? true : data.isNewInfo;
         // show keyword column if document was uploaded
         this.showKeywordCol = data != null && data.dataResponse != null;
         if(data!=null){
@@ -84,7 +84,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
             this.indicatorService.setLoadedData(this.listOfData);
             this.displayData = this.listOfData;
-    
+
             const result = Utils.findMinAndMaxValue(data.dataResponse, 'numTimes');
             this.sliderMinValue = result.minValue;
             this.sliderMaxValue = result.maxValue;
@@ -94,10 +94,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           // without document
           if (isNewInfo && data.dataResponse == null){
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
-              
+
               if(response != null && response.length > 0) {
                 this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
-                
+
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
                 this.sliderMinValue = this.sliderMaxValue = 1;
@@ -107,7 +107,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           }
 
           // without changes in the filters or documents
-          if(!data.isNewInf && data.dataResponse != null){
+          if(!data.isNewInfo && data.dataResponse != null){
             this.listOfData = data.dataResponse;
             this.displayData = this.listOfData;
             this.mapOfCheckedId = data.selectedData;
@@ -120,7 +120,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           let mapThemes: Map<string, FilterData> = new Map();
           let mapDisag: Map<string, FilterData> = new Map();
 
-          
+
           this.listOfData.forEach((x)=>{
             mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
             mapSource.set(x.indicator.source,new FilterData(x.indicator.source));
@@ -142,10 +142,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
               if(this.mapOfCheckedId[key]){
                 enableNextButton = true;
                 break;
-              }            
+              }
             }
           }
-          this.indicatorService.updateNextButton(enableNextButton);  
+          this.indicatorService.updateNextButton(enableNextButton);
         }
         this.indicatorService.setIsNewInfo(false);
       })).subscribe();
@@ -260,7 +260,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Filter functions for each column 
+   * Filter functions for each column
    * @param list Filter's list
    * @param item Data's item
    */
