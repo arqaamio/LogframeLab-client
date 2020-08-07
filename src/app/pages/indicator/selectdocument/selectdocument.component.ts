@@ -34,7 +34,15 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
     // can't be in ngOnInit because of Angular Lifecycle Hooks
     this.indicatorService.updateNextButton(true);
   }
-  
+
+  beforeUpload = (file: UploadFile): boolean => {
+    this.fileList.pop();
+    this.fileList = this.fileList.concat(file);
+    this.fileName = file.name;
+    this.indicatorService.setFileUploadList(this.fileList);
+    return false;
+  }
+
   ngOnInit() {
     if(this.filterOptions.level.length === 0){
       this.indicatorService.getFilters().subscribe((filters) => {
@@ -51,7 +59,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
             this.fileList = data.files;
             this.fileName = this.fileList[0].name;
           }
-          if (data != null && data.filters != null) { 
+          if (data != null && data.filters != null) {
             this.selectedValues = data.filters;
           }
         })
@@ -133,7 +141,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
    */
   compare = (level1: Level, level2: Level): boolean =>
     level1 && level2 ? level1.id === level2.id : level1 === level2;
-  
+
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
   }

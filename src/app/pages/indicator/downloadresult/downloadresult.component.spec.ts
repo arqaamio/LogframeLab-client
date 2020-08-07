@@ -51,7 +51,7 @@ describe('DownloadResultComponent', () => {
             { id: 4, level: 'OUTCOME', color: '', description: '', label: 'Indicator 4', keys: [], var: '' },
             { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', label: 'Indicator 5', keys: [], var: '' },
         ];
-        expect(element.getElementsByTagName('a').length).toEqual(3);
+        expect(element.getElementsByTagName('a').length).toEqual(4);
         //const response: Observable<HttpResponse<Blob>> = Observable.create(new HttpResponse<Blob>({body: new Blob()}));
         const response: Observable<HttpResponse<Blob>> = new Observable();
         spyOn(indicatorService, 'downloadIndicators').and.returnValue(response);
