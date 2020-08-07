@@ -31,16 +31,8 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
     private indicatorService: IndicatorService,
     private msg: NzMessageService
   ) {
-     // can't be in ngOnInit because of Angular Lifecycle Hooks
-     this.indicatorService.updateNextButton(true);
-  }
-
-  beforeUpload = (file: UploadFile): boolean => {
-    this.fileList.pop();
-    this.fileList = this.fileList.concat(file);
-    this.fileName = file.name;
-    this.indicatorService.setFileUploadList(this.fileList);
-    return false;
+    // can't be in ngOnInit because of Angular Lifecycle Hooks
+    this.indicatorService.updateNextButton(true);
   }
 
   ngOnInit() {
