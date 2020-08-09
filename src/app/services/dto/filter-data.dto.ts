@@ -2,6 +2,7 @@ export class FilterData {
   text: string;
   value: any;
 
-  constructor() {
+  constructor(value?: string){
+    this.text = this.value = value;
   }
 }

@@ -2,13 +2,17 @@ import { TestBed, ComponentFixture, inject, async } from '@angular/core/testing'
 import { DownloadResultComponent } from './downloadresult.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { NzMessageModule, NzTableModule, NzSliderModule, NzAlertModule, NzTagModule } from 'ng-zorro-antd';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
 
 
 describe('DownloadResultComponent', () => {

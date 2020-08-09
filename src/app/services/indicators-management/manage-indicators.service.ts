@@ -4,7 +4,7 @@ import {Sort} from '../../manage-indicators/utils/sort';
 import {environment} from '../../../environments/environment';
 import {IndicatorDto} from '../../manage-indicators/utils/indicator.dto';
 import {PageDto} from '../../manage-indicators/utils/page.dto';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
 import {FilterDto} from '../dto/filter.dto';
 import {ApprovalDto} from '../../manage-indicators/utils/approval.dto';
 

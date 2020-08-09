@@ -6,12 +6,15 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 
-import { UploadFile } from 'ng-zorro-antd';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Observable } from 'rxjs/internal/Observable';
+import { throwError } from 'rxjs/internal/observable/throwError';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
+import { IndicatorResponse } from '../models/indicatorresponse.model';
+import { UploadFile } from 'ng-zorro-antd/upload';
 
 @Injectable({
   providedIn: 'root',
@@ -21,10 +24,12 @@ export class IndicatorService {
 
   private fileList: UploadFile[] = null;
   private filters: FilterDto = null;
-  private uploading = false;
   private dataResponse: any = null;
   private selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
+  private nextButtonSubject = new BehaviorSubject<any>(null);
+  private isNewInfo: boolean = true;
+  private nextButton: boolean = false;
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
   private nextSubject() {
@@ -33,10 +38,10 @@ export class IndicatorService {
       filters: this.filters,
       dataResponse: this.dataResponse,
       selectedData: this.selectedData,
+      isNewInfo: this.isNewInfo,
     });
   }
   clearIndicatorData() {
-    this.fileList = null;
     this.filters = null;
     this.dataResponse = null;
     this.indicatorSubject.next(null);
@@ -57,6 +62,40 @@ export class IndicatorService {
     this.dataResponse = dataResponse;
     this.nextSubject();
   }
+
+  /**
+   * Updates the value of next button and sends it to its subscribers
+   * @param value New value of the next button
+   */
+  updateNextButton(value: boolean): boolean {
+    this.nextButton = value;
+    this.nextButtonSubject.next({'enabled': this.nextButton});
+    this.nextSubject();
+    return this.nextButton;
+  }
+
+  /**
+   * Sends for the button to be pressed
+   */
+  pressNextButton(): void {
+    this.nextButtonSubject.next({'press': true});
+  }
+
+  /**
+   * Returns the next button subject
+   */
+  getNextButtonSubject(): BehaviorSubject<any> {
+    return this.nextButtonSubject;
+  }
+  /**
+   * Updates the isNewInfo which tells if there was changes in the search
+   * @param value Value to which the isNewInfo will be updated to
+   * @returns The new value in isNewInfo
+   */
+  setIsNewInfo(value: boolean): boolean{
+    this.isNewInfo = value;
+    return this.isNewInfo;
+  }
   clearIndicatorSubject() {
     this.indicatorSubject.next(null);
   }
@@ -75,7 +114,12 @@ export class IndicatorService {
     );
   }
 
-  handleUpload() {
+  /**
+   * Requests the backend to scan the document and return the found indicators.
+   * File must be a .doc or a .docx
+   * @param file File to be sent with the request
+   */
+  uploadFile(file) {
    const formData = new FormData();
    formData.append(
       'filter',
@@ -84,7 +128,6 @@ export class IndicatorService {
         { type: 'application/json' }
       )
     );
-   const file: any = this.fileList[0];
    formData.append('file', file);
    const req = new HttpRequest<any>(
       'POST',
@@ -115,23 +158,57 @@ export class IndicatorService {
     return errorMessage;
   }
 
-  getThemes() {
-    return this.http.get<string[]>(this.baseUrl + '/indicator/themes').pipe(
-      catchError((error: HttpErrorResponse) => {
-        const errorMsg = this.getErrorMessage(error);
-        console.log(errorMsg);
-        this.msg.error('loading themes failed.');
-        return throwError(errorMsg);
-      })
-    );
-  }
-
   getFilters(): Observable<FilterDto> {
     return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters').pipe(
       catchError((error: HttpErrorResponse) => {
         const errorMsg = this.getErrorMessage(error);
         console.log(errorMsg);
         this.msg.error('loading filters failed.');
+        return throwError(errorMsg);
+      })
+    );
+  }
+
+  /**
+   * Requests to the backend to return indicators that match the filters.
+   * If no filters are provided then all indicators are returned.
+   * @param filtersDto Indicator's filters
+   */
+  public getIndicators(filtersDto?: FilterDto): Observable<IndicatorResponse[]> {
+    let url:string = this.getBaseUrl() + '/indicator';
+    let args:string = '';
+
+    if(filtersDto!= null){
+      filtersDto.crsCode.forEach(element => {
+        args+='crsCodes='+element+'&';
+      });
+
+      filtersDto.level.forEach(element => {
+        args+='levels='+element.id+'&';
+      });
+
+      filtersDto.sdgCode.forEach(element => {
+        args+='sdgCodes='+element+'&';
+      });
+      filtersDto.source.forEach(element => {
+        args+='sources='+element+'&';
+      });
+
+      filtersDto.themes.forEach(element => {
+        args+='themes='+element+'&';
+      });
+    }
+    if(args!= '') {
+      // Remove the last extra &
+      url+='?' + args.slice(0, -1);
+    }
+    console.log('URL: '+ url);
+
+    return this.http.get<IndicatorResponse[]>(url).pipe(
+      catchError((error: HttpErrorResponse) => {
+        const errorMsg = this.getErrorMessage(error);
+        console.log(errorMsg);
+        this.msg.error('loading indicators failed.');
         return throwError(errorMsg);
       })
     );

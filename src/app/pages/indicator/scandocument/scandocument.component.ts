@@ -15,8 +15,7 @@ export const DONE_TITLE: string = 'Done';
 
 @Component({
   selector: "app-scandocument",
-  templateUrl: "./scandocument.component.html",
-  styleUrls: ["./scandocument.component.scss"],
+  templateUrl: "./scandocument.component.html"
 })
 export class ScanDocumentComponent implements OnInit, OnDestroy {
   indicatorSubscription: Subscription = null;
@@ -36,7 +35,7 @@ export class ScanDocumentComponent implements OnInit, OnDestroy {
 
     this.indicatorService.setSelectedData(null);
     this.indicatorService.setLoadedData(null);
-    
+
     //TODO: remove timeout in its new major release https://github.com/stomp-js/ng2-stompjs/issues/198
     setTimeout(()=> {
       this.stompSubscription = this.rxStompService.watch(WEBSOCKET_BROKER_URL).subscribe((message) => {
@@ -44,9 +43,8 @@ export class ScanDocumentComponent implements OnInit, OnDestroy {
       });
     }, 1000);
 
-    this.indicatorSubscription = this.indicatorService
-      .handleUpload()
-      .subscribe((event: HttpEvent<any>) => {
+    this.indicatorSubscription = this.indicatorService.handleUpload()
+    .subscribe((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.Sent:
             console.log("Request has been made!");
