@@ -123,9 +123,9 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
           this.listOfData.forEach((x)=>{
             mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
-            mapSource.set(x.indicator.source,new FilterData(x.indicator.source));
-            mapSDGCode.set(x.indicator.sdgCode,new FilterData(x.indicator.sdgCode));
-            mapCRSCode.set(x.indicator.crsCode,new FilterData(x.indicator.crsCode));
+            x.indicator.source.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
+            x.indicator.sdgCode.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
+            x.indicator.crsCode.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
             mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
             mapThemes.set(x.indicator.themes,new FilterData(x.indicator.themes));
           })
@@ -266,8 +266,18 @@ export class ScanResultComponent implements OnInit, OnDestroy {
    */
   filterLevel = (list: string[], item: ItemData) => list.some(value => item.indicator.level.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
   filterThemes = (list: string[], item: ItemData) => list.some(value => item.indicator.themes.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterSource = (list: string[], item: ItemData) => list.some(value => item.indicator.source.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterSDGCode = (list: string[], item: ItemData) => list.some(value => item.indicator.sdgCode.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterCRSCode = (list: string[], item: ItemData) => list.some(value => item.indicator.crsCode.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
+  filterSource = (list: string[], item: ItemData) => list.some(value => item.indicator.source.some((x)=> {x.name == value}) || this.mapOfCheckedId[item.sort_id]);
+  filterSDGCode = (list: string[], item: ItemData) => list.some(value => item.indicator.sdgCode.some((x)=> {x.name == value})  || this.mapOfCheckedId[item.sort_id]);
+  filterCRSCode = (list: string[], item: ItemData) => list.some(value => item.indicator.crsCode.some((x)=> {x.name == value}) || this.mapOfCheckedId[item.sort_id]);
   filterDisag = (list: string[], item: ItemData) => list.some(value => item.indicator.disaggregation === (value=='0') || this.mapOfCheckedId[item.sort_id]);
+
+
+  printArray(array: Array<any>, property?: string): string{
+    if(array == null || array.length == 0) return '';
+    if(property==null){
+      return array.join(', ');
+    }else {
+      return array.map((x)=>x[property]).join(', ');
+    }
+  }
 }

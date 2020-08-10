@@ -179,20 +179,19 @@ export class IndicatorService {
     let args:string = '';
 
     if(filtersDto!= null){
-      filtersDto.crsCode.forEach(element => {
-        args+='crsCodes='+element+'&';
-      });
+      if(filtersDto.crsCode != null && filtersDto.crsCode.length > 0)
+        args+='crsCodes=' + filtersDto.crsCode.map((x)=>x.id).join(', ')+'&';
+
 
       filtersDto.level.forEach(element => {
         args+='levels='+element.id+'&';
       });
 
-      filtersDto.sdgCode.forEach(element => {
-        args+='sdgCodes='+element+'&';
-      });
-      filtersDto.source.forEach(element => {
-        args+='sources='+element+'&';
-      });
+      if(filtersDto.sdgCode != null && filtersDto.sdgCode.length > 0)
+        args+='sdgCodes=' + filtersDto.sdgCode.map((x)=>x.id).join(', ')+'&';
+
+      if(filtersDto.source != null && filtersDto.source.length > 0)
+        args+='sources=' + filtersDto.source.map((x)=>x.id).join(', ')+'&';
 
       filtersDto.themes.forEach(element => {
         args+='themes='+element+'&';

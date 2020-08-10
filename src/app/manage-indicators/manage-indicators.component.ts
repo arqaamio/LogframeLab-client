@@ -60,6 +60,16 @@ export class ManageIndicatorsComponent extends IndicatorsManagement implements O
     this.indicator = ind;
     this.displayCrudModal = true;
   }
+
+  printArray(array: Array<any>, property?: string): string{
+    if(array == null || array.length == 0) return '';
+    if(property==null){
+      return array.join(', ');
+    }else {
+      debugger;
+      return array.map((x)=>x[property]).join(', ');
+    }
+  }
 }
 
 
