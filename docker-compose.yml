@@ -8,6 +8,13 @@ services:
       #   - .:/usr/src/app
       ports: 
         - 80:80
+      networks:
+        - logframelab_network
+networks:
+  logframelab_network:
+    external:
+      name: logframelab_network
+
     # To run without Dockerfile
     # nginx:
     #   image: nginx:latest

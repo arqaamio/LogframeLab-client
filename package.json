@@ -7,11 +7,10 @@
     "build": "ng build",
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:docker": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox",
     "test:coverage": "ng test --codeCoverage",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "testheadless": "ng test --watch=false --browsers=ChromeHeadless",
-    "testdocker": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
