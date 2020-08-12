@@ -35,7 +35,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'npm run testdocker'
+                sh 'npm run test:docker'
             }
         }
 
