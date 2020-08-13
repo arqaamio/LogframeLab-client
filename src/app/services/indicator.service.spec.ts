@@ -60,7 +60,7 @@ describe('IndicatorService', () => {
 
   it('should get indicators without filters as an Observable', inject([HttpTestingController], (httpClient: HttpTestingController) => {
     const indicatorsList: IndicatorResponse[] = [{
-      id: 1, level: 'IMPACT', color: '', name: 'Name', description: '', keys: [], var: '', crsCode:'', sdgCode: '', themes:'', disaggregation: true, source:'', numTimes:0
+      id: 1, level: 'IMPACT', color: '', name: 'Name', description: '', keys: [], var: '', crsCode:null, sdgCode: null, themes:null, disaggregation: true, source:null, numTimes:0
     }]
     indicatorService.getIndicators(null)
       .subscribe((response: IndicatorResponse[]) => {
@@ -77,7 +77,7 @@ describe('IndicatorService', () => {
     const themes = 'Agriculture';
     const level: Level = {id: 1, name:'IMPACT', color:'Red', description:'', templateVar:''};
     const indicatorsList: IndicatorResponse[] = [{
-      id: 1, level: level.name, color: '', name: 'Name', description: '', keys: [], var: '', crsCode:'', sdgCode: '', themes:themes, disaggregation: true, source:'', numTimes:0
+      id: 1, level: level.name, color: '', name: 'Name', description: '', keys: [], var: '', crsCode:null, sdgCode: null, themes:themes, disaggregation: true, source:null, numTimes:0
     }]
     indicatorService.getIndicators({crsCode: [], level:[level], levelIds: [level.id], sdgCode: [], source: [], themes:[themes]})
       .subscribe((response: IndicatorResponse[]) => {
