@@ -60,7 +60,7 @@
         [(ngModel)]="searchValue"
       />
     </div>
-    <div style="display: flex; flex-direction: row; margin: 10px;">
+    <div>
       <span
         >Total: {{ displayData.length }} - selected: Impact {{ impactCount }},
         Outcome {{ outcomeCount }}, Output {{ outputCount }}</span
@@ -70,7 +70,7 @@
       #dynamicTable
       [nzData]="displayData"
       [nzPageSize]="displayData.length"
-      [nzScroll]="{ y: '1000px' }"
+      [nzScroll]="{ x: '1200px', y: '1000px' }"
       [nzLoading]="showLoading"
       nzShowPagination="false"
       nzShowSizeChanger="false"
@@ -85,7 +85,7 @@
             [(nzChecked)]="isAllDisplayDataChecked"
             [nzIndeterminate]="isIndeterminate"
             (nzCheckedChange)="checkAll($event)"
-            nzWidth="5%"
+            nzWidth="5px"
           ></th>
           <th
             nzShowSort
@@ -93,7 +93,7 @@
             nz-popover
             nzPopoverTitle="Level"
             nzPopoverContent="These are the levels of the indicators."
-            nzWidth="10%"
+            nzWidth="9px"
             nzShowFilter
             [nzFilters]="searchFilter.level"
             [nzFilterFn]="filterLevel"
@@ -104,6 +104,7 @@
             nz-popover
             nzPopoverTitle="Indicator"
             nzPopoverContent="The phrasing of the actual indicator. Some indicators may need to be further specified accordingly."
+            nzWidth="38px"
             style="font-weight: bold;"
           >
             Indicator
@@ -112,7 +113,7 @@
           <th
             nzShowSort
             nzColumnKey="source"
-            nzWidth="10%"
+            nzWidth="10px"
             nz-popover
             nzPopoverTitle="Source"
             nzPopoverContent="Where the indicator comes from. Who has developed it."
@@ -128,8 +129,8 @@
             nz-popover
             nzPopoverTitle="Disaggregation"
             nzPopoverContent="If the indicator requires disaggregation. As a rule of thumb, whenever people are counted, there should a disaggregation (at least by sex)."
-            nzWidth="10%"
-            style="font-size: 10px;"
+            nzWidth="14px"
+            style="font-size: 12px;"
             nzBreakWord
             nzShowFilter
             [nzFilters]="searchFilter.disaggregation"
@@ -140,7 +141,7 @@
           <th
             nzShowSort
             nzColumnKey="themes"
-            nzWidth="10%"
+            nzWidth="12px"
             nz-popover
             nzPopoverTitle="Thematic Area"
             nzPopoverContent="The sectors where the indicator is related to."
@@ -157,22 +158,23 @@
             nz-popover
             nzPopoverTitle="OECD DAC/CRD Code"
             nzPopoverContent="This is the three digit code referring to the CRS codes, another way to understand what the indicator is related to."
-            nzWidth="10%"
+            nzWidth="12px"
             nzBreakWord
             nzShowFilter
             [nzFilters]="searchFilter.crsCode"
             [nzFilterFn]="filterCRSCode"
           >
-            OECD DAC/CRS Code
+            OECD<br>DAC/CRS<br>Code
           </th>
           <th
+          style="font-size: 12px;"
             nzShowSort
             nzShowFilter
             nzColumnKey="sdgCode"
             nz-popover
             nzPopoverTitle="SDG Code"
             nzPopoverContent="This is in relations to the 17 SDGs."
-            nzWidth="10%"
+            nzWidth="10px"
             nzShowFilter
             [nzFilters]="searchFilter.sdgCode"
             [nzFilterFn]="filterSDGCode"
@@ -183,7 +185,7 @@
             nz-popover
             nzPopoverTitle="Keyword frequency"
             nzPopoverContent="The number of times the document triggers the keywords of each indicator. Ideally you do not want to use indicators with a keyword frequency of less than 10."
-            nzWidth="10%"
+            
             *ngIf="showKeywordCol"
           >
             Keyword Frequency

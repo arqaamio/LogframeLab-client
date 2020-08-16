@@ -11,9 +11,13 @@ app-selectdocument {
     height: auto !important;
   }
 }
-
+.ant-steps{
+  text-align-last: justify;
+}
 app-indicator {
-  display: inline-flex;
+  display: block;
+  width: 100%;
+  text-align: -webkit-center;
 }
 
 .content-section {

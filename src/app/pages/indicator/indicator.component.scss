@@ -1,13 +1,42 @@
 .content-section {
   position: relative;
-  max-width: 61.5rem;
+  max-width: 81.5rem;
   padding: 10px;
-  width: 984px;
+  //width: 984px;
   //height: 56px;
   //left: 299px;
   //top: 155px;
 }
-
+::ng-deep {
+ @media (max-width: 600px){
+.ant-steps-horizontal.ant-steps-label-horizontal {
+    display: -webkit-box;
+     display: flex; 
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    text-align-last: justify;
+}
+.ant-steps-horizontal.ant-steps-label-horizontal .ant-steps-item-description {
+  padding-bottom: 12px;
+}
+}
+}
+.stepSection{
+  position: relative;
+  text-align: center;
+}
+//fix placement of help popup when window is small
+::ng-deep .ant-popover {
+  left: -6rem;
+    top: 3rem;
+}
+//fix placement of help popup when window is small (2 positions?)
+::ng-deep .ant-popover-placement-bottom, .ant-popover-placement-bottomLeft, .ant-popover-placement-bottomRight {
+  padding-top: 10px;
+  left: 6rem;
+  top: 1rem;
+}
 .steps-content {
   margin-top: 16px;
   //border: 1px dashed #e9e9e9;
@@ -188,8 +217,8 @@ background-color: #453457;
 .stepIcon {
   display: flex;
   position: relative;
-  top: 4rem;
-  left: -0.5rem;
+  top: 2rem;
+  left: 7rem;
   background: #a5c2ae;
   // padding: 0.5rem;
   border-radius: 0.6rem;
@@ -197,7 +226,7 @@ background-color: #453457;
   color: #ffffff;
   // margin: 1rem 0 1rem 0;
   align-items: center;
-  justify-content: center;
+  //justify-content: center;
 }
 .stepInfo {
   width: 20rem;
