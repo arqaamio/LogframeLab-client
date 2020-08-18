@@ -44,9 +44,7 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                input message: 'Deploy to the development environment? (Click "Proceed" to continue)'
-                // sh 'cp -R dist/client /usr/share/nginx/html'
-                sh 'docker-compose up --build -d'
+                sh 'docker cp jenkins:$PWD/dist/client/. /tmp/logframelab-client'
             }
         }
 
