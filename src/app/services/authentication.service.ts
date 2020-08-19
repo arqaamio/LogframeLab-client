@@ -5,7 +5,9 @@ import {
   HttpHeaders,
   HttpResponse
 } from '@angular/common/http';
-import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Observable } from 'rxjs/internal/Observable';
+import { throwError } from 'rxjs/internal/observable/throwError';
 import {environment} from '../../environments/environment';
 import {JwtDto} from './dto/jwt.dto';
 import {catchError, map} from 'rxjs/operators';

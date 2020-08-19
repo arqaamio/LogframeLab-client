@@ -1,24 +1,38 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/internal/Subscription';
 import Utils from 'src/app/utils/utils';
+import { IndicatorResponse } from 'src/app/models/indicatorresponse.model';
+import { FilterData } from 'src/app/services/dto/filter-data.dto';
+import { take } from 'rxjs/internal/operators/take';
+import { tap } from 'rxjs/internal/operators/tap';
 
 interface ItemData {
-  id: number;
-  level: string;
-  color: string;
-  name: string;
-  description: string;
-  themes: string;
-  source: string;
-  disaggregation: boolean;
-  crsCode: string;
-  sdgCode: string;
-  numTimes: number;
-  keys: Array<string>;
-  var: string;
+  indicator: IndicatorResponse;
   sort_id:number;
 }
+
+export class SearchFilter {
+  level: FilterData[];
+  source: FilterData[];
+  disaggregation: FilterData[];
+  themes: FilterData[];
+  crsCode: FilterData[];
+  sdgCode: FilterData[];
+
+  constructor(){
+    this.level = [];
+    this.source = [];
+    this.disaggregation = [];
+    this.themes = [];
+    this.crsCode = [];
+    this.sdgCode = [];
+  }
+}
+
+export const MIN_KEYWORD_VALUE: number = 5;
+export const DISAG_YES_FILTER_DATA: FilterData = {text: 'Yes', value:0};
+export const DISAG_NO_FILTER_DATA: FilterData = {text: 'No', value:1};
 
 @Component({
   selector: 'app-scanresult',
@@ -34,6 +48,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   mapOfCheckedId: { [key: string]: boolean } = {};
   listOfData: ItemData[] = [];
   displayData: ItemData[] = [];
+  searchFilter: SearchFilter = new SearchFilter();
   sortName: string | null = null;
   sortValue: string | null = null;
   searchValue = '';
@@ -42,8 +57,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   impactCount = 0;
   outcomeCount = 0;
   outputCount = 0;
-
-  initData = true;
+  showLoading = true;
+  showKeywordCol = true;
 
   myOptions = {
     placement: 'top',
@@ -54,28 +69,86 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
   constructor(private indicatorService: IndicatorService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
-      .subscribe((data) => {
-        if (this.initData && data != null && data.dataResponse != null) {
-          this.listOfData = data.dataResponse;
-          // stor the backend sort
-          for(var i=0;i<this.listOfData.length;i++){
-            this.listOfData[i].sort_id = i + 1;
+      .pipe(
+        take(1),
+        tap((data) => {
+        let isNewInfo = data==null ? true : data.isNewInfo;
+        // show keyword column if document was uploaded
+        this.showKeywordCol = data != null && data.dataResponse != null;
+        if(data!=null){
+          // with document
+          if (isNewInfo && data.dataResponse != null) {
+            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+            this.indicatorService.setLoadedData(this.listOfData);
+            this.displayData = this.listOfData;
+
+            const result = Utils.findMinAndMaxValue(data.dataResponse, 'numTimes');
+            this.sliderMinValue = result.minValue;
+            this.sliderMaxValue = result.maxValue;
+            this.showLoading = false;
           }
-          this.displayData = this.listOfData;
-          console.log('total:  ' + this.displayData.length);
-          this.initData = false;
+
+          // without document
+          if (isNewInfo && data.dataResponse == null){
+            this.indicatorService.getIndicators(data.filters).subscribe((response) => {
+
+              if(response != null && response.length > 0) {
+                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+
+                this.indicatorService.setLoadedData(this.listOfData);
+                this.displayData = this.listOfData;
+                this.sliderMinValue = this.sliderMaxValue = 1;
+                this.showLoading = false;
+              }
+            });
+          }
+
+          // without changes in the filters or documents
+          if(!data.isNewInfo && data.dataResponse != null){
+            this.listOfData = data.dataResponse;
+            this.displayData = this.listOfData;
+            this.mapOfCheckedId = data.selectedData== null ? [] : data.selectedData;
+            this.showLoading = false;
+          }
+          let mapLevels: Map<string, FilterData> = new Map();
+          let mapSource: Map<string, FilterData> = new Map();
+          let mapSDGCode: Map<string, FilterData> = new Map();
+          let mapCRSCode: Map<string, FilterData> = new Map();
+          let mapThemes: Map<string, FilterData> = new Map();
+          let mapDisag: Map<string, FilterData> = new Map();
+
+
+          this.listOfData.forEach((x)=>{
+            mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
+            mapSource.set(x.indicator.source,new FilterData(x.indicator.source));
+            mapSDGCode.set(x.indicator.sdgCode,new FilterData(x.indicator.sdgCode));
+            mapCRSCode.set(x.indicator.crsCode,new FilterData(x.indicator.crsCode));
+            mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
+            mapThemes.set(x.indicator.themes,new FilterData(x.indicator.themes));
+          })
+          mapLevels.forEach((value, _)=> {this.searchFilter.level.push(value);});
+          mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
+          mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
+          mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
+          mapThemes.forEach((value, _)=> {this.searchFilter.themes.push(value);});
+          mapDisag.forEach((value, _)=> {this.searchFilter.disaggregation.push(value);});
+          //TODO: Fix this, this can't be here
+          let enableNextButton = false;
+          for (const key in this.mapOfCheckedId) {
+            if (Object.prototype.hasOwnProperty.call(this.mapOfCheckedId, key)) {
+              if(this.mapOfCheckedId[key]){
+                enableNextButton = true;
+                break;
+              }
+            }
+          }
+          this.indicatorService.updateNextButton(enableNextButton);
         }
-        if (data != null) {
-          if(data.selectedData != null)
-            this.mapOfCheckedId = data.selectedData;
-          const result = Utils.findMinAndMaxValue(this.listOfData, "numTimes");
-          this.sliderMinValue = result.minValue;
-          this.sliderMaxValue = result.maxValue;
-        }
-      });
+        this.indicatorService.setIsNewInfo(false);
+      })).subscribe();
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
@@ -95,7 +168,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     const data: ItemData[] = this.listOfData;
     // filter by indicator
     const filterFunc = (item: ItemData) => {
-      if (item.name.toUpperCase().indexOf(this.searchValue.toUpperCase()) !== -1) {
+      if (item.indicator.name.toUpperCase().indexOf(this.searchValue.toUpperCase()) !== -1) {
         return true;
       }
       this.mapOfCheckedId[item.sort_id] = false;
@@ -109,10 +182,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       isColumnSort = true;
       this.displayData = this.displayData.sort((a, b) =>
         this.sortValue === 'ascend'
-          ? a[this.sortName!] > b[this.sortName!]
+          ? a.indicator[this.sortName!] > b.indicator[this.sortName!]
             ? 1
             : -1
-          : b[this.sortName!] > a[this.sortName!]
+          : b.indicator[this.sortName!] > a.indicator[this.sortName!]
           ? 1
           : -1
       );
@@ -156,11 +229,11 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       for (let item of this.displayData) {
         if (this.mapOfCheckedId[item.sort_id]) {
           this.downloadDisabled = false;
-          if (item.level === 'OUTPUT') {
+          if (item.indicator.level === 'OUTPUT') {
             this.outputCount++;
-          } else if (item.level === 'IMPACT') {
+          } else if (item.indicator.level === 'IMPACT') {
             this.impactCount++;
-          } else if (item.level === 'OUTCOME') {
+          } else if (item.indicator.level === 'OUTCOME') {
             this.outcomeCount++;
           }
         }
@@ -169,17 +242,32 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         }
       }
     }
-    if (this.downloadDisabled) { this.indicatorService.setSelectedData(null); } else { this.indicatorService.setSelectedData(this.mapOfCheckedId); }
+    if (this.downloadDisabled) {
+      this.indicatorService.setSelectedData(null);
+      this.indicatorService.updateNextButton(false);
+    } else {
+      this.indicatorService.setSelectedData(this.mapOfCheckedId);
+      this.indicatorService.updateNextButton(true);
+    }
   }
 
   formatCrsCode(code: string): string {
-    if (code) {
-      return code.split('.')[0];
-    }
-    return '';
+    return code ? code.split('.')[0] : '';
   }
 
   onAfterChange(value: number[]): void {
-    this.displayData = this.listOfData.filter((item: ItemData) => value[0] <= item.numTimes && item.numTimes <= value[1]);
+    this.displayData = this.listOfData.filter((item: ItemData) => value[0] <= item.indicator.numTimes && item.indicator.numTimes <= value[1]);
   }
+
+  /**
+   * Filter functions for each column
+   * @param list Filter's list
+   * @param item Data's item
+   */
+  filterLevel = (list: string[], item: ItemData) => list.some(value => item.indicator.level.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
+  filterThemes = (list: string[], item: ItemData) => list.some(value => item.indicator.themes.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
+  filterSource = (list: string[], item: ItemData) => list.some(value => item.indicator.source.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
+  filterSDGCode = (list: string[], item: ItemData) => list.some(value => item.indicator.sdgCode.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
+  filterCRSCode = (list: string[], item: ItemData) => list.some(value => item.indicator.crsCode.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
+  filterDisag = (list: string[], item: ItemData) => list.some(value => item.indicator.disaggregation === (value=='0') || this.mapOfCheckedId[item.sort_id]);
 }

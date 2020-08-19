@@ -16,13 +16,13 @@ export class ResponseJwtInterceptor implements HttpInterceptor {
 
   constructor(private authenticationService: AuthenticationService) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       map(resp => {
         if (resp instanceof HttpResponse) {
           const responseJws = resp.headers.get(this.JWS_KEY);
           if (responseJws) {
-            this.authenticationService.renewJwt(responseJws);
+             this.authenticationService.renewJwt(responseJws);
           }
           return resp;
         }

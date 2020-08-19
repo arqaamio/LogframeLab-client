@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserManagementService} from './service/user-management.service';
 import {User} from './service/user';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-user-management',

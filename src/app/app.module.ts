@@ -24,29 +24,28 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
-import {HomeComponent} from './pages/home/home.component';
-import {RouterModule, Routes} from '@angular/router';
-import {IndicatorComponent} from './pages/indicator/indicator.component';
-import {TermsofuseComponent} from './pages/termsofuse/termsofuse.component';
-import {DataprotectionComponent} from './pages/dataprotection/dataprotection.component';
-import {IndicatorfiltersComponent} from './pages/indicator/indicatorfilters/indicatorfilters.component';
-import {SigninComponent} from './pages/signin/signin.component';
-import {SignupComponent} from './pages/signup/signup.component';
-import {ImprintComponent} from './pages/imprint/imprint.component';
-import {SelectdocumentComponent} from './pages/indicator/selectdocument/selectdocument.component';
-import {ScanResultComponent} from './pages/indicator/scanresult/scanresult.component';
-import {VisualisationresultComponent} from './pages/indicator/visualisationresult/visualisationresult.component';
-import {DownloadResultComponent} from './pages/indicator/downloadresult/downloadresult.component';
-import {ScanDocumentComponent} from './pages/indicator/scandocument/scandocument.component';
-import {DialogComponent} from './dialog/dialog.component';
-import {ProfileMenuModule} from './profile-menu/profile-menu.module';
-import {AuthGuard} from './utils/auth.guard';
-import {JwtInterceptor} from './utils/auth/jwt.interceptor';
-import {DefaultHeaderInterceptor} from './utils/http/header.interceptor';
+import { HomeComponent } from './pages/home/home.component';
+import { RouterModule, Routes } from '@angular/router';
+import { IndicatorComponent } from './pages/indicator/indicator.component';
+import { TermsofuseComponent } from './pages/termsofuse/termsofuse.component';
+import { DataprotectionComponent } from './pages/dataprotection/dataprotection.component';
+import { SigninComponent } from './pages/signin/signin.component';
+import { SignupComponent } from './pages/signup/signup.component';
+import { ImprintComponent } from './pages/imprint/imprint.component';
+import { SelectdocumentComponent } from './pages/indicator/selectdocument/selectdocument.component';
+import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.component';
+import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
+import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { ProfileMenuModule } from './profile-menu/profile-menu.module';
+import { AuthGuard } from './utils/auth.guard';
+import { JwtInterceptor } from './utils/auth/jwt.interceptor';
+import { DefaultHeaderInterceptor } from './utils/http/header.interceptor';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import {ResponseJwtInterceptor} from './utils/auth/response-jwt.interceptor';
 import {InvalidJwtInterceptor} from './utils/auth/invalid-jwt.interceptor';
-import {NzMenuModule} from 'ng-zorro-antd/menu';
-import {NzFormModule} from 'ng-zorro-antd/form';
+
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
@@ -98,8 +97,6 @@ const routes: Routes = [
     SignupComponent,
     ImprintComponent,
     SelectdocumentComponent,
-    IndicatorfiltersComponent,
-    ScanDocumentComponent,
     ScanResultComponent,
     VisualisationresultComponent,
     DownloadResultComponent,
@@ -136,17 +133,7 @@ const routes: Routes = [
     { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
       useClass: DefaultHeaderInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ResponseJwtInterceptor,
       multi: true
     },
     {
@@ -162,7 +149,17 @@ const routes: Routes = [
       provide: RxStompService,
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig]
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
+    }/*,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseJwtInterceptor,
+      multi: true
+    },*/
   ],
   bootstrap: [AppComponent],
 })

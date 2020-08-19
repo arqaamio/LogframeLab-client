@@ -71,80 +71,121 @@
       [nzData]="displayData"
       [nzPageSize]="displayData.length"
       [nzScroll]="{ y: '1000px' }"
+      [nzLoading]="showLoading"
       nzShowPagination="false"
       nzShowSizeChanger="false"
       nzSize="middle"
       nzBordered
     >
-      <thead (nzSortChange)="sort($event)" nzSingleSort>
+      <thead (nzSortOrderChange)="sort($event)">
+        <!--TODO nzSingleSort-->
         <tr>
           <th
             nzShowCheckbox
             [(nzChecked)]="isAllDisplayDataChecked"
             [nzIndeterminate]="isIndeterminate"
             (nzCheckedChange)="checkAll($event)"
-            nzWidth="50px"
+            nzWidth="5%"
           ></th>
           <th
             nzShowSort
-            nzSortKey="level"
-            nz-tooltip
-            nzTooltipTitle="Indicator level"
-            nzWidth="103px"
+            nzColumnKey="level"
+            nz-popover
+            nzPopoverTitle="Level"
+            nzPopoverContent="These are the levels of the indicators."
+            nzWidth="10%"
+            nzShowFilter
+            [nzFilters]="searchFilter.level"
+            [nzFilterFn]="filterLevel"
           >
             Level
           </th>
-          <th nz-tooltip nzTooltipTitle="Indicator" style="font-weight: bold;">
+          <th
+            nz-popover
+            nzPopoverTitle="Indicator"
+            nzPopoverContent="The phrasing of the actual indicator. Some indicators may need to be further specified accordingly."
+            style="font-weight: bold;"
+          >
             Indicator
           </th>
 
           <th
             nzShowSort
-            nzSortKey="source"
-            nzWidth="100px"
-            nz-tooltip
-            nzTooltipTitle="Source"
+            nzColumnKey="source"
+            nzWidth="10%"
+            nz-popover
+            nzPopoverTitle="Source"
+            nzPopoverContent="Where the indicator comes from. Who has developed it."
+            nzShowFilter
+            [nzFilters]="searchFilter.source"
+            [nzFilterFn]="filterSource"
           >
             Source
           </th>
           <th
             nzShowSort
-            nzSortKey="disaggregation"
-            nz-tooltip
-            nzTooltipTitle="Disaggregation"
-            nzWidth="100px"
+            nzColumnKey="disaggregation"
+            nz-popover
+            nzPopoverTitle="Disaggregation"
+            nzPopoverContent="If the indicator requires disaggregation. As a rule of thumb, whenever people are counted, there should a disaggregation (at least by sex)."
+            nzWidth="10%"
             style="font-size: 10px;"
+            nzBreakWord
+            nzShowFilter
+            [nzFilters]="searchFilter.disaggregation"
+            [nzFilterFn]="filterDisag"
           >
-            Dis- aggregation
+            Disaggregation
           </th>
           <th
             nzShowSort
-            nzSortKey="themes"
-            nzWidth="100px"
-            nz-tooltip
-            nzTooltipTitle="Thematic Area"
+            nzColumnKey="themes"
+            nzWidth="10%"
+            nz-popover
+            nzPopoverTitle="Thematic Area"
+            nzPopoverContent="The sectors where the indicator is related to."
+            nzBreakWord
+            nzShowFilter
+            [nzFilters]="searchFilter.themes"
+            [nzFilterFn]="filterThemes"
           >
             Thematic Area
           </th>
           <th
             nzShowSort
-            nzSortKey="crsCode"
-            nz-tooltip
-            nzTooltipTitle="OECD DAC/CRS Code"
-            nzWidth="100px"
+            nzColumnKey="crsCode"
+            nz-popover
+            nzPopoverTitle="OECD DAC/CRD Code"
+            nzPopoverContent="This is the three digit code referring to the CRS codes, another way to understand what the indicator is related to."
+            nzWidth="10%"
+            nzBreakWord
+            nzShowFilter
+            [nzFilters]="searchFilter.crsCode"
+            [nzFilterFn]="filterCRSCode"
           >
             OECD DAC/CRS Code
           </th>
           <th
             nzShowSort
-            nzSortKey="sdgCode"
-            nz-tooltip
-            nzTooltipTitle="SDG Code"
-            nzWidth="100px"
+            nzShowFilter
+            nzColumnKey="sdgCode"
+            nz-popover
+            nzPopoverTitle="SDG Code"
+            nzPopoverContent="This is in relations to the 17 SDGs."
+            nzWidth="10%"
+            nzShowFilter
+            [nzFilters]="searchFilter.sdgCode"
+            [nzFilterFn]="filterSDGCode"
           >
             SDG Code
           </th>
-          <th nz-tooltip nzTooltipTitle="Keyword Frequency" nzWidth="100px">
+          <th
+            nz-popover
+            nzPopoverTitle="Keyword frequency"
+            nzPopoverContent="The number of times the document triggers the keywords of each indicator. Ideally you do not want to use indicators with a keyword frequency of less than 10."
+            nzWidth="10%"
+            *ngIf="showKeywordCol"
+          >
             Keyword Frequency
             <nz-slider
               (nzOnAfterChange)="onAfterChange($event)"
@@ -168,21 +209,23 @@
               (nzCheckedChange)="refreshStatus()"
             ></td>
             <td>
-              <nz-tag [nzColor]="data.color">{{ data.level }} </nz-tag>
+              <nz-tag [nzColor]="data.indicator.color"
+                >{{ data.indicator.level }}
+              </nz-tag>
             </td>
-            <td>{{ data.name }}</td>
-            <td>{{ data.source }}</td>
+            <td>{{ data.indicator.name }}</td>
+            <td>{{ data.indicator.source }}</td>
             <td style="text-align: center;">
               <div style="text-align: center;">
                 <i
-                  *ngIf="!data.disaggregation"
+                  *ngIf="!data.indicator.disaggregation"
                   style="font-size: 25px; color: rgb(216, 126, 126);"
                   nz-icon
                   nzType="close"
                   nzTheme="outline"
                 ></i>
                 <i
-                  *ngIf="data.disaggregation"
+                  *ngIf="data.indicator.disaggregation"
                   style="font-size: 25px; color: #a5c2ae;"
                   nz-icon
                   nzType="check"
@@ -190,10 +233,10 @@
                 ></i>
               </div>
             </td>
-            <td>{{ data.themes }}</td>
-            <td>{{ formatCrsCode(data.crsCode) }}</td>
-            <td>{{ data.sdgCode }}</td>
-            <td>{{ data.numTimes }}</td>
+            <td>{{ data.indicator.themes }}</td>
+            <td>{{ formatCrsCode(data.indicator.crsCode) }}</td>
+            <td>{{ data.indicator.sdgCode }}</td>
+            <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
           </tr>
         </ng-template>
       </tbody>
