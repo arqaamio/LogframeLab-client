@@ -98,8 +98,6 @@ const routes: Routes = [
     SignupComponent,
     ImprintComponent,
     SelectdocumentComponent,
-    IndicatorfiltersComponent,
-    ScanDocumentComponent,
     ScanResultComponent,
     VisualisationresultComponent,
     DownloadResultComponent,
