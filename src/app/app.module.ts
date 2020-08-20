@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,7 +40,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { AuthGuard } from './utils/auth.guard';
 import { JwtInterceptor } from './utils/auth/jwt.interceptor';
-import { DefaultHeaderInterceptor } from './utils/http/header.interceptor';
+import { DefaultInterceptor } from './utils/http/default.interceptor';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -48,16 +48,19 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
 import {rxStompConfig} from './configuration/rxstomp.config'
+import { ErrorComponent } from './pages/error/error.component';
+import { ErrorHandlerService } from './services/errorhandler.service';
 
 registerLocaleData(en);
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'dataprotection', component: DataprotectionComponent },
   { path: 'terms', component: TermsofuseComponent },
   { path: 'imprint', component: ImprintComponent },
   { path: 'login', component: SigninComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
-  { path: '', component: IndicatorComponent, pathMatch: 'full' },
+  { path: '', component: IndicatorComponent },
+  { path: '**', component: ErrorComponent },
   {
     path: 'manage-indicators',
     loadChildren: () =>
@@ -80,7 +83,6 @@ const routes: Routes = [
         (m) => m.IndicatorsUploadModule
       ),
   },
-  { path: '', component: IndicatorComponent },
 ];
 @NgModule({
   declarations: [
@@ -97,6 +99,7 @@ const routes: Routes = [
     ScanResultComponent,
     VisualisationresultComponent,
     DownloadResultComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -135,7 +138,7 @@ const routes: Routes = [
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: DefaultHeaderInterceptor,
+      useClass: DefaultInterceptor,
       multi: true
     },
     {
@@ -146,6 +149,9 @@ const routes: Routes = [
       provide: RxStompService,
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig]
+    },
+    { provide: ErrorHandler,
+      useClass: ErrorHandlerService
     }
   ],
   bootstrap: [AppComponent],

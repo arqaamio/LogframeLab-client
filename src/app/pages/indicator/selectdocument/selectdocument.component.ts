@@ -7,7 +7,9 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { interval } from 'rxjs/internal/observable/interval';
 import { UploadFile } from 'ng-zorro-antd/upload';
+import { RxStompService } from '@stomp/ng2-stompjs';
 
+export const WEBSOCKET_BROKER_URL: string = '/topic/progress';
 export const UPLOAD_TITLE: string = 'Uploading';
 export const SCANNING_TITLE: string = 'Scanning';
 export const DONE_TITLE: string = 'Done';
@@ -20,6 +22,7 @@ export const DONE_TITLE: string = 'Done';
 export class SelectdocumentComponent implements OnInit, OnDestroy {
   uploadStateTitle = '';
   indicatorSubscription: Subscription = null;
+  stompSubscription: Subscription = null;
   fileList: UploadFile[] = [];
   fileName: string;
   selectedValues = new FilterDto();
@@ -29,7 +32,8 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
 
   constructor(
     private indicatorService: IndicatorService,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    private rxStompService: RxStompService
   ) {
     // can't be in ngOnInit because of Angular Lifecycle Hooks
     this.indicatorService.updateNextButton(true);
@@ -64,12 +68,21 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
    * @param item NZ-Zorro item with the selected file
    */
   uploadAndScan = (item: any) => {
+    this.rxStompService.activate();
     this.indicatorService.updateNextButton(false);
     this.indicatorService.setSelectedData(null);
     this.indicatorService.setLoadedData(null);
     this.uploadStateTitle = UPLOAD_TITLE;
     this.fileScanned = false;
     this.progress = 1;
+
+    //TODO: remove timeout in its new major release https://github.com/stomp-js/ng2-stompjs/issues/198
+    setTimeout(()=> {
+      this.stompSubscription = this.rxStompService.watch(WEBSOCKET_BROKER_URL).subscribe((message) => {
+        this.progress = JSON.parse(message.body).value;
+      });
+    }, 1000);
+
     return this.indicatorService
       .uploadFile(item.file)
       .subscribe((event: HttpEvent<any>) => {
@@ -86,11 +99,13 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
               this.uploadStateTitle = SCANNING_TITLE;
               this.progress = 1;
               // fake real time progress
-              const subscription = interval(1000).subscribe(()=>{
-                this.progress++;
-                // Stopping condition
-                if(this.fileScanned) subscription.unsubscribe();
-              });
+              // const subscription = interval(1000).subscribe(()=>{
+              //   this.progress++;
+              //   // Stopping condition
+              //   if(this.fileScanned) subscription.unsubscribe();
+              // });
+              setTimeout(null,1000);
+              console.log(`Uploaded! ${this.progress}%`);
             }
             break;
           case HttpEventType.Response:
@@ -136,5 +151,9 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
+    if(this.stompSubscription != null){
+      this.stompSubscription.unsubscribe();
+      this.rxStompService.deactivate();
+    }
   }
 }
