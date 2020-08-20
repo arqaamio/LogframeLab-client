@@ -154,12 +154,12 @@ const routes: Routes = [
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true,
-    }/*,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ResponseJwtInterceptor,
       multi: true
-    },*/
+    },
   ],
   bootstrap: [AppComponent],
 })
