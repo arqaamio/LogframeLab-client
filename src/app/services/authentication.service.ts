@@ -33,15 +33,13 @@ export class AuthenticationService {
     return this.http.post<JwtDto>(`${environment.apiBaseUrl}/auth/login`, JSON.stringify({
       username,
       password
-    }), {
+    }),{
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     }).pipe(
       map(jwt => {
-        localStorage.setItem(this.JWT_KEY, JSON.stringify(jwt));
-        this.currentJwtSubject.next(jwt);
-        this.currentJwt = this.currentJwtSubject.asObservable();
+        this.processJwt(jwt);
       }));
   }
 
@@ -50,6 +48,12 @@ export class AuthenticationService {
     localStorage.removeItem(this.JWT_KEY);
     this.currentJwtSubject.next(undefined);
 
+  }
+
+  renewJwt(jwt: string): void {
+    const jwtDto = this.currentJwtSubject.value;
+    jwtDto.token = jwt;
+    this.processJwt(jwtDto);
   }
 
   get userGroups() {
@@ -66,5 +70,11 @@ export class AuthenticationService {
        headers: new HttpHeaders({
       'Content-Type':  'application/json'
      })});
+  }
+
+  private processJwt(jwt: JwtDto) {
+    localStorage.setItem(this.JWT_KEY, JSON.stringify(jwt));
+    this.currentJwtSubject.next(jwt);
+    this.currentJwt = this.currentJwtSubject.asObservable();
   }
 }
