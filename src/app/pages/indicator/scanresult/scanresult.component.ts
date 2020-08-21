@@ -83,7 +83,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           if (isNewInfo && data.dataResponse != null) {
             this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
             this.indicatorService.setLoadedData(this.listOfData);
-            console.log("listOfData",this.listOfData)
             this.displayData = this.listOfData;
 
             const result = Utils.findMinAndMaxValue(data.dataResponse, 'numTimes');
