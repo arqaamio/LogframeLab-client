@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+    "start:ng": "ng serve --host 0.0.0.0 --proxy-config proxy.config.json",
     "build": "ng build",
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
@@ -23,6 +24,7 @@
     "@angular/router": "~9.1.9",
     "@babel/compat-data": "^7.8.0",
     "@stomp/ng2-stompjs": "^7.2.0",
+    "draw2d": "^1.0.38",
     "express": "^4.17.1",
     "ng-zorro-antd": "^9.3.0",
     "path": "^0.12.7",

@@ -1,3 +1,4 @@
+<div class="content-layout" [style.max-height]="height">
 <nz-layout>
   <ul nz-menu nzMode="horizontal" class="nz-header">
     <li nz-menu-item>
@@ -8,7 +9,9 @@
     <app-profile></app-profile>
   </ul>
   <nz-content>
-    <router-outlet></router-outlet>
+   
+      <router-outlet></router-outlet>
+  
   </nz-content>
   <nz-footer>
     <div>
@@ -29,4 +32,5 @@
     </div>
   </nz-footer>
 </nz-layout>
+</div>
 <app-pop></app-pop>

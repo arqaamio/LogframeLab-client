@@ -47,7 +47,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
-import {rxStompConfig} from './configuration/rxstomp.config'
+import {rxStompConfig} from './configuration/rxstomp.config';
+import { VisualisationComponent } from './pages/visualisation/visualisation.component'
 
 registerLocaleData(en);
 
@@ -57,6 +58,7 @@ const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   { path: 'login', component: SigninComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
+  { path: 'visualisation', component: VisualisationComponent },
   { path: '', component: IndicatorComponent, pathMatch: 'full' },
   {
     path: 'manage-indicators',
@@ -97,6 +99,7 @@ const routes: Routes = [
     ScanResultComponent,
     VisualisationresultComponent,
     DownloadResultComponent,
+    VisualisationComponent,
   ],
   imports: [
     BrowserModule,
