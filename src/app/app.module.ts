@@ -43,6 +43,9 @@ import { JwtInterceptor } from './utils/auth/jwt.interceptor';
 import { DefaultHeaderInterceptor } from './utils/http/header.interceptor';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import {ResponseJwtInterceptor} from './utils/auth/response-jwt.interceptor';
+import {InvalidJwtInterceptor} from './utils/auth/invalid-jwt.interceptor';
+
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
@@ -130,12 +133,12 @@ const routes: Routes = [
     { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true,
+      useClass: DefaultHeaderInterceptor,
+      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: DefaultHeaderInterceptor,
+      useClass: InvalidJwtInterceptor,
       multi: true
     },
     {
@@ -146,7 +149,17 @@ const routes: Routes = [
       provide: RxStompService,
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig]
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseJwtInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent],
 })
