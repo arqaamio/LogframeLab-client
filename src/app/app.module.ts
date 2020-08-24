@@ -136,7 +136,7 @@ export const routes: Routes = [
     { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: DefaultHeaderInterceptor,
+      useClass: DefaultInterceptor,
       multi: true
     },
     {
