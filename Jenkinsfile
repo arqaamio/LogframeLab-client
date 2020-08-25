@@ -44,7 +44,8 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                sh 'docker-compose up --build -d'
+                // sh 'docker-compose up --build -d'
+                sh 'docker cp jenkins:$PWD/dist/client/. /tmp/logframelab-client'
             }
         }
 
