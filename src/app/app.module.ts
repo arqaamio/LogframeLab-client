@@ -63,7 +63,6 @@ export const routes: Routes = [
   { path: 'login', component: SigninComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
   { path: '', component: IndicatorComponent },
-  // { path: '**', component: ErrorComponent },
   {
     path: 'manage-indicators',
     loadChildren: () =>
@@ -86,6 +85,7 @@ export const routes: Routes = [
         (m) => m.IndicatorsUploadModule
       ),
   },
+  { path: '**', component: ErrorComponent },
 ];
 @NgModule({
   declarations: [
