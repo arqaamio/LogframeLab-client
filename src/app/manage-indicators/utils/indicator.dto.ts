@@ -11,7 +11,7 @@ export class IndicatorDto {
   sdgCode: string;
   source: string;
   sourceVerification: string;
-  themes: string;
+  sector: string;
   level: Level;
   levelId: number;
   keywordsList: string[];
@@ -28,7 +28,7 @@ export class IndicatorDto {
     newInstance.sdgCode = indicator.sdgCode;
     newInstance.source = indicator.source;
     newInstance.sourceVerification = indicator.sourceVerification;
-    newInstance.themes = indicator.themes;
+    newInstance.sector = indicator.sector;
     newInstance.level = indicator.level;
     newInstance.levelId = indicator.level.id;
     newInstance.keywordsList = indicator.keywordsList;

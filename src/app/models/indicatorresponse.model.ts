@@ -4,7 +4,7 @@ export class IndicatorResponse {
     color: string;
     name: string;
     description: string;
-    themes: string;
+    sector: string;
     source: string;
     disaggregation: boolean;
     crsCode: string;

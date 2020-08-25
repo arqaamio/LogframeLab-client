@@ -166,8 +166,8 @@ export class IndicatorService {
         args+='sources='+element+'&';
       });
 
-      filtersDto.themes.forEach(element => {
-        args+='themes='+element+'&';
+      filtersDto.sector.forEach(element => {
+        args+='sector='+element+'&';
       });
     }
     if(args!= '') {

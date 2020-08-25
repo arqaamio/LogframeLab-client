@@ -1,5 +1,5 @@
 export class FilterDto {
-  public themes: string[] = [];
+  public sector: string[] = [];
   public source: string[] = [];
   public level: Level[] = [];
   public sdgCode: string[] = [];

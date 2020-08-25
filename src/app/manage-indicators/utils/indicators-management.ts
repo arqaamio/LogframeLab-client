@@ -37,7 +37,7 @@ export class IndicatorsManagement {
     if (this.hasFilters) {
       return;
     }
-    this.themeFilter = filters.themes.map(IndicatorsManagement.processFilter);
+    this.themeFilter = filters.sector.map(IndicatorsManagement.processFilter);
     this.sourceFilter = filters.source.map(IndicatorsManagement.processFilter);
     this.levelFilter = filters.level.map(level => {
       const filter = new FilterData();

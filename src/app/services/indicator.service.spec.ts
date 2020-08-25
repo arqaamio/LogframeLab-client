@@ -60,7 +60,7 @@ describe('IndicatorService', () => {
 
   it('should get indicators without filters as an Observable', inject([HttpTestingController], (httpClient: HttpTestingController) => {
     const indicatorsList: IndicatorResponse[] = [{
-      id: 1, level: 'IMPACT', color: '', name: 'Name', description: '', keys: [], var: '', crsCode:'', sdgCode: '', themes:'', disaggregation: true, source:'', numTimes:0
+      id: 1, level: 'IMPACT', color: '', name: 'Name', description: '', keys: [], var: '', crsCode:'', sdgCode: '', sector:'', disaggregation: true, source:'', numTimes:0
     }]
     indicatorService.getIndicators(null)
       .subscribe((response: IndicatorResponse[]) => {
@@ -74,16 +74,16 @@ describe('IndicatorService', () => {
   }));
 
   it('should get indicators with filters as an Observable', inject([HttpTestingController], (httpClient: HttpTestingController) => {
-    const themes = 'Agriculture';
+    const sector = 'Agriculture';
     const level: Level = {id: 1, name:'IMPACT', color:'Red', description:'', templateVar:''};
     const indicatorsList: IndicatorResponse[] = [{
-      id: 1, level: level.name, color: '', name: 'Name', description: '', keys: [], var: '', crsCode:'', sdgCode: '', themes:themes, disaggregation: true, source:'', numTimes:0
+      id: 1, level: level.name, color: '', name: 'Name', description: '', keys: [], var: '', crsCode:'', sdgCode: '', sector:sector, disaggregation: true, source:'', numTimes:0
     }]
-    indicatorService.getIndicators({crsCode: [], level:[level], levelIds: [level.id], sdgCode: [], source: [], themes:[themes]})
+    indicatorService.getIndicators({crsCode: [], level:[level], levelIds: [level.id], sdgCode: [], source: [], sector:[sector]})
       .subscribe((response: IndicatorResponse[]) => {
         expect(response).toBe(indicatorsList);
     });
-    let req = httpMock.expectOne(environment.apiBaseUrl + '/indicator?levels='+level.id+'&themes='+themes);
+    let req = httpMock.expectOne(environment.apiBaseUrl + '/indicator?levels='+level.id+'&sector='+sector);
     expect(req.request.method).toBe('GET');
     req.flush(indicatorsList);
 
