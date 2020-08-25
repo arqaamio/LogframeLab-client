@@ -38,15 +38,10 @@ export class IndicatorsManagement {
       return;
     }
     this.themeFilter = filters.themes.map(IndicatorsManagement.processFilter);
-    this.sourceFilter = filters.source.map(IndicatorsManagement.processFilter);
-    this.levelFilter = filters.level.map(level => {
-      const filter = new FilterData();
-      filter.text = level.name;
-      filter.value = level.id;
-      return filter;
-    });
-    this.sdgCodeFilter = filters.sdgCode.map(IndicatorsManagement.processFilter);
-    this.crsCodeFilter = filters.crsCode.map(IndicatorsManagement.processFilter);
+    this.sourceFilter = filters.source.map(this.mapFilter);
+    this.levelFilter = filters.level.map(this.mapFilter);
+    this.sdgCodeFilter = filters.sdgCode.map(this.mapFilter);
+    this.crsCodeFilter = filters.crsCode.map(this.mapFilter);
 
     this.hasFilters = true;
   }
@@ -63,6 +58,7 @@ export class IndicatorsManagement {
       ? this.manageIndicatorsService.getIndicatorsForApproval(this.page, this.pageSize, this.filters)
       : this.manageIndicatorsService.getIndicators(this.page, this.pageSize, this.filters);
 
+    // TODO: Fix deprecated
     forkJoin([filtersRequest, indicatorsRequest]).subscribe(results => {
       const filters = results[0];
 
@@ -73,11 +69,19 @@ export class IndicatorsManagement {
         const page = results[1].body;
         this.totalRowCount = page.totalElements;
         this.indicatorList = page.content;
+        console.log(this.indicatorList);
       }
     });
   }
 
   addFilter(filterKey: string, value: string[]) {
     this.filters[filterKey] = value;
+  }
+
+  mapFilter(value): FilterData {
+    const filter = new FilterData();
+    filter.text = value.name;
+    filter.value = value.id;
+    return filter;
   }
 }

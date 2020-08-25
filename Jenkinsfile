@@ -44,6 +44,7 @@ pipeline {
                 branch 'develop'
             }
             steps {
+                // sh 'docker-compose up --build -d'
                 sh 'docker cp jenkins:$PWD/dist/client/. /tmp/logframelab-client'
             }
         }
@@ -58,6 +59,10 @@ pipeline {
                 // use ssh to send the compilation files to the EC2
                 // sh 'cp -R dist/client /usr/share/nginx/html'
                 // sh 'docker-compose up --build -d'
+                // input message: 'Deploy to the production environment? (Click "Proceed" to continue)'
+                // echo 'Sending the build to the production machine'
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'PROD', transfers: [
+                    sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'logframelab-client', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'dist/client/**')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
     }
