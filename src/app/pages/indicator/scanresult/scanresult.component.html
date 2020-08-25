@@ -215,7 +215,7 @@
               </nz-tag>
             </td>
             <td>{{ data.indicator.name }}</td>
-            <td>{{ data.indicator.source }}</td>
+            <td>{{ printArray(data.indicator.source, 'name') }}</td>
             <td style="text-align: center;">
               <div style="text-align: center;">
                 <i
@@ -235,8 +235,8 @@
               </div>
             </td>
             <td>{{ data.indicator.sector }}</td>
-            <td>{{ formatCrsCode(data.indicator.crsCode) }}</td>
-            <td>{{ data.indicator.sdgCode }}</td>
+            <td>{{ printArray(data.indicator.crsCode, 'name') }}</td>
+            <td title="{{printArray(data.indicator.sdgCode, 'name')}}" nzEllipsis>{{ printArray(data.indicator.sdgCode, 'name') }}</td>
             <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
           </tr>
         </ng-template>

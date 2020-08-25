@@ -25,7 +25,7 @@
       <th nzShowFilter [nzFilters]="sdgCodeFilter" (nzFilterChange)="addFilter('sdgCode', $event)">SDG Code</th>
       <th nzShowFilter [nzFilters]="sourceFilter" (nzFilterChange)="addFilter('source', $event)">Source</th>
       <th>Source Verification</th>
-      <th nzShowFilter [nzFilters]="themeFilter" (nzFilterChange)="addFilter('sector', $event)">Sector</th>
+      <th nzShowFilter [nzFilters]="sectorFilter" (nzFilterChange)="addFilter('sector', $event)">Sector</th>
       <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">Level</th>
       <th>Actions</th>
     </tr>
@@ -33,14 +33,14 @@
     <tbody>
     <tr *ngFor="let ind of indicators.data">
       <td>{{ind.id}}</td>
-      <td>{{ind.crsCode}}</td>
+      <td>{{printArray(ind.crsCode, 'name')}}</td>
       <td>{{ind.dataSource}}</td>
       <td>{{ind.description}}</td>
       <td>{{ind.disaggregation}}</td>
       <td>{{ind.keywords}}</td>
       <td>{{ind.name}}</td>
-      <td>{{ind.sdgCode}}</td>
-      <td>{{ind.source}}</td>
+      <td>{{printArray(ind.sdgCode, 'name')}}</td>
+      <td>{{printArray(ind.source, 'name')}}</td>
       <td>{{ind.sourceVerification}}</td>
       <td>{{ind.sector}}</td>
       <td>{{ind.level.name}}</td>
