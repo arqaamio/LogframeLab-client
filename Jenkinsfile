@@ -43,6 +43,12 @@ pipeline {
             steps {
                 sh 'npm run e2e:ci'
             }
+            post {
+                always {
+                    junit 'results/cypress-report.xml'
+                }
+            }
+
         }
 
         stage('Deploy Dev') {
