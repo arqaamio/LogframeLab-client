@@ -51,7 +51,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
 import {rxStompConfig} from './configuration/rxstomp.config'
-import { ErrorComponent } from './pages/error/error.component';
+import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ErrorHandlerService } from './services/errorhandler.service';
 
 registerLocaleData(en);
@@ -85,7 +85,7 @@ export const routes: Routes = [
         (m) => m.IndicatorsUploadModule
       ),
   },
-  { path: '**', component: ErrorComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
   declarations: [
@@ -102,7 +102,7 @@ export const routes: Routes = [
     ScanResultComponent,
     VisualisationresultComponent,
     DownloadResultComponent,
-    ErrorComponent
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
