@@ -46,3 +46,7 @@ testem.log
 Thumbs.db
 /*.iml
 **.orig
+
+# Cypress
+cypress/videos/
+cypress/screenshots/

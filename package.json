@@ -2,6 +2,8 @@
   "name": "client",
   "version": "0.0.1",
   "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
@@ -10,7 +12,8 @@
     "test:docker": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox",
     "test:coverage": "ng test --codeCoverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "e2e:ci": "start-server-and-test start http://localhost:4200 cy:run"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +26,7 @@
     "@angular/platform-browser-dynamic": "~9.1.9",
     "@angular/router": "~9.1.9",
     "@babel/compat-data": "^7.8.0",
+    "@briebug/cypress-schematic": "^3.3.0",
     "@stomp/ng2-stompjs": "^7.2.0",
     "express": "^4.17.1",
     "ng-zorro-antd": "^9.3.0",
@@ -36,10 +40,12 @@
     "@angular/cli": "^9.1.12",
     "@angular/compiler-cli": "^9.1.12",
     "@angular/language-service": "^9.1.12",
+    "@cypress/webpack-preprocessor": "5.4.5",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.12.54",
     "codelyzer": "^5.1.2",
+    "cypress": "5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^5.1.1",
@@ -47,7 +53,8 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
-    "protractor": "^7.0.0",
+    "start-server-and-test": "^1.11.3",
+    "ts-loader": "8.0.3",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.8.3"

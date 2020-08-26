@@ -39,6 +39,12 @@ pipeline {
             }
         }
 
+        stage('Test E2E') {
+            steps {
+                sh 'npm run e2e:ci'
+            }
+        }
+
         stage('Deploy Dev') {
             when {
                 branch 'develop'
