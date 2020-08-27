@@ -3,7 +3,7 @@ import { SDGCode } from 'src/app/models/sdgcode.model';
 import { Source } from 'src/app/models/source.model';
 
 export class FilterDto {
-  public themes: string[] = [];
+  public sector: string[] = [];
   public source: Source[] = [];
   public level: Level[] = [];
   public sdgCode: SDGCode[] = [];

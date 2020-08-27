@@ -1,18 +1,40 @@
 <div nz-col nzSpan="22" nzOffset="1">
-
   <div nz-col style="margin-bottom: 30px; margin-top: 50px;">
-    <button nz-button (click)="create()" nzType="primary" [disabled]="displayCrudModal" nzSize="default">
+    <button
+      nz-button
+      (click)="create()"
+      nzType="primary"
+      [disabled]="displayCrudModal"
+      nzSize="default"
+    >
       Add Indicator
     </button>
 
-    <button nz-button (click)="fetchByFilters()" nzType="link" nzSize="default" style="position: absolute; right: 0;">Filter</button>
+    <button
+      nz-button
+      (click)="fetchByFilters()"
+      nzType="link"
+      nzSize="default"
+      style="position: absolute; right: 0;"
+    >
+      Filter
+    </button>
   </div>
 
-  <nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList"
-            [nzFrontPagination]="false"
-            [nzLoading]="isLoading" [nzTotal]="totalRowCount"
-            [(nzPageIndex)]="page" [(nzPageSize)]="pageSize" (nzPageSizeChange)="search(true, false)"
-            (nzPageIndexChange)="search(false, false)" nzSize="small">
+  <nz-table
+    #indicators
+    nzShowSizeChanger
+    nzBordered
+    [nzData]="indicatorList"
+    [nzFrontPagination]="false"
+    [nzLoading]="isLoading"
+    [nzTotal]="totalRowCount"
+    [(nzPageIndex)]="page"
+    [(nzPageSize)]="pageSize"
+    (nzPageSizeChange)="search(true, false)"
+    (nzPageIndexChange)="search(false, false)"
+    nzSize="small"
+  >
     <thead>
     <tr>
       <th>ID</th>
@@ -25,7 +47,7 @@
       <th nzShowFilter [nzFilters]="sdgCodeFilter" (nzFilterChange)="addFilter('sdgCode', $event)">SDG Code</th>
       <th nzShowFilter [nzFilters]="sourceFilter" (nzFilterChange)="addFilter('source', $event)">Source</th>
       <th>Source Verification</th>
-      <th nzShowFilter [nzFilters]="themeFilter" (nzFilterChange)="addFilter('themes', $event)">Themes</th>
+      <th nzShowFilter [nzFilters]="sectorFilter" (nzFilterChange)="addFilter('sector', $event)">Sector</th>
       <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">Level</th>
       <th>Actions</th>
     </tr>
@@ -42,7 +64,7 @@
       <td>{{printArray(ind.sdgCode, 'name')}}</td>
       <td>{{printArray(ind.source, 'name')}}</td>
       <td>{{ind.sourceVerification}}</td>
-      <td>{{ind.themes}}</td>
+      <td>{{ind.sector}}</td>
       <td>{{ind.level.name}}</td>
       <td>
         <div>
@@ -54,11 +76,13 @@
     </tbody>
   </nz-table>
 </div>
-<app-crud-indicator (hideCrudModal)="hideCrudModal($event)"
-                    (indicatorAdded)="refreshIndicatorList()"
-                    (indicatorDeleted)="refreshIndicatorList()"
-                    (indicatorUpdated)="refreshIndicatorList()"
-                    [operation]="operation"
-                    [indicatorForOperation]="indicator"
-                    [displayCrudModal]="displayCrudModal">
+<app-crud-indicator
+  (hideCrudModal)="hideCrudModal($event)"
+  (indicatorAdded)="refreshIndicatorList()"
+  (indicatorDeleted)="refreshIndicatorList()"
+  (indicatorUpdated)="refreshIndicatorList()"
+  [operation]="operation"
+  [indicatorForOperation]="indicator"
+  [displayCrudModal]="displayCrudModal"
+>
 </app-crud-indicator>

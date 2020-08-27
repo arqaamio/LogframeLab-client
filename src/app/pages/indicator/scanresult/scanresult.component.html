@@ -139,15 +139,15 @@
           </th>
           <th
             nzShowSort
-            nzColumnKey="themes"
+            nzColumnKey="sector"
             nzWidth="10%"
             nz-popover
             nzPopoverTitle="Thematic Area"
             nzPopoverContent="The sectors where the indicator is related to."
             nzBreakWord
             nzShowFilter
-            [nzFilters]="searchFilter.themes"
-            [nzFilterFn]="filterThemes"
+            [nzFilters]="searchFilter.sector"
+            [nzFilterFn]="filterSector"
           >
             Thematic Area
           </th>
@@ -234,7 +234,7 @@
                 ></i>
               </div>
             </td>
-            <td>{{ data.indicator.themes }}</td>
+            <td>{{ data.indicator.sector }}</td>
             <td>{{ printArray(data.indicator.crsCode, 'name') }}</td>
             <td title="{{printArray(data.indicator.sdgCode, 'name')}}" nzEllipsis>{{ printArray(data.indicator.sdgCode, 'name') }}</td>
             <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>

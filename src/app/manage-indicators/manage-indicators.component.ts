@@ -66,7 +66,6 @@ export class ManageIndicatorsComponent extends IndicatorsManagement implements O
     if(property==null){
       return array.join(', ');
     }else {
-      debugger;
       return array.map((x)=>x[property]).join(', ');
     }
   }

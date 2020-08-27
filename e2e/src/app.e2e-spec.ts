@@ -29,7 +29,7 @@ describe('workspace-project App', () => {
   it('should display footer', () => {
     page.navigateTo();
     expect(page.getFooter().element(by.id('copyright')).getText())
-      .toEqual('Logframe Lab ©'+new Date().getFullYear()+' developed By Arqaam GmbH');
+      .toEqual('Logframe Lab ©'+new Date().getFullYear()+' developed by Arqaam GmbH');
     expect(page.getFooter().element(by.css('img'))).toBeTruthy();
     expect(page.getFooter().element(by.css('[routerLink=\"/terms\"]')).getText()).toEqual('Terms Of Use');
     expect(page.getFooter().element(by.css('[routerLink=\"/dataprotection\"]')).getText()).toEqual('Data Protection Declaration');

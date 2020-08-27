@@ -1,16 +1,14 @@
 import {Injectable} from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpHeaders,
   HttpResponse
 } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
-import { throwError } from 'rxjs/internal/observable/throwError';
 import {environment} from '../../environments/environment';
 import {JwtDto} from './dto/jwt.dto';
-import {catchError, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {GroupDto} from './dto/group.dto';
 import {User} from '../user-management/service/user';
 
@@ -42,22 +40,7 @@ export class AuthenticationService {
     }).pipe(
       map(jwt => {
         this.processJwt(jwt);
-      }),
-      catchError(catchError((error: HttpErrorResponse) => {
-        const errorMsg = this.getErrorMessage(error);
-        return throwError(errorMsg);
-      })));
-  }
-
-  getErrorMessage(error: HttpErrorResponse) {
-    let errorMessage = "";
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-
-    return errorMessage;
+      }));
   }
 
   // TODO send logout request to api

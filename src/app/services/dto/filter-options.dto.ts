@@ -1,5 +1,5 @@
 export class FilterOptionsDto {
-  public themes: String[];
+  public sector: String[];
   public descriptions: String[];
   public sources: String[];
   public levels: Level[];

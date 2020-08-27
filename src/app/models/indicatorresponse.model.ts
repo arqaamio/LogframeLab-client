@@ -8,7 +8,7 @@ export class IndicatorResponse {
     color: string;
     name: string;
     description: string;
-    themes: string;
+    sector: string;
     source: Array<Source>;
     disaggregation: boolean;
     crsCode: Array<CRSCode>;

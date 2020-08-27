@@ -1,18 +1,18 @@
 <div class="uploadArea">
     <div class="flex-container" *ngIf='progress==0'>
       <div>
-        <label>Themes:</label><br />
+        <label>Sector:</label><br />
         <nz-select
           nzMode="multiple"
-          (ngModelChange)="onChangeFilter('themes', $event)"
-          nzPlaceHolder="Filter by themes"
-          [(ngModel)]="selectedValues.themes"
+          (ngModelChange)="onChangeFilter('sector', $event)"
+          nzPlaceHolder="Filter by Sector"
+          [(ngModel)]="selectedValues.sector"
         >
           <nz-option
-            *ngFor="let option of filterOptions.themes"
+            *ngFor="let option of filterOptions.sector"
             [nzLabel]="option"
             [nzValue]="option"
-            [nzHide]="!isNotSelected('themes', option)"
+            [nzHide]="!isNotSelected('sector', option)"
           ></nz-option>
         </nz-select>
       </div>

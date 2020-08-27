@@ -13,7 +13,7 @@ export class IndicatorsManagement {
   indicatorList: IndicatorDto[] = [];
   isLoading = false;
 
-  themeFilter: FilterData[] = [];
+  sectorFilter: FilterData[] = [];
   sourceFilter: FilterData[] = [];
   levelFilter: FilterData[] = [];
   sdgCodeFilter: FilterData[] = [];
@@ -37,7 +37,7 @@ export class IndicatorsManagement {
     if (this.hasFilters) {
       return;
     }
-    this.themeFilter = filters.themes.map(IndicatorsManagement.processFilter);
+    this.sectorFilter = filters.sector.map(IndicatorsManagement.processFilter);
     this.sourceFilter = filters.source.map(this.mapFilter);
     this.levelFilter = filters.level.map(this.mapFilter);
     this.sdgCodeFilter = filters.sdgCode.map(this.mapFilter);
