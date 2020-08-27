@@ -60,7 +60,7 @@ export class ManageIndicatorsService {
         sortBy.direction);
     }
 
-    filter.sector.forEach(sector => params = params.append('filters.sector', sector));
+    filter.sector.forEach(sector => params = params.append('filters.sectors', sector));
     filter.crsCode.forEach(code => params = params.append('filters.crs_code', code.toString()));
     filter.sdgCode.forEach(code => params = params.append('filters.sdg_code', code.toString()));
     filter.levelIds.forEach(levelId => params = params.append('filters.levelIds', String(levelId)));
