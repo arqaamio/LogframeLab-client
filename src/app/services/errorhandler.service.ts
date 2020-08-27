@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { throwError } from 'rxjs/internal/observable/throwError';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ClientError } from '../models/clienterror.model';
 
