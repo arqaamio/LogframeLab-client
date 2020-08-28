@@ -34463,12 +34463,14 @@ _packages2.default.policy.connection.ClickConnectionCreatePolicy = _packages2.de
     createConnection: function createConnection() {
         var connection = this._super();
         if (this.vertices.length === 2) {
-            connection.setRouter(new _packages2.default.layout.connection.DirectRouter());
+            connection.setRouter(new _packages2.default.layout.connection.InteractiveManhattanConnectionRouter());
         } else {
             connection.setRouter(new _packages2.default.layout.connection.VertexRouter());
             connection.setVertices(this.vertices);
         }
-        connection.setRadius(10);
+		connection.setRadius(10);
+		connection.setColor('rgba(204,204,204,1)');
+		connection.setTargetDecorator(new draw2d.decoration.connection.ArrowDecorator(10, 10));
         return connection;
     }
 
@@ -34686,9 +34688,12 @@ _packages2.default.policy.connection.ConnectionCreatePolicy = _packages2.default
      * @template
      */
     createConnection: function createConnection() {
-        return new _packages2.default.Connection({
-            router: new _packages2.default.layout.connection.DirectRouter()
-        });
+        let con = new _packages2.default.Connection({
+			color: "rgba(204,204,204,1)",
+            router: new draw2d.layout.connection.InteractiveManhattanConnectionRouter()
+		});
+		con.setTargetDecorator(new draw2d.decoration.connection.ArrowDecorator(10, 10));
+		return con;
     },
 
     ripple: function ripple(x, y, type) {
@@ -34971,7 +34976,7 @@ _packages2.default.policy.connection.DragConnectionCreatePolicy = _packages2.def
 
     createConnection: function createConnection() {
         var connection = this._super();
-        connection.setRouter(new _packages2.default.layout.connection.DirectRouter());
+        connection.setRouter(new _packages2.default.layout.connection.InteractiveManhattanConnectionRouter());
 
         return connection;
     }
@@ -35891,7 +35896,7 @@ _packages2.default.policy.connection.OrthogonalConnectionCreatePolicy = _package
 
     createConnection: function createConnection() {
         var connection = this._super();
-        connection.attr({ radius: 7, stroke: 3 });
+        connection.attr({ radius: 7, stroke: 3});
         connection.setRouter(new _packages2.default.layout.connection.InteractiveManhattanConnectionRouter());
         return connection;
     }
@@ -44403,12 +44408,80 @@ _packages2.default.shape.basic.Text = _packages2.default.shape.basic.Label.exten
    */
   init: function init(attr, setter, getter) {
     this.cachedWrappedAttr = null;
-
+	this.tooltip = null
+    this.tooltipTimer = -1
     this._super(extend({ width: 100, height: 50, resizeable: true }, attr), setter, getter);
+	this.zoomCallback = $.proxy(this.positionTooltip, this)
 
+    // this.on("dragstart", () => {
+    //   this.hideTooltip(true)
+    // })
+    // this.on("mouseenter", () => {
+	// console.log("test",this.tooltipTimer)
+    //   this.tooltipTimer = window.setTimeout(() => {
+    //     this.tooltipTimer = -1
+    //     this.showTooltip()
+    //   }, 500)
+    // })
+    // this.on("mouseleave", () => {
+	//   this.hideTooltip();
+	  
+    // })
+    // this.on("move", () => {
+    //   this.positionTooltip()
+    // })
     this.installEditPolicy(new _packages2.default.policy.figure.HorizontalEditPolicy());
   },
+  setCanvas: function (canvas) {
+    if (this.canvas !== null) this.canvas.off(this.zoomCallback)
+    this._super(canvas)
+    if (this.canvas !== null) this.canvas.on("zoom", this.zoomCallback)
+  },
 
+
+  hideTooltip: function (fast) {
+    if (this.tooltipTimer !== -1) {
+      window.clearTimeout(this.tooltipTimer)
+      this.tooltipTimer = -1
+    }
+    else if(this.tooltip!==null){
+      if(fast) {
+        this.tooltip.remove()
+      }
+      else{
+        this.tooltip.fadeOut(500, function () {
+          $(this).remove()
+        })
+      }
+      this.tooltip = null
+    }
+  },
+
+  showTooltip: function () {
+    this.tooltip = $('<div class="tooltip">'+this.text+'</div>')
+      .appendTo('body')
+      .hide()
+      .fadeIn(1000)
+    this.positionTooltip()
+  },
+
+  positionTooltip: function () {
+    if (this.tooltip === null) {
+      return
+    }
+
+    var width = this.tooltip.outerWidth(true)
+    var pos = this.canvas.fromCanvasToDocumentCoordinate(
+      this.getAbsoluteX() + this.getWidth() / 2 - width / 2 + 8,
+      this.getAbsoluteY() + this.getHeight() + 10)
+
+    // remove the scrolling part from the tooltip because the tooltip is placed
+    // inside the scrolling container
+    pos.x += this.canvas.getScrollLeft()
+    pos.y += this.canvas.getScrollTop()
+
+    this.tooltip.css({'top': pos.y, 'left': pos.x})
+  },
   /**
    * @inheritdoc
    */

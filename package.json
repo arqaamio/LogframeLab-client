@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+    "start:ng": "ng serve --host 0.0.0.0 --proxy-config proxy.config.json",
     "build": "ng build",
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
@@ -25,6 +26,8 @@
     "@stomp/ng2-stompjs": "^7.2.0",
     "express": "^4.17.1",
     "ng-zorro-antd": "^9.3.0",
+    "ngx-loading": "^8.0.0",
+    "ngx-spinner": "^10.0.1",
     "path": "^0.12.7",
     "rxjs": "~6.5.5",
     "tslib": "^1.13.0",

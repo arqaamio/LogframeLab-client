@@ -234,7 +234,8 @@
               </div>
             </td>
             <td>{{ data.indicator.themes }}</td>
-            <td>{{ formatCrsCode(data.indicator.crsCode) }}</td>
+            <!-- <td>{{ formatCrsCode(data.indicator.crsCode) }}</td> -->
+            <td>{{ data.indicator.name }}</td>
             <td>{{ data.indicator.sdgCode }}</td>
             <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
           </tr>

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -48,8 +48,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
 import {rxStompConfig} from './configuration/rxstomp.config';
-import { VisualisationComponent } from './pages/visualisation/visualisation.component'
-
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 registerLocaleData(en);
 
 const routes: Routes = [
@@ -58,7 +57,6 @@ const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   { path: 'login', component: SigninComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
-  { path: 'visualisation', component: VisualisationComponent },
   { path: '', component: IndicatorComponent, pathMatch: 'full' },
   {
     path: 'manage-indicators',
@@ -98,8 +96,7 @@ const routes: Routes = [
     SelectdocumentComponent,
     ScanResultComponent,
     VisualisationresultComponent,
-    DownloadResultComponent,
-    VisualisationComponent,
+    DownloadResultComponent
   ],
   imports: [
     BrowserModule,
@@ -127,6 +124,7 @@ const routes: Routes = [
     NzSliderModule,
     NzIconModule,
     NzPopoverModule,
+    NgxSpinnerModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -149,8 +147,9 @@ const routes: Routes = [
       provide: RxStompService,
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig]
-    }
+    },NgxSpinnerService
   ],
   bootstrap: [AppComponent],
+  schemas:[NO_ERRORS_SCHEMA]
 })
 export class AppModule {}

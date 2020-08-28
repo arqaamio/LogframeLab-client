@@ -27,6 +27,9 @@ export class IndicatorService {
   private dataResponse: any = null;
   private selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
+  public exportSvg = new BehaviorSubject<any>(null);
+  public allIds: any = [];
+  public canvasJson: any = [];
   private nextButtonSubject = new BehaviorSubject<any>(null);
   private isNewInfo: boolean = true;
   private nextButton: boolean = false;
@@ -41,6 +44,8 @@ export class IndicatorService {
       isNewInfo: this.isNewInfo,
     });
   }
+
+
   clearIndicatorData() {
     this.filters = null;
     this.dataResponse = null;
