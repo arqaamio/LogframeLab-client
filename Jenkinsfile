@@ -8,7 +8,7 @@ pipeline {
 
         stage('Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'CYPRESS_CACHE_FOLDER=/root/.cache/Cypress npm install'
             }
         }
 
@@ -19,7 +19,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'CYPRESS_CACHE_FOLDER=./tmp/Cypress node node_modules/@angular/cli/bin/ng build --verbose'
+                sh 'node node_modules/@angular/cli/bin/ng build --verbose'
                 //                sh 'node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
             }
         }
@@ -29,7 +29,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'CYPRESS_CACHE_FOLDER=./tmp/Cypress node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
+                sh 'CYPRESS_CACHE_FOLDER=/root/.cache/Cypress node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
             }
         }
 
