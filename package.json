@@ -14,8 +14,7 @@
     "test:coverage": "ng test --codeCoverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "e2e:ci": "concurrently \"cypress run\" --kill-others \"ng serve\" --success first",
-    "e2e:test": "start-server-and-test start http://localhost:4200 cy:run"
+    "e2e:ci": "start-server-and-test start http://localhost:4200 cy:run"
   },
   "private": true,
   "dependencies": {
@@ -47,7 +46,6 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.12.54",
     "codelyzer": "^5.1.2",
-    "concurrently": "^5.3.0",
     "cypress": "5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
