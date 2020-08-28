@@ -41,7 +41,7 @@ pipeline {
 
         stage('Test E2E') {
             steps {
-                sh 'npm run e2e:ci'
+                sh 'CYPRESS_RETRIES=2 npm run e2e:ci'
             }
             post {
                 always {
