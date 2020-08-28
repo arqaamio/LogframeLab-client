@@ -41,10 +41,10 @@ pipeline {
 
         stage('Test E2E') {
             steps {
-                sh 'CYPRESS_CACHE_FOLDER=./tmp/Cypress CYPRESS_RETRIES=2 npm run e2e:ci'
+                sh 'CYPRESS_CACHE_FOLDER=/root/.cache/Cypress CYPRESS_RETRIES=2 npm run e2e:ci'
             }
             post {
-                always {
+                success {
                     junit 'results/cypress-report.xml'
                 }
             }
