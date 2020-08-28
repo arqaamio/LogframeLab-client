@@ -19,7 +19,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'node node_modules/@angular/cli/bin/ng build --verbose'
+                sh 'CYPRESS_CACHE_FOLDER=./tmp/Cypress node node_modules/@angular/cli/bin/ng build --verbose'
                 //                sh 'node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
             }
         }
@@ -29,7 +29,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
+                sh 'CYPRESS_CACHE_FOLDER=./tmp/Cypress node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
             }
         }
 
@@ -41,7 +41,7 @@ pipeline {
 
         stage('Test E2E') {
             steps {
-                sh 'CYPRESS_RETRIES=2 npm run e2e:ci'
+                sh 'CYPRESS_CACHE_FOLDER=./tmp/Cypress CYPRESS_RETRIES=2 npm run e2e:ci'
             }
             post {
                 always {
