@@ -50,3 +50,4 @@ Thumbs.db
 # Cypress
 cypress/videos/
 cypress/screenshots/
+/results

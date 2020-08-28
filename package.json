@@ -5,7 +5,8 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "ng": "ng",
-    "start": "node server.js",
+    "start:node": "node server.js",
+    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
@@ -13,7 +14,8 @@
     "test:coverage": "ng test --codeCoverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "e2e:ci": "concurrently \"cypress run\" --kill-others \"ng serve\" --success first"
+    "e2e:ci": "concurrently \"cypress run\" --kill-others \"ng serve\" --success first",
+    "e2e:test": "start-server-and-test start http://localhost:4200 cy:run"
   },
   "private": true,
   "dependencies": {
