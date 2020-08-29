@@ -1,16 +1,14 @@
 import {Injectable} from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse,
   HttpHeaders,
   HttpResponse
 } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
-import { throwError } from 'rxjs/internal/observable/throwError';
 import {environment} from '../../environments/environment';
 import {JwtDto} from './dto/jwt.dto';
-import {catchError, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {GroupDto} from './dto/group.dto';
 import {User} from '../user-management/service/user';
 
@@ -35,31 +33,14 @@ export class AuthenticationService {
     return this.http.post<JwtDto>(`${environment.apiBaseUrl}/auth/login`, JSON.stringify({
       username,
       password
-    }), {
+    }),{
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     }).pipe(
       map(jwt => {
-        localStorage.setItem(this.JWT_KEY, JSON.stringify(jwt));
-        this.currentJwtSubject.next(jwt);
-        this.currentJwt = this.currentJwtSubject.asObservable();
-      }),
-      catchError(catchError((error: HttpErrorResponse) => {
-        const errorMsg = this.getErrorMessage(error);
-        return throwError(errorMsg);
-      })));
-  }
-
-  getErrorMessage(error: HttpErrorResponse) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-
-    return errorMessage;
+        this.processJwt(jwt);
+      }));
   }
 
   // TODO send logout request to api
@@ -67,6 +48,12 @@ export class AuthenticationService {
     localStorage.removeItem(this.JWT_KEY);
     this.currentJwtSubject.next(undefined);
 
+  }
+
+  renewJwt(jwt: string): void {
+    const jwtDto = this.currentJwtSubject.value;
+    jwtDto.token = jwt;
+    this.processJwt(jwtDto);
   }
 
   get userGroups() {
@@ -83,5 +70,11 @@ export class AuthenticationService {
        headers: new HttpHeaders({
       'Content-Type':  'application/json'
      })});
+  }
+
+  private processJwt(jwt: JwtDto) {
+    localStorage.setItem(this.JWT_KEY, JSON.stringify(jwt));
+    this.currentJwtSubject.next(jwt);
+    this.currentJwt = this.currentJwtSubject.asObservable();
   }
 }

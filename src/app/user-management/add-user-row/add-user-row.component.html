@@ -1,8 +1,9 @@
-<div nz-col [nzSpan]="12">
+<!-- <div nz-col [nzSpan]="12"> -->
+  <div nz-col>
   <form nz-form nzLayout="inline" [formGroup]="newUserForm" (ngSubmit)="submit()">
     <div nz-row>
-      <div nz-col>
-        <div nz-col [nzSpan]="8">
+      <div>
+        <div>
           <nz-form-item class="add-user-item">
             <nz-form-control>
               <nz-input-group nzPrefixIcon="user">
@@ -13,7 +14,7 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="8">
+        <div>
           <nz-form-item class="add-user-item">
             <nz-form-control>
               <nz-input-group nzPrefixIcon="lock">
@@ -25,7 +26,7 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="8">
+        <div>
           <nz-form-item class="add-user-item">
             <nz-form-control>
               <nz-input-group nzPrefixIcon="lock">
@@ -41,16 +42,16 @@
   </form>
 </div>
 
-<div nz-col [nzSpan]="8" style="margin-top: 5px">
+<div style="margin-top: 5px">
   <nz-select nzMode="multiple" nzPlaceHolder="Groups" id="groups" [(ngModel)]="selectedGroups" style="width: 90%;">
     <nz-option *ngFor="let group of groupOptions" [nzValue]="group.id"
                [nzLabel]="group.name"></nz-option>
   </nz-select>
 </div>
-<div nz-col [nzSpan]="4" style="margin-top: 10px;">
+<div nz-col style="margin-top: 10px;">
   <div nz-row>
-    <div nz-col [nzSpan]="8"><a (click)="submit()">Submit</a></div>
-    <div nz-col [nzSpan]="8"><a (click)="reset()">Reset</a></div>
-    <div nz-col [nzSpan]="8"><a (click)="cancel()">Cancel</a></div>
+    <div><a (click)="submit()">Submit</a></div>
+    <div><a (click)="reset()">Reset</a></div>
+    <div><a (click)="cancel()">Cancel</a></div>
   </div>
 </div>

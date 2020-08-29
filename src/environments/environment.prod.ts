@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   apiBaseUrl: 'https://logframelab.ai/api',
-  webSocketUrl: 'ws://logframelab.ai/api/stomp',
+  webSocketUrl: 'wss://logframelab.ai/api/stomp',
 };

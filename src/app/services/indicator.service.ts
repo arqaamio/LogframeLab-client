@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse,
-  HttpRequest,
   HttpResponse,
+  HttpRequest,
 } from '@angular/common/http';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
@@ -142,36 +139,11 @@ export class IndicatorService {
         reportProgress: true,
       }
     );
-   return this.http.request(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        const errorMsg = this.getErrorMessage(error);
-        console.log(errorMsg);
-        this.msg.error('upload failed.');
-        return throwError(errorMsg);
-      })
-    );
-  }
-  getErrorMessage(error: HttpErrorResponse) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return errorMessage;
+   return this.http.request(req);
   }
 
   getFilters(): Observable<FilterDto> {
-    return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters').pipe(
-      catchError((error: HttpErrorResponse) => {
-        const errorMsg = this.getErrorMessage(error);
-        console.log(errorMsg);
-        this.msg.error('loading filters failed.');
-        return throwError(errorMsg);
-      })
-    );
+    return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters');
   }
 
   /**
@@ -184,23 +156,22 @@ export class IndicatorService {
     let args:string = '';
 
     if(filtersDto!= null){
-      filtersDto.crsCode.forEach(element => {
-        args+='crsCodes='+element+'&';
-      });
+      if(filtersDto.crsCode != null && filtersDto.crsCode.length > 0)
+        args+='crsCodes=' + filtersDto.crsCode.map((x)=>x.id).join(', ')+'&';
+
 
       filtersDto.level.forEach(element => {
         args+='levels='+element.id+'&';
       });
 
-      filtersDto.sdgCode.forEach(element => {
-        args+='sdgCodes='+element+'&';
-      });
-      filtersDto.source.forEach(element => {
-        args+='sources='+element+'&';
-      });
+      if(filtersDto.sdgCode != null && filtersDto.sdgCode.length > 0)
+        args+='sdgCodes=' + filtersDto.sdgCode.map((x)=>x.id).join(', ')+'&';
 
-      filtersDto.themes.forEach(element => {
-        args+='themes='+element+'&';
+      if(filtersDto.source != null && filtersDto.source.length > 0)
+        args+='sources=' + filtersDto.source.map((x)=>x.id).join(', ')+'&';
+
+      filtersDto.sector.forEach(element => {
+        args+='sector='+element+'&';
       });
     }
     if(args!= '') {
@@ -209,13 +180,6 @@ export class IndicatorService {
     }
     console.log('URL: '+ url);
 
-    return this.http.get<IndicatorResponse[]>(url).pipe(
-      catchError((error: HttpErrorResponse) => {
-        const errorMsg = this.getErrorMessage(error);
-        console.log(errorMsg);
-        this.msg.error('loading indicators failed.');
-        return throwError(errorMsg);
-      })
-    );
+    return this.http.get<IndicatorResponse[]>(url);
   }
 }

@@ -40,8 +40,8 @@
         Source
       </th>
       <th>Source Verification</th>
-      <th nzShowFilter [nzFilters]="themeFilter" (nzFilterChange)="addFilter('themes', $event)">
-        Themes
+      <th nzShowFilter [nzFilters]="sectorFilter" (nzFilterChange)="addFilter('sector', $event)">
+        Sector
       </th>
       <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">
         Level
@@ -61,7 +61,7 @@
       <td>{{ind.sdgCode}}</td>
       <td>{{ind.source}}</td>
       <td>{{ind.sourceVerification}}</td>
-      <td>{{ind.themes}}</td>
+      <td>{{ind.sector}}</td>
       <td>{{ind.level.name}}</td>
     </tr>
     </tbody>

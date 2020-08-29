@@ -16,7 +16,7 @@ export class SearchFilter {
   level: FilterData[];
   source: FilterData[];
   disaggregation: FilterData[];
-  themes: FilterData[];
+  sector: FilterData[];
   crsCode: FilterData[];
   sdgCode: FilterData[];
 
@@ -24,7 +24,7 @@ export class SearchFilter {
     this.level = [];
     this.source = [];
     this.disaggregation = [];
-    this.themes = [];
+    this.sector = [];
     this.crsCode = [];
     this.sdgCode = [];
   }
@@ -118,23 +118,23 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           let mapSource: Map<string, FilterData> = new Map();
           let mapSDGCode: Map<string, FilterData> = new Map();
           let mapCRSCode: Map<string, FilterData> = new Map();
-          let mapThemes: Map<string, FilterData> = new Map();
+          let mapSector: Map<string, FilterData> = new Map();
           let mapDisag: Map<string, FilterData> = new Map();
 
 
           this.listOfData.forEach((x)=>{
             mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
-            mapSource.set(x.indicator.source,new FilterData(x.indicator.source));
-            mapSDGCode.set(x.indicator.sdgCode,new FilterData(x.indicator.sdgCode));
-            mapCRSCode.set(x.indicator.crsCode,new FilterData(x.indicator.crsCode));
+            x.indicator.source.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
+            x.indicator.sdgCode.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
+            x.indicator.crsCode.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
             mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
-            mapThemes.set(x.indicator.themes,new FilterData(x.indicator.themes));
+            mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
           })
           mapLevels.forEach((value, _)=> {this.searchFilter.level.push(value);});
           mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
           mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
           mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
-          mapThemes.forEach((value, _)=> {this.searchFilter.themes.push(value);});
+          mapSector.forEach((value, _)=> {this.searchFilter.sector.push(value);});
           mapDisag.forEach((value, _)=> {this.searchFilter.disaggregation.push(value);});
           //TODO: Fix this, this can't be here
           let enableNextButton = false;
@@ -267,9 +267,19 @@ export class ScanResultComponent implements OnInit, OnDestroy {
    * @param item Data's item
    */
   filterLevel = (list: string[], item: ItemData) => list.some(value => item.indicator.level.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterThemes = (list: string[], item: ItemData) => list.some(value => item.indicator.themes.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterSource = (list: string[], item: ItemData) => list.some(value => item.indicator.source.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterSDGCode = (list: string[], item: ItemData) => list.some(value => item.indicator.sdgCode.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterCRSCode = (list: string[], item: ItemData) => list.some(value => item.indicator.crsCode.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
+  filterSector = (list: string[], item: ItemData) => list.some(value => item.indicator.sector.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
+  filterSource = (list: string[], item: ItemData) => list.some(value => item.indicator.source.some((x)=> {x.name == value}) || this.mapOfCheckedId[item.sort_id]);
+  filterSDGCode = (list: string[], item: ItemData) => list.some(value => item.indicator.sdgCode.some((x)=> {x.name == value})  || this.mapOfCheckedId[item.sort_id]);
+  filterCRSCode = (list: string[], item: ItemData) => list.some(value => item.indicator.crsCode.some((x)=> {x.name == value}) || this.mapOfCheckedId[item.sort_id]);
   filterDisag = (list: string[], item: ItemData) => list.some(value => item.indicator.disaggregation === (value=='0') || this.mapOfCheckedId[item.sort_id]);
+
+
+  printArray(array: Array<any>, property?: string): string{
+    if(array == null || array.length == 0) return '';
+    if(property==null){
+      return array.join(', ');
+    }else {
+      return array.map((x)=>x[property]).join(', ');
+    }
+  }
 }

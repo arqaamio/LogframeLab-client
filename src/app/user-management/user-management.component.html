@@ -13,9 +13,9 @@
     </thead>
     <tbody>
     <tr *ngFor="let user of users.data">
-      <td style="width: 30%">{{user.username}}</td>
-      <td style="width: 50%">{{userGroups(user.groups)}}</td>
-      <td style="width: 20%">
+      <td >{{user.username}}</td>
+      <td >{{userGroups(user.groups)}}</td>
+      <td >
         <div nz-row [nzGutter]="2">
           <div nz-col [nzSpan]="11"><a>Edit user</a></div>
           <div nz-col [nzSpan]="11"><a>Remove user</a></div>

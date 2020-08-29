@@ -60,11 +60,11 @@ export class ManageIndicatorsService {
         sortBy.direction);
     }
 
-    filter.themes.forEach(theme => params = params.append('filters.themes', theme));
-    filter.crsCode.forEach(code => params = params.append('filters.crs_code', code));
-    filter.sdgCode.forEach(code => params = params.append('filters.sdg_code', code));
+    filter.sector.forEach(sector => params = params.append('filters.sectors', sector));
+    filter.crsCode.forEach(code => params = params.append('filters.crs_code', code.toString()));
+    filter.sdgCode.forEach(code => params = params.append('filters.sdg_code', code.toString()));
     filter.levelIds.forEach(levelId => params = params.append('filters.levelIds', String(levelId)));
-    filter.source.forEach(source => params = params.append('filters.source', source));
+    filter.source.forEach(source => params = params.append('filters.sourceIds', source.toString()));
     return params;
   }
 }

@@ -119,6 +119,8 @@ a:hover{
 //button hover (specifically the green help button)
 .ant-btn:hover, .ant-btn:focus {
   border-color: #453457;
+  background: #453457;
+  color: white;
 }
 //Selecting indicators in the results step (hover purple and change text color to white)
 .ant-table-tbody > tr.ant-table-row:hover > td {
@@ -171,4 +173,21 @@ body, html {
 	border-width: 8px;
 	left: 50%;
 	margin-left: -8px;
+  }
+
+h1, h2, h3, p, button {
+  font-family: Montserrat, sans-serif;
+}
+
+.default-button {
+  background: #453457;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 15px;
+  // padding: 0 1.5rem 0 1.5rem;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: uppercase;
+  color: #ffffff;
 }
