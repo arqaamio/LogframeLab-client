@@ -9,7 +9,7 @@ export class IndicatorsManagement {
 
   totalRowCount: number;
   page = 1;
-  pageSize = 50;
+  pageSize = 10;
   indicatorList: IndicatorDto[] = [];
   isLoading = false;
 
