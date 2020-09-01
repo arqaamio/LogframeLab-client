@@ -23,6 +23,7 @@
           nzPlaceHolder="Filter by sources"
           [(ngModel)]="selectedValues.source"
           (ngModelChange)="onChangeFilter('source', $event)"
+          [compareWith]="compare"
         >
           <nz-option
             *ngFor="let option of filterOptions.source"
@@ -39,6 +40,7 @@
           nzPlaceHolder="Filter by SDGs"
           [(ngModel)]="selectedValues.sdgCode"
           (ngModelChange)="onChangeFilter('sdgCode', $event)"
+          [compareWith]="compare"
         >
           <nz-option
             *ngFor="let option of filterOptions.sdgCode"
@@ -72,6 +74,7 @@
           nzPlaceHolder="Filter by DACs"
           [(ngModel)]="selectedValues.crsCode"
           (ngModelChange)="onChangeFilter('crsCode', $event)"
+          [compareWith]="compare"
         >
           <nz-option
             *ngFor="let option of filterOptions.crsCode"
@@ -106,7 +109,7 @@
     <p>{{ fileName }}</p>
     <div class="disclaimer">
       <p class="disclaimerText"><!--Disclaimer text added here-->
-        <b>Disclaimer:</b> Uploading data here is safe. You can trust us with your info, because we never save it
+        <strong>Disclaimer:</strong> Uploading data here is safe. You can trust us with your info, because we never save it
         anywhere. The algorithm uses your text to scan for keywords and retains access to it only so you can complete the procedure.
         Your data is discarded as soon as you click ‘done’ in the 6th step, or if you refresh the window before you’re done.
         We cannot access your information at any point.
