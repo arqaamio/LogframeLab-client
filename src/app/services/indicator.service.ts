@@ -21,15 +21,15 @@ export class IndicatorService {
 
   private fileList: UploadFile[] = null;
   private filters: FilterDto = null;
-  private dataResponse: any = null;
-  private selectedData: { [key: string]: boolean } = null;
+  public dataResponse: any = null;
+  public selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
-  public allIds: any = [];
   public canvasJson: any = [];
   private nextButtonSubject = new BehaviorSubject<any>(null);
   private isNewInfo: boolean = true;
   private nextButton: boolean = false;
+  public currentStep: number = 0;
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
   private nextSubject() {
@@ -47,7 +47,11 @@ export class IndicatorService {
     this.filters = null;
     this.dataResponse = null;
     this.indicatorSubject.next(null);
+    this.exportSvg.next(null);
+    this.currentStep = 0;
+    this.canvasJson = [];
   }
+  
   setSelectedData(selectedData) {
     this.selectedData = selectedData;
     this.nextSubject();

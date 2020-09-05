@@ -216,8 +216,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.refreshStatus();
   }
   selectindicator(id) {
-    this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
     this.indicatorService.canvasJson = [];
+    this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
     // this.refreshStatus();
     this.search();
   }

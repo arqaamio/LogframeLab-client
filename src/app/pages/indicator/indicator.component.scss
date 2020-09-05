@@ -203,10 +203,12 @@ background-color: #453457;
   width: 20rem;
   height: 19rem;
   z-index: 1000;
+  overflow: auto;
 }
 .step2Info {
   width: 20rem;
   height: 19rem;
+  overflow: auto;
 }
 /*
   @media only screen and (max-width: 48.5rem) {

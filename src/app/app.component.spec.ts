@@ -32,6 +32,7 @@ import { VisualisationresultComponent } from './pages/indicator/visualisationres
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { AuthGuard } from './utils/auth.guard';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: 'dataprotection', component: DataprotectionComponent },
@@ -69,6 +70,7 @@ describe('AppComponent', () => {
         NzProgressModule,
         NzAlertModule,
         ProfileMenuModule,
+        NgxSpinnerModule
       ],
       declarations: [
         AppComponent,

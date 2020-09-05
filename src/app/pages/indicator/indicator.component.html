@@ -33,12 +33,12 @@
     </ng-template>
   </div>
 
-  <div id="step2" *ngIf="current === 1">
+  <div id="step2" *ngIf="current === 1 || current === 2">
     <button
       nz-button
       nzType="question"
       nz-popover
-      nzPopoverTitle="Step 2"
+      nzPopoverTitle="Step {{current + 1}}"
       [(nzPopoverVisible)]="visible"
       (nzPopoverVisibleChange)="change($event)"
       nzPopoverTrigger="click"
@@ -49,7 +49,7 @@
       ?
     </button>
     <ng-template #contentTemplate>
-      <div class="step2Info">
+      <div class="step2Info" *ngIf="current == 1">
         <p>
           Here are the suggested indicators for you, based on the keywords in your
           document and the sectors selected. Indicators are categorised as Impacts,
@@ -61,6 +61,29 @@
           <br/><br/>
           Note: In this step, you can select additional sectors or indicators
           that you wish to include in your logframe.
+        </p>
+      </div>
+      <div class="step2Info" *ngIf="current == 2">
+        <p>
+          In this step you are able to view the success indicators in a visualization
+          format. These indicators are derived from the selection you did in previous          
+          step (Step 2) which are categorized into 3 levels – Impacts, Outcomes or          
+          Outputs.
+          <br/><br/>
+          You can connect the shapes by dragging the ports. The ports will be hidden once shapes
+          are connected and will only be visible of you disconnect again. You can also          
+          delete the connectors and/or shapes by simply selecting them and use your          
+          delete button from your keyboard.
+          <br/><br/>
+          If the shapes are located at a distance and you would like to connect the ports
+          then you first have to click on the port and then drag the connector to the end          
+          shape.
+          <br/><br/>
+          If by any chance you accidently delete a shape there is a easy option to undo and 
+          redo. If you want to maximize the visualization please use zoom button.
+          <br/><br/>
+          Note: If you remove a shape from this visualization this will also remove the indicator
+          which you had selected in Step #2.
         </p>
       </div>
       <a (click)="clickClose()">Close</a>

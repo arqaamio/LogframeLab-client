@@ -1,10 +1,17 @@
-<div style="min-height: 300px;">
+<div style="min-height: 300px;" [ngClass]="{'fullscreen':isFullscreen, 'smallscreen':!isFullscreen}">
   <!-- <img style="margin-top: 50px;" src="assets/waiting2.png" />
   <h3 style="margin-top: 20px;">COMING SOON</h3> -->
-  
+  <div id="toolbar" class="steps-action"><button (click)="isFullscreen = !isFullscreen"
+      class='steps-button ant-btn toolbar-btn fullscreen-btn'><i nz-icon style="font-size: 18px;"
+        [nzType]="isFullscreen?'fullscreen-exit':'fullscreen'" nzTheme="outline"></i></button>
+        <button class='steps-button ant-btn toolbar-btn undo'>Undo</button>
+        <button class='steps-button ant-btn toolbar-btn redo'>Redo</button>
+        <button class='steps-button ant-btn toolbar-btn delete'>Delete</button>
+      </div>
   <div class="row">
     <div class="draw2d" [style.height]="height">
-        <div onselectstart="javascript:/*IE8 hack*/return false" id="gfx_holder" style="width:2500px; height:1000px;position: absolute;left: 0;"></div>
+      <div onselectstart="javascript:/*IE8 hack*/return false" id="gfx_holder"
+        style="width:2500px; height:1000px;position: absolute;left: 0;"></div>
     </div>
   </div>
 </div>

@@ -6,7 +6,6 @@ declare var window: any;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  height: any = (window.screen.height - 140) + 'px';
   title = "LogframeLab";
 
   constructor() {}

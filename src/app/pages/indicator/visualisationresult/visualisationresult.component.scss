@@ -1,6 +1,22 @@
 body{
     margin:0px;
   }
+.fullscreen {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  background: #fff;
+  padding-top: 19px;
+  left: 0;
+  z-index: 9;
+}
+.fullscreen .draw2d{
+  height: 88vh !important;
+}
+.smallscreen{
+  min-height: 300px;
+}
 .row {
     display: flex;
     overflow: scroll;

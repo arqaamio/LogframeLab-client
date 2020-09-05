@@ -44,6 +44,10 @@ export class IndicatorComponent implements OnInit, OnDestroy {
 
   pre(): void {
     this.current -= 1;
+    if(this.indicatorService.currentStep == 2){
+      this.indicatorService.canvasJson = [];
+    }
+    this.indicatorService.currentStep = this.current;
   }
 
   next(): void {
@@ -51,21 +55,34 @@ export class IndicatorComponent implements OnInit, OnDestroy {
       this.ngxSpinnerService.show();
       let json = this.indicatorService.canvasJson;
       let connectioned = [];
+      let totalSelected = 0;
+      for(const field in this.indicatorService.selectedData){
+        if(this.indicatorService.selectedData[field]){
+          totalSelected++;
+        }
+      }
       let connection = json.filter(d => d.type === "draw2d.Connection");
       connection.forEach((data) => {
-        if (this.indicatorService.allIds.indexOf(data.source.node) !== -1) {
-          if (connectioned.indexOf(data.source.node) == -1) {
-            connectioned.push(data.source.node);
+        let sourceNode = data.source.port.split('_')[1]
+        let targetNode = data.target.port.split('_')[1]
+        if (this.indicatorService.selectedData.hasOwnProperty(sourceNode)) {
+          if(this.indicatorService.selectedData[sourceNode] == true){
+            if (connectioned.indexOf(sourceNode) == -1) {
+              connectioned.push(sourceNode);
+            }
           }
         }
-        if (this.indicatorService.allIds.indexOf(data.target.node) !== -1) {
-          if (connectioned.indexOf(data.target.node) == -1) {
-            connectioned.push(data.target.node);
+        if (this.indicatorService.selectedData.hasOwnProperty(targetNode)) {
+          if(this.indicatorService.selectedData[targetNode] == true){
+            if (connectioned.indexOf(targetNode) == -1) {
+              connectioned.push(targetNode);
+            }
           }
         }
       });
-
-      if (this.indicatorService.allIds.length > connectioned.length) {
+      console.log("totalSelected",totalSelected)
+      console.log("connectioned.length",connectioned.length)
+      if (totalSelected > connectioned.length) {
         this.ngxSpinnerService.hide();
         this.msg.error("Please make sure all the logical boxes are connected before you more to the next step.")
       } else {
@@ -73,6 +90,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.ngxSpinnerService.hide();
           this.current += 1;
+          this.indicatorService.currentStep = this.current;
         }, 2000);
       }
     } else {
@@ -82,6 +100,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
       }
       setTimeout(() => {
         this.current += 1;
+        this.indicatorService.currentStep = this.current;
       })
 
     }
@@ -91,6 +110,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     this.current = 0;
     this.indicatorService.clearIndicatorData();
   }
+
   ngOnDestroy() {
     this.nextButtonSubscription.unsubscribe();
   }

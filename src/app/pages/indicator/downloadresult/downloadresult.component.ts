@@ -55,19 +55,17 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
   }
 
   download(type){
-    this.indicatorService.exportSvg.subscribe((body) =>{
-      console.log("body.data[type]",body[type])
-      var link = document.createElement("a");
-      if(type == 'svg'){
-        let blob = new Blob([body[type]], { type: "application/octet-stream" });       
-        link.href = URL.createObjectURL(blob);
-      } else {
-        link.href = body[type];
-      }
-      link.download = 'flowchart.'+type;
-      link.click();
-    })
-    
+    let body = this.indicatorService.exportSvg.value;
+    console.log("body.data[type]",body[type])
+    var link = document.createElement("a");
+    if(type == 'svg'){
+      let blob = new Blob([body[type]], { type: "application/octet-stream" });       
+      link.href = URL.createObjectURL(blob);
+    } else {
+      link.href = body[type];
+    }
+    link.download = 'flowchart.'+type;
+    link.click();   
   }
 
   ngOnDestroy() {
