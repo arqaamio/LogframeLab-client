@@ -54,9 +54,8 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
       });
   }
 
-  download(type){
+  downloadSvgAndPng(type){
     let body = this.indicatorService.exportSvg.value;
-    console.log("body.data[type]",body[type])
     var link = document.createElement("a");
     if(type == 'svg'){
       let blob = new Blob([body[type]], { type: "application/octet-stream" });       

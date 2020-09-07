@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, Output, TemplateRef } from "@angular/core";
+import { Component, OnInit, OnDestroy, Output, TemplateRef, EventEmitter } from "@angular/core";
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { NzRowDirective } from 'ng-zorro-antd';
 import { timer } from 'rxjs';
 declare var draw2d: any;
@@ -21,17 +20,25 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     outcomes: any = [];
     canvas: any;
     isCanvasClear: boolean = false;
+    @Output() loadingStart = new EventEmitter<any>();
     output: any = [];
-    constructor(private indicatorService: IndicatorService, private ngxSpinnerService: NgxSpinnerService) {
+    constructor(private indicatorService: IndicatorService) {
+        this.loadingStart.emit(true);
         this.indicatorService.updateNextButton(true);
+    }
+
+    ngOnDestroy(): void {
+        this.isCanvasClear = true;
+    }
+
+    ngOnInit(): void {
         timer(800).subscribe(() => {
             let data = this.indicatorService.dataResponse;
-            console.log("call back")
-
             if (this.indicatorService.canvasJson.length == 0) {
                 this.impact = [];
                 this.output = [];
                 this.outcomes = [];
+                // Selected data with level wise create json
                 data.forEach((row) => {
                     if (this.indicatorService.selectedData.hasOwnProperty(row.sort_id)) {
                         if (this.indicatorService.selectedData[row.sort_id] == true) {
@@ -46,8 +53,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         }
                     }
                 });
-                //   console.log("data", data)
-
+               
                 let impactObject = []
                 let outcomesObject = [];
                 let outputObject = [];
@@ -69,6 +75,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         impactY = 150;
                         impactX = (250 * (index - 8))
                     }
+                    // Create text box json
                     impactObject.push({
                         "type": "draw2d.shape.basic.Text",
                         "id": row.id,
@@ -116,6 +123,8 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "fontFamily": "Montserrat",
                     });
                 });
+
+                // Impact level label
                 impactObject.push({
                     "type": "draw2d.shape.basic.Label",
                     "id": "66888707-0546-abed-f9d3-1408623bb39f",
@@ -155,6 +164,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         outComeY = 300 + impactY;
                         outComeX = (250 * (index - 8))
                     }
+                    // OutCome text box json
                     outcomesObject.push({
                         "type": "draw2d.shape.basic.Text",
                         "id": row.id,
@@ -221,7 +231,8 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "fontFamily": "Montserrat",
                     });
                 });
-
+                
+                // Outcome level label
                 outcomesObject.push({
                     "type": "draw2d.shape.basic.Label",
                     "id": "66888707-0546-abed-f9d3-1408623bb39g",
@@ -261,6 +272,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         outputY = 300 + outComeY;
                         outputX = (250 * (index - 8))
                     }
+                    // Output text box json 
                     outputObject.push({
                         "type": "draw2d.shape.basic.Text",
                         "id": row.id,
@@ -380,25 +392,17 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     "fontFamily": "Montserrat",
                     "fontWeight": "bold"
                 })
-                let d = [...impactObject, ...outcomesObject, ...outputObject]
+                let d = [...impactObject, ...outcomesObject, ...outputObject];
+                // draw chart function
                 this.setFlowChart(d);
             } else {
+                // re-draw chart function
                 this.setFlowChart(this.indicatorService.canvasJson);
             }
         });
     }
 
-    ngOnDestroy(): void {
-        this.isCanvasClear = true;
-
-    }
-
-    ngOnInit(): void {
-        this.ngxSpinnerService.show();
-    }
-
     selectindicator(id) {
-        console.log("test", id)
         if (this.isCanvasClear == false) {
             this.indicatorService.selectedData[id] = !this.indicatorService.selectedData[id];
         }
@@ -411,8 +415,9 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             this.canvas.installEditPolicy(new draw2d.policy.canvas.ExtendedKeyboardPolicy());
             var reader = new draw2d.io.json.Reader();
             reader.unmarshal(this.canvas, selected);
-            this.ngxSpinnerService.hide();
+            this.loadingStart.emit(false);
             Toolbar.init('toolbar', this.canvas);
+            // export svg, png function
             this.indicatorService.exportSvg.subscribe((res) => {
                 if (res == 'svgExport') {
                     var writer = new draw2d.io.svg.Writer();
@@ -428,16 +433,17 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 }
             });
 
+            // canvas to write json
             this.canvas.getCommandStack().addEventListener(function (e) {
                 if (e.isPostChangeEvent()) {
                     var writer = new draw2d.io.json.Writer();
                     writer.marshal(that.canvas, function (json) {
-                        console.log(json)
                         that.indicatorService.canvasJson = json;
                     });
                 }
             });
 
+            // add element like text label and connection
             this.canvas.on("figure:add", function (emitter, event) {
                 if (event.figure.userData !== null) {
                     if (event.figure.userData.hasOwnProperty('sort_id')) {
@@ -446,6 +452,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 }
             });
 
+            // remove element like text label and connection
             this.canvas.on("figure:remove", function (emitter, event) {
                 if (event.figure.userData !== null) {
                     if (event.figure.userData.hasOwnProperty('sort_id')) {

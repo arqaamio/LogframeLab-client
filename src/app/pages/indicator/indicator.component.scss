@@ -210,6 +210,14 @@ background-color: #453457;
   height: 19rem;
   overflow: auto;
 }
+.loading-row{
+  top: 70%;
+  position: absolute;
+  left: 49%;
+}
+.loading-row i {
+  color: #453457;
+}
 /*
   @media only screen and (max-width: 48.5rem) {
     .stepSection{

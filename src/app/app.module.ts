@@ -54,6 +54,7 @@ import { NgxSpinnerModule, NgxSpinnerService, NgxSpinnerComponent } from "ngx-sp
 import {rxStompConfig} from './configuration/rxstomp.config'
 import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ErrorHandlerService } from './services/errorhandler.service';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 registerLocaleData(en);
 
 export const routes: Routes = [
@@ -118,6 +119,7 @@ export const routes: Routes = [
     NzListModule,
     NzTagModule,
     NzButtonModule,
+    NzSpinModule,
     NzTableModule,
     NzStepsModule,
     NzProgressModule,

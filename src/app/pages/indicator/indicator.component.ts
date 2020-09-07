@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -15,12 +15,13 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   current = 0;
   isNext = false;
   exportSvg: any;
+  isSpinning: boolean = false;
   visible: boolean = false;
+
 
   constructor(
     private msg: NzMessageService,
-    private indicatorService: IndicatorService,
-    private ngxSpinnerService: NgxSpinnerService
+    private indicatorService: IndicatorService
   ) { }
 
 
@@ -42,6 +43,11 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     });
   }
 
+  onLoading(event){
+    console.log("event", event)
+    this.isSpinning = event;
+  }
+
   pre(): void {
     this.current -= 1;
     if(this.indicatorService.currentStep == 2){
@@ -52,7 +58,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
 
   next(): void {
     if (this.current == 2) {
-      this.ngxSpinnerService.show();
+      this.isSpinning = true;
       let json = this.indicatorService.canvasJson;
       let connectioned = [];
       let totalSelected = 0;
@@ -80,15 +86,14 @@ export class IndicatorComponent implements OnInit, OnDestroy {
           }
         }
       });
-      console.log("totalSelected",totalSelected)
-      console.log("connectioned.length",connectioned.length)
+    
       if (totalSelected > connectioned.length) {
-        this.ngxSpinnerService.hide();
+        this.isSpinning = false;
         this.msg.error("Please make sure all the logical boxes are connected before you more to the next step.")
       } else {
         this.indicatorService.exportSvg.next('svgExport');
         setTimeout(() => {
-          this.ngxSpinnerService.hide();
+          this.isSpinning = false;
           this.current += 1;
           this.indicatorService.currentStep = this.current;
         }, 2000);
@@ -96,7 +101,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     } else {
 
       if (this.current === 1) {
-        this.ngxSpinnerService.show();
+        this.isSpinning = true;
       }
       setTimeout(() => {
         this.current += 1;

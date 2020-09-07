@@ -1,4 +1,5 @@
 
+<nz-spin [nzSpinning]="isSpinning" [nzIndicator]="indicatorTemplate">
 <section class="stepSection">
   <div id="step1" *ngIf="current === 0">
     <button
@@ -100,7 +101,7 @@
   <div class="steps-content">
     <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
     <app-scanresult *ngIf="current === 1"> </app-scanresult>
-    <app-visualisationresult *ngIf="current === 2"> </app-visualisationresult>
+    <app-visualisationresult *ngIf="current === 2" (loadingStart)="onLoading($event)"> </app-visualisationresult>
     <app-downloadresult *ngIf="current === 3"> </app-downloadresult>
   </div>
   <div class="steps-action">
@@ -138,4 +139,9 @@
     </button>
   </div>
 </div>
-
+</nz-spin>
+<ng-template #indicatorTemplate>
+  <div class="loading-row">
+    <i nz-icon nzType="loading" style="font-size:24px;"></i>
+  </div>
+</ng-template>
