@@ -130,6 +130,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
     this.selectedValues[filter] = event;
     this.indicatorService.setFilters(this.selectedValues);
     this.indicatorService.setIsNewInfo(true);
+    this.indicatorService.setLoadedData(null);
   }
 
   /**
@@ -142,12 +143,12 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Compares levels so see if they are the same
-   * @param level1 Level
-   * @param level2 Level
+   * Compares levels, sources, sdgs and dacs to see if they are the same
+   * @param object Object
+   * @param object2 Object 2
    */
-  compare = (level1: Level, level2: Level): boolean =>
-    level1 && level2 ? level1.id === level2.id : level1 === level2;
+  compare = (object: any, object2: any): boolean =>
+  object && object2 ? object.id === object2.id : object === object2;
 
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
