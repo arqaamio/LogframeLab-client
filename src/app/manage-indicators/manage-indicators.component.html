@@ -9,16 +9,12 @@
     >
       Add Indicator
     </button>
-
-    <button
-      nz-button
-      (click)="fetchByFilters()"
-      nzType="link"
-      nzSize="default"
-      style="position: absolute; right: 0;"
-    >
-      Filter
-    </button>
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" nz-input placeholder="Search for indicator by name" [(ngModel)]="filters.indicatorName"/>
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="fetchByFilters()"><i nz-icon nzType="search"></i></button>
+    </ng-template>
   </div>
 
   <nz-table
