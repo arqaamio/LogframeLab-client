@@ -50,7 +50,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
-import { NgxSpinnerModule, NgxSpinnerService, NgxSpinnerComponent } from "ngx-spinner";
 import {rxStompConfig} from './configuration/rxstomp.config'
 import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ErrorHandlerService } from './services/errorhandler.service';
@@ -131,8 +130,7 @@ export const routes: Routes = [
     NzSelectModule,
     NzSliderModule,
     NzIconModule,
-    NzPopoverModule,
-    NgxSpinnerModule
+    NzPopoverModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -156,7 +154,6 @@ export const routes: Routes = [
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig]
     },
-    NgxSpinnerService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
