@@ -8,7 +8,7 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { IndicatorComponent } from './pages/indicator/indicator.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgZorroAntdModule, NzListModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzListModule, NzSpinModule } from 'ng-zorro-antd';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
@@ -32,7 +32,6 @@ import { VisualisationresultComponent } from './pages/indicator/visualisationres
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { AuthGuard } from './utils/auth.guard';
-import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: 'dataprotection', component: DataprotectionComponent },
@@ -70,7 +69,7 @@ describe('AppComponent', () => {
         NzProgressModule,
         NzAlertModule,
         ProfileMenuModule,
-        NgxSpinnerModule
+        NzSpinModule
       ],
       declarations: [
         AppComponent,

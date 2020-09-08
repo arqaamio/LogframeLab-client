@@ -44,7 +44,6 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   }
 
   onLoading(event){
-    console.log("event", event)
     this.isSpinning = event;
   }
 
@@ -52,6 +51,10 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     this.current -= 1;
     if(this.indicatorService.currentStep == 2){
       this.indicatorService.canvasJson = [];
+    }
+
+    if(this.indicatorService.currentStep == 3){
+      this.isSpinning = true;
     }
     this.indicatorService.currentStep = this.current;
   }

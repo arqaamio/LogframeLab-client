@@ -21,26 +21,26 @@ body{
     display: flex;
     overflow: scroll;
 }
-  .draw2d{
-    position: relative;
-    flex: 10;
-  }
-  
-  .left-chart-name {
-    flex: 1;
-  }
-  .left-chart-name div{
-    font-size:16px;
-    font-weight: 500;
-  }
-  .left-chart-name .level-1{
-    margin-top: 30px;
-  }
-  
-  .left-chart-name .level-2{
-    margin-top: 100px;
-  }
-  
-  .left-chart-name .level-3{
-    margin-top: 140px;
-  }
+.draw2d{
+  position: relative;
+  flex: 10;
+}
+
+.left-chart-name {
+  flex: 1;
+}
+.left-chart-name div{
+  font-size:16px;
+  font-weight: 500;
+}
+.left-chart-name .level-1{
+  margin-top: 30px;
+}
+
+.left-chart-name .level-2{
+  margin-top: 100px;
+}
+
+.left-chart-name .level-3{
+  margin-top: 140px;
+}
