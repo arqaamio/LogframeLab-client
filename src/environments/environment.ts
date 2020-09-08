@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:4200/api/api',
+  apiBaseUrl: 'http://dev.logframelab.ai',
   webSocketUrl: 'ws://logframelab.ai/api/stomp'//'ws://localhost:8080/stomp'
 };
 
