@@ -9,7 +9,7 @@
     >
       Add Indicator
     </button>
-    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+    <nz-input-group style="margin-top: 5px;" nzSearch [nzAddOnAfter]="suffixIconButton">
       <input type="text" nz-input placeholder="Search for indicator by name" [(ngModel)]="filters.indicatorName"/>
     </nz-input-group>
     <ng-template #suffixIconButton>
