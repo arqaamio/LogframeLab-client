@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, AfterViewInit, TemplateRef, ViewChild } f
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-indicator',
