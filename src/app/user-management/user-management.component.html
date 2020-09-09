@@ -1,35 +1,46 @@
-<div  nz-col [nzOffset]="4" [nzSpan]="16" class="user-table">
-  <button nz-button nzType="primary" nzSize="small" class="user-table-action" (click)="addUserRow()"
-          [disabled]="isAddingNewUser">
+<div nz-col [nzOffset]="4" [nzSpan]="16" class="user-table">
+  <button
+    nz-button
+    nzType="primary"
+    nzSize="small"
+    class="user-table-action"
+    (click)="addUserRow()"
+    [disabled]="isAddingNewUser"
+  >
     Add user
   </button>
+  <div>
   <nz-table #users [nzData]="dataset" nzSize="small">
     <thead>
-    <tr>
-      <th>Username</th>
-      <th>Groups</th>
-      <th>Actions</th>
-    </tr>
+      <tr>
+        <th nzWidth="150px">Username</th>
+        <th nzWidth="150px">Groups</th>
+        <th nzWidth="200px">Actions</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of users.data">
-      <td >{{user.username}}</td>
-      <td >{{userGroups(user.groups)}}</td>
-      <td >
-        <div nz-row [nzGutter]="2">
-          <div nz-col [nzSpan]="11"><a>Edit user</a></div>
-          <div nz-col [nzSpan]="11"><a>Remove user</a></div>
-        </div>
-      </td>
-    </tr>
-
-    <tr>
-      <ng-template [ngIf]="isAddingNewUser">
-        <td colspan="3">
-          <app-add-user-row (isAddingNewUser)="isAddingNewUserHandler($event)" (addedUser)="addedUserHandler($event)"></app-add-user-row>
+      <tr *ngFor="let user of users.data">
+        <td>{{ user.username }}</td>
+        <td>{{ userGroups(user.groups) }}</td>
+        <td>
+          <div nz-row [nzGutter]="[24, 24]">
+            <div nz-col [nzSpan]="50"><a>Edit user</a></div>
+            <div nz-col [nzSpan]="50"><a>Remove user</a></div>
+          </div>
         </td>
-      </ng-template>
-    </tr>
+      </tr>
+
+      <tr>
+        <ng-template [ngIf]="isAddingNewUser">
+          <td colspan="3">
+            <app-add-user-row
+              (isAddingNewUser)="isAddingNewUserHandler($event)"
+              (addedUser)="addedUserHandler($event)"
+            ></app-add-user-row>
+          </td>
+        </ng-template>
+      </tr>
     </tbody>
   </nz-table>
+</div>
 </div>
