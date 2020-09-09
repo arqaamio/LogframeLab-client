@@ -101,16 +101,18 @@ export class ScanResultComponent implements OnInit, OnDestroy {
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
                 this.sliderMinValue = this.sliderMaxValue = 1;
-                this.showLoading = false;
               }
+              this.showLoading = false;
             });
           }
 
           // without changes in the filters or documents
-          if(!data.isNewInfo && data.dataResponse != null){
-            this.listOfData = data.dataResponse;
-            this.displayData = this.listOfData;
-            this.mapOfCheckedId = data.selectedData== null ? [] : data.selectedData;
+          if(!isNewInfo){
+            if(data.dataResponse != null){
+              this.listOfData = data.dataResponse;
+              this.displayData = this.listOfData;
+              this.mapOfCheckedId = data.selectedData== null ? [] : data.selectedData;
+            }
             this.showLoading = false;
           }
           let mapLevels: Map<string, FilterData> = new Map();
@@ -145,7 +147,9 @@ export class ScanResultComponent implements OnInit, OnDestroy {
               }
             }
           }
-          this.indicatorService.updateNextButton(enableNextButton);
+          setTimeout(() => {
+            this.indicatorService.updateNextButton(enableNextButton);
+          },1000);
         }
         this.indicatorService.setIsNewInfo(false);
       })).subscribe();
