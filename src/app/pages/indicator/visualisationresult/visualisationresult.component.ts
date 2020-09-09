@@ -402,12 +402,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
         });
     }
 
+    //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.  
     selectindicator(id) {
         if (this.isCanvasClear == false) {
             this.indicatorService.selectedData[id] = !this.indicatorService.selectedData[id];
         }
     }
-
+    
+    //Code for chart's drag and drop functionality 
     setFlowChart(selected): void {
         var that = this;
         timer(2000).subscribe(() => {
