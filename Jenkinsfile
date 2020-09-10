@@ -19,7 +19,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'node node_modules/@angular/cli/bin/ng build --verbose'
+                sh 'node node_modules/@angular/cli/bin/ng build --configuration=development --verbose'
                 //                sh 'node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
             }
         }

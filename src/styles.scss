@@ -31,7 +31,7 @@ app-indicator {
 }
 
 //slider wheel after moving color
-//converted HEX green to RBG so that it can be 50% transparent (to offset the color scheme a little better).  
+//converted HEX green to RBG so that it can be 50% transparent (to offset the color scheme a little better).
 .ant-slider-handle:focus {
   border-color: #a5c2ae;
   box-shadow: 0 0 0 5px rgb(165,194,174, 0.5);
@@ -192,7 +192,12 @@ h1, h2, h3, p, button {
   text-transform: uppercase;
   color: #ffffff;
 }
+
 .toolbar-btn{
   margin-right: 10px;
   margin-left: 10px;
+}
+
+app-manage-indicators {
+  width: 100%;
 }

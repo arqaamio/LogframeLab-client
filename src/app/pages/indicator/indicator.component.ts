@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, AfterViewInit, TemplateRef, ViewChild } f
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-indicator',
@@ -89,7 +88,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
           }
         }
       });
-    
+
       if (totalSelected > connectioned.length) {
         this.isSpinning = false;
         this.msg.error("Please make sure all the logical boxes are connected before you more to the next step.")

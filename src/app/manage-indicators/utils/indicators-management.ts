@@ -76,6 +76,7 @@ export class IndicatorsManagement {
 
   addFilter(filterKey: string, value: string[]) {
     this.filters[filterKey] = value;
+    this.search(true, false);
   }
 
   mapFilter(value): FilterData {

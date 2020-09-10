@@ -46,6 +46,8 @@ export class IndicatorService {
   clearIndicatorData() {
     this.filters = null;
     this.dataResponse = null;
+    this.fileList = this.selectedData = null;
+    this.isNewInfo = true;
     this.indicatorSubject.next(null);
     this.exportSvg.next(null);
     this.currentStep = 0;

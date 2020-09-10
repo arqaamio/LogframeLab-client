@@ -37,6 +37,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   ) {
     // can't be in ngOnInit because of Angular Lifecycle Hooks
     this.indicatorService.updateNextButton(true);
+    this.rxStompService.deactivate();
   }
 
   ngOnInit() {
