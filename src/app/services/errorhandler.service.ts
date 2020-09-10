@@ -18,7 +18,6 @@ export class ErrorHandlerService implements ErrorHandler {
          if(error.sendMessage){
             this.msg.create(error.level.toString().toLowerCase(), error.message);
          }
-         console.log(error.object);
       } else {
          this.msg.error('An unexpected error occured. Please try again.');
       }

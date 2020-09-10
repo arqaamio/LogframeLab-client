@@ -1,97 +1,78 @@
 
 <nz-spin [nzSpinning]="isSpinning" [nzIndicator]="indicatorTemplate">
-<section class="stepSection">
-  <div id="step1" *ngIf="current === 0">
-    <button
-      nz-button
-      nzType="question"
-      nz-popover
-      nzPopoverTitle="Step 1"
-      [(nzPopoverVisible)]="visible"
-      (nzPopoverVisibleChange)="change($event)"
-      nzPopoverTrigger="click"
-      [nzPopoverContent]="contentTemplate"
-      class="stepIcon"
-      [nzPopoverPlacement]="'rightTop'"
-    >
-      ?
-    </button>
-    <ng-template #contentTemplate>
-      <div class="stepInfo">
-        <p class="stepPara">
-          First, either upload a single Word document here (.doc or .docx).
-          You can use your grant or project funding application file for this purpose.
-          <br/><br/>
-          You can also start without a file upload and just access the entire database of indicators.
-          <br/><br/>
-          You can select the sector(s) that best apply to the subject of your project to limit the results.
-          You may select as many sectors as you want.
-          <br/><br/>
-          Note: If you are unsure which sectors are relevant, don't worry –
-          you'll be able to add more filters in the next step.
-      </div>
-      <a (click)="clickClose()">Close</a>
-    </ng-template>
-  </div>
 
-  <div id="step2" *ngIf="current === 1 || current === 2">
-    <button
-      nz-button
-      nzType="question"
-      nz-popover
-      nzPopoverTitle="Step {{current + 1}}"
-      [(nzPopoverVisible)]="visible"
-      (nzPopoverVisibleChange)="change($event)"
-      nzPopoverTrigger="click"
-      [nzPopoverContent]="contentTemplate"
-      class="stepIcon"
-      [nzPopoverPlacement]="'rightTop'"
-    >
-      ?
-    </button>
-    <ng-template #contentTemplate>
-      <div class="step2Info" *ngIf="current == 1">
-        <p>
-          Here are the suggested indicators for you, based on the keywords in your
-          document and the sectors selected. Indicators are categorised as Impacts,
-          Outcomes, or Outputs. If you have not uploaded a document, we are showing
-          you all indicators that matched your filter criteria.
-          <br/><br/>
-          Select the indicators you want to use to track the success of your project,
-          then click Next.
-          <br/><br/>
-          Note: In this step, you can select additional sectors or indicators
-          that you wish to include in your logframe.
-        </p>
-      </div>
-      <div class="step2Info" *ngIf="current == 2">
-        <p>
-          In this step you are able to view the success indicators in a visualization
-          format. These indicators are derived from the selection you did in previous          
-          step (Step 2) which are categorized into 3 levels – Impacts, Outcomes or          
-          Outputs.
-          <br/><br/>
-          You can connect the shapes by dragging the ports. The ports will be hidden once shapes
-          are connected and will only be visible of you disconnect again. You can also          
-          delete the connectors and/or shapes by simply selecting them and use your          
-          delete button from your keyboard.
-          <br/><br/>
-          If the shapes are located at a distance and you would like to connect the ports
-          then you first have to click on the port and then drag the connector to the end          
-          shape.
-          <br/><br/>
-          If by any chance you accidently delete a shape there is a easy option to undo and 
-          redo. If you want to maximize the visualization please use zoom button.
-          <br/><br/>
-          Note: If you remove a shape from this visualization this will also remove the indicator
-          which you had selected in Step #2.
-        </p>
-      </div>
-      <a (click)="clickClose()">Close</a>
-    </ng-template>
-  </div>
-</section>
 <div class="content-section">
+  <section class="stepSection">
+    <div id="step1" *ngIf="current === 0 || current === 1 || current === 2">
+      <button
+        nz-button
+        nzType="question"
+        nz-popover
+        nzPopoverTitle="Step 1"
+        [(nzPopoverVisible)]="visible"
+        (nzPopoverVisibleChange)="change($event)"
+        nzPopoverTrigger="click"
+        [nzPopoverContent]="contentTemplate"
+        class="stepIcon"
+        [nzPopoverPlacement]="'rightTop'"
+      >
+        ?
+      </button>
+      <ng-template #contentTemplate>
+        <div class="stepInfo" *ngIf="current == 0">
+          <p class="stepPara">
+            First, either upload a single Word document here (.doc or .docx).
+            You can use your grant or project funding application file for this purpose.
+            <br/><br/>
+            You can also start without a file upload and just access the entire database of indicators.
+            <br/><br/>
+            You can select the sector(s) that best apply to the subject of your project to limit the results.
+            You may select as many sectors as you want.
+            <br/><br/>
+            Note: If you are unsure which sectors are relevant, don't worry –
+            you'll be able to add more filters in the next step.
+        </div>
+        <div class="step2Info" *ngIf="current == 1">
+          <p>
+            Here are the suggested indicators for you, based on the keywords in your
+            document and the sectors selected. Indicators are categorised as Impacts,
+            Outcomes, or Outputs. If you have not uploaded a document, we are showing
+            you all indicators that matched your filter criteria.
+            <br/><br/>
+            Select the indicators you want to use to track the success of your project,
+            then click Next.
+            <br/><br/>
+            Note: In this step, you can select additional sectors or indicators
+            that you wish to include in your logframe.
+          </p>
+        </div>
+        <div class="step2Info" *ngIf="current == 2">
+          <p>
+            In this step you are able to view the success indicators in a visualization
+            format. These indicators are derived from the selection you did in previous          
+            step (Step 2) which are categorized into 3 levels – Impacts, Outcomes or          
+            Outputs.
+            <br/><br/>
+            You can connect the shapes by dragging the ports. The ports will be hidden once shapes
+            are connected and will only be visible of you disconnect again. You can also          
+            delete the connectors and/or shapes by simply selecting them and use your          
+            delete button from your keyboard.
+            <br/><br/>
+            If the shapes are located at a distance and you would like to connect the ports
+            then you first have to click on the port and then drag the connector to the end          
+            shape.
+            <br/><br/>
+            If by any chance you accidently delete a shape there is a easy option to undo and 
+            redo. If you want to maximize the visualization please use zoom button.
+            <br/><br/>
+            Note: If you remove a shape from this visualization this will also remove the indicator
+            which you had selected in Step #2.
+          </p>
+        </div>
+        <a (click)="clickClose()">Close</a>
+      </ng-template>
+    </div>
+  </section>
   <nz-steps [nzCurrent]="current">
     <nz-step nzTitle="SELECTION" nzIcon="folder"></nz-step>
     <nz-step nzTitle="RESULT" nzIcon="bars"></nz-step>

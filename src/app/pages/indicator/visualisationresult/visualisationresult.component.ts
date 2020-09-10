@@ -57,6 +57,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 let impactObject = []
                 let outcomesObject = [];
                 let outputObject = [];
+                let rowBoxLength = 5;
                 let impactY = 20;
                 let impactX = 250;
                 let outComeY = 150;
@@ -68,12 +69,12 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     if (index > 15) {
                         return;
                     }
-                    if (index < 8) {
+                    if (index < rowBoxLength) {
                         impactY = 20;
                         impactX = (250 * index);
                     } else {
                         impactY = 150;
-                        impactX = (250 * (index - 8))
+                        impactX = (250 * (index - rowBoxLength))
                     }
                     // Create text box json
                     impactObject.push({
@@ -157,12 +158,12 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     if (index > 15) {
                         return;
                     }
-                    if (index < 8) {
+                    if (index < rowBoxLength) {
                         outComeY = 150 + impactY;
                         outComeX = (250 * index);
                     } else {
                         outComeY = 300 + impactY;
-                        outComeX = (250 * (index - 8))
+                        outComeX = (250 * (index - rowBoxLength))
                     }
                     // OutCome text box json
                     outcomesObject.push({
@@ -180,7 +181,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "cssClass": "draw2d_shape_basic_Text",
                         "ports": [
                             {
-                                "type": "draw2d.InputPort",
+                                "type": "draw2d.OutputPort",
                                 "width": 10,
                                 "height": 10,
                                 "alpha": 1,
@@ -188,7 +189,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                                 "draggable": true,
                                 "angle": 0,
                                 "userData": { sort_id: row.sort_id },
-                                "cssClass": "draw2d_HybridPort",
+                                "cssClass": "draw2d_OutputPort",
                                 "bgColor": "rgba(204,204,204,1)",
                                 "color": "rgba(204,204,204,1)",
                                 "stroke": 1,
@@ -196,7 +197,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                                 "maxFanOut": 9007199254740991,
                                 "name": "outcomeTop_" + row.sort_id,
                                 "semanticGroup": "impact",
-                                "port": "draw2d.HybridPort",
+                                "port": "draw2d.OutputPort",
                                 "locator": "draw2d.layout.locator.TopLocator"
                             }, {
                                 "type": "draw2d.InputPort",
@@ -237,7 +238,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     "type": "draw2d.shape.basic.Label",
                     "id": "66888707-0546-abed-f9d3-1408623bb39g",
                     "x": 10,
-                    "y": 150 + impactY + ((this.outcomes.length < 8) ? 37 : 75),
+                    "y": 150 + impactY + ((this.outcomes.length < rowBoxLength) ? 37 : 75),
                     "width": 100,
                     "height": 21,
                     "alpha": 1,
@@ -265,12 +266,12 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     if (index > 15) {
                         return;
                     }
-                    if (index < 8) {
+                    if (index < rowBoxLength) {
                         outputY = 150 + outComeY;
                         outputX = (250 * index);
                     } else {
                         outputY = 300 + outComeY;
-                        outputX = (250 * (index - 8))
+                        outputX = (250 * (index - rowBoxLength))
                     }
                     // Output text box json 
                     outputObject.push({
@@ -288,7 +289,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "cssClass": "draw2d_shape_basic_Text",
                         "ports": [
                             {
-                                "type": "draw2d.InputPort",
+                                "type": "draw2d.OutputPort",
                                 "width": 10,
                                 "height": 10,
                                 "alpha": 1,
@@ -296,7 +297,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                                 "draggable": true,
                                 "angle": 0,
                                 "userData": { sort_id: row.sort_id },
-                                "cssClass": "draw2d_HybridPort",
+                                "cssClass": "draw2d_OutputPort",
                                 "bgColor": "rgba(204,204,204,1)",
                                 "color": "rgba(204,204,204,1)",
                                 "stroke": 1,
@@ -304,7 +305,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                                 "maxFanOut": 9007199254740991,
                                 "name": "outputTop_" + row.sort_id,
                                 "semanticGroup": "outcome",
-                                "port": "draw2d.HybridPort",
+                                "port": "draw2d.OutputPort",
                                 "locator": "draw2d.layout.locator.TopLocator"
                             }],
                         "bgColor": "rgba(69,52,87,1)",
@@ -321,7 +322,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     });
                     if ((this.output.length - 1) != index && this.output.length != 1) {
                         outputObject[outputObject.length - 1]['ports'].push({
-                            "type": "draw2d.HybridPort",
+                            "type": "draw2d.InputPort",
                             "width": 10,
                             "height": 10,
                             "alpha": 1,
@@ -329,7 +330,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                             "draggable": true,
                             "angle": 0,
                             "userData": { sort_id: row.sort_id },
-                            "cssClass": "draw2d_HybridPort",
+                            "cssClass": "draw2d_InputPort",
                             "bgColor": "rgba(204,204,204,1)",
                             "color": "rgba(204,204,204,1)",
                             "stroke": 1,
@@ -337,14 +338,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                             "maxFanOut": 9007199254740991,
                             "name": "outputRight_" + row.sort_id,
                             "semanticGroup": "output",
-                            "port": "draw2d.HybridPort",
+                            "port": "draw2d.InputPort",
                             "locator": "draw2d.layout.locator.RightLocator"
                         });
                     }
 
                     if (index != 0 && this.output.length != 1) {
                         outputObject[outputObject.length - 1]['ports'].push({
-                            "type": "draw2d.HybridPort",
+                            "type": "draw2d.OutputPort",
                             "width": 10,
                             "height": 10,
                             "alpha": 1,
@@ -352,7 +353,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                             "draggable": true,
                             "angle": 0,
                             "userData": { sort_id: row.sort_id },
-                            "cssClass": "draw2d_HybridPort",
+                            "cssClass": "draw2d_OutputPort",
                             "bgColor": "rgba(204,204,204,1)",
                             "color": "rgba(204,204,204,1)",
                             "stroke": 1,
@@ -360,7 +361,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                             "maxFanOut": 9007199254740991,
                             "name": "outputLeft_" + row.sort_id,
                             "semanticGroup": "output",
-                            "port": "draw2d.HybridPort",
+                            "port": "draw2d.OutputPort",
                             "locator": "draw2d.layout.locator.LeftLocator"
                         });
                     }
@@ -369,7 +370,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     "type": "draw2d.shape.basic.Label",
                     "id": "66888707-0546-abed-f9d3-1408623bb39go",
                     "x": 10,
-                    "y": 150 + outComeY + ((this.output.length < 8) ? 30 : 75),
+                    "y": 150 + outComeY + ((this.output.length < rowBoxLength) ? 30 : 75),
                     "width": 100,
                     "height": 21,
                     "alpha": 1,
@@ -408,7 +409,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             this.indicatorService.selectedData[id] = !this.indicatorService.selectedData[id];
         }
     }
-    
+
     //Code for chart's drag and drop functionality 
     setFlowChart(selected): void {
         var that = this;
