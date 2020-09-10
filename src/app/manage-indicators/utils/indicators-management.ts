@@ -84,4 +84,13 @@ export class IndicatorsManagement {
     filter.value = value.id;
     return filter;
   }
+
+  printArray(array: Array<any>, property?: string): string{
+    if(array == null || array.length == 0) return '';
+    if(property==null){
+      return array.join(', ');
+    }else {
+      return array.map((x)=>x[property]).join(', ');
+    }
+  }
 }
