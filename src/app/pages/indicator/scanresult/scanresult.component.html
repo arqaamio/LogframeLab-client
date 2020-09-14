@@ -80,6 +80,7 @@
       <thead (nzSortOrderChange)="sort($event)">
         <!--TODO nzSingleSort-->
         <tr>
+          <th nzWidth="60px"></th>
           <th
             nzShowCheckbox
             [(nzChecked)]="isAllDisplayDataChecked"
@@ -204,7 +205,9 @@
             (click)="selectindicator(data.sort_id)"
             [class.row-checked]="mapOfCheckedId[data.sort_id]"
           >
-            <td
+          <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+
+          <td
               nzShowCheckbox
               [(nzChecked)]="mapOfCheckedId[data.sort_id]"
               (nzCheckedChange)="refreshStatus()"
@@ -238,6 +241,9 @@
             <td>{{ printArray(data.indicator.crsCode, 'name') }}</td>
             <td title="{{printArray(data.indicator.sdgCode, 'name')}}" nzEllipsis>{{ printArray(data.indicator.sdgCode, 'name') }}</td>
             <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
+          </tr>
+          <tr [nzExpand]="expandSet.has(data.id)">
+            <span>{{ data.description }}</span>
           </tr>
         </ng-template>
       </tbody>
