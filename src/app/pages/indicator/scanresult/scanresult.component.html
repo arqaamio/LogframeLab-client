@@ -243,7 +243,13 @@
             <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
           </tr>
           <tr [nzExpand]="expandSet.has(data.id)">
-            <span>{{ data.description }}</span>
+            <span>Country: </span>
+            <nz-select nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(data, $event)" nzPlaceHolder="Select a country" [(ngModel)]="data.countryCodeSelected">
+              <nz-option *ngFor="let country of countriesList" nzLabel="{{country.lable}}" nzValue="{{country.code}}"></nz-option>
+            </nz-select>
+            <span>Year: </span>
+            <nz-year-picker (ngModelChange)="ngModelYearChange(data, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="data.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
+            <span>Baseline value: </span>
           </tr>
         </ng-template>
       </tbody>

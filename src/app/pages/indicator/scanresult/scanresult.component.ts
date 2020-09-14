@@ -6,11 +6,16 @@ import { IndicatorResponse } from 'src/app/models/indicatorresponse.model';
 import { FilterData } from 'src/app/services/dto/filter-data.dto';
 import { take } from 'rxjs/internal/operators/take';
 import { tap } from 'rxjs/internal/operators/tap';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 
 interface ItemData {
   indicator: IndicatorResponse;
   sort_id:number;
+  countryCodeSelected:string;
+  yearSelected:Date;
+  baseLineValue:number
 }
+
 
 export class SearchFilter {
   level: FilterData[];
@@ -67,6 +72,22 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     'hide-delay': 0,
   };
 
+  countriesList = [
+    {code:'NZL', lable:'NEWSLAND'},
+    {code:'GR', lable:'EE'},
+    {code:'US', lable:'DD'},
+    {code:'DZ', lable:'SS'}
+  ]
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+  today = new Date();
+
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit(): void {
@@ -81,7 +102,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         if(data!=null){
           // with document
           if (isNewInfo && data.dataResponse != null) {
-            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1, countryCodeSelected: null, yearSelected: new Date(), baseLineValue: 300}});
             this.indicatorService.setLoadedData(this.listOfData);
             this.displayData = this.listOfData;
 
@@ -96,7 +117,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
 
               if(response != null && response.length > 0) {
-                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1, countryCodeSelected: null, yearSelected: new Date(), baseLineValue: 300}});
 
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
@@ -280,4 +301,24 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       return array.map((x)=>x[property]).join(', ');
     }
   }
+
+  disabledDate = (current: Date): boolean => {
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) > 0;
+  };
+
+  ngModelCountryChange(row, $event){
+    console.log("----- country changed");
+
+    console.log(row);
+    console.log($event)
+  }
+
+  ngModelYearChange(row, $event){
+    console.log("----- year changed");
+    console.log(row);
+    console.log($event)
+  }
+
+
 }
