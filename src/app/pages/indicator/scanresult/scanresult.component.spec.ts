@@ -58,7 +58,7 @@ describe('ScanResultComponent', () => {
             ];
             component.searchValue = 'search';
             component.mapOfCheckedId = { '1': true, '3': true, '4': false };
-            component.search();
+            component.search(false);
 
             expect(component.displayData).toEqual(expectedResult);
             expect(component.sortName).toBeNull();
@@ -79,7 +79,7 @@ describe('ScanResultComponent', () => {
         const expectedResult = [component.listOfData[0], component.listOfData[2], component.listOfData[3]];
         component.searchValue = 'search';
         component.mapOfCheckedId = { '1': false, '3': false, '4': false };
-        component.search();
+        component.search(false);
 
         expect(component.displayData).toEqual(expectedResult);
         expect(component.sortName).toBeNull();
@@ -97,10 +97,10 @@ describe('ScanResultComponent', () => {
             {sort_id: 4, indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, numTimes: 0, keys: [], var: ''} },
             {sort_id: 5, indicator: { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, numTimes: 0, keys: [], var: ''} },
         ];
-        const expectedResult = [component.listOfData[2], component.listOfData[3], component.listOfData[0]];
+        const expectedResult = [component.listOfData[0], component.listOfData[2], component.listOfData[3]];
         component.searchValue = 'search';
         component.mapOfCheckedId = { '1': false, '3': true, '4': true };
-        component.search();
+        component.search(false);
 
         expect(component.displayData).toEqual(expectedResult);
         expect(component.sortName).toBeNull();
