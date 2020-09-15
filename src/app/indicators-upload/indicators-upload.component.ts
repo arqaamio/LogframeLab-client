@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UploadFile} from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import {ManageIndicatorsService} from '../services/indicators-management/manage-indicators.service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 
@@ -9,7 +9,7 @@ import {NzMessageService} from 'ng-zorro-antd/message';
   styleUrls: ['./indicators-upload.component.scss']
 })
 export class IndicatorsUploadComponent implements OnInit {
-  fileList: UploadFile[] = [];
+  fileList: NzUploadFile[] = [];
   uploading = false;
 
   constructor(private indicatorsService: ManageIndicatorsService, private msg: NzMessageService) { }
@@ -31,7 +31,7 @@ export class IndicatorsUploadComponent implements OnInit {
     });
   }
 
-  beforeUpload = (file: UploadFile): boolean => {
+  beforeUpload = (file: NzUploadFile): boolean => {
     this.fileList = [];
     this.fileList.push(file);
     return false;

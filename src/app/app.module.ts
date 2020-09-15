@@ -53,6 +53,7 @@ import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@s
 import {rxStompConfig} from './configuration/rxstomp.config'
 import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ErrorHandlerService } from './services/errorhandler.service';
+import { NzBadgeModule, NzDropDownModule } from 'ng-zorro-antd';
 
 registerLocaleData(en);
 
@@ -129,6 +130,8 @@ export const routes: Routes = [
     NzSelectModule,
     NzSliderModule,
     NzIconModule,
+    NzBadgeModule,
+    NzDropDownModule,
     NzPopoverModule,
   ],
   providers: [
