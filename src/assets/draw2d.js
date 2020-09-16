@@ -109,7 +109,7 @@ return /******/ (function(modules) { // webpackBootstrap
  var RGBColor = __webpack_require__(/*! rgbcolor */ "./node_modules/rgbcolor/index.js");
  var stackblur = __webpack_require__(/*! stackblur */ "./node_modules/stackblur/index.js");
  var xmldom = __webpack_require__(/*! xmldom */ "./node_modules/xmldom/dom-parser.js");
-
+ var tempDropTarget = null;
 /*
  * canvg.js - Javascript SVG parser and renderer on Canvas
  * MIT Licensed
@@ -13107,11 +13107,11 @@ _packages2.default.Port = _packages2.default.shape.basic.Circle.extend(
    **/
   onDragStart: function onDragStart(x, y, shiftKey, ctrlKey) {
     // just allow the DragOperation if the port didn't have reached the max fanOut
-    // limit.
+	// limit.
     if (this.getConnections().getSize() >= this.maxFanOut) {
       return false;
-    }
-
+	}
+	
     var _this = this;
 
     //        this.getShapeElement().insertAfter(this.parent.getShapeElement());
@@ -13166,7 +13166,7 @@ _packages2.default.Port = _packages2.default.shape.basic.Circle.extend(
     this.setAlpha(1.0);
 
     // 1.) Restore the old Position of the node
-    //
+	//
     this.setPosition(this.ox, this.oy);
   },
 
@@ -13198,7 +13198,8 @@ _packages2.default.Port = _packages2.default.shape.basic.Circle.extend(
    *
    * @template
    **/
-  onConnect: function onConnect(connection) {},
+  onConnect: function onConnect(connection) {
+  },
 
   /**
    *
@@ -34692,6 +34693,7 @@ _packages2.default.policy.connection.ConnectionCreatePolicy = _packages2.default
 			color: "rgba(204,204,204,1)",
             router: new draw2d.layout.connection.InteractiveManhattanConnectionRouter()
 		});
+	
 		con.setTargetDecorator(new draw2d.decoration.connection.ArrowDecorator(10, 10));
 		return con;
     },
@@ -34952,13 +34954,26 @@ _packages2.default.policy.connection.DragConnectionCreatePolicy = _packages2.def
                 this.currentDropTarget.fireEvent("dragLeave", { draggingElement: this.mouseDraggingElement });
 
                 // Ports accepts only Ports as DropTarget
-                //
                 if (this.currentDropTarget instanceof _packages2.default.Port) {
+					let sourcePorts = [];
+					let targetPorts = [];
+					canvas.getLines().each(function (i, conn) {
+						var sourcePort = conn.getSource();
+						var targetPort = conn.getTarget();
+						sourcePorts.push(sourcePort.name);
+						targetPorts.push(targetPort.name);
+					});
+					
+					if(sourcePorts.indexOf(this.mouseDraggingElement.name) !== -1 && targetPorts.indexOf(this.currentDropTarget.name) !== -1){
+						canvas.getCommandStack().commitTransaction();
+						this.currentDropTarget = null;
+						this.mouseDraggingElement = null;
+						return false;
+					}
                     var request = new _packages2.default.command.CommandType(_packages2.default.command.CommandType.CONNECT);
                     request.source = this.currentDropTarget;
-                    request.target = this.mouseDraggingElement;
+					request.target = this.mouseDraggingElement;					
                     var command = this.mouseDraggingElement.createCommand(request);
-
                     if (command !== null) {
                         command.setConnection(this.createConnection());
                         canvas.getCommandStack().execute(command);
@@ -44738,7 +44753,7 @@ _packages2.default.shape.basic.VertexResizeHandle = _packages2.default.ResizeHan
   onDragEnd: function onDragEnd(x, y, shiftKey, ctrlKey) {
     if (this.isDead === true || this.command === null) {
       return;
-    }
+	}
 
     this.shape.attr({ "cursor": "move" });
 
@@ -61423,7 +61438,8 @@ _packages2.default.shape.node.Node = _packages2.default.Figure.extend(
     if (port instanceof _packages2.default.InputPort) {
       this.inputPorts.add(port);
     } else if (port instanceof _packages2.default.OutputPort) {
-      this.outputPorts.add(port);
+	  this.outputPorts.add(port);
+	  	
     } else if (port instanceof _packages2.default.HybridPort) {
       this.hybridPorts.add(port);
     }
@@ -61442,6 +61458,8 @@ _packages2.default.shape.node.Node = _packages2.default.Figure.extend(
       port.getShapeElement();
       this.canvas.registerPort(port);
     }
+	
+
 
     return port;
   },
@@ -61521,8 +61539,21 @@ _packages2.default.shape.node.Node = _packages2.default.Figure.extend(
         throw "Unknown type [" + type + "] of port requested";
     }
 
-    newPort.setName(type + count);
-
+	newPort.setName(type + count);
+	
+	var connections = this.getConnections();
+	let sourcePorts =[];
+	let targetPorts =[];
+    connections.each(function (i, conn) {
+      var sourcePort = conn.getSource();
+	  var targetPort = conn.getTarget();
+	  sourcePorts.push(sourcePort.name);
+	  targetPorts.push(targetPort.name);
+    });
+	console.log(targetPorts, sourcePorts, newPort, locator);
+	var curentsourcePort = newPort.getSource();
+	var curenttargetPort = newPort.getTarget();
+	console.log(curentsourcePort, curenttargetPort);
     this.addPort(newPort, locator);
     // relayout the ports
     this.setDimension(this.width, this.height);
@@ -61708,7 +61739,6 @@ _packages2.default.shape.node.Node = _packages2.default.Figure.extend(
    */
   setPersistentAttributes: function setPersistentAttributes(memento) {
     var _this4 = this;
-
     this._super(memento);
 
     if (typeof memento.ports !== "undefined") {
