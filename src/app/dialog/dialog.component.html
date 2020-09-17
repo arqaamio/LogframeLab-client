@@ -2,7 +2,7 @@
 	<button nz-button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X
 		<!--&#x2716;-->
 	</button>
-	<h1 class="dialog__title">Welcome to <b>Logframe Lab</b>
+	<h1 class="dialog__title">Welcome to <strong>Logframe Lab</strong>
 	</h1>
 	<p class ="dialog__information">
 		Logframe Lab is an open source web application created to help NGOs and community-based organisations match
@@ -18,7 +18,7 @@
 		<h3 style="margin-top: 50px;">Coming Soon</h3>
 	</div>
 	<div>
-		<button nz-button nzType="primary" *ngIf="closable" (click)="close()" class="dialog__lower-close-btn">Show
+		<button id="showMeButton" nz-button nzType="primary" *ngIf="closable" (click)="close()" class="dialog__lower-close-btn">Show
 			me!</button>
 	</div>
 </nz-layout>
