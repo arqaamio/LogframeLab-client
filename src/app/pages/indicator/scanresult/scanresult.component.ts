@@ -129,7 +129,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
             mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
           })
-          mapLevels.forEach((value, _)=> {this.searchFilter.level.push(value);});
+          mapLevels.forEach((value, _)=> {this.searchFilter?.level.push(value);});
           mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
           mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
           mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});

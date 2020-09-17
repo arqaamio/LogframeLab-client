@@ -184,7 +184,6 @@ export class IndicatorService {
       // Remove the last extra &
       url+='?' + args.slice(0, -1);
     }
-    console.log('URL: '+ url);
 
     return this.http.get<IndicatorResponse[]>(url);
   }

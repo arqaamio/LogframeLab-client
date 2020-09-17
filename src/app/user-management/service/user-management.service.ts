@@ -15,7 +15,6 @@ export class UserManagementService {
   }
 
   private static handleError(error: HttpErrorResponse): Observable<any> {
-    console.log(error);
     return throwError(error);
   }
 

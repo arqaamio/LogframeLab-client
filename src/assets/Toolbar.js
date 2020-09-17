@@ -56,7 +56,6 @@ var Toolbar = {
 	 * @param {draw2d.Figure} event.figure
 	 */
 	onSelectionChanged : function(emitter, event){
-        console.log(event.figure);
         this.disableButton(this.deleteButton, event.figure === null);
 	},
 	

@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { Routes, RouterModule } from '@angular/router';
 import { DataprotectionComponent } from './pages/dataprotection/dataprotection.component';
@@ -8,7 +8,6 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { IndicatorComponent } from './pages/indicator/indicator.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgZorroAntdModule } from 'ng-zorro-antd/ng-zorro-antd';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -34,6 +33,7 @@ import { VisualisationresultComponent } from './pages/indicator/visualisationres
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { AuthGuard } from './utils/auth.guard';
+import { ErrorHandlerService } from './services/errorhandler.service';
 
 const routes: Routes = [
   { path: 'dataprotection', component: DataprotectionComponent },
@@ -49,12 +49,15 @@ const routes: Routes = [
   },
 ];
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let element: HTMLElement;
+  let fixture: ComponentFixture<AppComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers:[ErrorHandlerService],
       imports: [
         BrowserModule,
         RouterModule.forRoot(routes),
-        NgZorroAntdModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
@@ -91,16 +94,21 @@ describe('AppComponent', () => {
     }).compileComponents();
   }));
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    element = fixture.nativeElement;
+    fixture.detectChanges();
+  });
+
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it(`should have as title 'LogframeLab'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('LogframeLab');
+    //const fixture = TestBed.createComponent(AppComponent);
+    //const app = fixture.debugElement.componentInstance;
+    expect(component.title).toEqual('LogframeLab');
   });
 
   // it('should render title', () => {
