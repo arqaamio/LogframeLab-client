@@ -13,8 +13,10 @@
           <nz-form-label [nzSpan]="7" nzFor="crsCode"><label for="crsCode">CRS code</label>
           </nz-form-label>
           <nz-form-control [nzSpan]="12">
-            <input nz-input [(ngModel)]="indicator.crsCode" id="crsCode" placeholder="CRS code"
-                   name="crsCode" [disabled]="!(isEditing() || isNew())">
+            <nz-select id="crsCode" name="crsCode" [(ngModel)]="indicator.crsCode" nzPlaceHolder="CRS Code"
+            [disabled]="!(isEditing() || isNew())" nzMode="multiple" [compareWith]="compare" nzAllowClear>
+              <nz-option *ngFor="let item of crsCodes" [nzLabel]="item.name" [nzValue]="item"></nz-option>
+            </nz-select>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -67,17 +69,22 @@
           <nz-form-label [nzSpan]="7" nzFor="sdgCode"><label for="sdgCode">SDG code</label>
           </nz-form-label>
           <nz-form-control [nzSpan]="12">
-            <input nz-input [(ngModel)]="indicator.sdgCode" id="sdgCode" name="sdgCode"
-                   placeholder="SDG code" [disabled]="!(isEditing() || isNew())">
+            <nz-select id="sdgCode" name="sdgCode" [(ngModel)]="indicator.sdgCode" nzPlaceHolder="SDG Code"
+            [disabled]="!(isEditing() || isNew())" nzMode="multiple" [compareWith]="compare" nzAllowClear>
+              <nz-option *ngFor="let item of sdgCodes" [nzLabel]="item.name" [nzValue]="item"></nz-option>
+            </nz-select>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
           <nz-form-label [nzSpan]="7" nzFor="source"><label for="source">Source</label>
           </nz-form-label>
           <nz-form-control [nzSpan]="12">
-            <input nz-input [(ngModel)]="indicator.source" id="source" name="source"
-                   placeholder="Source" [disabled]="!(isEditing() || isNew())">
-          </nz-form-control>
+            <nz-select id="source" name="source" [(ngModel)]="indicator.source" nzPlaceHolder="Source"
+            [disabled]="!(isEditing() || isNew())" nzMode="multiple" [compareWith]="compare" nzAllowClear>
+              <nz-option *ngFor="let item of sources" [nzLabel]="item.name" [nzValue]="item"></nz-option>
+            </nz-select>
+        </nz-form-control>
+
         </nz-form-item>
         <nz-form-item>
           <nz-form-label [nzSpan]="7" nzFor="sourceVerification"><label for="sourceVerification">Source

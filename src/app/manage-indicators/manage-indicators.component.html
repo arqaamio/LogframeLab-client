@@ -12,7 +12,7 @@
 
     <button
       nz-button
-      (click)="fetchByFilters()"
+      (click)="refreshIndicatorList(true)"
       nzType="link"
       nzSize="default"
       style="position: absolute; right: 0;"
@@ -55,15 +55,15 @@
     <tbody>
     <tr *ngFor="let ind of indicators.data">
       <td>{{ind.id}}</td>
-      <td>{{printArray(ind.crsCode, 'name')}}</td>
-      <td>{{ind.dataSource}}</td>
-      <td>{{ind.description}}</td>
+      <td nzBreakWord>{{printArray(ind.crsCode, 'name')}}</td>
+      <td nzBreakWord>{{ind.dataSource}}</td>
+      <td nzBreakWord>{{ind.description}}</td>
       <td>{{ind.disaggregation}}</td>
-      <td>{{ind.keywords}}</td>
+      <td nzBreakWord>{{ind.keywords}}</td>
       <td>{{ind.name}}</td>
-      <td>{{printArray(ind.sdgCode, 'name')}}</td>
-      <td>{{printArray(ind.source, 'name')}}</td>
-      <td>{{ind.sourceVerification}}</td>
+      <td nzBreakWord>{{printArray(ind.sdgCode, 'name')}}</td>
+      <td nzBreakWord>{{printArray(ind.source, 'name')}}</td>
+      <td nzBreakWord>{{ind.sourceVerification}}</td>
       <td>{{ind.sector}}</td>
       <td>{{ind.level.name}}</td>
       <td>
@@ -78,9 +78,9 @@
 </div>
 <app-crud-indicator
   (hideCrudModal)="hideCrudModal($event)"
-  (indicatorAdded)="refreshIndicatorList()"
-  (indicatorDeleted)="refreshIndicatorList()"
-  (indicatorUpdated)="refreshIndicatorList()"
+  (indicatorAdded)="refreshIndicatorList(true)"
+  (indicatorDeleted)="refreshIndicatorList(true)"
+  (indicatorUpdated)="refreshIndicatorList(false)"
   [operation]="operation"
   [indicatorForOperation]="indicator"
   [displayCrudModal]="displayCrudModal"
