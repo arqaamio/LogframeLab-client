@@ -72,12 +72,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     'hide-delay': 0,
   };
 
-  countriesList = [
-    {code:'NZL', lable:'NEWSLAND'},
-    {code:'GR', lable:'EE'},
-    {code:'US', lable:'DD'},
-    {code:'DZ', lable:'SS'}
-  ]
+  countriesList = [];
+
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
@@ -170,6 +166,16 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         }
         this.indicatorService.setIsNewInfo(false);
       })).subscribe();
+
+      this.indicatorService.getWoldBanlCountries().subscribe(data => {
+        console.log('get worldbank countries');
+        Object.keys(data).forEach(item => {
+          this.countriesList.push({
+            lable: data[item],
+            code: item
+          });
+        });
+      });
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
@@ -308,17 +314,16 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   };
 
   ngModelCountryChange(row, $event){
-    console.log("----- country changed");
-
-    console.log(row);
-    console.log($event)
+    row.countryCodeSelected = $event;
   }
 
-  ngModelYearChange(row, $event){
-    console.log("----- year changed");
-    console.log(row);
-    console.log($event)
+  ngModelYearChange(row, $event:Date){
+    row.baseLineValue = null;
+    this.indicatorService.getWoldBanlBaselineValue(row.indicator.id, row.countryCodeSelected, $event.getFullYear()).subscribe(data => {
+      console.log(data);
+      if(data != null && data.length > 0)
+        row.baseLineValue = data[0].value;
+    });
   }
-
 
 }
