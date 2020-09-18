@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { registerLocaleData, APP_BASE_HREF } from '@angular/common';
 
@@ -130,7 +131,8 @@ export const routes: Routes = [
     NzSelectModule,
     NzSliderModule,
     NzIconModule,
-    NzPopoverModule
+    NzPopoverModule,
+    NzDatePickerModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -164,7 +166,7 @@ export const routes: Routes = [
       useClass: ResponseJwtInterceptor,
       multi: true
     },
-    { 
+    {
       provide: ErrorHandler,
       useClass: ErrorHandlerService
     }
