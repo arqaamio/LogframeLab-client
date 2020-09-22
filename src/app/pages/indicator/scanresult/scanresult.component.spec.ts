@@ -10,9 +10,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { HttpClientModule } from '@angular/common/http';
 
 
 describe('ScanResultComponent', () => {

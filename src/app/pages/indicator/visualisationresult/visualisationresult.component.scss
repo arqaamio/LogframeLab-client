@@ -19,7 +19,8 @@ body{
 }
 .row {
     display: flex;
-    overflow: scroll;
+    overflow: auto;
+    border: 0.25rem dashed #C6C6C5;
 }
 .draw2d{
   position: relative;
@@ -43,4 +44,7 @@ body{
 
 .left-chart-name .level-3{
   margin-top: 140px;
+}
+#toolbar {
+  margin-bottom: 10px;
 }

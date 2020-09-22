@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, Output, TemplateRef, EventEmitter } from "@angular/core";
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { NzRowDirective } from 'ng-zorro-antd';
 import { timer } from 'rxjs';
 declare var draw2d: any;
 declare var window: any;
@@ -18,10 +17,12 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     impact: any = [];
     isFullscreen: boolean = false;
     outcomes: any = [];
+    canvasHeight: any;
     canvas: any;
     isCanvasClear: boolean = false;
     @Output() loadingStart = new EventEmitter<any>();
     output: any = [];
+
     constructor(private indicatorService: IndicatorService) {
         this.loadingStart.emit(true);
         this.indicatorService.updateNextButton(true);
@@ -53,7 +54,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         }
                     }
                 });
-               
+
                 let impactObject = []
                 let outcomesObject = [];
                 let outputObject = [];
@@ -65,6 +66,40 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
 
                 let outputY = 150;
                 let outputX = 250;
+
+                impactObject.push({
+                    "type": "draw2d.shape.composite.Jailhouse",
+                    "id": "354fa3b9-a834-0221-2009-abc2d6bd8a",
+                    "x": 130,
+                    "y": 0,
+                    "width": 1380,
+                    "height": 900,
+                    "userData": {},
+                    "cssClass": "draw2d_shape_composite_Jailhouse",
+                    "bgColor": "transparent",
+                    "color": "transparent",
+                    "selectable": false,
+                    "draggable": false,
+                    "stroke": 0,
+                    "alpha": 1,
+                    "radius": 0
+                });
+                impactObject.push({
+                    "type": "draw2d.shape.composite.Jailhouse",
+                    "id": "354fa3b9-a834-0221-2009-abc2d6bd8a16",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1500,
+                    "height": this.impact.length < rowBoxLength ? 160 : 285,
+                    "userData": {},
+                    "cssClass": "draw2d_shape_composite_Jailhouse",
+                    "bgColor": "#F9F9F9",
+                    "selectable": false,
+                    "draggable": false,
+                    "stroke": 0,
+                    "alpha": 1,
+                    "radius": 0
+                })
                 this.impact.forEach((row, index) => {
                     if (index > 15) {
                         return;
@@ -86,6 +121,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "height": 60,
                         "alpha": 1,
                         "selectable": true,
+                        "composite": "354fa3b9-a834-0221-2009-abc2d6bd8a",
                         "draggable": true,
                         "angle": 0,
                         "userData": { sort_id: row.sort_id },
@@ -109,6 +145,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                                 "name": "impactTop_" + row.sort_id,
                                 "semanticGroup": "impact",
                                 "port": "draw2d.InputPort",
+                                "visible": false,
                                 "locator": "draw2d.layout.locator.BottomLocator"
                             }],
                         "bgColor": "rgba(68,54,90,1)",
@@ -153,7 +190,29 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     "fontFamily": "Montserrat",
                     "fontWeight": "bold"
                 });
-
+                let outcomeHeight = 0;
+                if(this.output.length === 0){
+                    outcomeHeight = this.outcomes.length <= rowBoxLength ? 200 : 315
+                } else {
+                    outcomeHeight = this.outcomes.length <= rowBoxLength ? 165 : 315
+                }
+               
+                impactObject.push({
+                    "type": "draw2d.shape.composite.Jailhouse",
+                    "id": "354fa3b9-a834-0221-2009-abc2d6bd8a12",
+                    "x": 0,
+                    "y": impactY + 125,
+                    "width": 1500,
+                    "height": outcomeHeight,
+                    "userData": {},
+                    "cssClass": "draw2d_shape_composite_Jailhouse",
+                    "bgColor": "#F2F2F2",
+                    "selectable": false,
+                    "draggable": false,
+                    "stroke": 0,
+                    "alpha": 1,
+                    "radius": 0
+                })
                 this.outcomes.forEach((row, index) => {
                     if (index > 15) {
                         return;
@@ -177,6 +236,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "selectable": true,
                         "draggable": true,
                         "angle": 0,
+                        "composite": "354fa3b9-a834-0221-2009-abc2d6bd8a",
                         "userData": { sort_id: row.sort_id },
                         "cssClass": "draw2d_shape_basic_Text",
                         "ports": [
@@ -232,7 +292,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "fontFamily": "Montserrat",
                     });
                 });
-                
+
                 // Outcome level label
                 outcomesObject.push({
                     "type": "draw2d.shape.basic.Label",
@@ -261,7 +321,24 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     "fontFamily": "Montserrat",
                     "fontWeight": "bold"
                 })
-
+                if (this.output.length !== 0) {
+                    outcomesObject.push({
+                        "type": "draw2d.shape.composite.Jailhouse",
+                        "id": "354fa3b9-a834-0221-2009-abc2d6bd8a14",
+                        "x": 0,
+                        "y": outComeY + 140,
+                        "width": 1500,
+                        "height": 600,
+                        "userData": {},
+                        "cssClass": "draw2d_shape_composite_Jailhouse",
+                        "bgColor": "#EAEAEA",
+                        "selectable": false,
+                        "draggable": false,
+                        "stroke": 0,
+                        "alpha": 1,
+                        "radius": 0
+                    });
+                }
                 this.output.forEach((row, index) => {
                     if (index > 15) {
                         return;
@@ -284,6 +361,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "alpha": 1,
                         "selectable": true,
                         "draggable": true,
+                        "composite": "354fa3b9-a834-0221-2009-abc2d6bd8a",
                         "angle": 0,
                         "userData": { sort_id: row.sort_id },
                         "cssClass": "draw2d_shape_basic_Text",
@@ -366,33 +444,43 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         });
                     }
                 });
-                outputObject.push({
-                    "type": "draw2d.shape.basic.Label",
-                    "id": "66888707-0546-abed-f9d3-1408623bb39go",
-                    "x": 10,
-                    "y": 150 + outComeY + ((this.output.length < rowBoxLength) ? 30 : 75),
-                    "width": 100,
-                    "height": 21,
-                    "alpha": 1,
-                    "selectable": false,
-                    "draggable": false,
-                    "angle": 0,
-                    "userData": {},
-                    "cssClass": "draw2d_shape_basic_Label",
-                    "ports": [],
-                    "bgColor": "rgba(0,0,0,0)",
-                    "color": "rgba(27,27,27,1)",
-                    "stroke": 0,
-                    "radius": 0,
-                    "dasharray": null,
-                    "text": "Output",
-                    "outlineStroke": 0,
-                    "outlineColor": "rgba(0,0,0,0)",
-                    "fontSize": 20,
-                    "fontColor": "rgba(8,8,8,1)",
-                    "fontFamily": "Montserrat",
-                    "fontWeight": "bold"
-                })
+                if (this.output.length !== 0) {
+                    outputObject.push({
+                        "type": "draw2d.shape.basic.Label",
+                        "id": "66888707-0546-abed-f9d3-1408623bb39go",
+                        "x": 10,
+                        "y": 150 + outComeY + ((this.output.length < rowBoxLength) ? 30 : 75),
+                        "width": 100,
+                        "height": 21,
+                        "alpha": 1,
+                        "selectable": false,
+                        "draggable": false,
+                        "angle": 0,
+                        "userData": {},
+                        "cssClass": "draw2d_shape_basic_Label",
+                        "ports": [],
+                        "bgColor": "rgba(0,0,0,0)",
+                        "color": "rgba(27,27,27,1)",
+                        "stroke": 0,
+                        "radius": 0,
+                        "dasharray": null,
+                        "text": "Output",
+                        "outlineStroke": 0,
+                        "outlineColor": "rgba(0,0,0,0)",
+                        "fontSize": 20,
+                        "fontColor": "rgba(8,8,8,1)",
+                        "fontFamily": "Montserrat",
+                        "fontWeight": "bold"
+                    });
+                }
+                let height = (outputY + 160);
+                if (this.outcomes.length === 0) {
+                    height = (impactY + 150);
+                }
+                if (this.output.length === 0) {
+                    height = (outComeY + 140) + ((this.outcomes.length < 5) ? 10 : 0);
+                }
+                this.canvasHeight = height + 'px';
                 let d = [...impactObject, ...outcomesObject, ...outputObject];
                 // draw chart function
                 this.setFlowChart(d);
@@ -415,7 +503,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
         var that = this;
         timer(2000).subscribe(() => {
             this.canvas = new draw2d.Canvas("gfx_holder");
-            this.canvas.installEditPolicy(new draw2d.policy.canvas.ExtendedKeyboardPolicy());
+            // this.canvas.installEditPolicy(new draw2d.policy.canvas.ExtendedKeyboardPolicy());
             var reader = new draw2d.io.json.Reader();
             reader.unmarshal(this.canvas, selected);
             this.loadingStart.emit(false);
