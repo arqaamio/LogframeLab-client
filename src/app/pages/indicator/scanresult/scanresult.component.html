@@ -86,7 +86,7 @@
             [(nzChecked)]="isAllDisplayDataChecked"
             [nzIndeterminate]="isIndeterminate"
             (nzCheckedChange)="checkAll($event)"
-            nzWidth="5%"
+            nzWidth="3%"
           ></th>
           <th
             nzShowSort
@@ -102,6 +102,7 @@
             Level
           </th>
           <th
+          nzWidth="30%"
             nz-popover
             nzPopoverTitle="Indicator"
             nzPopoverContent="The phrasing of the actual indicator. Some indicators may need to be further specified accordingly."
@@ -129,7 +130,7 @@
             nz-popover
             nzPopoverTitle="Disaggregation"
             nzPopoverContent="If the indicator requires disaggregation. As a rule of thumb, whenever people are counted, there should a disaggregation (at least by sex)."
-            nzWidth="10%"
+            nzWidth="15%"
             style="font-size: 10px;"
             nzBreakWord
             nzShowFilter
@@ -141,7 +142,7 @@
           <th
             nzShowSort
             nzColumnKey="sector"
-            nzWidth="10%"
+            nzWidth="15%"
             nz-popover
             nzPopoverTitle="Thematic Area"
             nzPopoverContent="The sectors where the indicator is related to."
@@ -150,7 +151,7 @@
             [nzFilters]="searchFilter.sector"
             [nzFilterFn]="filterSector"
           >
-            Thematic Area
+            Thematic<br>Area
           </th>
           <th
             nzShowSort
@@ -158,13 +159,13 @@
             nz-popover
             nzPopoverTitle="OECD DAC/CRD Code"
             nzPopoverContent="This is the three digit code referring to the CRS codes, another way to understand what the indicator is related to."
-            nzWidth="10%"
+            nzWidth="15%"
             nzBreakWord
             nzShowFilter
             [nzFilters]="searchFilter.crsCode"
             [nzFilterFn]="filterCRSCode"
           >
-            OECD DAC/CRS Code
+            OECD<br>DAC/CRS<br>Code
           </th>
           <th
             nzShowSort
@@ -173,12 +174,12 @@
             nz-popover
             nzPopoverTitle="SDG Code"
             nzPopoverContent="This is in relations to the 17 SDGs."
-            nzWidth="10%"
+            nzWidth="15%"
             nzShowFilter
             [nzFilters]="searchFilter.sdgCode"
             [nzFilterFn]="filterSDGCode"
           >
-            SDG Code
+            SDG<br>Code
           </th>
           <th
             nz-popover
