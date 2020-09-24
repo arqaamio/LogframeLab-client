@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
-import { UploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +19,11 @@ import { UploadFile } from 'ng-zorro-antd/upload';
 export class IndicatorService {
   private baseUrl = environment.apiBaseUrl;
 
-  private fileList: UploadFile[] = null;
+  private fileList: NzUploadFile[] = null;
   private filters: FilterDto = null;
-  public dataResponse: any = null;
-  public selectedData: { [key: string]: boolean } = null;
+  private dataResponse: any = null;
+  // private selectedData: { [key: string]: boolean } = null;
+  private selectedData = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
   public canvasJson: any = [];
@@ -53,12 +54,12 @@ export class IndicatorService {
     this.currentStep = 0;
     this.canvasJson = [];
   }
-  
+
   setSelectedData(selectedData) {
     this.selectedData = selectedData;
     this.nextSubject();
   }
-  setFileUploadList(files: UploadFile[]) {
+  setFileUploadList(files: NzUploadFile[]) {
     this.fileList = files;
     this.nextSubject();
   }
