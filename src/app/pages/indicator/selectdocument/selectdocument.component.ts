@@ -37,6 +37,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   ) {
     // can't be in ngOnInit because of Angular Lifecycle Hooks
     this.indicatorService.updateNextButton(true);
+    this.rxStompService.deactivate();
   }
 
   ngOnInit() {
@@ -88,10 +89,8 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
       .subscribe((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.Sent:
-            console.log("Request has been made!");
             break;
           case HttpEventType.ResponseHeader:
-            console.log("Response header has been received!");
             break;
           case HttpEventType.UploadProgress:
             this.progress = Math.round((event.loaded / event.total) * 100);
@@ -105,12 +104,10 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
               //   if(this.fileScanned) subscription.unsubscribe();
               // });
               setTimeout(null,1000);
-              console.log(`Uploaded! ${this.progress}%`);
             }
             break;
           case HttpEventType.Response:
             this.fileScanned = true;
-            console.log("document has been successfully scanned ", event.body);
             this.progress = 100;
             this.uploadStateTitle = DONE_TITLE;
             this.indicatorService.setIsNewInfo(true);

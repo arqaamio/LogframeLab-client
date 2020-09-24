@@ -65,6 +65,7 @@ export class ManageIndicatorsService {
     filter.sdgCode.forEach(code => params = params.append('filters.sdg_code', code.toString()));
     filter.levelIds.forEach(levelId => params = params.append('filters.levelIds', String(levelId)));
     filter.source.forEach(source => params = params.append('filters.sourceIds', source.toString()));
+    params = params.append('filters.indicatorName', filter.indicatorName);
     return params;
   }
 }

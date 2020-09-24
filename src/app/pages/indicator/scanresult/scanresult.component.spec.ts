@@ -10,7 +10,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 
@@ -37,6 +36,10 @@ describe('ScanResultComponent', () => {
         indicatorService = TestBed.inject(IndicatorService);
         fixture.detectChanges();
     });
+
+    it('should be created', inject([IndicatorService], (service: IndicatorService) => {
+        expect(service).toBeTruthy();
+    }));
 
     it('should create', () => {
         expect(component).toBeTruthy();

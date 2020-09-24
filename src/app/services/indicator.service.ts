@@ -21,12 +21,15 @@ export class IndicatorService {
 
   private fileList: UploadFile[] = null;
   private filters: FilterDto = null;
-  private dataResponse: any = null;
-  private selectedData: { [key: string]: boolean } = null;
+  public dataResponse: any = null;
+  public selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
+  public exportSvg = new BehaviorSubject<any>(null);
+  public canvasJson: any = [];
   private nextButtonSubject = new BehaviorSubject<any>(null);
   private isNewInfo: boolean = true;
   private nextButton: boolean = false;
+  public currentStep: number = 0;
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
   private nextSubject() {
@@ -38,11 +41,19 @@ export class IndicatorService {
       isNewInfo: this.isNewInfo,
     });
   }
+
+
   clearIndicatorData() {
     this.filters = null;
     this.dataResponse = null;
+    this.fileList = this.selectedData = null;
+    this.isNewInfo = true;
     this.indicatorSubject.next(null);
+    this.exportSvg.next(null);
+    this.currentStep = 0;
+    this.canvasJson = [];
   }
+  
   setSelectedData(selectedData) {
     this.selectedData = selectedData;
     this.nextSubject();
@@ -173,8 +184,15 @@ export class IndicatorService {
       // Remove the last extra &
       url+='?' + args.slice(0, -1);
     }
-    console.log('URL: '+ url);
 
     return this.http.get<IndicatorResponse[]>(url);
+  }
+
+  getWoldBanlCountries():Observable<any> {
+    return this.http.get(this.baseUrl + '/worldbank/country')
+  }
+
+  getWoldBanlBaselineValue(indicatorId:string, countryCode:string, year:number):Observable<any> {
+    return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
   }
 }
