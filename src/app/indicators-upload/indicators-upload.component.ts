@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import {ManageIndicatorsService} from '../services/indicators-management/manage-indicators.service';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import { IndicatorService } from '../services/indicator.service';
 
+export const XLSX_FORMAT = "xlsx";
 @Component({
   selector: 'app-indicators-upload',
   templateUrl: './indicators-upload.component.html',
@@ -13,7 +15,8 @@ export class IndicatorsUploadComponent implements OnInit {
   uploading = false;
   visible = false;
 
-  constructor(private indicatorsService: ManageIndicatorsService, private msg: NzMessageService) { }
+  constructor(private indicatorsService: ManageIndicatorsService, private msg: NzMessageService,
+    private indicatorService: IndicatorService) { }
 
   ngOnInit(): void {
   }
@@ -39,10 +42,16 @@ export class IndicatorsUploadComponent implements OnInit {
   }
 
   /**
-   * Triggered when clicked on Close of ? popup
-   * Puts invisible the ? popup
+   * Downloads the XLSX template to upload indicators
    */
-  clickClose(): void {
-    this.visible = false;
+  downloadTemplate(): void {
+    this.indicatorService.downloadTemplate(XLSX_FORMAT).subscribe(response => {
+      let blob = new Blob([response.body], { type: "application/octet-stream" });
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = response.headers.get("filename");
+      link.click();
+      link.remove();
+    });
   }
 }

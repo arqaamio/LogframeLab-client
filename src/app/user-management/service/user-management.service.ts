@@ -14,14 +14,7 @@ export class UserManagementService {
   constructor(private http: HttpClient) {
   }
 
-  private static handleError(error: HttpErrorResponse): Observable<any> {
-    return throwError(error);
-  }
-
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(
-      `${environment.apiBaseUrl}/auth/users`,
-      {headers: new HttpHeaders().set("Content-Type", "application/json")})
-    .pipe(catchError(UserManagementService.handleError), shareReplay());
+    return this.http.get<User[]>(`${environment.apiBaseUrl}/auth/users`);
   }
 }

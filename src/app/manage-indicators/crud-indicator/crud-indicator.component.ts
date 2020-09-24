@@ -24,6 +24,9 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
   indicatorForOperation: IndicatorDto = undefined;
 
   levels: Level[] = [];
+  sdgCodes = [];
+  crsCodes = [];
+  sources = [];
 
   @Input()
   displayCrudModal = false;
@@ -50,6 +53,9 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.indicatorService.getFilters().subscribe(filters => {
       this.levels = filters.level;
+      this.sdgCodes = filters.sdgCode;
+      this.crsCodes = filters.crsCode;
+      this.sources = filters.source;
     });
   }
 
@@ -109,6 +115,14 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
       this.indicator = new IndicatorDto();
     }
   }
+
+  /**
+   * Compares items to know if they are equal
+   * @param item1 Item 
+   * @param item2 Item
+   */
+  compare = (item1: any, item2: any): boolean =>
+  item1 && item2 ? item1.id === item2.id : item1 === item2;
 }
 
 export enum Operation {

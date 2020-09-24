@@ -35,8 +35,12 @@ export class ManageIndicatorsComponent extends IndicatorsManagement implements O
     this.indicator = undefined;
   }
 
-  refreshIndicatorList() {
-    this.search(true, false);
+  /**
+   * Refresh indicator list with new API request
+   * @param refresh Wether to refresh to page 1
+   */
+  refreshIndicatorList(refresh: boolean) {
+    this.search(refresh, false);
   }
 
   edit(ind: IndicatorDto) {
@@ -49,10 +53,6 @@ export class ManageIndicatorsComponent extends IndicatorsManagement implements O
 
   read(ind: IndicatorDto) {
     this.displayIndicatorInModal(Operation.READ, ind);
-  }
-
-  fetchByFilters() {
-    this.search(true, false);
   }
 
   private displayIndicatorInModal(operation: Operation, ind: IndicatorDto) {

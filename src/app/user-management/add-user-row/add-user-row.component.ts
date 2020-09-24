@@ -49,7 +49,7 @@ export class AddUserRowComponent implements OnInit {
       const user = new User(this.newUserForm.get('username').value, this.selectedGroups, this.newUserForm.get('password').value);
       this.authenticationService.provisionUser(user).subscribe(res => {
         if (res) {
-          this.addedUser.emit(res);
+          this.addedUser.emit(res.body);
           this.cancel();
         }
       });

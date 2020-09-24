@@ -31,23 +31,11 @@ import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.com
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { ProfileMenuModule } from './profile-menu/profile-menu.module';
+import { routes } from './app.module';
 import { AuthGuard } from './utils/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { IndicatorService } from './services/indicator.service';
 
-const routes: Routes = [
-  { path: 'dataprotection', component: DataprotectionComponent },
-  { path: 'terms', component: TermsofuseComponent },
-  { path: 'imprint', component: ImprintComponent },
-  { path: 'login', component: SigninComponent, canActivate: [AuthGuard]},
-  { path: 'signup', component: SignupComponent },
-  { path: '', component: IndicatorComponent, pathMatch: 'full' },
-  {
-    path: 'user-management',
-    loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule),
-    canActivate: [AuthGuard]
-  },
-];
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -30,20 +30,18 @@
 <div nz-col nzOffset="5" style="margin-top: 80px;">
   <div nz-row>
     <div nz-col nzSpan="7">
-      <a href="assets/indicators_upload_template.xlsx">
-        <div class="ant-upload ant-upload-drag">
-          <div class="ant-upload ant-upload-btn">
-            <div class="ant-upload-drag-container">
-              <p class="ant-upload-drag-icon">
-                <i nz-icon nzType="file-excel"></i>
-              </p>
-              <p class="ant-upload-text">
-                Click to download template for indicators upload
-              </p>
-            </div>
+      <div class="ant-upload ant-upload-drag" (click)="downloadTemplate()">
+        <div class="ant-upload ant-upload-btn">
+          <div class="ant-upload-drag-container">
+            <p class="ant-upload-drag-icon">
+              <i nz-icon nzType="file-excel"></i>
+            </p>
+            <p class="ant-upload-text">
+              Click to download template for indicators upload
+            </p>
           </div>
         </div>
-      </a>
+      </div>
     </div>
 
     <div nz-col nzSpan="2"></div>
