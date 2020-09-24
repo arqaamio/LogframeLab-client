@@ -13,7 +13,7 @@
       <input type="text" nz-input placeholder="Search for indicator by name" [(ngModel)]="filters.indicatorName"/>
     </nz-input-group>
     <ng-template #suffixIconButton>
-      <button nz-button nzType="primary" nzSearch (click)="refreshIndicatorList()"><i nz-icon nzType="search"></i></button>
+      <button nz-button nzType="primary" nzSearch (click)="refreshIndicatorList(true)"><i nz-icon nzType="search"></i></button>
     </ng-template>
   </div>
 
