@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:4200/",
+  "supportFile": "cypress/support/index.ts",
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "results/cypress-report.xml",
+    "toConsole": true
+  }
+}
