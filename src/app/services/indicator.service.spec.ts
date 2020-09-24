@@ -79,7 +79,7 @@ describe('IndicatorService', () => {
     const indicatorsList: IndicatorResponse[] = [{
       id: 1, level: level.name, color: '', name: 'Name', description: '', keys: [], var: '', crsCode:null, sdgCode: null, sector:sector, disaggregation: true, source:null, numTimes:0
     }]
-    indicatorService.getIndicators({crsCode: [], level:[level], levelIds: [level.id], sdgCode: [], source: [], sector:[sector]})
+    indicatorService.getIndicators({crsCode: [], level:[level], levelIds: [level.id], sdgCode: [], source: [], sector:[sector], indicatorName: ''})
       .subscribe((response: IndicatorResponse[]) => {
         expect(response).toBe(indicatorsList);
     });

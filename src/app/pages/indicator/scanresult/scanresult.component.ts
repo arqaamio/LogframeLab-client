@@ -6,11 +6,16 @@ import { IndicatorResponse } from 'src/app/models/indicatorresponse.model';
 import { FilterData } from 'src/app/services/dto/filter-data.dto';
 import { take } from 'rxjs/internal/operators/take';
 import { tap } from 'rxjs/internal/operators/tap';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 
 interface ItemData {
   indicator: IndicatorResponse;
   sort_id:number;
+  countryCodeSelected:string;
+  yearSelected:Date;
+  baseLineValue:any;
 }
+
 
 export class SearchFilter {
   level: FilterData[];
@@ -67,6 +72,18 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     'hide-delay': 0,
   };
 
+  countriesList = [];
+
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+  today = new Date();
+
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit(): void {
@@ -81,7 +98,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         if(data!=null){
           // with document
           if (isNewInfo && data.dataResponse != null) {
-            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1, countryCodeSelected: null, yearSelected: new Date(), baseLineValue: null}});
             this.indicatorService.setLoadedData(this.listOfData);
             this.displayData = this.listOfData;
 
@@ -96,7 +113,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
 
               if(response != null && response.length > 0) {
-                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1, countryCodeSelected: null, yearSelected: new Date(), baseLineValue: null}});
 
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
@@ -129,7 +146,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
             mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
           })
-          mapLevels.forEach((value, _)=> {this.searchFilter.level.push(value);});
+          mapLevels.forEach((value, _)=> {this.searchFilter?.level.push(value);});
           mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
           mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
           mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
@@ -149,6 +166,16 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         }
         this.indicatorService.setIsNewInfo(false);
       })).subscribe();
+
+      this.indicatorService.getWoldBanlCountries().subscribe(data => {
+        console.log('get worldbank countries');
+        Object.keys(data).forEach(item => {
+          this.countriesList.push({
+            lable: data[item],
+            code: item
+          });
+        });
+      });
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
@@ -215,6 +242,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.refreshStatus();
   }
   selectindicator(id) {
+    this.indicatorService.canvasJson = [];
     this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
     // this.refreshStatus();
     this.search();
@@ -280,4 +308,23 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       return array.map((x)=>x[property]).join(', ');
     }
   }
+
+  disabledDate = (current: Date): boolean => {
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) > 0;
+  };
+
+  ngModelCountryChange(row, $event){
+    row.countryCodeSelected = $event;
+  }
+
+  ngModelYearChange(row, $event:Date){
+    row.baseLineValue = null;
+    this.indicatorService.getWoldBanlBaselineValue(row.indicator.id, row.countryCodeSelected, $event.getFullYear()).subscribe(data => {
+      console.log(data);
+      if(data != null && data.length > 0)
+        row.baseLineValue = data[0].value;
+    });
+  }
+
 }
