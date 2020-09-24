@@ -1,7 +1,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ErrorHandlerService } from './errorhandler.service';
-import { NzMessageModule, NzMessageService } from 'ng-zorro-antd';
+import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ClientError } from '../models/clienterror.model';
