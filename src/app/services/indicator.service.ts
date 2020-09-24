@@ -177,4 +177,15 @@ export class IndicatorService {
 
     return this.http.get<IndicatorResponse[]>(url);
   }
+
+  /**
+   * Requests to the backend to return template of given format
+   * @param format Template format
+   */
+  public downloadTemplate(format: string): Observable<HttpResponse<Blob>> {
+    return this.http.get(
+      this.baseUrl + "/indicator/template/" + format,
+      { responseType: 'blob', observe: 'response' }
+    );
+  }
 }
