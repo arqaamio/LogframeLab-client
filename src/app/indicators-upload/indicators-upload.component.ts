@@ -11,6 +11,7 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 export class IndicatorsUploadComponent implements OnInit {
   fileList: UploadFile[] = [];
   uploading = false;
+  visible = false;
 
   constructor(private indicatorsService: ManageIndicatorsService, private msg: NzMessageService) { }
 
@@ -35,5 +36,13 @@ export class IndicatorsUploadComponent implements OnInit {
     this.fileList = [];
     this.fileList.push(file);
     return false;
+  }
+
+  /**
+   * Triggered when clicked on Close of ? popup
+   * Puts invisible the ? popup
+   */
+  clickClose(): void {
+    this.visible = false;
   }
 }
