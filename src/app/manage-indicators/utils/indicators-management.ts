@@ -69,13 +69,13 @@ export class IndicatorsManagement {
         const page = results[1].body;
         this.totalRowCount = page.totalElements;
         this.indicatorList = page.content;
-        console.log(this.indicatorList);
       }
     });
   }
 
   addFilter(filterKey: string, value: string[]) {
     this.filters[filterKey] = value;
+    this.search(true, false);
   }
 
   mapFilter(value): FilterData {

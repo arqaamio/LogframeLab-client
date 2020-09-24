@@ -1,8 +1,9 @@
 .content-section {
   position: relative;
-  max-width: 61.5rem;
+  max-width: 90rem;
   padding: 10px;
-  width: 984px;
+  margin: 60px;
+  //width: 984px;
   //height: 56px;
   //left: 299px;
   //top: 155px;
@@ -15,6 +16,19 @@
   //background-color: #fafafa;
   //min-height: 300px;
   text-align: center;
+  background-color: hsla(0,0%,94.9%,.7);
+  border: .25rem dashed #c6c6c5
+  
+}
+
+.stepSection{
+  margin-left: -56px;
+  margin-top: -66px;
+  position: absolute;
+}
+.stepSection button{
+  height: 40px;
+  width:40px;
 }
 
 .steps-action {
@@ -22,18 +36,15 @@
   margin: 10px auto;
   width: fit-content;
 }
-/*
-@media only screen and (max-width: 48.5rem) {
-  .steps-action {
-    // margin-top: 24px;
-    display: inline;
-    position: absolute;
-    left: 35%;
-    top: 55rem;
-    z-index: 1;
+
+::ng-deep {
+  @media only screen and (max-width: 1200px) {
+  th {
+    background-color: red;
   }
 }
-*/
+}
+
 
 .steps-button {
   background: #453457;
@@ -49,6 +60,7 @@
   align-items: center;
   text-align: center;
   text-transform: uppercase;
+  width: 10rem;
 
   /* White */
 
@@ -187,26 +199,40 @@ background-color: #453457;
 
 .stepIcon {
   display: flex;
-  position: relative;
-  top: 4rem;
-  left: -0.5rem;
+  position: absolute;
+  top: 28%;
+  right: 0;
   background: #a5c2ae;
   // padding: 0.5rem;
-  border-radius: 0.6rem;
-  font-size: 1.6rem;
+  border-radius: 0.6rem 0 0 0.6rem;
+  font-size: 2rem;
+  font-weight: 900;
   color: #ffffff;
   // margin: 1rem 0 1rem 0;
   align-items: center;
   justify-content: center;
+  height: 3rem;
+  width: 4rem;
 }
 .stepInfo {
   width: 20rem;
   height: 19rem;
   z-index: 1000;
+  overflow: auto;
 }
 .step2Info {
   width: 20rem;
   height: 19rem;
+  overflow: auto;
+}
+.loading-row{
+  top: 70%;
+  position: absolute;
+  left: 49%;
+}
+.loading-row i {
+  color: #453457;
+  font-size:24px !important;
 }
 /*
   @media only screen and (max-width: 48.5rem) {

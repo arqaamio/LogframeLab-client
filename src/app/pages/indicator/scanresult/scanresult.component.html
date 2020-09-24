@@ -80,12 +80,13 @@
       <thead (nzSortOrderChange)="sort($event)">
         <!--TODO nzSingleSort-->
         <tr>
+          <th nzWidth="60px"></th>
           <th
             nzShowCheckbox
             [(nzChecked)]="isAllDisplayDataChecked"
             [nzIndeterminate]="isIndeterminate"
             (nzCheckedChange)="checkAll($event)"
-            nzWidth="5%"
+            nzWidth="3%"
           ></th>
           <th
             nzShowSort
@@ -101,6 +102,7 @@
             Level
           </th>
           <th
+          nzWidth="30%"
             nz-popover
             nzPopoverTitle="Indicator"
             nzPopoverContent="The phrasing of the actual indicator. Some indicators may need to be further specified accordingly."
@@ -128,7 +130,7 @@
             nz-popover
             nzPopoverTitle="Disaggregation"
             nzPopoverContent="If the indicator requires disaggregation. As a rule of thumb, whenever people are counted, there should a disaggregation (at least by sex)."
-            nzWidth="10%"
+            nzWidth="15%"
             style="font-size: 10px;"
             nzBreakWord
             nzShowFilter
@@ -140,7 +142,7 @@
           <th
             nzShowSort
             nzColumnKey="sector"
-            nzWidth="10%"
+            nzWidth="15%"
             nz-popover
             nzPopoverTitle="Thematic Area"
             nzPopoverContent="The sectors where the indicator is related to."
@@ -149,7 +151,7 @@
             [nzFilters]="searchFilter.sector"
             [nzFilterFn]="filterSector"
           >
-            Thematic Area
+            Thematic<br>Area
           </th>
           <th
             nzShowSort
@@ -157,13 +159,13 @@
             nz-popover
             nzPopoverTitle="OECD DAC/CRD Code"
             nzPopoverContent="This is the three digit code referring to the CRS codes, another way to understand what the indicator is related to."
-            nzWidth="10%"
+            nzWidth="15%"
             nzBreakWord
             nzShowFilter
             [nzFilters]="searchFilter.crsCode"
             [nzFilterFn]="filterCRSCode"
           >
-            OECD DAC/CRS Code
+            OECD<br>DAC/CRS<br>Code
           </th>
           <th
             nzShowSort
@@ -172,12 +174,12 @@
             nz-popover
             nzPopoverTitle="SDG Code"
             nzPopoverContent="This is in relations to the 17 SDGs."
-            nzWidth="10%"
+            nzWidth="15%"
             nzShowFilter
             [nzFilters]="searchFilter.sdgCode"
             [nzFilterFn]="filterSDGCode"
           >
-            SDG Code
+            SDG<br>Code
           </th>
           <th
             nz-popover
@@ -204,7 +206,9 @@
             (click)="selectindicator(data.sort_id)"
             [class.row-checked]="mapOfCheckedId[data.sort_id]"
           >
-            <td
+          <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+
+          <td
               nzShowCheckbox
               [(nzChecked)]="mapOfCheckedId[data.sort_id]"
               (nzCheckedChange)="refreshStatus()"
@@ -237,7 +241,17 @@
             <td>{{ data.indicator.sector }}</td>
             <td>{{ printArray(data.indicator.crsCode, 'name') }}</td>
             <td title="{{printArray(data.indicator.sdgCode, 'name')}}" nzEllipsis>{{ printArray(data.indicator.sdgCode, 'name') }}</td>
+
             <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
+          </tr>
+          <tr [nzExpand]="expandSet.has(data.id)">
+            <span>Country: </span>
+            <nz-select style="margin-left: 5px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(data, $event)" nzPlaceHolder="Select a country" [(ngModel)]="data.countryCodeSelected">
+              <nz-option *ngFor="let country of countriesList" nzLabel="{{country.lable}}" nzValue="{{country.code}}"></nz-option>
+            </nz-select>
+            <span style="margin-left: 5px;">Year: </span>
+            <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(data, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="data.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
+            <span style="margin-left: 5px;">Baseline value: {{ data.baseLineValue }}</span>
           </tr>
         </ng-template>
       </tbody>
