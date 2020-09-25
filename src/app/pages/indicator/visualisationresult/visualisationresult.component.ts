@@ -35,25 +35,25 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         timer(800).subscribe(() => {
             let data = this.indicatorService.dataResponse;
-            if (this.indicatorService.canvasJson[this.indicatorService.selectedChart].length == 0) {
-                this.impact = [];
-                this.output = [];
-                this.outcomes = [];
-                // Selected data with level wise create json
-                data.forEach((row) => {
-                    if (this.indicatorService.selectedData.hasOwnProperty(row.sort_id)) {
-                        if (this.indicatorService.selectedData[row.sort_id] == true) {
-                            row.indicator['sort_id'] = row.sort_id;
-                            if (row.indicator.level == "IMPACT") {
-                                this.impact.push(row.indicator)
-                            } else if (row.indicator.level == "OUTCOME") {
-                                this.outcomes.push(row.indicator)
-                            } else if (row.indicator.level == "OUTPUT") {
-                                this.output.push(row.indicator)
-                            }
+            this.impact = [];
+            this.output = [];
+            this.outcomes = [];
+            // Selected data with level wise create json
+            data.forEach((row) => {
+                if (this.indicatorService.selectedData.hasOwnProperty(row.sort_id)) {
+                    if (this.indicatorService.selectedData[row.sort_id] == true) {
+                        row.indicator['sort_id'] = row.sort_id;
+                        if (row.indicator.level == "IMPACT") {
+                            this.impact.push(row.indicator)
+                        } else if (row.indicator.level == "OUTCOME") {
+                            this.outcomes.push(row.indicator)
+                        } else if (row.indicator.level == "OUTPUT") {
+                            this.output.push(row.indicator)
                         }
                     }
-                });
+                }
+            });
+            if (this.indicatorService.canvasJson[this.indicatorService.selectedChart].length == 0) {
                 let chartData;
                 if(this.indicatorService.selectedChart == "indicator"){
                     chartData =  this.generatCanvasJson(this.impact, this.outcomes, this.output);
