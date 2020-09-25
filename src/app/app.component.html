@@ -1,36 +1,82 @@
 <div class="content-layout">
-<nz-layout>
-  <ul nz-menu nzMode="horizontal" class="nz-header">
-    <li nz-menu-item>
-      <a style="color: black;" routerLink="/" routerLinkActive="active">
-        <img src="assets/logo-11-1.png" alt="Logframe Lab Logo"/>
-      </a>
-    </li>
-    <app-profile></app-profile>
-  </ul>
-  <nz-content>
-   
+  <nz-layout>
+    <ul nz-menu nzMode="horizontal" class="nz-header">
+      <li nz-menu-item>
+        <a style="color: black" routerLink="/" routerLinkActive="active">
+          <img src="assets/logo-11-1.png" alt="Logframe Lab Logo" />
+        </a>
+      </li>
+      <app-profile></app-profile>
+    </ul>
+    <nz-content>
       <router-outlet></router-outlet>
-  
-  </nz-content>
-  <nz-footer>
-    <div>
-      <br/>
-      <img src="assets/arqaam-13 1.png" alt=""/><br/>
-      <a routerLink="/terms">Terms Of Use </a><br/>
-      <a routerLink="/dataprotection">Data Protection Declaration</a><br/>
-      <a routerLink="/imprint">Imprint</a><br/><br/>
-    </div>
-    <div style="height: 28px; background-color: #222222;">
-      <a
-        style="line-height: 28px;"
-        href="http://arqaam.org"
-        target="_blank"
+    </nz-content>
+    <nz-footer>
+      <div>
+        <br />
+        <img src="assets/arqaam-13 1.png" alt="" /><br />
+        <a routerLink="/terms">Terms Of Use </a><br />
+        <a routerLink="/dataprotection">Data Protection Declaration</a><br />
+        <a routerLink="/imprint">Imprint</a><br /><br />
+      </div>
+      <div
+        style="
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          height: 28px;
+          background-color: #222222;
+        "
       >
-        Logframe Lab ©2020 developed by Arqaam GmbH
-      </a>
-    </div>
-  </nz-footer>
-</nz-layout>
+        <a href="https://www.facebook.com/Arqaam-102944338143720">
+          <i
+            nz-icon
+            nzType="facebook"
+            nzTheme="outline"
+            style="padding-left: 20px; font-size: 15px"
+          ></i>
+        </a>
+        <a href="https://www.linkedin.com/company/arqaam/">
+          <i
+            nz-icon
+            nzType="linkedin"
+            nzTheme="outline"
+            style="padding-left: 20px; font-size: 15px"
+          ></i>
+        </a>
+        <a href="https://github.com/arqaamio">
+          <i
+            nz-icon
+            nzType="github"
+            nzTheme="outline"
+            style="padding-left: 20px; font-size: 15px"
+          ></i>
+        </a>
+        <a href="https://twitter.com/arqaamdata">
+          <i
+            nz-icon
+            nzType="twitter"
+            nzTheme="outline"
+            style="padding-left: 20px; font-size: 15px"
+          ></i>
+        </a>
+        <a href="https://medium.com/@arqaam">
+          <i
+            nz-icon
+            nzType="medium"
+            nzTheme="outline"
+            style="padding-left: 20px; font-size: 15px"
+          ></i>
+        </a>
+        <a
+          style="padding-left: 430px; line-height: 28px"
+          href="http://arqaam.org"
+          target="_blank"
+        >
+          Logframe Lab ©2020 developed by Arqaam GmbH
+        </a>
+      </div>
+    </nz-footer>
+  </nz-layout>
 </div>
 <app-pop></app-pop>
