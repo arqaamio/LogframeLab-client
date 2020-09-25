@@ -1,6 +1,10 @@
 
 <nz-spin [nzSpinning]="isSpinning" [nzIndicator]="indicatorTemplate">
-
+  <ng-template #indicatorTemplate>
+    <div class="loading-row">
+      <i nz-icon nzType="loading"></i>
+    </div>
+  </ng-template>
 <div class="content-section">
   <section class="stepSection">
     <div id="step1" *ngIf="current === 0 || current === 1 || current === 2">
@@ -76,14 +80,16 @@
   <nz-steps [nzCurrent]="current">
     <nz-step nzTitle="SELECTION" nzIcon="folder"></nz-step>
     <nz-step nzTitle="RESULT" nzIcon="bars"></nz-step>
+    <nz-step nzTitle="INDICATORS" nzIcon="dashboard"></nz-step>
     <nz-step nzTitle="VISUALISATION" nzIcon="eye"></nz-step>
     <nz-step nzTitle="DOWNLOAD" nzIcon="download"></nz-step>
   </nz-steps>
   <div class="steps-content">
     <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
-    <app-scanresult *ngIf="current === 1"> </app-scanresult>
-    <app-visualisationresult *ngIf="current === 2" (loadingStart)="onLoading($event)"> </app-visualisationresult>
-    <app-downloadresult *ngIf="current === 3"> </app-downloadresult>
+    <app-result *ngIf="current === 1"> </app-result>
+    <app-scanresult *ngIf="current === 2"> </app-scanresult>
+    <app-visualisationresult *ngIf="current === 3"> </app-visualisationresult>
+    <app-downloadresult *ngIf="current === 4"> </app-downloadresult>
   </div>
   <div class="steps-action">
     <button
@@ -91,7 +97,7 @@
       class="steps-button"
       nzType="default"
       (click)="pre()"
-      [hidden]="current <= 0"
+      [hidden]="current <= 1"
     >
       <span>Previous</span>
     </button>
@@ -105,7 +111,7 @@
       class="steps-button"
       nzType="default"
       (click)="next()"
-      [hidden]="current === 3"
+      [hidden]="current === 4"
     >
       <span>Next</span>
     </button>
@@ -114,15 +120,11 @@
       class="steps-button"
       nzType="primary"
       (click)="done()"
-      [hidden]="current !== 3"
+      [hidden]="current !== 4"
     >
       <span>Done</span>
     </button>
   </div>
 </div>
 </nz-spin>
-<ng-template #indicatorTemplate>
-  <div class="loading-row">
-    <i nz-icon nzType="loading"></i>
-  </div>
-</ng-template>
+

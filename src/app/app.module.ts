@@ -54,6 +54,10 @@ import {rxStompConfig} from './configuration/rxstomp.config'
 import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ErrorHandlerService } from './services/errorhandler.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { ResultComponent } from './pages/indicator/result/result.component';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+
 registerLocaleData(en);
 
 export const routes: Routes = [
@@ -102,7 +106,8 @@ export const routes: Routes = [
     ScanResultComponent,
     VisualisationresultComponent,
     DownloadResultComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,
@@ -130,7 +135,9 @@ export const routes: Routes = [
     NzSelectModule,
     NzSliderModule,
     NzIconModule,
-    NzPopoverModule
+    NzPopoverModule,
+    NzCollapseModule,
+    NzModalModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -167,7 +174,7 @@ export const routes: Routes = [
     { 
       provide: ErrorHandler,
       useClass: ErrorHandlerService
-    }
+    },
   ],
   bootstrap: [AppComponent],
   schemas:[NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA]

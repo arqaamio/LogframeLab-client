@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, EventEmitter, Output } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import Utils from 'src/app/utils/utils';
@@ -59,7 +59,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   outputCount = 0;
   showLoading = true;
   showKeywordCol = true;
-
   myOptions = {
     placement: 'top',
     trigger: 'hover',
@@ -70,6 +69,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit(): void {
+   
     this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
       .pipe(
@@ -149,6 +149,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           }
           setTimeout(() => {
             this.indicatorService.updateNextButton(enableNextButton);
+            this.indicatorService.loadingStart.next(false);
           },1000);
         }
         this.indicatorService.setIsNewInfo(false);
@@ -219,7 +220,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.refreshStatus();
   }
   selectindicator(id) {
-    this.indicatorService.canvasJson = [];
+    this.indicatorService.canvasJson = {"result":[], "indicator":[]};
     this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
     // this.refreshStatus();
     this.search();

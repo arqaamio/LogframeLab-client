@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { take, tap } from 'rxjs/operators';
@@ -28,6 +28,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   selectedValues = new FilterDto();
   filterOptions = new FilterDto();
   progress = 0;
+  @Output() loadingStart = new EventEmitter<any>();
   fileScanned = true;
 
   constructor(
@@ -112,7 +113,11 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
             this.indicatorService.setIsNewInfo(true);
             this.indicatorService.setLoadedData(event.body);
             this.indicatorService.setFileUploadList([item.file]);
-            setTimeout(()=>this.indicatorService.pressNextButton(), 1000);
+           
+            setTimeout(()=> {
+              this.indicatorService.pressNextButton();
+              this.indicatorService.loadingStart.next(true);
+            }, 1000);
         }
       });
   }

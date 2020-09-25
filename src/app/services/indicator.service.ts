@@ -12,24 +12,28 @@ import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
 import { UploadFile } from 'ng-zorro-antd/upload';
+import { EventEmitter } from 'protractor';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IndicatorService {
   private baseUrl = environment.apiBaseUrl;
-
   private fileList: UploadFile[] = null;
   private filters: FilterDto = null;
   public dataResponse: any = null;
+  public collapseData: any = null;
+  public resultData: any = null;
   public selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
-  public canvasJson: any = [];
+  public canvasJson: any = {"result":[], "indicator":[]};
+  public selectedChart = "result";
   private nextButtonSubject = new BehaviorSubject<any>(null);
   private isNewInfo: boolean = true;
   private nextButton: boolean = false;
   public currentStep: number = 0;
+  public loadingStart = new BehaviorSubject<any>(false);
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
   private nextSubject() {
@@ -49,7 +53,10 @@ export class IndicatorService {
     this.indicatorSubject.next(null);
     this.exportSvg.next(null);
     this.currentStep = 0;
-    this.canvasJson = [];
+    this.canvasJson = {"result":[], "indicator":[]};
+    this.selectedChart = 'result';
+    this.resultData = null;
+    this.collapseData = null;
   }
   
   setSelectedData(selectedData) {
@@ -184,5 +191,9 @@ export class IndicatorService {
     }
 
     return this.http.get<IndicatorResponse[]>(url);
+  }
+
+  getResult():  Observable<any>{
+    return this.http.get('https://run.mocky.io/v3/0f2900ae-cd42-4d14-9468-e8fbbaa2476e');
   }
 }
