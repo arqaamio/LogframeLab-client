@@ -54,4 +54,12 @@ export class IndicatorsUploadComponent implements OnInit {
       link.remove();
     });
   }
+
+  /**
+   * Triggered when clicked on Close of ? popup
+   * Puts invisible the ? popup
+   */
+  clickClose(): void {
+    this.visible = false;
+  }
 }
