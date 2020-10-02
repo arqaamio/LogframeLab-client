@@ -1,14 +1,13 @@
 describe('Home Page', ()=> {
-  const API_BASE_URL = 'http://localhost:8080/';
   beforeEach(()=> {
 
     cy.fixture('filters.json').as('filters');
     cy.fixture('indicatorResponse/allLevels.json').as('allLevelsIndicators');
     cy.fixture('indicatorResponse/poverty.json').as('povertyIndicators');
     cy.server();
-    cy.route('GET', API_BASE_URL + 'indicator/filters', '@filters');
-    cy.route('GET', API_BASE_URL + 'indicator', '@allLevelsIndicators');
-    cy.route('GET', API_BASE_URL + 'indicator?sector=Poverty', '@povertyIndicators');
+    cy.route('GET', '**/indicator/filters', '@filters');
+    cy.route('GET', '**/indicator', '@allLevelsIndicators');
+    cy.route('GET', '**/indicator?sector=Poverty', '@povertyIndicators');
     
     cy.visit('/');
     sessionStorage.clear();

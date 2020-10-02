@@ -6,8 +6,9 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { NzUploadModule, NzPopoverModule, NzButtonModule } from 'ng-zorro-antd';
+import { NzUploadModule} from 'ng-zorro-antd/upload';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
 describe('IndicatorsUploadComponent', () => {

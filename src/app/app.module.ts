@@ -54,7 +54,8 @@ import {rxStompConfig} from './configuration/rxstomp.config'
 import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ErrorHandlerService } from './services/errorhandler.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzBadgeModule, NzDropDownModule } from 'ng-zorro-antd';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 registerLocaleData(en);
 

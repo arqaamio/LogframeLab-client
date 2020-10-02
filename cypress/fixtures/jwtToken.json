@@ -1,6 +1,0 @@
-{
-    "token": "faketoken",
-    "tokentype": "Bearer ",
-    "groups": ["SEC_ADMIN", "APP_USER", "INDICATOR_ADMIN"],
-    "expiryDuration": 3600000
-}
