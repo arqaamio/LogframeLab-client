@@ -192,6 +192,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
   }
+  checkAll(value: boolean): void {
+    this.displayData.forEach((item) => (this.mapOfCheckedId[item.sort_id] = value));
+    this.refreshStatus();
+  }
   sort(sort: { key: string; value: string }, isSelectedTable: boolean): void {
     this.sortName = sort.key;
     this.sortValue = sort.value;
@@ -226,27 +230,27 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       );
     }
     // checked sort logic
-    // this.displayData = this.displayData.sort((a, b) =>
-    //   this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
-    // );
-    // // checked backend sort logic
-    // this.displayData = this.displayData.sort((a, b) =>
-    //   this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
-    //     ? b.sort_id > a.sort_id
-    //       ? -1
-    //       : 1
-    //     : 0
-    // );
-    // if (!isColumnSort) {
-    //   // unchecked backend sort logic
-    //   this.displayData = this.displayData.sort((a, b) =>
-    //     !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
-    //       ? b.sort_id > a.sort_id
-    //         ? -1
-    //         : 1
-    //       : 0
-    //   );
-    // }
+     this.displayData = this.displayData.sort((a, b) =>
+       this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
+     );
+    // checked backend sort logic
+     this.displayData = this.displayData.sort((a, b) =>
+       this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
+         ? b.sort_id > a.sort_id
+           ? -1
+           : 1
+         : 0
+     );
+     if (!isColumnSort) {
+       // unchecked backend sort logic
+       this.displayData = this.displayData.sort((a, b) =>
+         !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
+           ? b.sort_id > a.sort_id
+             ? -1
+             : 1
+           : 0
+       );
+     }
     this.refreshStatus();
   }
 

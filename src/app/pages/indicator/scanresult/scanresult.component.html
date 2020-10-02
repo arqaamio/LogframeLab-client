@@ -77,6 +77,13 @@
         <tr>
           <th nzWidth="60px"></th>
           <th
+            nzShowCheckbox
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+            nzWidth="3%"
+          ></th>
+          <th
             nzShowSort
             nzColumnKey="level"
             nz-popover
@@ -189,11 +196,16 @@
       </thead>
       <tbody>
         <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
-          <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
           <tr
             (click)="selectindicator(data.sort_id, data)"
             [class.row-checked]="mapOfCheckedId[data.sort_id]"
           >
+            <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+            <td
+              nzShowCheckbox
+              [(nzChecked)]="mapOfCheckedId[data.sort_id]"
+              (nzCheckedChange)="refreshStatus()"
+            ></td>
             <td>
               <nz-tag [nzColor]="data.indicator.color"
                 >{{ data.indicator.level }}
