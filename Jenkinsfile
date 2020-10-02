@@ -8,7 +8,7 @@ pipeline {
 
         stage('Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'CYPRESS_CACHE_FOLDER=/root/.cache/Cypress npm install'
             }
         }
 
@@ -29,7 +29,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
+                sh 'CYPRESS_CACHE_FOLDER=/root/.cache/Cypress node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
             }
         }
 
@@ -37,6 +37,18 @@ pipeline {
             steps {
                 sh 'npm run test:docker'
             }
+        }
+
+        stage('Test E2E') {
+            steps {
+                sh 'CYPRESS_CACHE_FOLDER=/root/.cache/Cypress CYPRESS_RETRIES=2 npm run e2e:ci'
+            }
+            post {
+                success {
+                    junit 'results/cypress-report.xml'
+                }
+            }
+
         }
 
         stage('Deploy Dev') {

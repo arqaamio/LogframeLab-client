@@ -22,6 +22,7 @@ export class ErrorHandlerService implements ErrorHandler {
       } else {
          this.msg.error('An unexpected error occured. Please try again.');
       }
+      console.error(error);
       return throwError(error);
     }
     

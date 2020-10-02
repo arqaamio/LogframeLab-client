@@ -6,7 +6,7 @@ import { FilterDto, Level } from 'src/app/services/dto/filter.dto';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { interval } from 'rxjs/internal/observable/interval';
-import { UploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { RxStompService } from '@stomp/ng2-stompjs';
 
 export const WEBSOCKET_BROKER_URL: string = '/topic/progress';
@@ -23,7 +23,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   uploadStateTitle = '';
   indicatorSubscription: Subscription = null;
   stompSubscription: Subscription = null;
-  fileList: UploadFile[] = [];
+  fileList: NzUploadFile[] = [];
   fileName: string;
   selectedValues = new FilterDto();
   filterOptions = new FilterDto();

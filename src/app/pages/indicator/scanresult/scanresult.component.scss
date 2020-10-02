@@ -1,5 +1,7 @@
-.row-checked {
-  background-color: #A5C2AE;
+#dynamicTable {
+  .row-checked {
+    background-color: #A5C2AE;
+  }
 }
 .indicatorContent{
   background-color: rgba(242, 242, 242, 0.7);
@@ -9,4 +11,21 @@
   position: relative;
   width: 100%;
   z-index: 100;
+}
+
+#selectionButton {
+  background: unset;
+  border: none;
+  width: 40px;
+  position: relative;
+  bottom: 55px;
+  // left: -450px;
+  z-index: 1000;
+  i {
+    font-size: 2.5rem;
+  }
+}
+
+.red-color {
+  color: red;
 }

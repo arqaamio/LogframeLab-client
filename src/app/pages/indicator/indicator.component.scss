@@ -317,4 +317,18 @@ background-color: #453457;
   justify-content: center;
   height: 3rem;
   width: 7rem;
+
+#uploadButton {
+  position: fixed;
+  bottom: 20vh;
+  right: 2vh;
+  z-index: 999;
+  background: #453457;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+  // border-radius: 15px;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ffffff;
 }

@@ -107,6 +107,7 @@
       nzType="default"
       (click)="next()"
       [hidden]="current === 3"
+      id="nextButton"
     >
       <span>Next</span>
     </button>
@@ -121,6 +122,7 @@
     </button>
   </div>
 </div>
+<button id="uploadButton" nz-button nzType="primary" routerLink="/indicators-upload"><i nz-icon nzType="cloud-upload"></i>Submit Indicators</button>
 </nz-spin>
 <ng-template #indicatorTemplate>
   <div class="loading-row">

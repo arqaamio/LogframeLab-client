@@ -31,9 +31,7 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
           data.dataResponse != null &&
           data.selectedData != null
         ) {
-          this.dataExport = data.dataResponse.filter(
-            (item) => data.selectedData[item.sort_id]
-            ).map((x)=> x.indicator);
+          this.dataExport = data.dataResponse.map((x)=> x.indicator);
         }
       });
   }
