@@ -196,7 +196,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 } else {
                     outcomeHeight = this.outcomes.length <= rowBoxLength ? 165 : 315
                 }
-               
+
                 impactObject.push({
                     "type": "draw2d.shape.composite.Jailhouse",
                     "id": "354fa3b9-a834-0221-2009-abc2d6bd8a12",
@@ -350,7 +350,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         outputY = 300 + outComeY;
                         outputX = (250 * (index - rowBoxLength))
                     }
-                    // Output text box json 
+                    // Output text box json
                     outputObject.push({
                         "type": "draw2d.shape.basic.Text",
                         "id": row.id,
@@ -491,14 +491,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
         });
     }
 
-    //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.  
+    //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.
     selectindicator(id) {
         if (this.isCanvasClear == false) {
             this.indicatorService.selectedData[id] = !this.indicatorService.selectedData[id];
         }
     }
 
-    //Code for chart's drag and drop functionality 
+    //Code for chart's drag and drop functionality
     setFlowChart(selected): void {
         var that = this;
         timer(2000).subscribe(() => {

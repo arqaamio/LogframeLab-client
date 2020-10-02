@@ -7,6 +7,7 @@ import { FilterData } from 'src/app/services/dto/filter-data.dto';
 import { take } from 'rxjs/internal/operators/take';
 import { tap } from 'rxjs/internal/operators/tap';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 
 interface ItemData {
   indicator: IndicatorResponse;
@@ -301,8 +302,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       this.indicatorService.setSelectedData(null);
       this.indicatorService.updateNextButton(false);
     } else {
-      // this.indicatorService.setSelectedData(this.mapOfCheckedId);
-      this.indicatorService.setSelectedData(this.selectedIndicators);
+       this.indicatorService.setSelectedData(this.mapOfCheckedId);
+      //this.indicatorService.setSelectedData(this.selectedIndicators);
       this.indicatorService.updateNextButton(true);
     }
   }
