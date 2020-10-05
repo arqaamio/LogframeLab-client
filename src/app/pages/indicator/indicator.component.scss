@@ -303,6 +303,21 @@ background-color: #453457;
   max-width: 48rem;
   }*/
 
+.feedbackIcon {
+  display: flex;
+  position: absolute;
+  top: 20%;
+  right: 0;
+  background: #453457;
+  border-radius: 0.6rem 0 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 7rem;
+
 #uploadButton {
   position: fixed;
   bottom: 20vh;
