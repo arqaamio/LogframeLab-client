@@ -8,11 +8,12 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { IndicatorComponent } from './pages/indicator/indicator.component';
 import { BrowserModule } from '@angular/platform-browser';
-import {NzListModule } from 'ng-zorro-antd/list';
+import { NzListModule } from 'ng-zorro-antd/list';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -59,6 +60,7 @@ describe('AppComponent', () => {
         NzProgressModule,
         NzAlertModule,
         ProfileMenuModule,
+        NzIconModule,
       ],
       declarations: [
         AppComponent,
@@ -74,7 +76,7 @@ describe('AppComponent', () => {
         ScanResultComponent,
         VisualisationresultComponent,
         DownloadResultComponent,
-      ]
+      ],
     }).compileComponents();
   }));
 
