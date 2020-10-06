@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
-import { UploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Injectable({
   providedIn: 'root',
@@ -19,14 +19,18 @@ import { UploadFile } from 'ng-zorro-antd/upload';
 export class IndicatorService {
   private baseUrl = environment.apiBaseUrl;
 
-  private fileList: UploadFile[] = null;
+  private fileList: NzUploadFile[] = null;
   private filters: FilterDto = null;
-  private dataResponse: any = null;
-  private selectedData: { [key: string]: boolean } = null;
+  public dataResponse: any = null;
+  // private selectedData: { [key: string]: boolean } = null;
+  public selectedData = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
+  public exportSvg = new BehaviorSubject<any>(null);
+  public canvasJson: any = [];
   private nextButtonSubject = new BehaviorSubject<any>(null);
   private isNewInfo: boolean = true;
   private nextButton: boolean = false;
+  public currentStep: number = 0;
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
   private nextSubject() {
@@ -38,16 +42,24 @@ export class IndicatorService {
       isNewInfo: this.isNewInfo,
     });
   }
+
+
   clearIndicatorData() {
     this.filters = null;
     this.dataResponse = null;
+    this.fileList = this.selectedData = null;
+    this.isNewInfo = true;
     this.indicatorSubject.next(null);
+    this.exportSvg.next(null);
+    this.currentStep = 0;
+    this.canvasJson = [];
   }
+
   setSelectedData(selectedData) {
     this.selectedData = selectedData;
     this.nextSubject();
   }
-  setFileUploadList(files: UploadFile[]) {
+  setFileUploadList(files: NzUploadFile[]) {
     this.fileList = files;
     this.nextSubject();
   }
@@ -173,8 +185,25 @@ export class IndicatorService {
       // Remove the last extra &
       url+='?' + args.slice(0, -1);
     }
-    console.log('URL: '+ url);
 
     return this.http.get<IndicatorResponse[]>(url);
+  }
+
+  /**
+   * Requests to the backend to return template of given format
+   * @param format Template format
+   */
+  public downloadTemplate(format: string): Observable<HttpResponse<Blob>> {
+    return this.http.get(
+      this.baseUrl + "/indicator/template/" + format,
+      { responseType: 'blob', observe: 'response' }
+    );
+  }
+  getWoldBanlCountries():Observable<any> {
+    return this.http.get(this.baseUrl + '/worldbank/country')
+  }
+
+  getWoldBanlBaselineValue(indicatorId:string, countryCode:string, year:number):Observable<any> {
+    return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
   }
 }

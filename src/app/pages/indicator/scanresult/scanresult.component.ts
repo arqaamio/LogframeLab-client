@@ -6,11 +6,17 @@ import { IndicatorResponse } from 'src/app/models/indicatorresponse.model';
 import { FilterData } from 'src/app/services/dto/filter-data.dto';
 import { take } from 'rxjs/internal/operators/take';
 import { tap } from 'rxjs/internal/operators/tap';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 
 interface ItemData {
   indicator: IndicatorResponse;
   sort_id:number;
+  countryCodeSelected:string;
+  yearSelected:Date;
+  baseLineValue:any;
 }
+
 
 export class SearchFilter {
   level: FilterData[];
@@ -48,10 +54,13 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   mapOfCheckedId: { [key: string]: boolean } = {};
   listOfData: ItemData[] = [];
   displayData: ItemData[] = [];
+  selectedIndicators: ItemData[] = [];
+  filteredSelectedIndicators: ItemData[] = [];
   searchFilter: SearchFilter = new SearchFilter();
   sortName: string | null = null;
   sortValue: string | null = null;
   searchValue = '';
+  searchSelected = '';
   sliderMinValue = 0;
   sliderMaxValue = 0;
   impactCount = 0;
@@ -67,6 +76,18 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     'hide-delay': 0,
   };
 
+  countriesList = [];
+
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+  today = new Date();
+
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit(): void {
@@ -81,7 +102,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         if(data!=null){
           // with document
           if (isNewInfo && data.dataResponse != null) {
-            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1, countryCodeSelected: null, yearSelected: new Date(), baseLineValue: null}});
             this.indicatorService.setLoadedData(this.listOfData);
             this.displayData = this.listOfData;
 
@@ -96,23 +117,30 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
 
               if(response != null && response.length > 0) {
-                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1}});
+                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1, countryCodeSelected: null, yearSelected: new Date(), baseLineValue: null}});
 
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
                 this.sliderMinValue = this.sliderMaxValue = 1;
+                this.showLoading = false;
               }
-              this.showLoading = false;
             });
           }
 
           // without changes in the filters or documents
-          if(!isNewInfo){
-            if(data.dataResponse != null){
-              this.listOfData = data.dataResponse;
-              this.displayData = this.listOfData;
-              this.mapOfCheckedId = data.selectedData== null ? [] : data.selectedData;
+          if(!data.isNewInfo && data.dataResponse != null){
+            this.listOfData = data.dataResponse;
+            this.displayData = this.listOfData;
+            if(data.selectedData != null) {
+              this.selectedIndicators = this.filteredSelectedIndicators = data.selectedData;
+              this.listOfData.forEach((x, i)=>{
+                if(this.selectedIndicators.find(y=>y.indicator.id == x.indicator.id)){
+                  this.mapOfCheckedId[x.sort_id] = true;
+                }
+              });
+              this.refreshStatus();
             }
+
             this.showLoading = false;
           }
           let mapLevels: Map<string, FilterData> = new Map();
@@ -131,7 +159,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
             mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
           })
-          mapLevels.forEach((value, _)=> {this.searchFilter.level.push(value);});
+          mapLevels.forEach((value, _)=> {this.searchFilter?.level.push(value);});
           mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
           mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
           mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
@@ -147,12 +175,20 @@ export class ScanResultComponent implements OnInit, OnDestroy {
               }
             }
           }
-          setTimeout(() => {
-            this.indicatorService.updateNextButton(enableNextButton);
-          },1000);
+          this.indicatorService.updateNextButton(enableNextButton);
         }
         this.indicatorService.setIsNewInfo(false);
       })).subscribe();
+
+      this.indicatorService.getWoldBanlCountries().subscribe(data => {
+        console.log('get worldbank countries');
+        Object.keys(data).forEach(item => {
+          this.countriesList.push({
+            lable: data[item],
+            code: item
+          });
+        });
+      });
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
@@ -161,24 +197,24 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.displayData.forEach((item) => (this.mapOfCheckedId[item.sort_id] = value));
     this.refreshStatus();
   }
-  sort(sort: { key: string; value: string }): void {
+  sort(sort: { key: string; value: string }, isSelectedTable: boolean): void {
     this.sortName = sort.key;
     this.sortValue = sort.value;
-    this.search();
+    this.search(isSelectedTable);
   }
-  search(): void {
+  search(isSelectedTable: boolean): void {
+    let search: string = isSelectedTable ? this.searchSelected : this.searchValue;
     /** filter data **/
-    // filter by theme
-    const data: ItemData[] = this.listOfData;
     // filter by indicator
     const filterFunc = (item: ItemData) => {
-      if (item.indicator.name.toUpperCase().indexOf(this.searchValue.toUpperCase()) !== -1) {
-        return true;
-      }
-      this.mapOfCheckedId[item.sort_id] = false;
-      return false;
+      // this.mapOfCheckedId[item.sort_id] = false;
+      return item.indicator.name.toUpperCase().indexOf(search.toUpperCase()) !== -1;
     };
-    this.displayData = data.filter((item: ItemData) => filterFunc(item));
+    if(isSelectedTable){
+      this.filteredSelectedIndicators = this.selectedIndicators.filter((item: ItemData) => filterFunc(item));
+    }else {
+      this.displayData = this.listOfData.filter((item: ItemData) => filterFunc(item));
+    }
     /** sort data **/
     // sort columns
     let isColumnSort = false;
@@ -195,34 +231,50 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       );
     }
     // checked sort logic
-    this.displayData = this.displayData.sort((a, b) =>
-      this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
-    );
+     this.displayData = this.displayData.sort((a, b) =>
+       this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
+     );
     // checked backend sort logic
-    this.displayData = this.displayData.sort((a, b) =>
-      this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
-        ? b.sort_id > a.sort_id
-          ? -1
-          : 1
-        : 0
-    );
-    if (!isColumnSort) {
-      // unchecked backend sort logic
-      this.displayData = this.displayData.sort((a, b) =>
-        !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
-          ? b.sort_id > a.sort_id
-            ? -1
-            : 1
-          : 0
-      );
-    }
+     this.displayData = this.displayData.sort((a, b) =>
+       this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
+         ? b.sort_id > a.sort_id
+           ? -1
+           : 1
+         : 0
+     );
+     if (!isColumnSort) {
+       // unchecked backend sort logic
+       this.displayData = this.displayData.sort((a, b) =>
+         !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
+           ? b.sort_id > a.sort_id
+             ? -1
+             : 1
+           : 0
+       );
+     }
     this.refreshStatus();
   }
-  selectindicator(id) {
+
+
+  /**
+   * Triggered when selected item in the table
+   * Updates the list of selected indicators and clear search of selected indicator
+   * @param id Sort Id of the selected indicator
+   * @param item ItemData indicator
+   */
+  selectindicator(id, item: ItemData) {
     this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
-    // this.refreshStatus();
-    this.search();
+    if(this.mapOfCheckedId[id]){
+      this.selectedIndicators.push(item);
+    } else {
+      this.selectedIndicators = this.selectedIndicators.filter(x=>x.indicator.id != item.indicator.id);
+    }
+    this.filteredSelectedIndicators = this.selectedIndicators;
+    this.searchSelected = '';
+
+    this.refreshStatus();
   }
+
   refreshStatus() {
     this.outputCount = 0;
     this.impactCount = 0;
@@ -250,7 +302,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       this.indicatorService.setSelectedData(null);
       this.indicatorService.updateNextButton(false);
     } else {
-      this.indicatorService.setSelectedData(this.mapOfCheckedId);
+       this.indicatorService.setSelectedData(this.mapOfCheckedId);
+      //this.indicatorService.setSelectedData(this.selectedIndicators);
       this.indicatorService.updateNextButton(true);
     }
   }
@@ -283,5 +336,37 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     }else {
       return array.map((x)=>x[property]).join(', ');
     }
+  }
+
+
+  disabledDate = (current: Date): boolean => {
+    // Can not select days before today and today
+    return differenceInCalendarDays(current, this.today) > 0;
+  };
+
+  ngModelCountryChange(row, $event){
+    row.countryCodeSelected = $event;
+  }
+
+  ngModelYearChange(row, $event:Date){
+    row.baseLineValue = null;
+    this.indicatorService.getWoldBanlBaselineValue(row.indicator.id, row.countryCodeSelected, $event.getFullYear()).subscribe(data => {
+      console.log(data);
+      if(data != null && data.length > 0)
+        row.baseLineValue = data[0].value;
+    });
+  }
+
+  removeSelectedIndicator(item: ItemData): void {
+    this.selectedIndicators = this.selectedIndicators.filter((x)=>{return x.indicator.id != item.indicator.id});
+    this.filteredSelectedIndicators.filter((x)=>{return x.indicator.id != item.indicator.id});
+    // If after removing there are no items left according to the filter, but there are still selected indicators
+    // show selected indicators
+    if(this.filteredSelectedIndicators.length == 0 && this.selectedIndicators.length !=0){
+      this.filteredSelectedIndicators = this.selectedIndicators;
+    }
+
+    this.mapOfCheckedId[item.sort_id] = false;
+    this.refreshStatus();
   }
 }

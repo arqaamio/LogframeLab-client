@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "Montserrat, sans-serif";
+  src: url('./assets/Montserrat/Montserrat-Regular.ttf');
+}
+
+
 app-selectdocument {
   .ant-upload.ant-upload-drag .ant-upload-btn{
    // min-height: 300px !important;
@@ -130,6 +136,44 @@ a:hover{
 }
 .ant-input-affix-wrapper:hover {
   border-color: #a5c2ae;
+}
+
+body, html {
+  overflow: hidden;
+}
+
+.tooltip {
+	position: absolute;
+	background: #88b7d5;
+	border: 2px solid #c2e1f5;
+	padding:10px;
+	border-radius:6px;
+}
+
+.tooltip:after,.tooltip:before {
+	bottom: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.tooltip:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-bottom-color: #88b7d5;
+	border-width: 4px;
+	left: 50%;
+	margin-left: -4px;
+}
+
+.tooltip:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-bottom-color: #c2e1f5;
+	border-width: 8px;
+	left: 50%;
+	margin-left: -8px;
   }
 
 h1, h2, h3, p, button {
@@ -149,6 +193,15 @@ h1, h2, h3, p, button {
   color: #ffffff;
 }
 
+.toolbar-btn{
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
 app-manage-indicators {
   width: 100%;
+}
+
+.ant-popover {
+  max-width: 90vw !important;
 }

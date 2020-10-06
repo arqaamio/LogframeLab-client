@@ -1,0 +1,50 @@
+body{
+    margin:0px;
+  }
+.fullscreen {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  background: #fff;
+  padding-top: 19px;
+  left: 0;
+  z-index: 9;
+}
+.fullscreen .draw2d{
+  height: 88vh !important;
+}
+.smallscreen{
+  min-height: 300px;
+}
+.row {
+    display: flex;
+    overflow: auto;
+    border: 0.25rem dashed #C6C6C5;
+}
+.draw2d{
+  position: relative;
+  flex: 10;
+}
+
+.left-chart-name {
+  flex: 1;
+}
+.left-chart-name div{
+  font-size:16px;
+  font-weight: 500;
+}
+.left-chart-name .level-1{
+  margin-top: 30px;
+}
+
+.left-chart-name .level-2{
+  margin-top: 100px;
+}
+
+.left-chart-name .level-3{
+  margin-top: 140px;
+}
+#toolbar {
+  margin-bottom: 10px;
+}

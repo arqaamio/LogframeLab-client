@@ -31,9 +31,7 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
           data.dataResponse != null &&
           data.selectedData != null
         ) {
-          this.dataExport = data.dataResponse.filter(
-            (item) => data.selectedData[item.sort_id]
-            ).map((x)=> x.indicator);
+          this.dataExport = data.dataResponse.map((x)=> x.indicator);
         }
       });
   }
@@ -52,6 +50,19 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
         link.download = response.headers.get("filename");
         link.click();
       });
+  }
+
+  downloadSvgAndPng(type){
+    let body = this.indicatorService.exportSvg.value;
+    var link = document.createElement("a");
+    if(type == 'svg'){
+      let blob = new Blob([body[type]], { type: "application/octet-stream" });       
+      link.href = URL.createObjectURL(blob);
+    } else {
+      link.href = body[type];
+    }
+    link.download = 'flowchart.'+type;
+    link.click();   
   }
 
   ngOnDestroy() {

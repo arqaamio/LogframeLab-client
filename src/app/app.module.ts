@@ -1,9 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { registerLocaleData, APP_BASE_HREF } from '@angular/common';
 
@@ -53,6 +53,8 @@ import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@s
 import {rxStompConfig} from './configuration/rxstomp.config'
 import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ErrorHandlerService } from './services/errorhandler.service';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzBadgeModule, NzDropDownModule } from 'ng-zorro-antd';
 
 registerLocaleData(en);
 
@@ -105,12 +107,11 @@ export const routes: Routes = [
     NotFoundComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     NzLayoutModule,
     NzGridModule,
     NzUploadModule,
@@ -118,6 +119,7 @@ export const routes: Routes = [
     NzListModule,
     NzTagModule,
     NzButtonModule,
+    NzSpinModule,
     NzTableModule,
     NzStepsModule,
     NzProgressModule,
@@ -129,7 +131,10 @@ export const routes: Routes = [
     NzSelectModule,
     NzSliderModule,
     NzIconModule,
+    NzBadgeModule,
+    NzDropDownModule,
     NzPopoverModule,
+    NzDatePickerModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -163,10 +168,12 @@ export const routes: Routes = [
       useClass: ResponseJwtInterceptor,
       multi: true
     },
-    { provide: ErrorHandler,
+    {
+      provide: ErrorHandler,
       useClass: ErrorHandlerService
     }
   ],
   bootstrap: [AppComponent],
+  schemas:[NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

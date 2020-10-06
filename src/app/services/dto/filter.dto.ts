@@ -9,6 +9,7 @@ export class FilterDto {
   public sdgCode: SDGCode[] = [];
   public crsCode: CRSCode[] = [];
   public levelIds: number[] = [];
+  public indicatorName: string = '';
 }
 
 

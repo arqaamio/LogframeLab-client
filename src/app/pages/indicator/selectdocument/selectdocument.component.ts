@@ -6,7 +6,7 @@ import { FilterDto, Level } from 'src/app/services/dto/filter.dto';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { interval } from 'rxjs/internal/observable/interval';
-import { UploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { RxStompService } from '@stomp/ng2-stompjs';
 
 export const WEBSOCKET_BROKER_URL: string = '/topic/progress';
@@ -23,7 +23,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   uploadStateTitle = '';
   indicatorSubscription: Subscription = null;
   stompSubscription: Subscription = null;
-  fileList: UploadFile[] = [];
+  fileList: NzUploadFile[] = [];
   fileName: string;
   selectedValues = new FilterDto();
   filterOptions = new FilterDto();
@@ -37,6 +37,7 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   ) {
     // can't be in ngOnInit because of Angular Lifecycle Hooks
     this.indicatorService.updateNextButton(true);
+    this.rxStompService.deactivate();
   }
 
   ngOnInit() {
@@ -88,10 +89,8 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
       .subscribe((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.Sent:
-            console.log("Request has been made!");
             break;
           case HttpEventType.ResponseHeader:
-            console.log("Response header has been received!");
             break;
           case HttpEventType.UploadProgress:
             this.progress = Math.round((event.loaded / event.total) * 100);
@@ -105,12 +104,10 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
               //   if(this.fileScanned) subscription.unsubscribe();
               // });
               setTimeout(null,1000);
-              console.log(`Uploaded! ${this.progress}%`);
             }
             break;
           case HttpEventType.Response:
             this.fileScanned = true;
-            console.log("document has been successfully scanned ", event.body);
             this.progress = 100;
             this.uploadStateTitle = DONE_TITLE;
             this.indicatorService.setIsNewInfo(true);
@@ -130,7 +127,6 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
     this.selectedValues[filter] = event;
     this.indicatorService.setFilters(this.selectedValues);
     this.indicatorService.setIsNewInfo(true);
-    this.indicatorService.setLoadedData(null);
   }
 
   /**
@@ -143,12 +139,12 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Compares levels, sources, sdgs and dacs to see if they are the same
-   * @param object Object
-   * @param object2 Object 2
+   * Compares levels so see if they are the same
+   * @param level1 Level
+   * @param level2 Level
    */
-  compare = (object: any, object2: any): boolean =>
-  object && object2 ? object.id === object2.id : object === object2;
+  compare = (level1: Level, level2: Level): boolean =>
+    level1 && level2 ? level1.id === level2.id : level1 === level2;
 
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
