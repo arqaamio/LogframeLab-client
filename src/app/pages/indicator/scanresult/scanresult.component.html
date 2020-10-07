@@ -200,7 +200,9 @@
             (click)="selectindicator(data.sort_id, data)"
             [class.row-checked]="mapOfCheckedId[data.sort_id]"
           >
-            <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+            <td [nzExpand]="expandSet.has(data.indicator.id)" (nzExpandChange)="onExpandChange(data.indicator.id, $event)" *ngIf="isWorldBankIndicator(data)"></td>
+            <!-- Empty cell when there isnt a expand cell-->
+            <td *ngIf="!isWorldBankIndicator(data)"></td>
             <td
               nzShowCheckbox
               [(nzChecked)]="mapOfCheckedId[data.sort_id]"
@@ -236,14 +238,14 @@
             <td nzBreakWord title="{{printArray(data.indicator.sdgCode, 'name')}}" nzEllipsis>{{ printArray(data.indicator.sdgCode, 'name') }}</td>
             <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
           </tr>
-          <tr [nzExpand]="expandSet.has(data.id)">
+          <tr [nzExpand]="expandSet.has(data.indicator.id)">
             <span>Country: </span>
             <nz-select style="margin-left: 5px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(data, $event)" nzPlaceHolder="Select a country" [(ngModel)]="data.countryCodeSelected">
-              <nz-option *ngFor="let country of countriesList" nzLabel="{{country.lable}}" nzValue="{{country.code}}"></nz-option>
+              <nz-option *ngFor="let country of countriesList" nzLabel="{{country.label}}" nzValue="{{country.code}}"></nz-option>
             </nz-select>
             <span style="margin-left: 5px;">Year: </span>
             <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(data, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="data.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
-            <span style="margin-left: 5px;">Baseline value: {{ data.baseLineValue }}</span>
+            <span style="margin-left: 5px;">Baseline value: <strong>{{ data.baseLineValue }}</strong></span>
           </tr>
         </ng-template>
 
