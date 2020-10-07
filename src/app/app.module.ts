@@ -142,6 +142,7 @@ export const routes: Routes = [
     NzDatePickerModule
   ],
   providers: [
+    { provide: NZ_I18N, useValue: en_US },
     { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: HTTP_INTERCEPTORS,
