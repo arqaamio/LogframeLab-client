@@ -1,10 +1,5 @@
 
 <nz-spin [nzSpinning]="isSpinning" [nzIndicator]="indicatorTemplate">
-  <ng-template #indicatorTemplate>
-    <div class="loading-row">
-      <i nz-icon nzType="loading"></i>
-    </div>
-  </ng-template>
 <div class="content-section">
   <section class="stepSection">
     <div id="step1" *ngIf="current === 0 || current === 1 || current === 2">
@@ -112,6 +107,7 @@
       nzType="default"
       (click)="next()"
       [hidden]="current === 4"
+      id="nextButton"
     >
       <span>Next</span>
     </button>
@@ -126,5 +122,18 @@
     </button>
   </div>
 </div>
+<button id="uploadButton" nz-button nzType="primary" routerLink="/indicators-upload"><i nz-icon nzType="cloud-upload"></i>Submit Indicators</button>
 </nz-spin>
-
+<ng-template #indicatorTemplate>
+  <div class="loading-row">
+    <i nz-icon nzType="loading"></i>
+  </div>
+</ng-template>
+<a href="https://feedback.logframelab.ai" target="_blank">
+<button
+  nz-button
+  nzType="question"
+  class="feedbackIcon"
+>
+  Feedback
+</button></a>

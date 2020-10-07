@@ -6,7 +6,8 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { Observable } from 'rxjs/internal/Observable';
 import {catchError} from 'rxjs/operators';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {AuthenticationService} from '../../services/authentication.service';

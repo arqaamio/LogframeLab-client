@@ -7,6 +7,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 const routes: Routes = [
   { path: 'indicators-upload', component: IndicatorsUploadComponent }
@@ -21,6 +22,7 @@ const routes: Routes = [
     NzUploadModule,
     NzButtonModule,
     NzGridModule,
+    NzPopoverModule,
     NzIconModule
   ]
 })

@@ -65,6 +65,23 @@ export class ManageIndicatorsService {
     filter.sdgCode.forEach(code => params = params.append('filters.sdg_code', code.toString()));
     filter.levelIds.forEach(levelId => params = params.append('filters.levelIds', String(levelId)));
     filter.source.forEach(source => params = params.append('filters.sourceIds', source.toString()));
+    params = params.append('filters.indicatorName', filter.indicatorName);
     return params;
+  }
+
+  /**
+   * Deletes the indicator with the id
+   * @param id Id of the indicator
+   */
+  deleteIndicator(id: number) : Observable<IndicatorDto> {
+    return this.http.delete<IndicatorDto>(this.INDICATORS_URL+"/"+id);
+  }
+
+  /**
+   * Updates the indicator to be checked for similarity
+   * @param id Id of the indicator
+   */
+  similarityCheckIndicator(id: number) : Observable<IndicatorDto> {
+    return this.http.put<IndicatorDto>(this.INDICATORS_URL+"/similarity/"+id, null);
   }
 }

@@ -16,6 +16,7 @@ import {NzSelectModule} from 'ng-zorro-antd/select';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzIconModule} from 'ng-zorro-antd/icon';
+import { NzSliderComponent, NzSliderModule } from 'ng-zorro-antd/slider';
 
 
 const routes: Routes = [
@@ -38,6 +39,7 @@ const routes: Routes = [
     NzInputModule,
     NzSwitchModule,
     NzSelectModule,
+    NzSliderModule,
     NzIconModule,
   ]
 })

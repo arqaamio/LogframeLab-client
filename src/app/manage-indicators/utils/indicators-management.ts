@@ -9,7 +9,7 @@ export class IndicatorsManagement {
 
   totalRowCount: number;
   page = 1;
-  pageSize = 50;
+  pageSize = 10;
   indicatorList: IndicatorDto[] = [];
   isLoading = false;
 
@@ -75,6 +75,7 @@ export class IndicatorsManagement {
 
   addFilter(filterKey: string, value: string[]) {
     this.filters[filterKey] = value;
+    this.search(true, false);
   }
 
   mapFilter(value): FilterData {
@@ -82,5 +83,14 @@ export class IndicatorsManagement {
     filter.text = value.name;
     filter.value = value.id;
     return filter;
+  }
+
+  printArray(array: Array<any>, property?: string): string{
+    if(array == null || array.length == 0) return '';
+    if(property==null){
+      return array.join(', ');
+    }else {
+      return array.map((x)=>x[property]).join(', ');
+    }
   }
 }

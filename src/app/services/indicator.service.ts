@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
 import { UploadFile } from 'ng-zorro-antd/upload';
-import { EventEmitter } from 'protractor';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +50,8 @@ export class IndicatorService {
   clearIndicatorData() {
     this.filters = null;
     this.dataResponse = null;
+    this.fileList = this.selectedData = null;
+    this.isNewInfo = true;
     this.indicatorSubject.next(null);
     this.exportSvg.next(null);
     this.currentStep = 0;
@@ -58,12 +60,12 @@ export class IndicatorService {
     this.resultData = null;
     this.collapseData = null;
   }
-  
+
   setSelectedData(selectedData) {
     this.selectedData = selectedData;
     this.nextSubject();
   }
-  setFileUploadList(files: UploadFile[]) {
+  setFileUploadList(files: NzUploadFile[]) {
     this.fileList = files;
     this.nextSubject();
   }
@@ -195,5 +197,22 @@ export class IndicatorService {
 
   getResult():  Observable<any>{
     return this.http.get('https://run.mocky.io/v3/0f2900ae-cd42-4d14-9468-e8fbbaa2476e');
+  }
+  /**
+   * Requests to the backend to return template of given format
+   * @param format Template format
+   */
+  public downloadTemplate(format: string): Observable<HttpResponse<Blob>> {
+    return this.http.get(
+      this.baseUrl + "/indicator/template/" + format,
+      { responseType: 'blob', observe: 'response' }
+    );
+  }
+  getWoldBanlCountries():Observable<any> {
+    return this.http.get(this.baseUrl + '/worldbank/country')
+  }
+
+  getWoldBanlBaselineValue(indicatorId:string, countryCode:string, year:number):Observable<any> {
+    return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
   }
 }

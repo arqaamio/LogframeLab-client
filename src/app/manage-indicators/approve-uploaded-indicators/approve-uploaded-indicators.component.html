@@ -1,69 +1,142 @@
 <div nz-col nzSpan="22" nzOffset="1">
-  <div nz-col style="margin-bottom: 30px; margin-top: 50px;">
+  <div nz-col style="margin-bottom: 30px; margin-top: 50px">
     <div nz-row>
-      <button nz-button nzType="primary" [disabled]="checkedIds.size === 0"
-              style="margin-right: 10px;" (click)="approveSelected()"><i nz-icon nzType="check"></i>
+      <button nz-button nzType="primary" [disabled]="checkedIds.size === 0" style="margin-right: 10px"
+        (click)="approveSelected()">
+        <i nz-icon nzType="check"></i>
         Approve selected
       </button>
-      <button nz-button nzType="danger" [disabled]="checkedIds.size === 0"
-              (click)="disapproveSelected()"><i nz-icon nzType="close"></i>
+      <button nz-button nzType="danger" [disabled]="checkedIds.size === 0" (click)="disapproveSelected()">
+        <i nz-icon nzType="close"></i>
         Disapprove selected
       </button>
 
-      <button nz-button (click)="fetchByFilters()" nzType="link" nzSize="default"
-              style="position: absolute; right: 0;">Filter
+      <button nz-button (click)="fetchByFilters()" nzType="link" nzSize="default" style="position: absolute; right: 0">
+        Filter
       </button>
     </div>
   </div>
-  <nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList"
-            [nzFrontPagination]="false"
-            [nzLoading]="isLoading" [nzTotal]="totalRowCount" [(nzPageIndex)]="page"
-            [(nzPageSize)]="pageSize" (nzPageSizeChange)="search(true, true)"
-            (nzPageIndexChange)="search(false, true)" nzSize="small">
+  <nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList" [nzFrontPagination]="false"
+    [nzLoading]="isLoading" [nzTotal]="totalRowCount" [(nzPageIndex)]="page" [(nzPageSize)]="pageSize"
+    (nzPageSizeChange)="search(true, true)" (nzPageIndexChange)="search(false, true)" nzSize="small">
     <thead>
+      <tr>
+        <th [nzChecked]="allChecked" [nzIndeterminate]="someChecked" (nzCheckedChange)="updateAllChecked($event)"></th>
+        <th nzShowFilter [nzFilters]="crsCodeFilter" (nzFilterChange)="addFilter('crsCode', $event)">
+          CRS Code
+        </th>
+        <th>Data Source</th>
+        <th>Description</th>
+        <th>Disaggregation</th>
+        <th>Keywords</th>
+        <th>Name</th>
+        <th nzShowFilter [nzFilters]="sdgCodeFilter" (nzFilterChange)="addFilter('sdgCode', $event)">
+          SDG Code
+        </th>
+        <th nzShowFilter [nzFilters]="sourceFilter" (nzFilterChange)="addFilter('source', $event)">
+          Source
+        </th>
+        <th>Source Verification</th>
+        <th nzShowFilter [nzFilters]="sectorFilter" (nzFilterChange)="addFilter('sector', $event)">
+          Sector
+        </th>
+        <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">
+          Level
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let ind of indicators.data">
+        <td [nzChecked]="checkedIds.has(ind.id)" (nzCheckedChange)="select(ind.id, $event)"></td>
+        <td>{{printArray(ind.crsCode, 'name')}}</td>
+        <td>{{ind.dataSource}}</td>
+        <td>{{ind.description}}</td>
+        <td>{{ind.disaggregation}}</td>
+        <td>{{ind.keywords}}</td>
+        <td>{{ind.name}}</td>
+        <td>{{printArray(ind.sdgCode, 'name')}}</td>
+        <td>{{printArray(ind.source, 'name')}}</td>
+        <td>{{ind.sourceVerification}}</td>
+        <td>{{ind.sector}}</td>
+        <td>{{ind.level.name}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+<h2>Similar Indicators</h2>
+<p>Threshold: </p>
+<nz-slider [nzDisabled]="thresholdDisabled" [nzStep]=0.1 [nzMax]=1 [(ngModel)]="threshold" (nzOnAfterChange)="thresholdUpdated($event)"></nz-slider>  
+<nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList" [nzFrontPagination]="false"
+  [nzLoading]="isLoadingSimilar" nzSize="small">
+  <thead>
     <tr>
-      <th [nzChecked]="allChecked" [nzIndeterminate]="someChecked"
-          (nzCheckedChange)="updateAllChecked($event)"></th>
-      <th nzShowFilter [nzFilters]="crsCodeFilter"
-          (nzFilterChange)="addFilter('crsCode', $event)">
+      <th></th>
+      <th>
         CRS Code
       </th>
-      <th>Data Source</th>
       <th>Description</th>
       <th>Disaggregation</th>
       <th>Keywords</th>
       <th>Name</th>
-      <th nzShowFilter [nzFilters]="sdgCodeFilter" (nzFilterChange)="addFilter('sdgCode', $event)">
+      <th>
         SDG Code
       </th>
-      <th nzShowFilter [nzFilters]="sourceFilter" (nzFilterChange)="addFilter('source', $event)">
+      <th>
         Source
       </th>
       <th>Source Verification</th>
-      <th nzShowFilter [nzFilters]="sectorFilter" (nzFilterChange)="addFilter('sector', $event)">
+      <th>
         Sector
       </th>
-      <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">
+      <th>
         Level
       </th>
+      <th style="color: green;"><strong>&#10003;</strong></th>
+      <th style="color: red;"><strong>X</strong></th>
     </tr>
-    </thead>
+  </thead>
 
-    <tbody>
-    <tr *ngFor="let ind of indicators.data">
-      <td [nzChecked]="checkedIds.has(ind.id)" (nzCheckedChange)="select(ind.id, $event)"></td>
-      <td>{{ind.crsCode}}</td>
-      <td>{{ind.dataSource}}</td>
-      <td>{{ind.description}}</td>
-      <td>{{ind.disaggregation}}</td>
-      <td>{{ind.keywords}}</td>
-      <td>{{ind.name}}</td>
-      <td>{{ind.sdgCode}}</td>
-      <td>{{ind.source}}</td>
-      <td>{{ind.sourceVerification}}</td>
-      <td>{{ind.sector}}</td>
-      <td>{{ind.level.name}}</td>
-    </tr>
-    </tbody>
-  </nz-table>
+  <tbody>
+    <ng-container *ngFor="let item of similarIndicators">
+      <tr>
+        <td [nzExpand]="expandSet.has(item.indicator.id)" (nzExpandChange)="onExpandChange(item.indicator.id, $event)"></td>
+        <td>{{ printArray(item.indicator.crsCode, 'name') }}</td>
+        <td>{{ item.indicator.description }}</td>
+        <td>{{ item.indicator.disaggregation }}</td>
+        <td>{{ item.indicator.keywords }}</td>
+        <td [ngSwitch]="item.indicator.dataSource == ''">
+         <span *ngSwitchCase="false"><a href="{{item.indicator.dataSource}}">{{ item.indicator.name }}</a></span>
+         <span *ngSwitchCase="true">{{ item.indicator.name }}</span></td>
+        <td>{{ printArray(item.indicator.sdgCode, 'name') }}</td>
+        <td>{{ printArray(item.indicator.source, 'name') }}</td>
+        <td>{{ item.indicator.sourceVerification }}</td>
+        <td>{{ item.indicator.sector }}</td>
+        <td>{{ item.indicator.level.name }}</td>
+        <td style="color: green;" (click)="checkSimilarity(item.indicator.id)"><strong>&#10003;</strong></td>
+        <td style="color: red;" (click)="deleteIndicator(item.indicator.id)"><strong>X</strong></td>
+      </tr>
+      <ng-container *ngFor="let sim of item.similarIndicators" >
+        <tr *ngIf="similarExpandSet.has(item.indicator.id)" class="similar-indicator">
+          <td></td>
+          <td>{{ printArray(sim.crsCode, 'name') }}</td>
+          <td>{{ sim.description }}</td>
+          <td>{{ sim.disaggregation }}</td>
+          <td>{{ sim.keywords }}</td>
+          <td [ngSwitch]="sim.dataSource == ''">
+            <span *ngSwitchCase="true">{{ sim.name }}</span>
+            <span *ngSwitchCase="false"><a href="{{sim.dataSource}}">{{ sim.name }}</a></span>
+          </td>
+          <td>{{ printArray(sim.sdgCode, 'name')  }}</td>
+          <td>{{ printArray(sim.source, 'name')  }}</td>
+          <td>{{ sim.sourceVerification }}</td>
+          <td>{{ sim.sector }}</td>
+          <td>{{ sim.level.name }}</td>
+          <td></td>
+          <td style="color: red;" (click)="deleteIndicator(item.indicator.id, sim.id)"><strong>X</strong></td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</nz-table>
 </div>

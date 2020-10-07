@@ -1,20 +1,47 @@
+<button
+  nz-button
+  nzType="question"
+  nz-popover
+  nzPopoverTitle="Indicators Upload"
+  [(nzPopoverVisible)]="visible"
+  nzPopoverVisibleChange
+  nzPopoverTrigger="click"
+  [nzPopoverContent]="contentTemplate"
+  class="stepIcon"
+  [nzPopoverPlacement]="'rightTop'"
+>
+  ?
+</button>
+
+<ng-template #contentTemplate>
+  <div class="stepInfo">
+    <p class="stepPara">
+        We are always looking to widen our database of indicators. You can use our template to send us new indicators
+        (instructions are in the first row of the Excel template, once you download it).
+        When you are done. You can just uploading the template with your new data again here (on the right side).
+        As this is anonymous, we already thank you in advance! 
+        <br/><br/>
+        Should you have more than a few indicators, or know of an indicator source, that we have not added yet,
+        please use the chat/send message button on the right side of your screen, and leave us a message with the
+        link to the website or document, and we can discuss with you there.
+  </div>
+  <a (click)="clickClose()">Close</a>
+</ng-template>
 <div nz-col nzOffset="5" style="margin-top: 80px;">
   <div nz-row>
     <div nz-col nzSpan="7">
-      <a href="assets/indicators_upload_template.xlsx">
-        <div class="ant-upload ant-upload-drag">
-          <div class="ant-upload ant-upload-btn">
-            <div class="ant-upload-drag-container">
-              <p class="ant-upload-drag-icon">
-                <i nz-icon nzType="file-excel"></i>
-              </p>
-              <p class="ant-upload-text">
-                Click to download template for indicators upload
-              </p>
-            </div>
+      <div class="ant-upload ant-upload-drag" (click)="downloadTemplate()">
+        <div class="ant-upload ant-upload-btn">
+          <div class="ant-upload-drag-container">
+            <p class="ant-upload-drag-icon">
+              <i nz-icon nzType="file-excel"></i>
+            </p>
+            <p class="ant-upload-text">
+              Click to download template for indicators upload
+            </p>
           </div>
         </div>
-      </a>
+      </div>
     </div>
 
     <div nz-col nzSpan="2"></div>

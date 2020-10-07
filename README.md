@@ -21,6 +21,12 @@ npm install
 ng serve --open
 ```
 
+### Running the Angular in a different environment
+E.g. The development environment:
+```sh
+ng serve --configuration=development
+```
+
 # How to contribute
 
 ## 1- Fork the project

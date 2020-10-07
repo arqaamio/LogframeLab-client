@@ -1,9 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { registerLocaleData, APP_BASE_HREF } from '@angular/common';
 
@@ -57,6 +57,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { ResultComponent } from './pages/indicator/result/result.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzBadgeModule, NzDropDownModule } from 'ng-zorro-antd';
 
 registerLocaleData(en);
 
@@ -110,12 +111,11 @@ export const routes: Routes = [
     ResultComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     NzLayoutModule,
     NzGridModule,
     NzUploadModule,
@@ -135,12 +135,13 @@ export const routes: Routes = [
     NzSelectModule,
     NzSliderModule,
     NzIconModule,
-    NzPopoverModule,
     NzCollapseModule,
     NzModalModule,
+    NzBadgeModule,
+    NzPopoverModule,
+    NzDatePickerModule
   ],
   providers: [
-    { provide: NZ_I18N, useValue: en_US },
     { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: HTTP_INTERCEPTORS,
@@ -171,7 +172,7 @@ export const routes: Routes = [
       useClass: ResponseJwtInterceptor,
       multi: true
     },
-    { 
+    {
       provide: ErrorHandler,
       useClass: ErrorHandlerService
     },
