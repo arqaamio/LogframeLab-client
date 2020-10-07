@@ -15,7 +15,6 @@ var Toolbar = {
 		// of the Delete Button
 		//
         view.on("select", $.proxy(this.onSelectionChanged,this));
-		
 		// Inject the UNDO Button and the callbacks
 		//
 		this.undoButton  = $(".undo");
@@ -84,4 +83,6 @@ var Toolbar = {
             button.removeClass("disabled");
         }
 	}
+
+	
 };
