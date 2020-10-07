@@ -100,7 +100,7 @@ describe('ScanResultComponent', () => {
             {sort_id: 4, indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, numTimes: 0, keys: [], var: ''}, countryCodeSelected: "", yearSelected:null, baseLineValue: "" },
             {sort_id: 5, indicator: { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, numTimes: 0, keys: [], var: ''}, countryCodeSelected: "", yearSelected:null, baseLineValue: "" },
         ];
-        const expectedResult = [component.listOfData[0], component.listOfData[2], component.listOfData[3]];
+        const expectedResult = [component.listOfData[2], component.listOfData[3], component.listOfData[0]];
         component.searchValue = 'search';
         component.mapOfCheckedId = { '1': false, '3': true, '4': true };
         component.search(false);
