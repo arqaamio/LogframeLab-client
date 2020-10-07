@@ -24,7 +24,6 @@ RUN chmod +x /usr/local/bin/tini
 
 # Update Nginx
 COPY nginx/nginx.conf $NGINX_HOME/nginx.conf
-COPY nginx/nginx.htpasswd $NGINX_HOME/nginx.htpasswd
 COPY dist/client/ /usr/share/nginx/html
 
 # Forward request logs to Docker log collector
