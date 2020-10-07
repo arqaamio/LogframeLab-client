@@ -199,11 +199,11 @@ export class IndicatorService {
       { responseType: 'blob', observe: 'response' }
     );
   }
-  getWoldBanlCountries():Observable<any> {
-    return this.http.get(this.baseUrl + '/worldbank/country')
+  getWorldBankCountries():Observable<Map<string, string>> {
+    return this.http.get<Map<string, string>>(this.baseUrl + '/worldbank/country');
   }
 
-  getWoldBanlBaselineValue(indicatorId:string, countryCode:string, year:number):Observable<any> {
+  getWorldBankBaselineValue(indicatorId:string, countryCode:string, year:number):Observable<any> {
     return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
   }
 }

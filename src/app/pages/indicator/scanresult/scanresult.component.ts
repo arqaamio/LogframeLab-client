@@ -37,6 +37,8 @@ export class SearchFilter {
 }
 
 export const MIN_KEYWORD_VALUE: number = 5;
+export const WORLD_BANK_SOURCE_ID: number = 2;
+export const NO_VALUE: string = 'No Value';
 export const DISAG_YES_FILTER_DATA: FilterData = {text: 'Yes', value:0};
 export const DISAG_NO_FILTER_DATA: FilterData = {text: 'No', value:1};
 
@@ -180,11 +182,11 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         this.indicatorService.setIsNewInfo(false);
       })).subscribe();
 
-      this.indicatorService.getWoldBanlCountries().subscribe(data => {
+      this.indicatorService.getWorldBankCountries().subscribe(data => {
         console.log('get worldbank countries');
         Object.keys(data).forEach(item => {
           this.countriesList.push({
-            lable: data[item],
+            label: data[item],
             code: item
           });
         });
@@ -344,17 +346,21 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     return differenceInCalendarDays(current, this.today) > 0;
   };
 
-  ngModelCountryChange(row, $event){
-    row.countryCodeSelected = $event;
+  ngModelCountryChange(row, code){
+    row.countryCodeSelected = code;
   }
 
-  ngModelYearChange(row, $event:Date){
+  ngModelYearChange(row, date:Date){
     row.baseLineValue = null;
-    this.indicatorService.getWoldBanlBaselineValue(row.indicator.id, row.countryCodeSelected, $event.getFullYear()).subscribe(data => {
-      console.log(data);
-      if(data != null && data.length > 0)
-        row.baseLineValue = data[0].value;
-    });
+    if(date){
+      this.indicatorService.getWorldBankBaselineValue(row.indicator.id, row.countryCodeSelected, date.getFullYear()).subscribe(data => {
+        console.log(data);
+        if(data != null && data.length > 0)
+          row.baseLineValue = data[0].value;
+        else
+          row.baseLineValue = NO_VALUE;
+      });
+    }
   }
 
   removeSelectedIndicator(item: ItemData): void {
@@ -368,5 +374,13 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
     this.mapOfCheckedId[item.sort_id] = false;
     this.refreshStatus();
+  }
+
+  /**
+   * Returns true if indicator has a source of the World Bank
+   * @param indicator Indicator
+   */
+  isWorldBankIndicator(indicator: ItemData): boolean {
+    return indicator.indicator.source.find(x=>x.id==WORLD_BANK_SOURCE_ID) != null;
   }
 }
