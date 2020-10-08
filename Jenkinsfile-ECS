@@ -3,7 +3,7 @@ def devops_repo_branch = "master" // Branch of teh devops repository. Default is
 def appName = 'LogframeLab' // Name of the app used in Terraform.
 
 /* ENVIRONMENT BRANCHES used to Deploy*/
-environment_branches = ['develop', 'master', 'feature/ecs-dev']
+environment_branches = ['develop', 'master']
 
 pipeline {
     agent any
@@ -22,7 +22,7 @@ pipeline {
         stage('Compile and Bundle the app') {
             steps {
                 script {
-                    if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'feature/ecs-dev') {
+                    if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop') {
                         sh 'CYPRESS_CACHE_FOLDER=/root/.cache/Cypress node node_modules/@angular/cli/bin/ng build --prod --buildOptimizer --verbose'
                     } else {
                         sh 'node node_modules/@angular/cli/bin/ng build --configuration=development --buildOptimizer --verbose'
@@ -107,12 +107,6 @@ pipeline {
                         withDockerRegistry(url: 'https://index.docker.io/v1/',  credentialsId: 'dockerhub') {
                             sh "docker push logframelab/${env.image_name}:${env.image_version}-${env.image_tag}"
                         }
-                    }
-                    // SECTION TO BE REMOVED
-                    if (env.BRANCH_NAME == 'feature/ecs-dev') {
-                        env.TERRAFORM_ENVIRONMENT = 'stage'
-                        env.CLIENT_IMAGE_TAG = env.image_tag
-                        env.SERVER_IMAGE_TAG = 'stagelatest'
                     }
                 }
             }
