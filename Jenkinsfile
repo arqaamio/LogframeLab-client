@@ -77,11 +77,11 @@ pipeline {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'develop') {
-                        sh "docker tag ${env.image_name}:${ienv.mage_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-${env.image_tag}"
-                        sh "docker tag ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:devlatest"
+                        sh "docker tag ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-${env.image_tag}"
+                        sh "docker tag ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-devlatest"
                         withDockerRegistry(url: 'https://index.docker.io/v1/',  credentialsId: 'dockerhub') {
                             sh "docker push logframelab/${env.image_name}:${env.image_version}-${env.image_tag}"
-                            sh "docker push logframelab/${env.image_name}:devlatest"
+                            sh "docker push logframelab/${env.image_name}:${env.image_version}-devlatest"
                         }
                         // Set Deployment variables
                         env.TERRAFORM_ENVIRONMENT = 'dev'
@@ -91,10 +91,10 @@ pipeline {
 
                     if (env.BRANCH_NAME == 'master') {
                         sh "docker tag ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-${env.image_tag}"
-                        sh "docker tag ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:stagelatest"
+                        sh "docker tag ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-stagelatest"
                         withDockerRegistry(url: 'https://index.docker.io/v1/',  credentialsId: 'dockerhub') {
                             sh "docker push logframelab/${env.image_name}:${env.image_version}-${env.image_tag}"
-                            sh "docker push logframelab/${env.image_name}:stagelatest"
+                            sh "docker push logframelab/${env.image_name}:${env.image_version}-stagelatest"
                         }
                         // Set Deployment variables
                         env.TERRAFORM_ENVIRONMENT = 'stage'
@@ -249,13 +249,13 @@ pipeline {
             script {
                 if (env.BRANCH_NAME == 'master') {
                     sh "docker rmi -f ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-${env.image_tag}"
-                    sh "docker rmi -f ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:stagelatest"
+                    sh "docker rmi -f ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-stagelatest"
                     sh "docker rmi -f ${env.image_name}:${env.image_version}-${env.image_tag}"
                 }
 
                 else if (env.BRANCH_NAME == 'develop') {
                     sh "docker rmi -f ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-${env.image_tag}"
-                    sh "docker rmi -f ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:devlatest"
+                    sh "docker rmi -f ${env.image_name}:${env.image_version}-${env.image_tag} logframelab/${env.image_name}:${env.image_version}-devlatest"
                     sh "docker rmi -f ${env.image_name}:${env.image_version}-${env.image_tag}"
                 }
 
