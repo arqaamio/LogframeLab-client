@@ -23,8 +23,6 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     private indicatorService: IndicatorService
   ) { }
 
-
-
   ngOnInit() {
     this.nextButtonSubscription = this.indicatorService
       .getNextButtonSubject()
@@ -40,55 +38,73 @@ export class IndicatorComponent implements OnInit, OnDestroy {
         this.exportSvg = data
       }
     });
-  }
-
-  onLoading(event){
-    this.isSpinning = event;
+    this.indicatorService.loadingStart.subscribe((data) => {
+      this.isSpinning = data;
+    });
   }
 
   pre(): void {
     this.current -= 1;
-    if(this.indicatorService.currentStep == 2){
-      this.indicatorService.canvasJson = [];
+    if(this.indicatorService.currentStep == 3){
+      this.indicatorService.canvasJson = {"result":[], "indicator":[]};
     }
 
-    if(this.indicatorService.currentStep == 3){
+    if(this.indicatorService.currentStep == 4 || this.indicatorService.currentStep == 3){
       this.isSpinning = true;
     }
     this.indicatorService.currentStep = this.current;
   }
 
   next(): void {
-    if (this.current == 2) {
+    if (this.current == 3) {
       this.isSpinning = true;
-      let json = this.indicatorService.canvasJson;
+      let json = this.indicatorService.canvasJson[this.indicatorService.selectedChart];
       let connectioned = [];
+      let tempData = [];
       let totalSelected = 0;
-      for(const field in this.indicatorService.selectedData){
-        if(this.indicatorService.selectedData[field]){
-          totalSelected++;
+      if(this.indicatorService.selectedChart === 'result'){
+        this.indicatorService.collapseData.forEach((row) => {
+            row.data.forEach((d)=>{
+              totalSelected++;
+              tempData.push(d);
+            });
+        });
+      } else {
+        for(const field in this.indicatorService.selectedData){
+          if(this.indicatorService.selectedData[field]){
+            totalSelected++;
+          }
         }
       }
       let connection = json.filter(d => d.type === "draw2d.Connection");
       connection.forEach((data) => {
-        let sourceNode = data.source.port.split('_')[1]
-        let targetNode = data.target.port.split('_')[1]
-        if (this.indicatorService.selectedData.hasOwnProperty(sourceNode)) {
-          if(this.indicatorService.selectedData[sourceNode] == true){
-            if (connectioned.indexOf(sourceNode) == -1) {
-              connectioned.push(sourceNode);
+        let sourceNode = data.source.port.split('_')[1];
+        let targetNode = data.target.port.split('_')[1];
+        if(this.indicatorService.selectedChart === 'indicator'){ 
+          if (this.indicatorService.selectedData.hasOwnProperty(sourceNode)) {
+            if(this.indicatorService.selectedData[sourceNode] == true){
+              if (connectioned.indexOf(sourceNode) == -1) {
+                connectioned.push(sourceNode);
+              }
             }
           }
-        }
-        if (this.indicatorService.selectedData.hasOwnProperty(targetNode)) {
-          if(this.indicatorService.selectedData[targetNode] == true){
-            if (connectioned.indexOf(targetNode) == -1) {
-              connectioned.push(targetNode);
+          if (this.indicatorService.selectedData.hasOwnProperty(targetNode)) {
+            if(this.indicatorService.selectedData[targetNode] == true){
+              if (connectioned.indexOf(targetNode) == -1) {
+                connectioned.push(targetNode);
+              }
             }
+          }
+        } else {
+          if(connectioned.indexOf(sourceNode) == -1) {
+            connectioned.push(sourceNode);
+          }
+          if(connectioned.indexOf(targetNode) == -1) {
+            connectioned.push(targetNode);
           }
         }
       });
-
+      
       if (totalSelected > connectioned.length) {
         this.isSpinning = false;
         this.msg.error("Please make sure all the logical boxes are connected before you more to the next step.")
@@ -101,15 +117,13 @@ export class IndicatorComponent implements OnInit, OnDestroy {
         }, 2000);
       }
     } else {
-
-      if (this.current === 1) {
-        this.isSpinning = true;
-      }
-      setTimeout(() => {
-        this.current += 1;
-        this.indicatorService.currentStep = this.current;
-      })
-
+        if(this.current === 1 || this.current === 2 || this.current === 3) {
+            this.isSpinning = true;
+        }
+        setTimeout(() => {
+          this.current += 1;
+          this.indicatorService.currentStep = this.current;
+        });
     }
   }
 

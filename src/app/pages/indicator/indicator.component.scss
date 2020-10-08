@@ -317,19 +317,20 @@ background-color: #453457;
   justify-content: center;
   height: 3rem;
   width: 7rem;
+}
 
 #uploadButton {
-  position: fixed;
-  bottom: 20vh;
-  right: 2vh;
-  z-index: 999;
+  display: flex;
+  position: absolute;
+  bottom: 20%;
+  right: 0;
   background: #453457;
-  border: 1px solid #ffffff;
-  box-sizing: border-box;
-  // border-radius: 15px;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 15px;
+  border-radius: 0.6rem 0 0 0.6rem;
+//  font-size: 1rem;
+  font-weight: 700;
   color: #ffffff;
-}
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+//  width: 7rem;
 }
