@@ -294,6 +294,7 @@ background-color: #453457;
   }*/
 
 .feedbackIcon {
+  z-index: 9999;
   display: flex;
   position: absolute;
   top: 20%;
@@ -310,6 +311,7 @@ background-color: #453457;
 }
 
 #uploadButton {
+  z-index: 9999;
   display: flex;
   position: absolute;
   bottom: 20%;
