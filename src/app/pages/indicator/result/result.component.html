@@ -2,7 +2,7 @@
 <nz-collapse>
     <nz-collapse-panel *ngFor="let panel of indicatorService.collapseData; let i = index" [nzHeader]="extraTpl" [nzActive]="panel.active">
 
-      <div nz-row *ngIf="i == 0">
+      <!--<div nz-row *ngIf="i == 0">
         <div nz-col class="collapse-title" [nzSpan]="11">{{panel.data[0].indicator.statement}}</div>
         <div nz-col class="gutter-row" [nzSpan]="4">  <nz-tag [nzColor]="panel.data[0].indicator.statusColor"
           >{{ panel.data[0].indicator.status }}
@@ -19,21 +19,18 @@
         </div>
         <div nz-col class="gutter-row" [nzSpan]="4"><i nz-icon nzType="edit" class="edit-icon" (click)="$event.stopPropagation();edit(i, 0);" nzTheme="fill"></i>
           <i nz-icon nzType="delete" class="delete-icon" (click)="$event.stopPropagation();showDeleteConfirm(i, 0);" nzTheme="fill"></i></div>
-      </div>  
+      </div>-->
    
       <nz-table
-      *ngIf="i > 0"
       #dynamicTable
       [nzData]="panel.data"
       [nzPageSize]="panel.data.length"
-      [nzScroll]="{ y: '1000px' }"
       nzShowPagination="false"
       nzShowSizeChanger="false"
       nzSize="middle"
       nzBordered
     >
       <thead>
-        <!--TODO nzSingleSort-->
         <tr>
           <th style="font-weight: bold;">
             Statement
