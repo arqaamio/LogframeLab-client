@@ -76,7 +76,7 @@
         <!--TODO nzSingleSort-->
         <tr>
           <th
-            nzWidth="80px"
+            nzWidth="9%"
             nzColumnKey="baselinevalue"
             nz-popover
             nzPopoverTitle="Baseline Value"
@@ -94,17 +94,17 @@
             nzShowFilter
             [nzFilters]="searchFilter.level"
             [nzFilterFn]="filterLevel"
-          >
-            Level
+          ><img src="..\..\..\..\assets\level.svg" alt="level" height="40" width="40"><br />
+            Level            
           </th>
           <th
-            nzWidth="30%"
+            nzWidth="20%"
             nz-popover
             nzPopoverTitle="Indicator"
             nzPopoverContent="The phrasing of the actual indicator. Some indicators may need to be further specified accordingly."
-            style="font-weight: bold"
-          >
-            Indicator
+            style="font-weight: bold; padding-bottom: 4.54rem;"
+          ><img src="..\..\..\..\assets\indicator.svg" alt="indicator" height="40" width="40"><br />
+            Indicator            
           </th>
 
           <th
@@ -117,8 +117,8 @@
             nzShowFilter
             [nzFilters]="searchFilter.source"
             [nzFilterFn]="filterSource"
-          >
-            Source
+          ><img src="..\..\..\..\assets\source.svg" alt="source" height="40" width="40"><br />
+            Source            
           </th>
           <th
             nzShowSort
@@ -126,19 +126,19 @@
             nz-popover
             nzPopoverTitle="Disaggregation"
             nzPopoverContent="If the indicator requires disaggregation. As a rule of thumb, whenever people are counted, there should a disaggregation (at least by sex)."
-            nzWidth="15%"
+            nzWidth="11%"
             style="font-size: 10px"
             nzBreakWord
             nzShowFilter
             [nzFilters]="searchFilter.disaggregation"
             [nzFilterFn]="filterDisag"
-          >
-            Disaggregation
+          ><img src="..\..\..\..\assets\Disaggregation.svg" alt="Disaggration" height="40" width="40"><br />
+            Disaggregation            
           </th>
           <th
             nzShowSort
             nzColumnKey="sector"
-            nzWidth="15%"
+            nzWidth="13%"
             nz-popover
             nzPopoverTitle="Thematic Area"
             nzPopoverContent="The sectors where the indicator is related to."
@@ -146,8 +146,8 @@
             nzShowFilter
             [nzFilters]="searchFilter.sector"
             [nzFilterFn]="filterSector"
-          >
-            Thematic<br />Area
+          ><img src="..\..\..\..\assets\Thematic Area.svg" alt="Thematic" height="40" width="40"><br />
+            Thematic<br />Area            
           </th>
           <th
             nzShowSort
@@ -159,8 +159,8 @@
             nzShowFilter
             [nzFilters]="searchFilter.crsCode"
             [nzFilterFn]="filterCRSCode"
-          >
-            OECD<br />DAC/CRS<br />Code
+          ><img src="..\..\..\..\assets\OECD DACCRS Code.svg" alt="OECD code" height="40" width="40"><br />
+            OECD<br />DAC/CRS<br />Code            
           </th>
           <th
             nzShowSort
@@ -169,12 +169,12 @@
             nz-popover
             nzPopoverTitle="SDG Code"
             nzPopoverContent="This is in relations to the 17 SDGs."
-            nzWidth="15%"
+            nzWidth="9%"
             nzShowFilter
             [nzFilters]="searchFilter.sdgCode"
             [nzFilterFn]="filterSDGCode"
-          >
-            SDG<br />Code
+          ><img src="..\..\..\..\assets\SDG Code.svg" alt="SDG Code" height="40" width="40"><br />
+            SDG<br />Code            
           </th>
           <th
             nz-popover
@@ -182,8 +182,8 @@
             nzPopoverContent="The number of times the document triggers the keywords of each indicator. Ideally you do not want to use indicators with a keyword frequency of less than 10."
             nzWidth="10%"
             *ngIf="showKeywordCol"
-          >
-            Keyword Frequency
+          ><img src="..\..\..\..\assets\Keyword Frequency.svg" alt="Keyword Frequency" height="40" width="40"><br />
+            Keyword <br /> Frequency            
             <nz-slider
               (nzOnAfterChange)="onAfterChange($event)"
               [nzTooltipVisible]="'default'"

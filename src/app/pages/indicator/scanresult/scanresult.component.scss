@@ -29,3 +29,118 @@
 .red-color {
   color: red;
 }
+::ng-deep.ant-table-middle .ant-table-thead .ant-table-column-sorters {
+  padding: 12px 8px;
+  display: grid;
+  height: 8rem;
+}
+
+
+::ng-deep.ant-table-column-sorter {
+  margin-top: 0.15em;
+  margin-bottom: -0.15em;
+  margin-left: 0px;
+  color: #bfbfbf;
+  align-items: baseline;
+}
+
+::ng-deep.ant-table-thead > tr > th {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  text-align: left;
+  background: #fafafa;
+  border-bottom: 1px solid #e8e8e8;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+::ng-deep.ant-table-filter-column {
+  display: inline-grid;
+  // align-items: center;
+  /* margin: -16px -16px; */
+}
+::ng-deep.ant-table-filter-trigger-container {
+position: relative;
+height: 1rem;
+}
+::ng-deep.ant-table-thead tr th.ant-table-column-has-sorters .ant-table-filter-column-title {
+  padding: 0 0 0 0;
+}
+::ng-deep.ant-table-column-sorter {
+  margin-top: 0.15em;
+  margin-bottom: 0;
+  margin-left: 0px;
+  color: #bfbfbf;
+  align-items: baseline;
+  position: absolute;
+  bottom: 1rem;
+  right: 0;
+  left: 0;
+}
+::ng-deep.ant-table-column-sorters {
+  align-items: baseline;
+}
+::ng-deep.ant-table-cell {
+  word-break: break-word !important;
+}
+
+
+//Responsive with Rows 
+
+/*
+
+::ng-deep {
+  @media only screen and (max-width: 1300px) {
+
+    //fix headers
+    .ant-table-thead > tr > th {
+      width: 10rem;
+  }
+// Force table to not be like tables anymore
+ td { //thead, removed
+  display: block; 
+}
+// Hide table headers (but not display: none;, for accessibility)
+
+
+td { 
+  //Behave  like a "row" 
+  border: none;
+  border-bottom: 1px solid #eee; 
+  position: relative;
+  padding-left: 50%; 
+  text-align-last: left;
+}
+td:before { 
+  // Now like a table header 
+  // Top/left values mimic padding 
+  top: 6px;
+  left: 6px;
+  width: 45%; 
+  padding-right: 10px; 
+  white-space: nowrap;
+}
+//Label the data
+td:nth-of-type(1):before { content: "Baseline Value:"; }
+td:nth-of-type(2):before { content: "Level:"; }
+td:nth-of-type(3):before { content: "Indicator:"; }
+td:nth-of-type(4):before { content: "Source:"; }
+td:nth-of-type(5):before { content: "Disaggregation:"; }
+td:nth-of-type(6):before { content: "Thematic Area:"; }
+td:nth-of-type(7):before { content: "OECD DAC/CRS Code:"; }
+td:nth-of-type(8):before { content: "SDG Code:"; }
+td:nth-of-type(9):before { content: "Keywords:"; }
+//Year filter will cause table to expand, margin set to 0
+
+.ant-table.ant-table-bordered.ant-table-middle .ant-table-expanded-row-fixed {
+  margin: -16px -16px;
+}
+  
+.ant-table-thead > tr > th {
+  display: table-cell;
+}
+.ant-table table {
+display: grid;
+}
+  }
+}
+*/
