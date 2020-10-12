@@ -214,7 +214,7 @@
                 >{{ data.indicator.level }}
               </nz-tag>
             </td>
-            <td nzBreakWord>{{ data.indicator.name }}</td>
+            <td>{{ data.indicator.name }}</td>
             <td nzBreakWord>{{ printArray(data.indicator.source, 'name') }}</td>
             <td style="text-align: center">
               <div style="text-align: center">
@@ -261,6 +261,7 @@
     </nz-table>
   </div>
 
+  <!-- Selected items table -->
   <ng-template #contentTemplate>
     <div class="warning">
       <div style="position: relative">
@@ -412,7 +413,7 @@
                   >{{ data.indicator.level }}
                 </nz-tag>
               </td>
-              <td nzBreakWord>{{ data.indicator.name }}</td>
+              <td>{{ data.indicator.name }}</td>
               <td nzBreakWord>
                 {{ printArray(data.indicator.source, 'name') }}
               </td>
