@@ -37,7 +37,6 @@ import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.com
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { DialogComponent } from './dialog/dialog.component';
-import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { AuthGuard } from './utils/auth.guard';
 import { JwtInterceptor } from './utils/auth/jwt.interceptor';
 import { DefaultInterceptor } from './utils/http/default.interceptor';
@@ -57,7 +56,9 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { ResultComponent } from './pages/indicator/result/result.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzBadgeModule, NzDropDownModule } from 'ng-zorro-antd';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 registerLocaleData(en);
 
@@ -128,7 +129,6 @@ export const routes: Routes = [
     NzStepsModule,
     NzProgressModule,
     NzAlertModule,
-    ProfileMenuModule,
     NzMenuModule,
     NzInputModule,
     NzFormModule,
@@ -139,6 +139,8 @@ export const routes: Routes = [
     NzModalModule,
     NzBadgeModule,
     NzPopoverModule,
+    NzPopconfirmModule,
+    NzDropDownModule,
     NzDatePickerModule
   ],
   providers: [

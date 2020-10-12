@@ -31,7 +31,6 @@ import { SelectdocumentComponent } from './pages/indicator/selectdocument/select
 import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.component';
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
-import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { routes } from './app.module';
 import { AuthGuard } from './utils/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
@@ -59,7 +58,6 @@ describe('AppComponent', () => {
         NzStepsModule,
         NzProgressModule,
         NzAlertModule,
-        ProfileMenuModule,
         NzIconModule,
       ],
       declarations: [

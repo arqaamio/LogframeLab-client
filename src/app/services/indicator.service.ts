@@ -195,9 +195,6 @@ export class IndicatorService {
     return this.http.get<IndicatorResponse[]>(url);
   }
 
-  getResult():  Observable<any>{
-    return this.http.get('https://run.mocky.io/v3/0f2900ae-cd42-4d14-9468-e8fbbaa2476e');
-  }
   /**
    * Requests to the backend to return template of given format
    * @param format Template format
