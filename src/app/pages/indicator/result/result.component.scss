@@ -4,7 +4,6 @@
 .delete-icon{
     color:#df514d;
     font-size: 20px;
-    margin-left: 6px;
 }
 .add-icon{
     color:#49345d;
@@ -24,7 +23,8 @@
     background-color: #fff !important;
     color:rgba(0, 0, 0, 0.65) !important;
 }
-.delete-icon:hover, .edit-icon:hover {
+
+.add-icon:hover, .delete-icon:hover, .check-icon:hover {
     cursor: pointer;
 }
 .score-row {

@@ -1,30 +1,28 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { timer } from 'rxjs';
 declare var draw2d: any;
 declare var window: any;
 declare var Toolbar: any;
 @Component({
-    selector: "app-visualisationresult",
-    templateUrl: "./visualisationresult.component.html",
-    styleUrls: ["./visualisationresult.component.scss"],
+    selector: 'app-visualisationresult',
+    templateUrl: './visualisationresult.component.html',
+    styleUrls: ['./visualisationresult.component.scss'],
 })
 
 export class VisualisationresultComponent implements OnInit, OnDestroy {
 
-    height: any = (window.screen.height - 400) + 'px';
-    width: any = (window.screen.width - 105) + 'px';
-    impact: any = [];
+    height: string = (window.screen.height - 400) + 'px';
+    width: string = (window.screen.width - 105) + 'px';
+    impact: any[] = [];
     isFullscreen: boolean = false;
-    outcomes: any = [];
+    outcomes: any[] = [];
     canvasHeight: any;
     canvas: any;
     isCanvasClear: boolean = false;
-    output: any = [];
-    selectedChartName: any = "result";
+    output: any[] = [];
 
     constructor(private indicatorService: IndicatorService) {
-        this.selectedChartName = this.indicatorService.selectedChart;
         this.indicatorService.updateNextButton(true);
     }
 
@@ -34,73 +32,27 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         timer(800).subscribe(() => {
-            let data = this.indicatorService.dataResponse;
-            this.impact = [];
-            this.output = [];
-            this.outcomes = [];
-            // Selected data with level wise create json
-            data.forEach((row) => {
-                if (this.indicatorService.selectedData.hasOwnProperty(row.sort_id)) {
-                    if (this.indicatorService.selectedData[row.sort_id] == true) {
-                        row.indicator['sort_id'] = row.sort_id;
-                        if (row.indicator.level == "IMPACT") {
-                            this.impact.push(row.indicator)
-                        } else if (row.indicator.level == "OUTCOME") {
-                            this.outcomes.push(row.indicator)
-                        } else if (row.indicator.level == "OUTPUT") {
-                            this.output.push(row.indicator)
-                        }
-                    }
-                }
-            });
-            if (this.indicatorService.canvasJson[this.indicatorService.selectedChart].length == 0) {
-                let chartData;
-                if(this.indicatorService.selectedChart == "indicator"){
-                    chartData =  this.generatCanvasJson(this.impact, this.outcomes, this.output);
-                } else {
-                    chartData = this.getResultData();
-                }
-                 
+            if (this.indicatorService.canvasJson.length == 0) {
+                let statementImpact = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'IMPACT'));
+                let statementOutcome = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTCOME'));
+                let statementOutput = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT'));
                 // draw chart function
-                this.setFlowChart(chartData);
+                this.setFlowChart(this.generateCanvasJson(statementImpact, statementOutcome, statementOutput));
             } else {
                 // re-draw chart function
-                this.setFlowChart(this.indicatorService.canvasJson[this.indicatorService.selectedChart]);
+                this.setFlowChart(this.indicatorService.canvasJson);
             }
         });
     }
 
-    // chart select change event
-    changeChart(value){
-        this.isCanvasClear = true;
-        this.indicatorService.selectedChart = this.selectedChartName;
-        let json = [];
-        if(value == 'indicator'){
-            json = this.generatCanvasJson(this.impact, this.outcomes, this.output);
-        } else if(value == 'result'){
-            json = this.getResultData();
-        }
-        this.canvas.clear();
-        this.setFlowChart(json);
-    }  
-
-    // result data formatting
-    getResultData(){
-        let collapseData = this.indicatorService.collapseData;
-        let collapseImpact = this.resultJsonMap(collapseData[0].data);
-        let collapseOutcome = this.resultJsonMap(collapseData[1].data);
-        let collapseOutput = this.resultJsonMap(collapseData[2].data);
-        return this.generatCanvasJson(collapseImpact, collapseOutcome, collapseOutput);
-    }
-
     // result data map
-    resultJsonMap(collapseDataMap){
+    resultJsonMap(statementData){
         let id = this.getUniqueId();
-        return collapseDataMap.map((d, index)=> ({id: id, name:d.indicator.statement, sort_id:id + d.sort_id}));
+        return statementData.map((d, index)=> ({id: id, name:d.statement}));
     }
 
     // data convert to canvas json 
-    generatCanvasJson(impact, outcomes, output){
+    generateCanvasJson(impact, outcomes, output){
         let impactObject = []
         let outcomesObject = [];
         let compositeWidth = 2100;
@@ -178,7 +130,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 "composite": "354fa3b9-a834-0221-2009-abc2d6bd8a",
                 "draggable": true,
                 "angle": 0,
-                "userData": { sort_id: row.sort_id },
+                "userData": { id: row.id },
                 "cssClass": "draw2d_shape_basic_Text",
                 "ports": [
                     {
@@ -189,14 +141,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "selectable": false,
                         "draggable": true,
                         "angle": 0,
-                        "userData": { sort_id: row.sort_id },
+                        "userData": { id: row.id },
                         "cssClass": "draw2d_InputPort",
                         "bgColor": "rgba(204,204,204,1)",
                         "color": "rgba(204,204,204,1)",
                         "stroke": 1,
                         "dasharray": null,
                         "maxFanOut": 9007199254740991,
-                        "name": "impactTop_" + row.sort_id,
+                        "name": "impactTop_" + row.id,
                         "semanticGroup": "impact",
                         "port": "draw2d.InputPort",
                         "visible": false,
@@ -212,7 +164,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 "outlineColor": "rgba(0,0,0,0)",
                 "fontSize": 11,
                 "fontColor": "rgba(255,255,255,1)",
-                "fontFamily": "Montserrat",
+                "fontFamily": "Montserrat, sans-serif",
             });
         });
 
@@ -241,7 +193,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "outlineColor": "rgba(0,0,0,0)",
             "fontSize": 20,
             "fontColor": "rgba(8,8,8,1)",
-            "fontFamily": "Montserrat",
+            "fontFamily": "Montserrat, sans-serif",
             "fontWeight": "bold"
         });
         let outcomeHeight = 0;
@@ -287,7 +239,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 "draggable": true,
                 "angle": 0,
                 "composite": "354fa3b9-a834-0221-2009-abc2d6bd8a",
-                "userData": { sort_id: row.sort_id },
+                "userData": { id: row.id },
                 "cssClass": "draw2d_shape_basic_Text",
                 "ports": [
                     {
@@ -298,14 +250,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "selectable": false,
                         "draggable": true,
                         "angle": 0,
-                        "userData": { sort_id: row.sort_id },
+                        "userData": { id: row.id },
                         "cssClass": "draw2d_OutputPort",
                         "bgColor": "rgba(204,204,204,1)",
                         "color": "rgba(204,204,204,1)",
                         "stroke": 1,
                         "dasharray": null,
                         "maxFanOut": 9007199254740991,
-                        "name": "outcomeTop_" + row.sort_id,
+                        "name": "outcomeTop_" + row.id,
                         "semanticGroup": "impact",
                         "port": "draw2d.OutputPort",
                         "locator": "draw2d.layout.locator.TopLocator"
@@ -317,14 +269,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "selectable": false,
                         "draggable": true,
                         "angle": 0,
-                        "userData": { sort_id: row.sort_id },
+                        "userData": { id: row.id },
                         "cssClass": "draw2d_InputPort",
                         "bgColor": "rgba(204,204,204,1)",
                         "color": "rgba(204,204,204,1)",
                         "stroke": 1,
                         "dasharray": null,
                         "maxFanOut": 9007199254740991,
-                        "name": "outcomeBottom_" + row.sort_id,
+                        "name": "outcomeBottom_" + row.id,
                         "semanticGroup": "outcome",
                         "port": "draw2d.InputPort",
                         "locator": "draw2d.layout.locator.BottomLocator"
@@ -339,7 +291,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 "outlineColor": "rgba(0,0,0,0)",
                 "fontSize": 11,
                 "fontColor": "rgba(255,255,255,1)",
-                "fontFamily": "Montserrat",
+                "fontFamily": "Montserrat, sans-serif",
             });
         });
 
@@ -368,7 +320,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "outlineColor": "rgba(0,0,0,0)",
             "fontSize": 20,
             "fontColor": "rgba(8,8,8,1)",
-            "fontFamily": "Montserrat",
+            "fontFamily": "Montserrat, sans-serif",
             "fontWeight": "bold"
         })
 
@@ -413,7 +365,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 "draggable": true,
                 "composite": "354fa3b9-a834-0221-2009-abc2d6bd8a",
                 "angle": 0,
-                "userData": { sort_id: row.sort_id },
+                "userData": { id: row.id },
                 "cssClass": "draw2d_shape_basic_Text",
                 "ports": [
                     {
@@ -424,14 +376,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "selectable": false,
                         "draggable": true,
                         "angle": 0,
-                        "userData": { sort_id: row.sort_id },
+                        "userData": { id: row.id },
                         "cssClass": "draw2d_OutputPort",
                         "bgColor": "rgba(204,204,204,1)",
                         "color": "rgba(204,204,204,1)",
                         "stroke": 1,
                         "dasharray": null,
                         "maxFanOut": 9007199254740991,
-                        "name": "outputTop_" + row.sort_id,
+                        "name": "outputTop_" + row.id,
                         "semanticGroup": "outcome",
                         "port": "draw2d.OutputPort",
                         "locator": "draw2d.layout.locator.TopLocator"
@@ -446,7 +398,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 "outlineColor": "rgba(0,0,0,0)",
                 "fontSize": 11,
                 "fontColor": "rgba(255,255,255,1)",
-                "fontFamily": "Montserrat",
+                "fontFamily": "Montserrat, sans-serif",
             });
             if ((output.length - 1) != index && output.length != 1) {
                 outputObject[outputObject.length - 1]['ports'].push({
@@ -457,14 +409,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     "selectable": false,
                     "draggable": true,
                     "angle": 0,
-                    "userData": { sort_id: row.sort_id },
+                    "userData": { id: row.id },
                     "cssClass": "draw2d_InputPort",
                     "bgColor": "rgba(204,204,204,1)",
                     "color": "rgba(204,204,204,1)",
                     "stroke": 1,
                     "dasharray": null,
                     "maxFanOut": 9007199254740991,
-                    "name": "outputRight_" + row.sort_id,
+                    "name": "outputRight_" + row.id,
                     "semanticGroup": "output",
                     "port": "draw2d.InputPort",
                     "locator": "draw2d.layout.locator.RightLocator"
@@ -480,14 +432,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     "selectable": false,
                     "draggable": true,
                     "angle": 0,
-                    "userData": { sort_id: row.sort_id },
+                    "userData": { id: row.id },
                     "cssClass": "draw2d_OutputPort",
                     "bgColor": "rgba(204,204,204,1)",
                     "color": "rgba(204,204,204,1)",
                     "stroke": 1,
                     "dasharray": null,
                     "maxFanOut": 9007199254740991,
-                    "name": "outputLeft_" + row.sort_id,
+                    "name": "outputLeft_" + row.id,
                     "semanticGroup": "output",
                     "port": "draw2d.OutputPort",
                     "locator": "draw2d.layout.locator.LeftLocator"
@@ -519,14 +471,13 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "outlineColor": "rgba(0,0,0,0)",
             "fontSize": 20,
             "fontColor": "rgba(8,8,8,1)",
-            "fontFamily": "Montserrat",
+            "fontFamily": "Montserrat, sans-serif",
             "fontWeight": "bold"
         });
 
         let height = (outputY + 150) + ((output.length == 0)?150:0);
         this.canvasHeight = height + 'px';
-        let d = [...impactObject, ...outcomesObject, ...outputObject];
-        return d;
+        return [...impactObject, ...outcomesObject, ...outputObject];
     }
 
     // unique id
@@ -538,9 +489,10 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     
     //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.  
     selectindicator(id) {
-        if (this.isCanvasClear == false && this.indicatorService.selectedChart == 'indicator') {
-            this.indicatorService.selectedData[id] = !this.indicatorService.selectedData[id];
-        }
+        //TODO 
+        // if (this.isCanvasClear == false && this.indicatorService.selectedChart == 'indicator') {
+        //     this.indicatorService.selectedData[id] = !this.indicatorService.selectedData[id];
+        // }
     }
 
     //Code for chart's drag and drop functionality 
@@ -576,7 +528,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     var writer = new draw2d.io.json.Writer();
                     writer.marshal(that.canvas, function (json) {
                         if(that.isCanvasClear == false){
-                            that.indicatorService.canvasJson[that.indicatorService.selectedChart] = json;
+                            that.indicatorService.canvasJson = json;
                         }
                     });
                 }
@@ -586,7 +538,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             this.canvas.on("figure:add", function (emitter, event) {
                 if (event.figure.userData !== null) {
                     if (event.figure.userData.hasOwnProperty('sort_id')) {
-                        that.selectindicator(event.figure.userData.sort_id);
+                        that.selectindicator(event.figure.userData.id);
                     }
                 }
             });
@@ -597,7 +549,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 button.disabled = true
                 if (event.figure.userData !== null) {
                     if (event.figure.userData.hasOwnProperty('sort_id')) {
-                        that.selectindicator(event.figure.userData.sort_id);
+                        that.selectindicator(event.figure.userData.id);
                     }
                 }
             });

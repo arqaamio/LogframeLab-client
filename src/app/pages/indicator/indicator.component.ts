@@ -46,7 +46,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   pre(): void {
     this.current -= 1;
     if(this.indicatorService.currentStep == 3){
-      this.indicatorService.canvasJson = {"result":[], "indicator":[]};
+      this.indicatorService.canvasJson = [];
     }
 
     if(this.indicatorService.currentStep == 4 || this.indicatorService.currentStep == 3){
@@ -58,56 +58,30 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   next(): void {
     if (this.current == 3) {
       this.isSpinning = true;
-      let json = this.indicatorService.canvasJson[this.indicatorService.selectedChart];
+      let json = this.indicatorService.canvasJson;
       let connectioned = [];
-      let tempData = [];
       let totalSelected = 0;
-      if(this.indicatorService.selectedChart === 'result'){
-        this.indicatorService.collapseData.forEach((row) => {
-            row.data.forEach((d)=>{
-              totalSelected++;
-              tempData.push(d);
-            });
-        });
-      } else {
-        for(const field in this.indicatorService.selectedData){
-          if(this.indicatorService.selectedData[field]){
-            totalSelected++;
-          }
-        }
-      }
+      this.indicatorService.statementData.forEach((row) => {
+          totalSelected++;
+      });
+      
       let connection = json.filter(d => d.type === "draw2d.Connection");
       connection.forEach((data) => {
         let sourceNode = data.source.port.split('_')[1];
         let targetNode = data.target.port.split('_')[1];
-        if(this.indicatorService.selectedChart === 'indicator'){ 
-          if (this.indicatorService.selectedData.hasOwnProperty(sourceNode)) {
-            if(this.indicatorService.selectedData[sourceNode] == true){
-              if (connectioned.indexOf(sourceNode) == -1) {
-                connectioned.push(sourceNode);
-              }
-            }
-          }
-          if (this.indicatorService.selectedData.hasOwnProperty(targetNode)) {
-            if(this.indicatorService.selectedData[targetNode] == true){
-              if (connectioned.indexOf(targetNode) == -1) {
-                connectioned.push(targetNode);
-              }
-            }
-          }
-        } else {
-          if(connectioned.indexOf(sourceNode) == -1) {
-            connectioned.push(sourceNode);
-          }
-          if(connectioned.indexOf(targetNode) == -1) {
-            connectioned.push(targetNode);
-          }
+        
+        if(connectioned.indexOf(sourceNode) == -1) {
+          connectioned.push(sourceNode);
+        }
+        if(connectioned.indexOf(targetNode) == -1) {
+          connectioned.push(targetNode);
         }
       });
       
       if (totalSelected > connectioned.length) {
         this.isSpinning = false;
-        this.msg.error("Please make sure all the logical boxes are connected before you more to the next step.")
+        
+        this.msg.error("Please make sure all result statements are connected before you more to the next step.")
       } else {
         this.indicatorService.exportSvg.next('svgExport');
         setTimeout(() => {

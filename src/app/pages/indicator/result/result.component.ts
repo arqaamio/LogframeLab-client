@@ -37,6 +37,7 @@ export class ResultComponent implements OnInit {
   editId: string = null;
   listOfData = [];
   levelFilter = [{text:'OUTPUT', value: 'OUTPUT'}, {text:'OUTCOME', value: 'OUTCOME'}, {text:'IMPACT', value: 'IMPACT'}];
+  statusFilter= [{text:'GOOD', value:'GOOD'}, {text:'BAD', value: 'BAD'}];
   maxId:number = 0;
 
   constructor(public indicatorService: IndicatorService, public machineLearningService: MachineLearningService) { 
@@ -47,11 +48,11 @@ export class ResultComponent implements OnInit {
     // result api call
     this.machineLearningService.getStatements().subscribe((res: object) =>{
       this.indicatorService.loadingStart.next(false);
-      this.indicatorService.resultData = res;
+      
       this.listOfData = [...res[Level.IMPACT].map((x)=> {
         x.level = this.levelFilter[2].text;
         this.setLevelColor(x);
-        this.setStatus(x);
+        this.setStatusColor(x);
         this.setScoreGradient(x);
         x.id = this.maxId++;
         return x;
@@ -59,7 +60,7 @@ export class ResultComponent implements OnInit {
         ...res[Level.OUTCOME].map((x)=> {
           x.level = this.levelFilter[1].text;
           this.setLevelColor(x);
-          this.setStatus(x);
+          this.setStatusColor(x);
           this.setScoreGradient(x);
           x.id = this.maxId++;
           return x;
@@ -67,16 +68,17 @@ export class ResultComponent implements OnInit {
          ...res[Level.OUTPUT].map((x)=> {
           x.level = this.levelFilter[0].text;
           this.setLevelColor(x);
-          this.setStatus(x);
+          this.setStatusColor(x);
           this.setScoreGradient(x);
           x.id = this.maxId++;
           return x;
       })];
+      this.updateStatementData();
     });
   }
 
   // status wise add class
-  setStatus(x){
+  setStatusColor(x){
     x.status = x.status.toUpperCase();
     if(x.status == 'GOOD'){
       x.statusColor = 'green';
@@ -128,6 +130,7 @@ export class ResultComponent implements OnInit {
   stopEdit(listItem): void {
     this.setLevelColor(listItem);
     this.editId = null;
+    this.updateStatementData();
   }
 
   addRow(): void {
@@ -137,11 +140,13 @@ export class ResultComponent implements OnInit {
         id: this.maxId++
       }
     ];
+    this.updateStatementData();
   }
 
   deleteRow(index: number): void {
     console.log("Delete row:", index);
     this.listOfData = this.listOfData.filter((d, i) => i != index);
+    this.updateStatementData();
   }
 
   validateStatement(index: number): void {
@@ -149,8 +154,12 @@ export class ResultComponent implements OnInit {
     
     this.machineLearningService.validateStatement(this.listOfData[index].statement)
        .subscribe(x => {
-        
+        this.updateStatementData();
      });
+  }
+
+  updateStatementData(): void {
+    this.indicatorService.statementData = this.listOfData;
   }
   /**
    * Filter functions for each column
@@ -158,4 +167,6 @@ export class ResultComponent implements OnInit {
    * @param item Data's item
    */
   filterLevel = (list: string[], item) => list.some(value => item.level.indexOf(value) !== -1);
+  filterStatus = (list: string[], item) => list.some(value => item.status.indexOf(value) !== -1);
+
 }
