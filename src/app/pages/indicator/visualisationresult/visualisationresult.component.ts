@@ -480,11 +480,14 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     }
     
     //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.  
-    selectindicator(id) {
-        //TODO 
+    selectStatement(id: number) {
         // if (this.isCanvasClear == false && this.indicatorService.selectedChart == 'indicator') {
         //     this.indicatorService.selectedData[id] = !this.indicatorService.selectedData[id];
         // }
+    }
+
+    deleteStatement(id: number): void {
+        this.indicatorService.statementData = this.indicatorService.statementData.filter(x=>x.id!=id);
     }
 
     //Code for chart's drag and drop functionality 
@@ -529,8 +532,8 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             // add element like text label and connection
             this.canvas.on("figure:add", function (emitter, event) {
                 if (event.figure.userData !== null) {
-                    if (event.figure.userData.hasOwnProperty('sort_id')) {
-                        that.selectindicator(event.figure.userData.id);
+                    if (event.figure.userData.hasOwnProperty('id')) {
+                        that.selectStatement(event.figure.userData.id);
                     }
                 }
             });
@@ -540,8 +543,8 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 const button: any = document.querySelector('.delete');
                 button.disabled = true
                 if (event.figure.userData !== null) {
-                    if (event.figure.userData.hasOwnProperty('sort_id')) {
-                        that.selectindicator(event.figure.userData.id);
+                    if (event.figure.userData.hasOwnProperty('id')) {
+                        that.deleteStatement(event.figure.userData.id);
                     }
                 }
             });
