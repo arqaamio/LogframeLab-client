@@ -47,8 +47,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
 
     // result data map
     resultJsonMap(statementData){
-        let id = this.getUniqueId();
-        return statementData.map((d, index)=> ({id: id, name:d.statement}));
+        return statementData.map((d, index)=> ({id: d.id, name:d.statement}));
     }
 
     // data convert to canvas json 
@@ -478,13 +477,6 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
         let height = (outputY + 150) + ((output.length == 0)?150:0);
         this.canvasHeight = height + 'px';
         return [...impactObject, ...outcomesObject, ...outputObject];
-    }
-
-    // unique id
-    getUniqueId() {
-        let min = 200;
-        let max = 1000;
-        return Math.ceil(Math.random() * (max - min) + min);
     }
     
     //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.  
