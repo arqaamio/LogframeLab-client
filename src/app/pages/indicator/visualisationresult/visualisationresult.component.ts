@@ -399,51 +399,51 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 "fontColor": "rgba(255,255,255,1)",
                 "fontFamily": "Montserrat, sans-serif",
             });
-            if ((output.length - 1) != index && output.length != 1) {
-                outputObject[outputObject.length - 1]['ports'].push({
-                    "type": "draw2d.InputPort",
-                    "width": 10,
-                    "height": 10,
-                    "alpha": 1,
-                    "selectable": false,
-                    "draggable": true,
-                    "angle": 0,
-                    "userData": { id: row.id },
-                    "cssClass": "draw2d_InputPort",
-                    "bgColor": "rgba(204,204,204,1)",
-                    "color": "rgba(204,204,204,1)",
-                    "stroke": 1,
-                    "dasharray": null,
-                    "maxFanOut": 9007199254740991,
-                    "name": "outputRight_" + row.id,
-                    "semanticGroup": "output",
-                    "port": "draw2d.InputPort",
-                    "locator": "draw2d.layout.locator.RightLocator"
-                });
-            }
+            // if ((output.length - 1) != index && output.length != 1) {
+            //     outputObject[outputObject.length - 1]['ports'].push({
+            //         "type": "draw2d.InputPort",
+            //         "width": 10,
+            //         "height": 10,
+            //         "alpha": 1,
+            //         "selectable": false,
+            //         "draggable": true,
+            //         "angle": 0,
+            //         "userData": { id: row.id },
+            //         "cssClass": "draw2d_InputPort",
+            //         "bgColor": "rgba(204,204,204,1)",
+            //         "color": "rgba(204,204,204,1)",
+            //         "stroke": 1,
+            //         "dasharray": null,
+            //         "maxFanOut": 9007199254740991,
+            //         "name": "outputRight_" + row.id,
+            //         "semanticGroup": "output",
+            //         "port": "draw2d.InputPort",
+            //         "locator": "draw2d.layout.locator.RightLocator"
+            //     });
+            // }
 
-            if (index != 0 && output.length != 1) {
-                outputObject[outputObject.length - 1]['ports'].push({
-                    "type": "draw2d.OutputPort",
-                    "width": 10,
-                    "height": 10,
-                    "alpha": 1,
-                    "selectable": false,
-                    "draggable": true,
-                    "angle": 0,
-                    "userData": { id: row.id },
-                    "cssClass": "draw2d_OutputPort",
-                    "bgColor": "rgba(204,204,204,1)",
-                    "color": "rgba(204,204,204,1)",
-                    "stroke": 1,
-                    "dasharray": null,
-                    "maxFanOut": 9007199254740991,
-                    "name": "outputLeft_" + row.id,
-                    "semanticGroup": "output",
-                    "port": "draw2d.OutputPort",
-                    "locator": "draw2d.layout.locator.LeftLocator"
-                });
-            }
+            // if (index != 0 && output.length != 1) {
+            //     outputObject[outputObject.length - 1]['ports'].push({
+            //         "type": "draw2d.OutputPort",
+            //         "width": 10,
+            //         "height": 10,
+            //         "alpha": 1,
+            //         "selectable": false,
+            //         "draggable": true,
+            //         "angle": 0,
+            //         "userData": { id: row.id },
+            //         "cssClass": "draw2d_OutputPort",
+            //         "bgColor": "rgba(204,204,204,1)",
+            //         "color": "rgba(204,204,204,1)",
+            //         "stroke": 1,
+            //         "dasharray": null,
+            //         "maxFanOut": 9007199254740991,
+            //         "name": "outputLeft_" + row.id,
+            //         "semanticGroup": "output",
+            //         "port": "draw2d.OutputPort",
+            //         "locator": "draw2d.layout.locator.LeftLocator"
+            //     });
+            // }
         });
 
         outputObject.push({
