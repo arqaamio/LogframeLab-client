@@ -531,10 +531,8 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
 
             // add element like text label and connection
             this.canvas.on("figure:add", function (emitter, event) {
-                if (event.figure.userData !== null) {
-                    if (event.figure.userData.hasOwnProperty('id')) {
-                        that.selectStatement(event.figure.userData.id);
-                    }
+                if (event.figure.userData !== null && event.figure.userData.hasOwnProperty('id')) {
+                    that.selectStatement(event.figure.userData.id);
                 }
             });
 
@@ -542,10 +540,8 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             this.canvas.on("figure:remove", function (emitter, event) {
                 const button: any = document.querySelector('.delete');
                 button.disabled = true
-                if (event.figure.userData !== null) {
-                    if (event.figure.userData.hasOwnProperty('id')) {
-                        that.deleteStatement(event.figure.userData.id);
-                    }
+                if (event.figure.userData && event.figure.userData.hasOwnProperty('id')) {
+                    that.deleteStatement(event.figure.userData.id);
                 }
             });
         });

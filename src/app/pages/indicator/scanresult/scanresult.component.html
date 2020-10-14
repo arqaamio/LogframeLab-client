@@ -77,7 +77,7 @@
         <tr>
           <th
             nzWidth="80px"
-            nzColumnKey="baselinevalue"
+            nzColumnKey="baselineValue"
             nz-popover
             nzPopoverTitle="Baseline Value"
             nzPopoverContent="This is the baseline value."
@@ -90,7 +90,7 @@
             nz-popover
             nzPopoverTitle="Level"
             nzPopoverContent="These are the levels of the indicators."
-            nzWidth="10%"
+            nzWidth="7%"
             nzShowFilter
             [nzFilters]="searchFilter.level"
             [nzFilterFn]="filterLevel"
@@ -98,7 +98,6 @@
             Level
           </th>
           <th
-            nzWidth="30%"
             nz-popover
             nzPopoverTitle="Indicator"
             nzPopoverContent="The phrasing of the actual indicator. Some indicators may need to be further specified accordingly."
@@ -126,7 +125,7 @@
             nz-popover
             nzPopoverTitle="Disaggregation"
             nzPopoverContent="If the indicator requires disaggregation. As a rule of thumb, whenever people are counted, there should a disaggregation (at least by sex)."
-            nzWidth="15%"
+            nzWidth="10%"
             style="font-size: 10px"
             nzBreakWord
             nzShowFilter
@@ -178,19 +177,18 @@
           </th>
           <th
             nz-popover
-            nzPopoverTitle="Keyword frequency"
-            nzPopoverContent="The number of times the document triggers the keywords of each indicator. Ideally you do not want to use indicators with a keyword frequency of less than 10."
+            nzPopoverTitle="Score"
+            nzPopoverContent="Quality of the indicator"
             nzWidth="10%"
-            *ngIf="showKeywordCol"
+            *ngIf="showScoreCol"
           >
-            Keyword Frequency
+            Score
             <nz-slider
               (nzOnAfterChange)="onAfterChange($event)"
               [nzTooltipVisible]="'default'"
               [nzRange]="true"
-              [nzMin]="sliderMinValue"
-              [nzMax]="sliderMaxValue"
-              [ngModel]="[10, sliderMaxValue]"
+              [nzMin]="0"
+              [nzMax]="100"
             ></nz-slider>
           </th>
         </tr>
@@ -198,17 +196,12 @@
       <tbody>
         <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
           <tr
-            (click)="selectindicator(data.sort_id, data)"
-            [class.row-checked]="mapOfCheckedId[data.sort_id]"
+            (click)="selectindicator(data.indicator.id, data)"
+            [class.row-checked]="mapOfCheckedId[data.indicator.id]"
           >
             <td [nzExpand]="expandSet.has(data.indicator.id)" (nzExpandChange)="onExpandChange(data.indicator.id, $event)" *ngIf="isWorldBankIndicator(data)"></td>
             <!-- Empty cell when there isnt a expand cell-->
             <td *ngIf="!isWorldBankIndicator(data)"></td>
-            <!-- <td
-              nzShowCheckbox
-              [(nzChecked)]="mapOfCheckedId[data.sort_id]"
-              (nzCheckedChange)="refreshStatus()"
-            ></td> -->
             <td>
               <nz-tag [nzColor]="data.indicator.color"
                 >{{ data.indicator.level }}
@@ -245,7 +238,7 @@
             >
               {{ printArray(data.indicator.sdgCode, 'name') }}
             </td>
-            <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
+            <td *ngIf="showScoreCol">{{ data.indicator.score }}</td>
           </tr>
           <tr [nzExpand]="expandSet.has(data.indicator.id)">
             <span>Country: </span>
@@ -254,7 +247,7 @@
             </nz-select>
             <span style="margin-left: 5px;">Year: </span>
             <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(data, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="data.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
-            <span style="margin-left: 5px;">Baseline value: <strong>{{ data.baseLineValue }}</strong></span>
+            <span style="margin-left: 5px;">Baseline value: <strong>{{ data.baselineValue }}</strong></span>
           </tr>
         </ng-template>
       </tbody>
@@ -292,7 +285,7 @@
               nz-popover
               nzPopoverTitle="Level"
               nzPopoverContent="These are the levels of the indicators."
-              nzWidth="10%"
+              nzWidth="7%"
               nzShowFilter
               [nzFilters]="searchFilter.level"
               [nzFilterFn]="filterLevel"
@@ -383,16 +376,15 @@
               nzPopoverTitle="Keyword frequency"
               nzPopoverContent="The number of times the document triggers the keywords of each indicator. Ideally you do not want to use indicators with a keyword frequency of less than 10."
               nzWidth="10%"
-              *ngIf="showKeywordCol"
+              *ngIf="showScoreCol"
             >
               Keyword Frequency
               <nz-slider
                 (nzOnAfterChange)="onAfterChange($event)"
                 [nzTooltipVisible]="'default'"
                 [nzRange]="true"
-                [nzMin]="sliderMinValue"
-                [nzMax]="sliderMaxValue"
-                [ngModel]="[10, sliderMaxValue]"
+                [nzMin]="0"
+                [nzMax]="100"
               ></nz-slider>
             </th>
             <th>
@@ -445,7 +437,7 @@
               >
                 {{ printArray(data.indicator.sdgCode, 'name') }}
               </td>
-              <td *ngIf="showKeywordCol">{{ data.indicator.numTimes }}</td>
+              <td *ngIf="showScoreCol">{{ data.indicator.score }}</td>
               <td (click)="removeSelectedIndicator(data)">
                 <i
                   nz-icon

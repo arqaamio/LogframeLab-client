@@ -13,7 +13,8 @@ export class IndicatorResponse {
     disaggregation: boolean;
     crsCode: Array<CRSCode>;
     sdgCode: Array<SDGCode>;
-    numTimes: number;
+    score: number;
     keys: Array<string>;
-    var: string;
+    date: string;
+    value: string;
 }
