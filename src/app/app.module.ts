@@ -59,6 +59,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { IndicatorsUploadModule } from './indicators-upload/indicators-upload.module';
 
 registerLocaleData(en);
 
@@ -68,7 +69,6 @@ export const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   { path: 'login', component: SigninComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
-  { path: '', component: IndicatorComponent },
   {
     path: 'manage-indicators',
     loadChildren: () =>
@@ -84,13 +84,7 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
-  {
-    path: 'indicators-upload',
-    loadChildren: () =>
-      import('./indicators-upload/indicators-upload.module').then(
-        (m) => m.IndicatorsUploadModule
-      ),
-  },
+  { path: '', component: IndicatorComponent },
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
@@ -141,7 +135,8 @@ export const routes: Routes = [
     NzPopoverModule,
     NzPopconfirmModule,
     NzDropDownModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    IndicatorsUploadModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
