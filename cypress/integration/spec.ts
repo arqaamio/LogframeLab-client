@@ -33,8 +33,6 @@ describe('Home Page', ()=> {
     cy.contains('SDGs:');
     cy.contains('Levels:');
     cy.contains('DACs:');
-    cy.contains('Frequency of Keywords:');
-
 
     cy.get('.disclaimerText').contains('Disclaimer: Uploading data here is safe. You can trust us with your info, because we never save it anywhere. The algorithm uses your text to scan for keywords and retains access to it only so you can complete the procedure. Your data is discarded as soon as you click ‘done’ in the 6th step, or if you refresh the window before you’re done. We cannot access your information at any point.');
     // cy.get('.ant-upload-text').contains('CLICK TO THIS AREA TO UPLOAD');
