@@ -293,36 +293,51 @@ background-color: #453457;
   max-width: 48rem;
   }*/
 
-.feedbackIcon {
+
+#stepButton {
+  top: 25%;
+  background: #a5c2ae;
+  right: -65px;
+  width: 8rem;
+}
+#feedbackButton {
+  top: 31%;
+  right: -98px;
+  width: 10rem;
+}
+
+#uploadButton {
+  top: 37%;
+}
+
+.sideButton {
   z-index: 9999;
   display: flex;
   position: absolute;
-  top: 20%;
-  right: 0;
+  right: -145px;
   background: #453457;
   border-radius: 0.6rem 0 0 0.6rem;
   font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
   align-items: center;
-  justify-content: center;
   height: 3rem;
-  width: 7rem;
+  width: 13rem;
+  i {
+    margin-left: 5px;
+    margin-right: 10px;
+    font-size: 2rem;
+  }
+  border: none;
+  transition: right 2s;
 }
 
-#uploadButton {
-  z-index: 9999;
-  display: flex;
-  position: absolute;
-  bottom: 20%;
-  right: 0;
-  background: #453457;
-  border-radius: 0.6rem 0 0 0.6rem;
-//  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
-//  width: 7rem;
+#stepButton:hover {
+  right: 0px;
+}
+#feedbackButton:hover {
+  right: 0px;
+}
+.sideButton:hover {
+  right: 0px;
 }
