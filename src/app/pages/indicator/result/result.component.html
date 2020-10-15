@@ -72,10 +72,10 @@
             </td>
             <td (click)="$event.stopPropagation()">
               <!--<i nz-icon nzType="edit" class="edit-icon" (click)="$event.stopPropagation();edit(i, index);" nzTheme="fill"></i>-->
-              <i nz-icon nzType="plus-circle" class="add-icon" (click)="addRow();" nzTheme="fill"></i>
-              <i nz-icon nzType="check-circle" class="check-icon" (click)="validateStatement(index);" nzTheme="fill"></i>
+              <i nz-icon nzType="plus-circle" class="add-icon" (click)="addRow();" nzTheme="fill" title="Add statement"></i>
+              <i nz-icon nzType="check-circle" class="check-icon" (click)="validateStatement(index);" nzTheme="fill" title="Validate statement"></i>
               <a nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete this statement?" (nzOnConfirm)="deleteRow(index)">
-                <i nz-icon nzType="close-circle" class="delete-icon" nzTheme="fill"></i>
+                <i nz-icon nzType="close-circle" class="delete-icon" nzTheme="fill" title="Delete statement"></i>
               </a>
           
             </td>
