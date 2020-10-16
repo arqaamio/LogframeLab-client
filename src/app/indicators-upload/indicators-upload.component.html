@@ -7,11 +7,22 @@
   nzPopoverVisibleChange
   nzPopoverTrigger="click"
   [nzPopoverContent]="contentTemplate"
-  class="stepIcon"
+  class="sideButton"
+  id="stepButton"
   [nzPopoverPlacement]="'rightTop'"
 >
-  ?
+<i nz-icon nzType="question"></i> Help
 </button>
+<a href="https://feedback.logframelab.ai" target="_blank">
+  <button
+    nz-button
+    nzType="question"
+    class="sideButton"
+    id="feedbackButton"
+  >
+  <i nz-icon nzType="bulb"></i>
+    Feedback
+  </button></a>
 
 <ng-template #contentTemplate>
   <div class="stepInfo">
@@ -64,3 +75,4 @@
     </div>
   </div>
 </div>
+
