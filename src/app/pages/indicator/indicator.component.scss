@@ -332,12 +332,9 @@ background-color: #453457;
   transition: right 2s;
 }
 
-#stepButton:hover {
+#stepButton:hover, #feedbackButton:hover, .sideButton:hover {
   right: 0px;
 }
-#feedbackButton:hover {
-  right: 0px;
-}
-.sideButton:hover {
-  right: 0px;
+::ng-deep .ant-btn-primary {
+  background-color: #453457;
 }

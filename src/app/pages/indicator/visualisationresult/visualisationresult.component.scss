@@ -16,7 +16,14 @@ body{
 }
 .smallscreen{
   min-height: 300px;
+  width: 1400px;
 }
+@media (max-width:1170px) {
+  .smallscreen {
+    width:100%;
+  }
+}
+
 .row {
     display: flex;
     overflow: auto;

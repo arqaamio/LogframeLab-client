@@ -27,21 +27,21 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isCanvasClear = true;
+        // this.isCanvasClear = true;
     }
 
     ngOnInit(): void {
-        timer(800).subscribe(() => {
-            if (this.indicatorService.canvasJson.length == 0) {
+        timer(2000).subscribe(() => {
+            // if (this.indicatorService.canvasJson.length == 0) {
                 let statementImpact = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'IMPACT'));
                 let statementOutcome = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTCOME'));
                 let statementOutput = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT'));
                 // draw chart function
                 this.setFlowChart(this.generateCanvasJson(statementImpact, statementOutcome, statementOutput));
-            } else {
-                // re-draw chart function
-                this.setFlowChart(this.indicatorService.canvasJson);
-            }
+            // } else {
+            //     // re-draw chart function
+            //     this.setFlowChart(this.indicatorService.canvasJson);
+            // }
         });
     }
 

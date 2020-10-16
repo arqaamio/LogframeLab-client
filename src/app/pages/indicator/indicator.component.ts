@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit, TemplateRef, ViewChild } f
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-indicator',
@@ -17,10 +18,9 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   isSpinning: boolean = false;
   visible: boolean = false;
 
-
   constructor(
-    private msg: NzMessageService,
-    private indicatorService: IndicatorService
+    private indicatorService: IndicatorService,
+    private modal: NzModalService
   ) { }
 
   ngOnInit() {
@@ -80,15 +80,20 @@ export class IndicatorComponent implements OnInit, OnDestroy {
       
       if (totalSelected > connectioned.length) {
         this.isSpinning = false;
-        
-        this.msg.error("Please make sure all result statements are connected before you more to the next step.")
+        this.modal.confirm({
+          nzTitle: 'Are you sure you want to continue?',
+          nzContent: 'It seems not all boxes are connected',
+          nzCancelText: 'Go Back',
+          // nzStyle: {""},
+          nzOkText: 'Proceed',
+          nzOnOk: () =>
+            new Promise((resolve, reject) => {
+              this.saveSVGAndProceed();
+              this.modal.closeAll();
+            }).catch(() => console.log('Oops errors!'))
+        });
       } else {
-        this.indicatorService.exportSvg.next('svgExport');
-        setTimeout(() => {
-          this.isSpinning = false;
-          this.current += 1;
-          this.indicatorService.currentStep = this.current;
-        }, 2000);
+        this.saveSVGAndProceed();
       }
     } else {
         if(this.current === 1 || this.current === 2 || this.current === 3) {
@@ -116,5 +121,14 @@ export class IndicatorComponent implements OnInit, OnDestroy {
 
   change(value: boolean): void {
     console.log(value);
+  }
+
+  saveSVGAndProceed() {
+    this.indicatorService.exportSvg.next('svgExport');
+        setTimeout(() => {
+          this.isSpinning = false;
+          this.current += 1;
+          this.indicatorService.currentStep = this.current;
+        }, 2000);
   }
 }
