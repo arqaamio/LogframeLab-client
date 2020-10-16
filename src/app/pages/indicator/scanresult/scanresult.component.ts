@@ -107,31 +107,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
-
-                
-                let mapLevels: Map<string, FilterData> = new Map();
-                let mapSource: Map<string, FilterData> = new Map();
-                let mapSDGCode: Map<string, FilterData> = new Map();
-                let mapCRSCode: Map<string, FilterData> = new Map();
-                let mapSector: Map<string, FilterData> = new Map();
-                let mapDisag: Map<string, FilterData> = new Map();
-
-
-                this.listOfData.forEach((x)=>{
-                  mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
-                  x.indicator.source.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
-                  x.indicator.sdgCode.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
-                  x.indicator.crsCode.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
-                  mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
-                  mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
-                })
-                let array: [];
-                mapLevels.forEach((value: FilterData, _)=> {[...this.searchFilter.level, value]});
-                mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
-                mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
-                mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
-                mapSector.forEach((value, _)=> {this.searchFilter.sector.push(value);});
-                mapDisag.forEach((value, _)=> {this.searchFilter.disaggregation.push(value);});
                 this.showLoading = false;
 
               }
@@ -154,6 +129,32 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
             this.showLoading = false;
           }
+
+          
+                
+          let mapLevels: Map<string, FilterData> = new Map();
+          let mapSource: Map<string, FilterData> = new Map();
+          let mapSDGCode: Map<string, FilterData> = new Map();
+          let mapCRSCode: Map<string, FilterData> = new Map();
+          let mapSector: Map<string, FilterData> = new Map();
+          let mapDisag: Map<string, FilterData> = new Map();
+
+
+          this.listOfData.forEach((x)=>{
+            mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
+            x.indicator.source.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
+            x.indicator.sdgCode.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
+            x.indicator.crsCode.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
+            mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
+            mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
+          })
+          let array: [];
+          mapLevels.forEach((value: FilterData, _)=> {[...this.searchFilter.level, value]});
+          mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
+          mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
+          mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
+          mapSector.forEach((value, _)=> {this.searchFilter.sector.push(value);});
+          mapDisag.forEach((value, _)=> {this.searchFilter.disaggregation.push(value);});
           //TODO: Fix this, this can't be here
           let enableNextButton = false;
           for (const key in this.mapOfCheckedId) {
