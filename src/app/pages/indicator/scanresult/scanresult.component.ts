@@ -79,7 +79,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit(): void {
-   
+
     this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
       .pipe(
@@ -108,7 +108,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
                 this.showLoading = false;
-
               }
             });
           }
@@ -129,9 +128,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
             this.showLoading = false;
           }
-
-          
-                
           let mapLevels: Map<string, FilterData> = new Map();
           let mapSource: Map<string, FilterData> = new Map();
           let mapSDGCode: Map<string, FilterData> = new Map();
@@ -148,8 +144,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
             mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
           })
-          let array: [];
-          mapLevels.forEach((value: FilterData, _)=> {[...this.searchFilter.level, value]});
+          mapLevels.forEach((value, _)=> {this.searchFilter?.level.push(value);});
           mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
           mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
           mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
@@ -243,7 +238,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     //  }
     this.refreshStatus();
   }
-  
+
   /**
    * Triggered when selected item in the table
    * Updates the list of selected indicators and clear search of selected indicator
@@ -286,7 +281,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     if (this.downloadDisabled) {
       this.indicatorService.setSelectedData(null);
       this.indicatorService.updateNextButton(false);
-    } else {      
+    } else {
       this.indicatorService.setSelectedData(this.selectedIndicators);
       this.indicatorService.updateNextButton(true);
     }
