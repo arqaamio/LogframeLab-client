@@ -204,7 +204,7 @@ export class IndicatorService {
     return this.http.get<Map<string, string>>(this.baseUrl + '/worldbank/country');
   }
 
-  getWorldBankBaselineValue(indicatorId:string, countryCode:string, year:number):Observable<any> {
+  getWorldBankBaselineValue(indicatorId:number, countryCode:string, year:number):Observable<any> {
     return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
   }
 }

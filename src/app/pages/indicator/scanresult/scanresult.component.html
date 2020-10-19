@@ -75,15 +75,9 @@
       <thead (nzSortOrderChange)="sort($event, false)">
         <!--TODO nzSingleSort-->
         <tr>
-          <th
-            nzWidth="80px"
-            nzColumnKey="baselineValue"
-            nz-popover
-            nzPopoverTitle="Baseline Value"
-            nzPopoverContent="This is the baseline value."
-          >
-            Baseline Value
-          </th>
+          <th nzWidth="3%"></th>
+          <th nzWidth="3%"
+          ></th>
           <th
             nzShowSort
             nzColumnKey="level"
@@ -196,12 +190,22 @@
       <tbody>
         <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
           <tr
-            (click)="selectindicator(data.indicator.id, data)"
+            (click)="selectIndicator(data)"
             [class.row-checked]="mapOfCheckedId[data.indicator.id]"
           >
-            <td [nzExpand]="expandSet.has(data.indicator.id)" (nzExpandChange)="onExpandChange(data.indicator.id, $event)" *ngIf="isWorldBankIndicator(data)"></td>
+          <td class="propertiesCell" (click)="showPropertiesModal(data)"><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
+          </td>
+          <td
+            nzShowCheckbox
+            [nzChecked]="mapOfCheckedId[data.indicator.id]"
+            (nzCheckedChange)="selectIndicator(data, $event)"
+          >
+        </td>
+          <!-- (nzCheckedChange)="onItemChecked(data.indicator.id, $event)" -->
+
+            <!-- <td [nzExpand]="expandSet.has(data.indicator.id)" (nzExpandChange)="onExpandChange(data.indicator.id, $event)" *ngIf="isWorldBankIndicator(data)"></td> -->
             <!-- Empty cell when there isnt a expand cell-->
-            <td *ngIf="!isWorldBankIndicator(data)"></td>
+            <!-- <td *ngIf="!isWorldBankIndicator(data)"></td> -->
             <td>
               <nz-tag [nzColor]="data.indicator.color"
                 >{{ data.indicator.level }}
@@ -453,29 +457,91 @@
     </div>
   </ng-template>
 </div>
-<button
-  nz-button
+<div id="footerBar" *ngIf="this.selectedIndicators.length != 0">
+  <p>IMPACT</p>
+  <nz-tag [nzColor]="'#453457'"><strong>{{ impactCount }}</strong></nz-tag>
+
+  <p>OUTCOME</p>
+  <nz-tag [nzColor]="'#6B3C53'"><strong>{{ outcomeCount }}</strong></nz-tag>
+  <p>OUTPUT</p>
+  <nz-tag [nzColor]="'#637743'"><strong>{{ outputCount }}</strong></nz-tag>
+  
+  <p>TOTAL</p>
+  <nz-tag [nzColor]="'black'"><strong>{{ impactCount+outcomeCount+outputCount }}</strong></nz-tag>
+
+  <button nz-button id="showAllButton"
   nz-popover
   [nzPopoverContent]="contentTemplate"
   nzPopoverTrigger="click"
-  *ngIf="this.selectedIndicators.length != 0"
-  id="selectionButton"
->
-  <i
-    nz-icon
-    [nzType]="'check-circle'"
-    [nzTheme]="'twotone'"
-    [nzTwotoneColor]="'#52c41a'"
-  ></i>
-  <nz-badge [nzCount]="impactCount" [nzStyle]="{ backgroundColor: 'purple' }">
-  </nz-badge>
-  <nz-badge [nzCount]="outcomeCount" [nzStyle]="{ backgroundColor: 'red' }">
-  </nz-badge>
-  <nz-badge [nzCount]="outputCount" [nzStyle]="{ backgroundColor: 'green' }">
-  </nz-badge>
-  <nz-badge
-    [nzCount]="selectedIndicators.length"
-    [nzStyle]="{ backgroundColor: 'black' }"
-  >
-  </nz-badge>
-</button>
+  nzPopoverPlacement="topRight">
+    show all
+  </button>
+</div>
+<nz-modal [(nzVisible)]="isPropertiesModalActive" nzTitle="Indicator Properties" (nzOnCancel)="isPropertiesModalActive = false" (nzOnOk)="propertiesModalOkHandle()" nzWidth="90vw">
+  <div *ngIf="isWorldBankIndicator(activeItem)">
+    <h3><strong>Baseline Value</strong></h3>
+    <span>Country: </span>
+    <nz-select style="margin-left: 5px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(activeItem, $event)" nzPlaceHolder="Select a country" [(ngModel)]="activeItem.countryCodeSelected">
+      <nz-option *ngFor="let country of countriesList" nzLabel="{{country.label}}" nzValue="{{country.code}}"></nz-option>
+    </nz-select>
+    <span style="margin-left: 5px;">Year: </span>
+    <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(activeItem, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="activeItem.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
+    <nz-spin nzSimple *ngIf="showLoadingBaseline" id="baselineSpin"></nz-spin>
+    <span style="margin-left: 5px;">Baseline value: <strong>{{ activeItem.baselineValue }}</strong></span>
+  </div>
+  <h3><strong>Statements</strong></h3>
+  <nz-table
+      #statementTable
+      [nzData]="this.statementData"
+      [nzPageSize]="this.statementData.length"
+      nzShowPagination="false"
+      nzShowSizeChanger="false"
+      nzSize="middle"
+      nzBordered
+    >
+      <thead>
+        <tr>
+          <th nzWidth="3%"></th>
+          <th nzWidth="7%">
+            Level
+          </th>
+          <th style="font-weight: bold;">
+            Statement
+          </th>
+          <th nzWidth="5%">
+            Status
+          </th>
+          <th nzWidth="5%">
+            Score
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-data [ngForOf]="statementTable.data" let-index="index">
+          <tr>
+            <td
+            nzShowCheckbox
+            [nzChecked]="this.mapOfCheckedStatementsId[data.id]"
+            (nzCheckedChange)="selectStatement(data, $event)"
+          >
+            <td>
+                <nz-tag [nzColor]="data.colorLevel">{{ data.level }}
+              </nz-tag>
+            </td>
+            
+            <td>
+                {{ data.statement }}
+            </td>
+            <td>
+              <nz-tag [nzColor]="data.statusColor">
+                 {{ data.status }}
+              </nz-tag>
+            </td>
+            <td> 
+                {{data.score}}%
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </nz-table>
+</nz-modal>

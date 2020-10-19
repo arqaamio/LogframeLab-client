@@ -14,6 +14,7 @@ interface ItemData {
   countryCodeSelected:string;
   yearSelected:Date;
   baselineValue:any;
+  statements;
 }
 
 
@@ -40,7 +41,7 @@ export const WORLD_BANK_SOURCE_ID: number = 2;
 export const NO_VALUE: string = 'No Value';
 export const DISAG_YES_FILTER_DATA: FilterData = {text: 'Yes', value:0};
 export const DISAG_NO_FILTER_DATA: FilterData = {text: 'No', value:1};
-
+export const EMPTY_ACTIVE_ITEM: ItemData = {indicator: null, baselineValue: 0, yearSelected: new Date(), countryCodeSelected: '', statements: []};
 @Component({
   selector: 'app-scanresult',
   templateUrl: './scanresult.component.html',
@@ -51,6 +52,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
   downloadDisabled = true;
   mapOfCheckedId: { [key: string]: boolean } = {};
+  mapOfCheckedStatementsId: { [key: string]: boolean } = {};
   listOfData: ItemData[] = [];
   displayData: ItemData[] = [];
   selectedIndicators: ItemData[] = [];
@@ -64,7 +66,11 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   outcomeCount = 0;
   outputCount = 0;
   showLoading = true;
+  showLoadingBaseline: boolean = false;
   showScoreCol = true;
+  isPropertiesModalActive: boolean = false;
+  activeItem: ItemData = EMPTY_ACTIVE_ITEM;
+  statementData = null;
   myOptions = {
     placement: 'top',
     trigger: 'hover',
@@ -103,7 +109,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
 
               if(response != null && response.length > 0) {
-                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null}});
+                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null, statements: []}});
 
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
@@ -177,6 +183,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           });
         });
       });
+
+      this.statementData = this.indicatorService.statementData;
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
@@ -242,13 +250,14 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   /**
    * Triggered when selected item in the table
    * Updates the list of selected indicators and clear search of selected indicator
-   * @param id Sort Id of the selected indicator
    * @param item ItemData indicator
+   * @param selected Forced selected state of the indicator
    */
-  selectindicator(id, item: ItemData) {
+  selectIndicator(item: ItemData, selected?: boolean) {
     this.indicatorService.canvasJson = [];
-    this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
-    if(this.mapOfCheckedId[id]){
+    // Set item selected state. Should be selected if properties modal is open
+    this.mapOfCheckedId[item.indicator.id] = selected ? selected : !this.mapOfCheckedId[item.indicator.id] || this.isPropertiesModalActive;
+    if(this.mapOfCheckedId[item.indicator.id]){
       this.selectedIndicators.push(item);
     } else {
       this.selectedIndicators = this.selectedIndicators.filter(x=>x.indicator.id != item.indicator.id);
@@ -323,19 +332,28 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     return differenceInCalendarDays(current, new Date()) > 0;
   };
 
-  ngModelCountryChange(row, code){
-    row.countryCodeSelected = code;
+  ngModelCountryChange(item, code){
+    item.baselineValue = null;
+    item.countryCodeSelected = code;
+    this.getWorldBankBaselineValue(item);
   }
 
-  ngModelYearChange(row, date:Date){
-    row.baselineValue = null;
-    if(date){
-      this.indicatorService.getWorldBankBaselineValue(row.indicator.id, row.countryCodeSelected, date.getFullYear()).subscribe(data => {
+  ngModelYearChange(item, date:Date){
+    item.baselineValue = null;
+    item.yearSelected = date;
+    this.getWorldBankBaselineValue(item);
+  }
+
+  getWorldBankBaselineValue(item: ItemData) {
+    if(item.countryCodeSelected && item.yearSelected){
+      this.showLoadingBaseline = true
+      this.indicatorService.getWorldBankBaselineValue(item.indicator.id, item.countryCodeSelected, item.yearSelected.getFullYear()).subscribe(data => {
         console.log(data);
         if(data != null && data.length > 0)
-          row.baselineValue = data[0].value;
+          item.baselineValue = data[0].value;
         else
-          row.baselineValue = NO_VALUE;
+          item.baselineValue = NO_VALUE;
+        this.showLoadingBaseline = false;
       });
     }
   }
@@ -361,7 +379,31 @@ export class ScanResultComponent implements OnInit, OnDestroy {
    * Returns true if indicator has a source of the World Bank
    * @param indicator Indicator
    */
-  isWorldBankIndicator(indicator: ItemData): boolean {
-    return indicator.indicator.source.find(x=>x.id==WORLD_BANK_SOURCE_ID) != null;
+  isWorldBankIndicator(item: ItemData): boolean {
+    return item.indicator?.source?.find(x=>x.id==WORLD_BANK_SOURCE_ID) != null;
+  }
+  
+  showPropertiesModal(indicator: ItemData): void {
+    this.activeItem = indicator;
+    this.mapOfCheckedStatementsId = {};
+    this.activeItem.statements.forEach(x => {
+      this.mapOfCheckedStatementsId[x.id] = true;
+    });
+    this.isPropertiesModalActive = true;
+  }
+
+  propertiesModalOkHandle(): void {
+    this.isPropertiesModalActive = false;
+    this.mapOfCheckedStatementsId = {};
+    this.activeItem = EMPTY_ACTIVE_ITEM;
+  }
+
+  selectStatement(statement, selected): void {
+    this.mapOfCheckedStatementsId[statement.id] = selected;
+    if(selected) {
+      this.activeItem.statements = [...this.activeItem.statements, statement];
+    }else {
+      this.activeItem.statements = this.activeItem.statements.filter(x=>x.id != statement.id);
+    }
   }
 }
