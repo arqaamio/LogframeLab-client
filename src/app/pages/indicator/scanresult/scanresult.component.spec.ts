@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { NzModalModule } from 'ng-zorro-antd';
 
 
 describe('ScanResultComponent', () => {
@@ -21,7 +22,7 @@ describe('ScanResultComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [BrowserAnimationsModule, CommonModule, FormsModule, HttpClientTestingModule, NzAlertModule, NzSliderModule, NzTableModule, NzTagModule, NzMessageModule],
+            imports: [BrowserAnimationsModule, CommonModule, FormsModule, HttpClientTestingModule, NzAlertModule, NzSliderModule, NzTableModule, NzTagModule, NzMessageModule, NzModalModule],
             providers: [],
             declarations: [ScanResultComponent],
         }).compileComponents();
@@ -37,27 +38,27 @@ describe('ScanResultComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should be created', inject([IndicatorService], (service: IndicatorService) => {
+    it('should be create service', inject([IndicatorService], (service: IndicatorService) => {
         expect(service).toBeTruthy();
     }));
 
-    it('should create', () => {
+    it('should be created', () => {
         expect(component).toBeTruthy();
     });
 
     it('should filter by indicator\'s name without sorting', (inject([HttpTestingController],
         (httpMock: HttpTestingController) => {
             const expectedResult = [
-                {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-                {indicator: { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-                {indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" }
+                {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+                {indicator: { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+                {indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] }
             ];
             component.listOfData = [
-                {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: ""},
-                {indicator: { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: ""},
-                {indicator: { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: ""},
-                {indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: ""},
-                {indicator: { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: ""},
+                {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: []},
+                {indicator: { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: []},
+                {indicator: { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: []},
+                {indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: []},
+                {indicator: { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: []},
             ];
             component.searchValue = 'search';
             component.mapOfCheckedId = { '1': true, '3': true, '4': false };
@@ -73,11 +74,11 @@ describe('ScanResultComponent', () => {
 
     it('should filter by indicator\'s name without sorting and without selected', (inject([HttpTestingController],(httpMock: HttpTestingController) => {
         component.listOfData = [
-            {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null,score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
+            {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null,score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
         ];
         const expectedResult = [component.listOfData[0], component.listOfData[2], component.listOfData[3]];
         component.searchValue = 'search';
@@ -94,11 +95,11 @@ describe('ScanResultComponent', () => {
 
     it('should filter by indicator\'s name without sorting and with selected', (inject([HttpTestingController], (httpMock: HttpTestingController) => {
         component.listOfData = [
-            {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
+            {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: 'search', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 2, level: 'IMPACT', color: '', description: '', name: 'not this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 3, level: 'OUTPUT', color: '', description: '', name: 'Search stuff', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 4, level: 'OUTCOME', color: '', description: '', name: 'stuff SEARCH', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', name: 'or this', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 0, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
         ];
         const expectedResult = [component.listOfData[0], component.listOfData[2], component.listOfData[3]];
         component.searchValue = 'search';
@@ -133,10 +134,10 @@ describe('ScanResultComponent', () => {
 
     it('should update the display data', (inject([HttpTestingController], (httpMock: HttpTestingController) => {
         const data = [
-            {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 2, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 2, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 1, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 3, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 5, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" },
-            {indicator: { id: 4, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 3, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "" }
+            {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 2, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 2, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 1, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 3, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 5, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] },
+            {indicator: { id: 4, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 3, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] }
         ];
         const expectedResult = [data[0], data[2], data[3]];
         component.listOfData = data;

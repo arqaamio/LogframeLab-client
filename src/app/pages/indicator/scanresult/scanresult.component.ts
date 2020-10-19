@@ -70,7 +70,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   showScoreCol = true;
   isPropertiesModalActive: boolean = false;
   activeItem: ItemData = EMPTY_ACTIVE_ITEM;
-  statementData = null;
+  statementData = [];
   myOptions = {
     placement: 'top',
     trigger: 'hover',
@@ -143,12 +143,14 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
 
           this.listOfData.forEach((x)=>{
-            mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
-            x.indicator.source.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
-            x.indicator.sdgCode.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
-            x.indicator.crsCode.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
-            mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
-            mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
+            if(x.indicator){            
+              mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
+              x.indicator.source.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
+              x.indicator.sdgCode.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
+              x.indicator.crsCode.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
+              mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
+              mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
+            }
           })
           mapLevels.forEach((value, _)=> {this.searchFilter?.level.push(value);});
           mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
@@ -184,7 +186,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         });
       });
 
-      this.statementData = this.indicatorService.statementData;
+      this.statementData = this.indicatorService.statementData ? this.indicatorService.statementData : [];
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
@@ -272,6 +274,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.outputCount = 0;
     this.impactCount = 0;
     this.outcomeCount = 0;
+    console.log("this.displayData: ", this.displayData);
+    
     if (this.displayData.length > 0) {
       this.downloadDisabled = true;
       for (let item of this.displayData) {
