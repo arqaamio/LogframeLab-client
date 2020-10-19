@@ -274,7 +274,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.outputCount = 0;
     this.impactCount = 0;
     this.outcomeCount = 0;
-    console.log("this.displayData: ", this.displayData);
     
     if (this.displayData.length > 0) {
       this.downloadDisabled = true;
