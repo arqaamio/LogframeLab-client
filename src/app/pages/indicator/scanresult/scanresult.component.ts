@@ -14,7 +14,7 @@ interface ItemData {
   countryCodeSelected:string;
   yearSelected:Date;
   baselineValue:any;
-  statements;
+  statements: any[];
 }
 
 
@@ -389,9 +389,13 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   showPropertiesModal(indicator: ItemData): void {
     this.activeItem = indicator;
     this.mapOfCheckedStatementsId = {};
-    this.activeItem.statements.forEach(x => {
-      this.mapOfCheckedStatementsId[x.id] = true;
-    });
+    if(this.activeItem.statements){
+      this.activeItem.statements.forEach(x => {
+        this.mapOfCheckedStatementsId[x.id] = true;
+      });
+    } else {
+      this.activeItem.statements = [];
+    }
     this.isPropertiesModalActive = true;
   }
 
