@@ -35,6 +35,7 @@ import { routes } from './app.module';
 import { AuthGuard } from './utils/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { IndicatorService } from './services/indicator.service';
+import { NzDropDownModule } from 'ng-zorro-antd';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -59,6 +60,7 @@ describe('AppComponent', () => {
         NzProgressModule,
         NzAlertModule,
         NzIconModule,
+        NzDropDownModule
       ],
       declarations: [
         AppComponent,
@@ -78,7 +80,7 @@ describe('AppComponent', () => {
     }).compileComponents();
   }));
 
-  /*it('should create the app', async(() => {
+  it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
@@ -88,7 +90,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('LogframeLab');
-  }));*/
+  }));
 
   // it('should render title', () => {
   //  const fixture = TestBed.createComponent(AppComponent);

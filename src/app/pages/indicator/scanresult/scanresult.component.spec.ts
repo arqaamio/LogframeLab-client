@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { NzModalModule } from 'ng-zorro-antd';
+import { Source } from 'src/app/models/source.model';
 
 
 describe('ScanResultComponent', () => {
@@ -144,6 +145,22 @@ describe('ScanResultComponent', () => {
         // fixture.debugElement.query(By.css('nz-slider')).triggerEventHandler('nzOnAfterChange', [2,6]);
         // expect(component.displayData).toEqual(expectedResult);
     })));
+
+
+    it('should validate if indicator has a source of World Bank', () => {
+        let worldBankSource: Source = {id:2, name:"World Bank"};
+        let itemWorldBank = {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: [worldBankSource], disaggregation: false, crsCode: null, sdgCode: null, score: 2, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] };
+        let itemNotWorldBank = {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: [{id:99, name:"Other source"}], disaggregation: false, crsCode: null, sdgCode: null, score: 2, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] };
+        let itemEmptySource = {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: [], disaggregation: false, crsCode: null, sdgCode: null, score: 2, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] };
+        let itemNullSource = {indicator: { id: 1, level: 'IMPACT', color: '', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 2, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: [] };
+        
+        let itemNullIndicator = {indicator: null, countryCodeSelected: "", yearSelected:null, baselineValue: "", statements: []};
+        expect(component.isWorldBankIndicator(itemWorldBank)).toBe(true);
+        expect(component.isWorldBankIndicator(itemNotWorldBank)).toBe(false);
+        expect(component.isWorldBankIndicator(itemEmptySource)).toBe(false);
+        expect(component.isWorldBankIndicator(itemNullSource)).toBe(false);
+        expect(component.isWorldBankIndicator(itemNullIndicator)).toBe(false);
+    });
 
     afterEach(() => {
         fixture.destroy();
