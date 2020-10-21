@@ -193,19 +193,17 @@
             (click)="selectIndicator(data)"
             [class.row-checked]="mapOfCheckedId[data.indicator.id]"
           >
-          <td class="propertiesCell" (click)="showPropertiesModal(data)"><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
+          <td class="propertiesCell" (click)="showPropertiesModal(data)" 
+          *ngIf="isWorldBankIndicator(data) || data.indicator?.level !='IMPACT'"
+          ><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
           </td>
+          <td *ngIf="!(isWorldBankIndicator(data) || data.indicator?.level !='IMPACT')"></td>
           <td
             nzShowCheckbox
             [nzChecked]="mapOfCheckedId[data.indicator.id]"
             (nzCheckedChange)="selectIndicator(data, $event)"
           >
         </td>
-          <!-- (nzCheckedChange)="onItemChecked(data.indicator.id, $event)" -->
-
-            <!-- <td [nzExpand]="expandSet.has(data.indicator.id)" (nzExpandChange)="onExpandChange(data.indicator.id, $event)" *ngIf="isWorldBankIndicator(data)"></td> -->
-            <!-- Empty cell when there isnt a expand cell-->
-            <!-- <td *ngIf="!isWorldBankIndicator(data)"></td> -->
             <td>
               <nz-tag [nzColor]="data.indicator.color"
                 >{{ data.indicator.level }}
@@ -489,6 +487,7 @@
     <nz-spin nzSimple *ngIf="showLoadingBaseline" id="baselineSpin"></nz-spin>
     <span style="margin-left: 5px;">Baseline value: <strong>{{ activeItem.baselineValue }}</strong></span>
   </div>
+  <div *ngIf="activeItem.indicator?.level !='IMPACT'">
   <h3><strong>Statements</strong></h3>
   <nz-table
       #statementTable
@@ -544,4 +543,5 @@
         </ng-template>
       </tbody>
     </nz-table>
+  </div>
 </nz-modal>
