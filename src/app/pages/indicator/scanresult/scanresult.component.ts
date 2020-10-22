@@ -99,6 +99,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         if(data!=null){
           // with document
           if (isNewInfo && data.dataResponse != null) {
+            console.log("with document");
             this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null}});
             this.addFilters();
             this.indicatorService.setLoadedData(this.listOfData);
@@ -109,6 +110,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
           // without document
           if (isNewInfo && data.dataResponse == null){
+            console.log("Without document");
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
 
               if(response != null && response.length > 0) {
@@ -123,6 +125,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
           // without changes in the filters or documents
           if(!data.isNewInfo && data.dataResponse != null){
+            console.log("No changes");
             this.listOfData = data.dataResponse;
             this.displayData = this.listOfData;
             if(data.selectedData != null) {

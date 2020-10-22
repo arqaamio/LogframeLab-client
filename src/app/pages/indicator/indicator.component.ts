@@ -45,14 +45,17 @@ export class IndicatorComponent implements OnInit, OnDestroy {
 
   pre(): void {
     this.current -= 1;
-    if(this.indicatorService.currentStep == 3){
+    this.indicatorService.currentStep = this.current;
+    if(this.indicatorService.currentStep == 0) {
+      this.indicatorService.setLoadedData(null);
+    }
+    if(this.indicatorService.currentStep == 2){
       this.indicatorService.canvasJson = [];
     }
 
-    if(this.indicatorService.currentStep == 4 || this.indicatorService.currentStep == 3){
+    if(this.indicatorService.currentStep == 3 || this.indicatorService.currentStep == 2){
       this.isSpinning = true;
     }
-    this.indicatorService.currentStep = this.current;
   }
 
   next(): void {
