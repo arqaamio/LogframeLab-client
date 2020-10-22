@@ -100,6 +100,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           // with document
           if (isNewInfo && data.dataResponse != null) {
             this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null}});
+            this.addFilters();
             this.indicatorService.setLoadedData(this.listOfData);
             this.displayData = this.listOfData;
 
@@ -112,7 +113,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
               if(response != null && response.length > 0) {
                 this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null, statements: []}});
-
+                this.addFilters();
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
                 this.showLoading = false;
@@ -133,33 +134,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
               });
               this.refreshStatus();
             }
-
+            this.addFilters();
             this.showLoading = false;
-          }
-          let mapLevels: Map<string, FilterData> = new Map();
-          let mapSource: Map<string, FilterData> = new Map();
-          let mapSDGCode: Map<string, FilterData> = new Map();
-          let mapCRSCode: Map<string, FilterData> = new Map();
-          let mapSector: Map<string, FilterData> = new Map();
-          let mapDisag: Map<string, FilterData> = new Map();
+          } 
 
-
-          this.listOfData.forEach((x)=>{
-            if(x.indicator){            
-              mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
-              x.indicator.source?.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
-              x.indicator.sdgCode?.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
-              x.indicator.crsCode?.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
-              mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
-              mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
-            }
-          })
-          mapLevels.forEach((value, _)=> {this.searchFilter?.level.push(value);});
-          mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
-          mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
-          mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
-          mapSector.forEach((value, _)=> {this.searchFilter.sector.push(value);});
-          mapDisag.forEach((value, _)=> {this.searchFilter.disaggregation.push(value);});
           //TODO: Fix this, this can't be here
           let enableNextButton = false;
           for (const key in this.mapOfCheckedId) {
@@ -417,5 +395,35 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     }else {
       this.activeItem.statements = this.activeItem.statements.filter(x=>x.id != statement.id);
     }
+  }
+
+  /**
+   * Set filters for the table
+   */
+  addFilters(): void {
+    let mapLevels: Map<string, FilterData> = new Map();
+    let mapSource: Map<string, FilterData> = new Map();
+    let mapSDGCode: Map<string, FilterData> = new Map();
+    let mapCRSCode: Map<string, FilterData> = new Map();
+    let mapSector: Map<string, FilterData> = new Map();
+    let mapDisag: Map<string, FilterData> = new Map();
+
+
+    this.listOfData.forEach((x)=>{
+      if(x.indicator){
+        mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
+        x.indicator.source?.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
+        x.indicator.sdgCode?.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
+        x.indicator.crsCode?.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
+        mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
+        mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
+      }
+    })
+    mapLevels.forEach((value, _)=> {this.searchFilter.level = [...this.searchFilter.level, value];});
+    mapSource.forEach((value, _)=> {this.searchFilter.source = [...this.searchFilter.source, value];});
+    mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode = [...this.searchFilter.sdgCode, value];});
+    mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode= [...this.searchFilter.crsCode, value];});
+    mapSector.forEach((value, _)=> {this.searchFilter.sector = [...this.searchFilter.sector, value];});
+    mapDisag.forEach((value, _)=> {this.searchFilter.disaggregation = [...this.searchFilter.disaggregation, value];});
   }
 }
