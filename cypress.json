@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://dev.logframelab.ai/",
+  "baseUrl": "http://localhost:4200/",
   "supportFile": "cypress/support/index.ts",
   "reporter": "junit",
   "reporterOptions": {
