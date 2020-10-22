@@ -295,9 +295,9 @@ export class ScanResultComponent implements OnInit, OnDestroy {
    */
   filterLevel = (list: string[], item: ItemData) => list.some(value => item.indicator.level.indexOf(value) !== -1);
   filterSector = (list: string[], item: ItemData) => list.some(value => item.indicator.sector.indexOf(value) !== -1);
-  filterSource = (list: string[], item: ItemData) => list.some(value => item.indicator.source.some((x)=> {x.name == value}));
-  filterSDGCode = (list: string[], item: ItemData) => list.some(value => item.indicator.sdgCode.some((x)=> {x.name == value}));
-  filterCRSCode = (list: string[], item: ItemData) => list.some(value => item.indicator.crsCode.some((x)=> {x.name == value}));
+  filterSource = (list: number[], item: ItemData) => list.some(value => item.indicator.source.some(x=> x.id == value));
+  filterSDGCode = (list: number[], item: ItemData) => list.some(value => item.indicator.sdgCode.some(x=> x.id == value));
+  filterCRSCode = (list: number[], item: ItemData) => list.some(value => item.indicator.crsCode.some(x=> x.id == value));
   filterDisag = (list: string[], item: ItemData) => list.some(value => item.indicator.disaggregation === (value=='0'));
 
 
