@@ -120,8 +120,8 @@
         <td>{{ item.indicator.sourceVerification }}</td>
         <td>{{ item.indicator.sector }}</td>
         <td>{{ item.indicator.level.name }}</td>
-        <td style="color: green;" (click)="checkSimilarity(item.indicator.id)"><strong>&#10003;</strong></td>
-        <td style="color: red;" (click)="deleteIndicator(item.indicator.id)"><strong>X</strong></td>
+        <td style="color: green;cursor: pointer;" (click)="checkSimilarity(item.indicator.id)"><strong>&#10003;</strong></td>
+        <td style="color: red;cursor: pointer;" (click)="deleteIndicator(item.indicator.id)"><strong>X</strong></td>
       </tr>
       <ng-container *ngFor="let sim of item.similarIndicators" >
         <tr *ngIf="similarExpandSet.has(item.indicator.id)" class="similar-indicator">
@@ -140,7 +140,7 @@
           <td>{{ sim.sector }}</td>
           <td>{{ sim.level.name }}</td>
           <td></td>
-          <td style="color: red;" (click)="deleteIndicator(item.indicator.id, sim.id)"><strong>X</strong></td>
+          <td style="color: red;cursor: pointer;" (click)="deleteIndicator(item.indicator.id, sim.id)"><strong>X</strong></td>
         </tr>
       </ng-container>
     </ng-container>

@@ -60,10 +60,6 @@ export class IndicatorComponent implements OnInit, OnDestroy {
       this.isSpinning = true;
       let json = this.indicatorService.canvasJson;
       let connectioned = [];
-      let totalSelected = 0;
-      this.indicatorService.statementData.forEach((row) => {
-          totalSelected++;
-      });
       
       let connection = json.filter(d => d.type === "draw2d.Connection");
       connection.forEach((data) => {
@@ -78,7 +74,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
         }
       });
       
-      if (totalSelected > connectioned.length) {
+      if (this.indicatorService.statementData.length > connectioned.length) {
         this.isSpinning = false;
         this.modal.confirm({
           nzTitle: 'Are you sure you want to continue?',

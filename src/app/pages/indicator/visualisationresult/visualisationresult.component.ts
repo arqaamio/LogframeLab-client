@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { timer } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd';
 declare var draw2d: any;
 declare var window: any;
 declare var Toolbar: any;
@@ -22,7 +23,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     isCanvasClear: boolean = false;
     output: any[] = [];
 
-    constructor(private indicatorService: IndicatorService) {
+    constructor(private indicatorService: IndicatorService, private messageService: NzMessageService) {
         this.indicatorService.updateNextButton(true);
     }
 
@@ -31,18 +32,23 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        timer(2000).subscribe(() => {
-            // if (this.indicatorService.canvasJson.length == 0) {
-                let statementImpact = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'IMPACT'));
-                let statementOutcome = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTCOME'));
-                let statementOutput = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT'));
-                // draw chart function
-                this.setFlowChart(this.generateCanvasJson(statementImpact, statementOutcome, statementOutput));
-            // } else {
-            //     // re-draw chart function
-            //     this.setFlowChart(this.indicatorService.canvasJson);
-            // }
-        });
+        if(this.indicatorService.statementData.length > 0){
+            timer(2000).subscribe(() => {
+                // if (this.indicatorService.canvasJson.length == 0) {
+                    let statementImpact = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'IMPACT'));
+                    let statementOutcome = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTCOME'));
+                    let statementOutput = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT'));
+                    // draw chart function
+                    this.setFlowChart(this.generateCanvasJson(statementImpact, statementOutcome, statementOutput));
+                // } else {
+                //     // re-draw chart function
+                //     this.setFlowChart(this.indicatorService.canvasJson);
+                // }
+            });
+        } else {
+            setTimeout(()=>this.indicatorService.loadingStart.next(false), 1000);
+            this.messageService.warning("As there are no statements in the results tabs, this tab is empty and can be ignored. Please click NEXT to get to the download section");
+        }
     }
 
     // result data map
