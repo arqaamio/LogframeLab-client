@@ -70,6 +70,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   showScoreCol = true;
   isPropertiesModalActive: boolean = false;
   activeItem: ItemData = EMPTY_ACTIVE_ITEM;
+  outcomeStatements = [];
+  outputStatements = [];
   statementData = [];
   myOptions = {
     placement: 'top',
@@ -145,9 +147,9 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           this.listOfData.forEach((x)=>{
             if(x.indicator){            
               mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
-              x.indicator.source.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
-              x.indicator.sdgCode.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
-              x.indicator.crsCode.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
+              x.indicator.source?.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
+              x.indicator.sdgCode?.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
+              x.indicator.crsCode?.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
               mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
               mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
             }
@@ -186,7 +188,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         });
       });
 
-      this.statementData = this.indicatorService.statementData ? this.indicatorService.statementData : [];
+      this.outcomeStatements = this.indicatorService.statementData?.filter(x=>x.level=='OUTCOME');
+      this.outputStatements = this.indicatorService.statementData?.filter(x=>x.level=='OUTPUT');
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
@@ -388,6 +391,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   
   showPropertiesModal(indicator: ItemData): void {
     this.activeItem = indicator;
+    this.statementData = this.activeItem.indicator.level == 'OUTCOME' ?
+      this.outcomeStatements : this.outputStatements;
     this.mapOfCheckedStatementsId = {};
     if(this.activeItem.statements){
       this.activeItem.statements.forEach(x => {
