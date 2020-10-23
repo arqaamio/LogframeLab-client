@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { take, tap } from 'rxjs/operators';
-import { FilterDto, Level } from 'src/app/services/dto/filter.dto';
+import { FilterDto } from 'src/app/services/dto/filter.dto';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { interval } from 'rxjs/internal/observable/interval';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { RxStompService } from '@stomp/ng2-stompjs';
 
@@ -28,11 +26,11 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
   selectedValues = new FilterDto();
   filterOptions = new FilterDto();
   progress = 0;
+  @Output() loadingStart = new EventEmitter<any>();
   fileScanned = true;
 
   constructor(
     private indicatorService: IndicatorService,
-    private msg: NzMessageService,
     private rxStompService: RxStompService
   ) {
     // can't be in ngOnInit because of Angular Lifecycle Hooks
@@ -113,7 +111,11 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
             this.indicatorService.setIsNewInfo(true);
             this.indicatorService.setLoadedData(event.body);
             this.indicatorService.setFileUploadList([item.file]);
-            setTimeout(()=>this.indicatorService.pressNextButton(), 1000);
+           
+            setTimeout(()=> {
+              this.indicatorService.pressNextButton();
+              this.indicatorService.loadingStart.next(true);
+            }, 1000);
         }
       });
   }
@@ -134,17 +136,23 @@ export class SelectdocumentComponent implements OnInit, OnDestroy {
    * @param filter Filter to check
    * @param value Value of the filter to check
    */
-  isNotSelected(filter: string, value: any): boolean {
-    return this.selectedValues[filter].indexOf(value) === -1;
+  isOptionSelected(filter: string, value: any): boolean {
+    if(filter ==='sector'){
+      return this.selectedValues[filter].indexOf(value) !== -1;
+    } else {
+      return this.selectedValues[filter].some(x=>x.id == value.id);
+    }
+    
   }
 
   /**
-   * Compares levels so see if they are the same
-   * @param level1 Level
-   * @param level2 Level
+   * Compares items so see if they are the equal
+   * @param item1 Item
+   * @param item2 Item 2
+   * @returns Whether both items are equal or not
    */
-  compare = (level1: Level, level2: Level): boolean =>
-    level1 && level2 ? level1.id === level2.id : level1 === level2;
+  compare = (item1: any, item2: any): boolean =>
+    item1 && item2 ? item1.id === item2.id : item1 === item2;
 
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();

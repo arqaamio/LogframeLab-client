@@ -18,19 +18,19 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 })
 export class IndicatorService {
   private baseUrl = environment.apiBaseUrl;
-
   private fileList: NzUploadFile[] = null;
   private filters: FilterDto = null;
   public dataResponse: any = null;
-  // private selectedData: { [key: string]: boolean } = null;
-  public selectedData = null;
+  public statementData: any[] = null;
+  public selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
-  public canvasJson: any = [];
+  public canvasJson: any[] = [];
   private nextButtonSubject = new BehaviorSubject<any>(null);
   private isNewInfo: boolean = true;
   private nextButton: boolean = false;
   public currentStep: number = 0;
+  public loadingStart = new BehaviorSubject<any>(false);
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
   private nextSubject() {
@@ -53,6 +53,7 @@ export class IndicatorService {
     this.exportSvg.next(null);
     this.currentStep = 0;
     this.canvasJson = [];
+    this.statementData = null;
   }
 
   setSelectedData(selectedData) {
@@ -199,11 +200,11 @@ export class IndicatorService {
       { responseType: 'blob', observe: 'response' }
     );
   }
-  getWoldBanlCountries():Observable<any> {
-    return this.http.get(this.baseUrl + '/worldbank/country')
+  getWorldBankCountries():Observable<Map<string, string>> {
+    return this.http.get<Map<string, string>>(this.baseUrl + '/worldbank/country');
   }
 
-  getWoldBanlBaselineValue(indicatorId:string, countryCode:string, year:number):Observable<any> {
+  getWorldBankBaselineValue(indicatorId:number, countryCode:string, year:number):Observable<any> {
     return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
   }
 }

@@ -128,6 +128,9 @@ a:hover{
   color: white;
 }
 
+.ant-table-row-expand-icon {
+  color: black;
+}
 //login input (username and password input
 .ant-input-affix-wrapper-focused {
   border-color: #453457;
@@ -204,4 +207,47 @@ app-manage-indicators {
 
 .ant-popover {
   max-width: 90vw !important;
+}
+
+
+#stepButton {
+  top: 25%;
+  background: #a5c2ae;
+  right: -65px;
+  width: 8rem;
+}
+#feedbackButton {
+  top: 31%;
+  right: -98px;
+  width: 10rem;
+}
+
+#uploadButton {
+  top: 37%;
+}
+
+.sideButton {
+  z-index: 9999;
+  display: flex;
+  position: absolute;
+  right: -145px;
+  background: #453457;
+  border-radius: 0.6rem 0 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  align-items: center;
+  height: 3rem;
+  width: 13rem;
+  i {
+    margin-left: 5px;
+    margin-right: 10px;
+    font-size: 2rem;
+  }
+  border: none;
+  transition: right 2s;
+}
+
+#stepButton:hover, #feedbackButton:hover, .sideButton:hover {
+  right: 0px;
 }

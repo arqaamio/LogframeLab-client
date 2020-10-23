@@ -29,3 +29,47 @@
 .red-color {
   color: red;
 }
+
+#footerBar {
+  background-color: #453457ab;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  z-index: 1000;
+
+  p {
+    color: white;
+    margin-left: 35px;
+    margin-right: 10px;
+    font-weight: bolder;
+  }
+  p, nz-tag {
+    float: left;
+  }
+
+  > * {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+#showAllButton {
+  float: right;
+  margin-right: 10%;
+  color: white;
+  background-color: unset;
+}
+
+.propertiesCell {
+  background-color: #A5C2AE;
+  color: white;
+  font-size: 1.5rem;
+
+}
+
+#baselineSpin {
+  margin-left: 5px;
+  margin-right: 5px;
+  display: inline-block;
+}

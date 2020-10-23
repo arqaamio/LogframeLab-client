@@ -12,7 +12,7 @@
             *ngFor="let option of filterOptions.sector"
             [nzLabel]="option"
             [nzValue]="option"
-            [nzHide]="!isNotSelected('sector', option)"
+            [nzHide]="isOptionSelected('sector', option)"
           ></nz-option>
         </nz-select>
       </div>
@@ -23,12 +23,13 @@
           nzPlaceHolder="Filter by sources"
           [(ngModel)]="selectedValues.source"
           (ngModelChange)="onChangeFilter('source', $event)"
+          [compareWith]="compare"
         >
           <nz-option
             *ngFor="let option of filterOptions.source"
             [nzLabel]="option.name"
             [nzValue]="option"
-            [nzHide]="!isNotSelected('source', option)"
+            [nzHide]="isOptionSelected('source', option)"
           ></nz-option>
         </nz-select>
       </div>
@@ -39,12 +40,13 @@
           nzPlaceHolder="Filter by SDGs"
           [(ngModel)]="selectedValues.sdgCode"
           (ngModelChange)="onChangeFilter('sdgCode', $event)"
+          [compareWith]="compare"
         >
           <nz-option
             *ngFor="let option of filterOptions.sdgCode"
             [nzLabel]="option.name"
             [nzValue]="option"
-            [nzHide]="!isNotSelected('sdgCode', option)"
+            [nzHide]="isOptionSelected('sdgCode', option)"
           ></nz-option>
         </nz-select>
       </div>
@@ -61,7 +63,7 @@
             *ngFor="let option of filterOptions.level"
             [nzLabel]="option.name"
             [nzValue]="option"
-            [nzHide]="!isNotSelected('level', option)"
+            [nzHide]="isOptionSelected('level', option)"
           ></nz-option>
         </nz-select>
       </div>
@@ -72,18 +74,15 @@
           nzPlaceHolder="Filter by DACs"
           [(ngModel)]="selectedValues.crsCode"
           (ngModelChange)="onChangeFilter('crsCode', $event)"
+          [compareWith]="compare"
         >
           <nz-option
             *ngFor="let option of filterOptions.crsCode"
             [nzLabel]="option.name"
             [nzValue]="option"
-            [nzHide]="!isNotSelected('crsCode', option)"
+            [nzHide]="isOptionSelected('crsCode', option)"
           ></nz-option>
         </nz-select>
-      </div>
-      <div>
-        <label>Frequency of Keywords:</label><br />
-        <nz-slider [nzTooltipVisible]="'default'"></nz-slider>
       </div>
   </div>
   <nz-upload

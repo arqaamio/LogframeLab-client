@@ -69,8 +69,8 @@ export class ApproveUploadedIndicatorsComponent extends IndicatorsManagement imp
     this.updateAllChecked(false);
   }
 
-  fetchByFilters() {
-    this.search(true, true);
+  refreshIndicatorList(refresh: boolean) {
+    this.search(refresh, true);
   }
 
   approveSelected() {

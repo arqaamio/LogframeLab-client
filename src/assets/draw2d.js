@@ -34290,7 +34290,11 @@ _packages2.default.policy.connection.ClickConnectionCreatePolicy = _packages2.de
         this.beeline = null;
         this.pulse = null;
         this.tempConnection = null;
-
+		this.portClick = null;
+		$(document).on('change', '#chartSelect', function(){
+			this.portClick = null;
+			localStorage.removeItem("startedLine");
+		})
         this.vertices = [];
     },
 
@@ -34312,22 +34316,26 @@ _packages2.default.policy.connection.ClickConnectionCreatePolicy = _packages2.de
 
         if (port === null && this.port1 === null) {
             return;
-        }
-
+		}
+		
         // nothing found at all
-        //
-        if (port === null) {
-            this.vertices.push(new _packages2.default.geo.Point(x, y));
-            this.beeline.setStartPosition(x, y);
-            this.tempConnection.setVertices(this.vertices);
-            if (this.pulse !== null) {
-                this.pulse.remove();
-                this.pulse = null;
-            }
-            this.ripple(x, y, 0);
+        if (this.portClick != null && !(port instanceof _packages2.default.Port)) {
+			try{				
+				this.vertices.push(new _packages2.default.geo.Point(x, y));
+				this.beeline.setStartPosition(x, y);
+				this.tempConnection.setVertices(this.vertices);
+				if (this.pulse !== null) {
+					this.pulse.remove();
+					this.pulse = null;
+				}
+				this.ripple(x, y, 0);
+				localStorage.setItem("startedLine", "true");
+			} catch(eror){
+			
+			}
             return;
-        }
-
+		}
+		
         //just consider ports
         //
         if (!(port instanceof _packages2.default.Port)) {
@@ -34366,7 +34374,8 @@ _packages2.default.policy.connection.ClickConnectionCreatePolicy = _packages2.de
 
             this.tempConnection.hide = function () {
                 _this.tempConnection.setCanvas(null);
-            };
+			};
+			this.portClick = port;
 
             this.tempConnection.show = function (canvas) {
                 _this.tempConnection.setCanvas(canvas);
@@ -34397,10 +34406,35 @@ _packages2.default.policy.connection.ClickConnectionCreatePolicy = _packages2.de
         var request = new _packages2.default.command.CommandType(_packages2.default.command.CommandType.CONNECT);
         request.source = this.port1;
         request.target = port;
-
+		let sourcePorts = [];
+		let targetPorts = [];
+		this.canvas.getLines().each(function (i, conn) {
+			var sourcePort = conn.getSource();
+			var targetPort = conn.getTarget();
+			sourcePorts.push(sourcePort.name);
+			targetPorts.push(targetPort.name);
+		});
+		
+		if(sourcePorts.indexOf(request.source.name) !== -1 && targetPorts.indexOf(request.target.name) !== -1){
+			//this.canvas.getCommandStack().commitTransaction();
+			this.currentDropTarget = null;
+			this.mouseDraggingElement = null;
+			this.beeline.hide();
+            this.tempConnection.hide();
+            if (this.pulse !== null) {
+                this.pulse.remove();
+                this.pulse = null;
+            }
+            this.beeline = null;
+            this.port1 = null;
+			this.vertices = [];
+			this.portClick = null;
+			localStorage.removeItem("startedLine");
+			return false;
+		}
         var command = null;
         if (this.port1 instanceof _packages2.default.InputPort) {
-            command = this.port1.createCommand(request);
+			command = this.port1.createCommand(request);
         } else {
             command = port.createCommand(request);
         }
@@ -34416,7 +34450,8 @@ _packages2.default.policy.connection.ClickConnectionCreatePolicy = _packages2.de
                 this.pulse = null;
             }
             this.beeline = null;
-            this.port1 = null;
+			this.port1 = null;
+			this.portClick = null;
             this.vertices = [];
         }
     },
@@ -34453,7 +34488,9 @@ _packages2.default.policy.connection.ClickConnectionCreatePolicy = _packages2.de
             this.tempConnection.hide();
             this.beeline = null;
             this.port1 = null;
-            this.vertices = [];
+			this.vertices = [];
+			this.portClick = null;
+			localStorage.removeItem("startedLine");
             if (this.pulse != null) {
                 this.pulse.remove();
                 this.pulse = null;
@@ -34467,11 +34504,19 @@ _packages2.default.policy.connection.ClickConnectionCreatePolicy = _packages2.de
             connection.setRouter(new _packages2.default.layout.connection.InteractiveManhattanConnectionRouter());
         } else {
             connection.setRouter(new _packages2.default.layout.connection.VertexRouter());
-            connection.setVertices(this.vertices);
+			connection.setVertices(this.vertices);			
+			if(this.port1.cssClass == "draw2d_OutputPort"){
+				connection.setTargetDecorator(new draw2d.decoration.connection.ArrowDecorator(10, 10));
+			} else {
+				connection.setSourceDecorator(new draw2d.decoration.connection.ArrowDecorator(10, 10));
+			}
+			localStorage.removeItem("startedLine");
         }
 		connection.setRadius(10);
 		connection.setColor('rgba(204,204,204,1)');
-		connection.setTargetDecorator(new draw2d.decoration.connection.ArrowDecorator(10, 10));
+
+		//console.log("targetPort", sourcePort)
+		
         return connection;
     }
 
@@ -34693,8 +34738,11 @@ _packages2.default.policy.connection.ConnectionCreatePolicy = _packages2.default
 			color: "rgba(204,204,204,1)",
             router: new draw2d.layout.connection.InteractiveManhattanConnectionRouter()
 		});
-	
-		con.setTargetDecorator(new draw2d.decoration.connection.ArrowDecorator(10, 10));
+		var test = localStorage.getItem("startedLine");
+		if(test == null){
+			con.setTargetDecorator(new draw2d.decoration.connection.ArrowDecorator(10, 10));
+		}
+		
 		return con;
     },
 
@@ -35092,8 +35140,7 @@ _packages2.default.policy.connection.OrthogonalConnectionCreatePolicy = _package
         var UP = _packages2.default.geo.Rectangle.DIRECTION_UP;
         var RIGHT = _packages2.default.geo.Rectangle.DIRECTION_RIGHT;
         var DOWN = _packages2.default.geo.Rectangle.DIRECTION_DOWN;
-        var LEFT = _packages2.default.geo.Rectangle.DIRECTION_LEFT;
-
+		var LEFT = _packages2.default.geo.Rectangle.DIRECTION_LEFT;
         var _this = this;
         var port = figure; // .getCanvas().getBestFigure(x, y);
 
@@ -35193,17 +35240,19 @@ _packages2.default.policy.connection.OrthogonalConnectionCreatePolicy = _package
             }
 
             // check whenever the target port allows a connection
-            //
+			//
+		
             var request = new _packages2.default.command.CommandType(_packages2.default.command.CommandType.CONNECT);
             request.source = this.port1;
-            request.target = port;
+			request.target = port;
+			
             var command = null;
             if (this.port1 instanceof _packages2.default.InputPort) {
                 command = this.port1.createCommand(request);
             } else {
                 command = port.createCommand(request);
             }
-
+			
             if (command !== null) {
                 var connection = this.createConnection();
                 command.setConnection(connection);
@@ -61550,10 +61599,8 @@ _packages2.default.shape.node.Node = _packages2.default.Figure.extend(
 	  sourcePorts.push(sourcePort.name);
 	  targetPorts.push(targetPort.name);
     });
-	console.log(targetPorts, sourcePorts, newPort, locator);
 	var curentsourcePort = newPort.getSource();
 	var curenttargetPort = newPort.getTarget();
-	console.log(curentsourcePort, curenttargetPort);
     this.addPort(newPort, locator);
     // relayout the ports
     this.setDimension(this.width, this.height);

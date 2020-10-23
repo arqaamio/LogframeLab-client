@@ -1,5 +1,4 @@
-
-    <div id="step1" *ngIf="current === 0 || current === 1 || current === 2">
+    <div id="step1" *ngIf="current === 0 || current === 1 || current === 2 || current === 3">
       <button
         nz-button
         nzType="question"
@@ -9,10 +8,11 @@
         (nzPopoverVisibleChange)="change($event)"
         nzPopoverTrigger="click"
         [nzPopoverContent]="contentTemplate"
-        class="stepIcon"
+        class="sideButton"
+        id="stepButton"
         [nzPopoverPlacement]="'rightTop'"
       >
-        ?
+      <i nz-icon nzType="question"></i> Help
       </button>
       <ng-template #contentTemplate>
         <div class="stepInfo" *ngIf="current == 0">
@@ -30,6 +30,11 @@
         </div>
         <div class="step2Info" *ngIf="current == 1">
           <p>
+            
+          </p>
+        </div>
+        <div class="step2Info" *ngIf="current == 2">
+          <p>
             Here are the suggested indicators for you, based on the keywords in your
             document and the sectors selected. Indicators are categorised as Impacts,
             Outcomes, or Outputs. If you have not uploaded a document, we are showing
@@ -42,7 +47,7 @@
             that you wish to include in your logframe.
           </p>
         </div>
-        <div class="step2Info" *ngIf="current == 2">
+        <div class="step2Info" *ngIf="current == 3">
           <p>
             In this step you are able to view the success indicators in a visualization
             format. These indicators are derived from the selection you did in previous          
@@ -68,23 +73,22 @@
         <a (click)="clickClose()">Close</a>
       </ng-template>
     </div>
-    
-<nz-spin [nzSpinning]="isSpinning" [nzIndicator]="indicatorTemplate">
 
+<nz-spin [nzSpinning]="isSpinning" [nzIndicator]="indicatorTemplate">
   <div class="content-section">
-    <section class="stepSection">
-  </section>
   <nz-steps [nzCurrent]="current">
     <nz-step nzTitle="SELECTION" nzIcon="folder"></nz-step>
     <nz-step nzTitle="RESULT" nzIcon="bars"></nz-step>
+    <nz-step nzTitle="INDICATORS" nzIcon="dashboard"></nz-step>
     <nz-step nzTitle="VISUALISATION" nzIcon="eye"></nz-step>
     <nz-step nzTitle="DOWNLOAD" nzIcon="download"></nz-step>
   </nz-steps>
   <div class="steps-content">
     <app-selectdocument *ngIf="current === 0"> </app-selectdocument>
-    <app-scanresult *ngIf="current === 1"> </app-scanresult>
-    <app-visualisationresult *ngIf="current === 2" (loadingStart)="onLoading($event)"> </app-visualisationresult>
-    <app-downloadresult *ngIf="current === 3"> </app-downloadresult>
+    <app-result *ngIf="current === 1"> </app-result>
+    <app-scanresult *ngIf="current === 2"> </app-scanresult>
+    <app-visualisationresult *ngIf="current === 3"> </app-visualisationresult>
+    <app-downloadresult *ngIf="current === 4"> </app-downloadresult>
   </div>
   <div class="steps-action">
     <button
@@ -106,7 +110,7 @@
       class="steps-button"
       nzType="default"
       (click)="next()"
-      [hidden]="current === 3"
+      [hidden]="current === 4"
       id="nextButton"
     >
       <span>Next</span>
@@ -116,16 +120,26 @@
       class="steps-button"
       nzType="primary"
       (click)="done()"
-      [hidden]="current !== 3"
+      [hidden]="current !== 4"
     >
       <span>Done</span>
     </button>
   </div>
 </div>
-<button id="uploadButton" nz-button nzType="primary" routerLink="/indicators-upload"><i nz-icon nzType="cloud-upload"></i>Submit Indicators</button>
 </nz-spin>
 <ng-template #indicatorTemplate>
   <div class="loading-row">
     <i nz-icon nzType="loading"></i>
   </div>
 </ng-template>
+<a href="https://feedback.logframelab.ai" target="_blank">
+<button
+  nz-button
+  nzType="question"
+  class="sideButton"
+  id="feedbackButton"
+>
+<i nz-icon nzType="bulb"></i>
+  Feedback
+</button></a>
+<button id="uploadButton" nz-button nzType="question" routerLink="/indicators-upload" class="sideButton"><i nz-icon nzType="cloud-upload"></i>Submit Indicators</button>

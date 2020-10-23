@@ -12,6 +12,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -28,22 +29,11 @@ import { SelectdocumentComponent } from './pages/indicator/selectdocument/select
 import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.component';
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
-import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { routes } from './app.module';
 import { HttpClientModule } from '@angular/common/http';
-import { APP_BASE_HREF } from '@angular/common';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzSliderModule } from 'ng-zorro-antd/slider';
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NotFoundComponent } from './pages/notfound/notfound.component';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 describe('AppComponent', () => {
   beforeEach(() => {
@@ -82,20 +72,8 @@ describe('AppComponent', () => {
         NzStepsModule,
         NzProgressModule,
         NzAlertModule,
-        ProfileMenuModule,
-        NzMenuModule,
-        NzInputModule,
-        NzFormModule,
-        NzSelectModule,
-        NzSliderModule,
         NzIconModule,
-        NzBadgeModule,
-        NzDropDownModule,
-        NzPopoverModule,
-        NzDatePickerModule
-      ],
-      providers: [
-        { provide: APP_BASE_HREF, useValue: '/' }
+        NzDropDownModule
       ]
     }).compileComponents();
   });

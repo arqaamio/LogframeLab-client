@@ -45,11 +45,11 @@ describe('DownloadResultComponent', () => {
     //TODO test not complete
     it('should download in the word format', async(inject([HttpTestingController], (httpMock: HttpTestingController) => {
         component.dataExport = [
-            { id: 1, level: 'IMPACT', color: '', description: '', label: 'Indicator 1', keys: [], var: '' },
-            { id: 2, level: 'IMPACT', color: '', description: '', label: 'Indicator 2',  keys: [], var: '' },
-            { id: 3, level: 'OUTPUT', color: '', description: '', label: 'Indicator 3',  keys: [], var: '' },
-            { id: 4, level: 'OUTCOME', color: '', description: '', label: 'Indicator 4', keys: [], var: '' },
-            { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', label: 'Indicator 5', keys: [], var: '' },
+            { id: 1, level: 'IMPACT', color: '', description: '', label: 'Indicator 1', keys: [], date:'', value: '' },
+            { id: 2, level: 'IMPACT', color: '', description: '', label: 'Indicator 2',  keys: [], date:'', value: '' },
+            { id: 3, level: 'OUTPUT', color: '', description: '', label: 'Indicator 3',  keys: [], date:'', value: '' },
+            { id: 4, level: 'OUTCOME', color: '', description: '', label: 'Indicator 4', keys: [], date:'', value: '' },
+            { id: 5, level: 'OTHER_OUTCOMES', color: '', description: '', label: 'Indicator 5', keys: [] },
         ];
         expect(element.getElementsByTagName('a').length).toEqual(6);
         //const response: Observable<HttpResponse<Blob>> = Observable.create(new HttpResponse<Blob>({body: new Blob()}));
