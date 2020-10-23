@@ -13,6 +13,20 @@ describe('Submit indicators Page', ()=> {
         cy.contains('Upload');
     });
 
+    it('should display help', ()=> {
+        cy.contains('Close').should('not.be.visible');
+        cy.get('#stepButton').should('be.visible');
+        cy.get('#stepButton').click();
+        cy.contains('Close').should('be.visible');
+        cy.contains('Close').click();
+        cy.contains('Close').should('not.be.visible');
+    });
+    
+    /*it('should go to the feedback page', ()=> {
+        cy.get('#feedbackButton').should('be.visible');
+        cy.get('#feedbackButton').should('have.prop', 'href', 'https://feedback.logframelab.ai');
+    });*/
+
     // it('should download template', () => {
     //     cy.route('**/indicator/template/xlsx', Cypress.Blob());
     //     cy.contains(DOWNLOAD_ELEMTNT_STRING).click().then(()=> {
