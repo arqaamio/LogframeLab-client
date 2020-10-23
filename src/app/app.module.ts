@@ -173,7 +173,7 @@ export const routes: Routes = [
     {
       provide: ErrorHandler,
       useClass: ErrorHandlerService
-    },
+    }
   ],
   bootstrap: [AppComponent],
   schemas:[NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA]

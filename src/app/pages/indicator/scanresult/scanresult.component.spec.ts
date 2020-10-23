@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { NzModalModule } from 'ng-zorro-antd';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { Source } from 'src/app/models/source.model';
 
 

@@ -52,7 +52,12 @@ describe('Home Page', ()=> {
     cy.contains('Filter by Sector').click();
     cy.contains('Poverty').click();
     cy.get('#nextButton').click({ force: true }).then(()=> {
-      cy.get('#nextButton').should('not.be.visible');
+      cy.contains('Level');
+      cy.contains('Statement');
+      cy.contains('Status');
+      cy.contains('Score');
+      cy.contains('Action');
+      cy.get('#nextButton').should('be.visible');
       cy.contains('Done').should('not.be.visible');
     });
   });

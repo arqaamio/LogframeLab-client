@@ -62,7 +62,6 @@ export class IndicatorsManagement {
       ? this.manageIndicatorsService.getIndicatorsForApproval(this.page, this.pageSize, this.filters)
       : this.manageIndicatorsService.getIndicators(this.page, this.pageSize, this.filters);
 
-    // TODO: Fix deprecated
     forkJoin([filtersRequest, indicatorsRequest]).subscribe(results => {
       const filters = results[0];
 
