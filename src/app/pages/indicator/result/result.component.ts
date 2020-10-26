@@ -45,36 +45,41 @@ export class ResultComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // result api call
-    this.machineLearningService.getStatements().subscribe((res: object) =>{
+    if(this.indicatorService.statementData){
+      this.listOfData = this.indicatorService.statementData;
       this.indicatorService.loadingStart.next(false);
-      
-      this.listOfData = [...res[Level.IMPACT].map((x)=> {
-        x.level = this.levelFilter[2].text;
-        this.setLevelColor(x);
-        this.setStatusColor(x);
-        this.setScoreGradient(x);
-        x.id = this.maxId++;
-        return x;
-      }),
-        ...res[Level.OUTCOME].map((x)=> {
-          x.level = this.levelFilter[1].text;
+    }else {
+    // result api call
+      this.machineLearningService.getStatements().subscribe((res: object) =>{
+        
+        this.listOfData = [...res[Level.IMPACT].map((x)=> {
+          x.level = this.levelFilter[2].text;
           this.setLevelColor(x);
           this.setStatusColor(x);
           this.setScoreGradient(x);
           x.id = this.maxId++;
           return x;
-       }),
-         ...res[Level.OUTPUT].map((x)=> {
-          x.level = this.levelFilter[0].text;
-          this.setLevelColor(x);
-          this.setStatusColor(x);
-          this.setScoreGradient(x);
-          x.id = this.maxId++;
-          return x;
-      })];
-      this.updateStatementData();
-    });
+        }),
+          ...res[Level.OUTCOME].map((x)=> {
+            x.level = this.levelFilter[1].text;
+            this.setLevelColor(x);
+            this.setStatusColor(x);
+            this.setScoreGradient(x);
+            x.id = this.maxId++;
+            return x;
+        }),
+          ...res[Level.OUTPUT].map((x)=> {
+            x.level = this.levelFilter[0].text;
+            this.setLevelColor(x);
+            this.setStatusColor(x);
+            this.setScoreGradient(x);
+            x.id = this.maxId++;
+            return x;
+        })];
+        this.updateStatementData();
+        this.indicatorService.loadingStart.next(false);
+      });
+    }
   }
 
   // status wise add class
@@ -128,7 +133,6 @@ export class ResultComponent implements OnInit {
   }
 
   stopEdit(listItem): void {
-    this.setLevelColor(listItem);
     this.editId = null;
     this.updateStatementData();
   }
@@ -169,4 +173,8 @@ export class ResultComponent implements OnInit {
   filterLevel = (list: string[], item) => list.some(value => item.level.indexOf(value) !== -1);
   filterStatus = (list: string[], item) => list.some(value => item.status.indexOf(value) !== -1);
 
+  levelChangeHandle(listItem){
+    this.setLevelColor(listItem);
+    this.updateStatementData();
+  }
 }

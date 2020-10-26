@@ -36,6 +36,7 @@ import { AuthGuard } from './utils/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { IndicatorService } from './services/indicator.service';
 import { NzDropDownModule } from 'ng-zorro-antd';
+import { APP_BASE_HREF } from '@angular/common';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -77,6 +78,9 @@ describe('AppComponent', () => {
         VisualisationresultComponent,
         DownloadResultComponent,
       ],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: '/' }
+      ]    
     }).compileComponents();
   }));
 
