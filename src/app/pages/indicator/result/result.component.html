@@ -35,7 +35,7 @@
       </thead>
       <tbody>
         <ng-template ngFor let-data [ngForOf]="dynamicTable.data" let-index="index">
-          <tr>
+          <tr class="editable-row">
             <td>
               <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
                 <nz-tag [nzColor]="data.colorLevel"
@@ -43,7 +43,7 @@
               </nz-tag>
               </div>
               <nz-select id="level" name="level" [(ngModel)]="data.level" nzPlaceHolder="Level"
-              [hidden]="editId !== data.id">
+              [hidden]="editId !== data.id" (ngModelChange)="levelChangeHandle(data)">
                 <nz-option *ngFor="let level of levelFilter" [nzLabel]="level.text"
                             [nzValue]="level.text"></nz-option>
               </nz-select>

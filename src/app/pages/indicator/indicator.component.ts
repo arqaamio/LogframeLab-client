@@ -20,6 +20,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
 
   constructor(
     private indicatorService: IndicatorService,
+    private messageService: NzMessageService,
     private modal: NzModalService
   ) { }
 
@@ -48,6 +49,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     this.indicatorService.currentStep = this.current;
     if(this.indicatorService.currentStep == 0) {
       this.indicatorService.setLoadedData(null);
+      this.indicatorService.statementData = null;
     }
     if(this.indicatorService.currentStep == 2){
       this.indicatorService.canvasJson = [];
@@ -59,7 +61,29 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    if (this.current == 3) {
+    if (this.current == 1) {
+      if(this.indicatorService.statementData.filter(x=>x.level =='IMPACT').length > 1){
+        this.modal.confirm({
+          nzTitle: 'Are you sure you want to continue?',
+          nzContent: 'There should be only 1 Impact statement',
+          nzCancelText: 'Go Back',
+          nzOkText: 'Proceed',
+          nzOnOk: () =>
+            new Promise((resolve, reject) => {
+            this.isSpinning = true;
+            this.current += 1;
+            this.indicatorService.currentStep = this.current;
+            this.modal.closeAll();
+            }).catch(() => console.log('Oops errors!'))
+        });
+      } else if(this.indicatorService.statementData.filter(x=>x.level == null).length > 0){
+        this.messageService.error('Set level for all indicators');
+      }else {
+        this.isSpinning = true;
+        this.current += 1;
+        this.indicatorService.currentStep = this.current;
+      }
+    }else if (this.current == 3) {
       this.isSpinning = true;
       let json = this.indicatorService.canvasJson;
       let connectioned = [];
@@ -83,7 +107,6 @@ export class IndicatorComponent implements OnInit, OnDestroy {
           nzTitle: 'Are you sure you want to continue?',
           nzContent: 'It seems not all boxes are connected',
           nzCancelText: 'Go Back',
-          // nzStyle: {""},
           nzOkText: 'Proceed',
           nzOnOk: () =>
             new Promise((resolve, reject) => {
@@ -95,7 +118,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
         this.saveSVGAndProceed();
       }
     } else {
-        if(this.current === 1 || this.current === 2 || this.current === 3) {
+        if(this.current === 2) {
             this.isSpinning = true;
         }
         setTimeout(() => {

@@ -26,6 +26,7 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
             if(x.indicator.date && x.indicator.value) {
               x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
               x.indicator.value = x.baselineValue;
+              x.indicator.statement = x.statement;
             }
             return x.indicator;
           });

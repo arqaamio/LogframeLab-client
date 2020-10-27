@@ -31,9 +31,10 @@ import { VisualisationresultComponent } from './pages/indicator/visualisationres
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { routes } from './app.module';
 import { HttpClientModule } from '@angular/common/http';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { IndicatorService } from './services/indicator.service';
+import { NzDropDownModule, NzSpinModule } from 'ng-zorro-antd';
+import { APP_BASE_HREF } from '@angular/common';
 import { NotFoundComponent } from './pages/notfound/notfound.component';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 describe('AppComponent', () => {
   beforeEach(() => {
@@ -74,6 +75,9 @@ describe('AppComponent', () => {
         NzAlertModule,
         NzIconModule,
         NzDropDownModule
+      ],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: '/' }
       ]
     }).compileComponents();
   });

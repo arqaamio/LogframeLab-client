@@ -7,14 +7,13 @@ import { FilterData } from 'src/app/services/dto/filter-data.dto';
 import { take } from 'rxjs/internal/operators/take';
 import { tap } from 'rxjs/internal/operators/tap';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 
 interface ItemData {
   indicator: IndicatorResponse;
   countryCodeSelected:string;
   yearSelected:Date;
   baselineValue:any;
-  statements: any[];
+  statement: any;
 }
 
 
@@ -41,7 +40,7 @@ export const WORLD_BANK_SOURCE_ID: number = 2;
 export const NO_VALUE: string = 'No Value';
 export const DISAG_YES_FILTER_DATA: FilterData = {text: 'Yes', value:0};
 export const DISAG_NO_FILTER_DATA: FilterData = {text: 'No', value:1};
-export const EMPTY_ACTIVE_ITEM: ItemData = {indicator: null, baselineValue: 0, yearSelected: new Date(), countryCodeSelected: '', statements: []};
+export const EMPTY_ACTIVE_ITEM: ItemData = {indicator: null, baselineValue: 0, yearSelected: new Date(), countryCodeSelected: '', statement: null};
 @Component({
   selector: 'app-scanresult',
   templateUrl: './scanresult.component.html',
@@ -114,7 +113,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
 
               if(response != null && response.length > 0) {
-                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null, statements: []}});
+                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null, statement: null}});
                 this.addFilters();
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
@@ -375,12 +374,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.statementData = this.activeItem.indicator.level == 'OUTCOME' ?
       this.outcomeStatements : this.outputStatements;
     this.mapOfCheckedStatementsId = {};
-    if(this.activeItem.statements){
-      this.activeItem.statements.forEach(x => {
-        this.mapOfCheckedStatementsId[x.id] = true;
-      });
-    } else {
-      this.activeItem.statements = [];
+    if(this.activeItem.statement) {
+      this.mapOfCheckedStatementsId[this.activeItem.statement.id] = true;
     }
     this.isPropertiesModalActive = true;
   }
@@ -392,11 +387,12 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   }
 
   selectStatement(statement, selected): void {
-    this.mapOfCheckedStatementsId[statement.id] = selected;
+    this.mapOfCheckedStatementsId = {};
     if(selected) {
-      this.activeItem.statements = [...this.activeItem.statements, statement];
-    }else {
-      this.activeItem.statements = this.activeItem.statements.filter(x=>x.id != statement.id);
+      this.mapOfCheckedStatementsId[statement.id] = true;
+      this.activeItem.statement = statement;
+    } else {
+      this.activeItem.statement = null;
     }
   }
 
