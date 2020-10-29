@@ -211,19 +211,46 @@ app-manage-indicators {
 
 
 #stepButton {
-  top: 25%;
+  top: 15rem;
   background: #a5c2ae;
   right: -65px;
   width: 8rem;
 }
+@media screen and (max-height: 725px) {
+  #stepButton {
+    top: 27rem;
+  }
+}
+
 #feedbackButton {
-  top: 31%;
+  top: 20rem;
   right: -98px;
   width: 10rem;
 }
+@media screen and (max-height: 905px) {
+  #feedbackButton {
+    top: 32rem;
+  }
+}
 
 #uploadButton {
-  top: 37%;
+  top: 25rem;
+}
+@media screen and (max-height: 1050px) {
+  #uploadButton {
+    top: 37rem;
+  }
+}
+@media screen and (max-height: 650px) {
+  #stepButton   {
+    top: 67%;
+  }
+  #feedbackButton {
+    top: 79%;
+  }
+  #uploadButton {
+    top: 90%;
+  }
 }
 
 .sideButton {
