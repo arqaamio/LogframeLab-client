@@ -193,11 +193,15 @@
             (click)="selectIndicator(data)"
             [class.row-checked]="mapOfCheckedId[data.indicator.id]"
           >
-          <td class="propertiesCell" (click)="showPropertiesModal(data)" 
+          <td class="propertiesCell"
+          nz-popover
+          nzPopoverContent="Further information and options"
+          (click)="showPropertiesModal(data)" 
           *ngIf="isWorldBankIndicator(data) || data.indicator?.level !='IMPACT'"
           ><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
           </td>
-          <td *ngIf="!(isWorldBankIndicator(data) || data.indicator?.level !='IMPACT')"></td>
+          <td *ngIf="!(isWorldBankIndicator(data) || data.indicator?.level !='IMPACT') &&
+            data.indicator?.description!=null &&data.indicator?.description!=''"></td>
           <td
             nzShowCheckbox
             [nzChecked]="mapOfCheckedId[data.indicator.id]"
@@ -456,7 +460,7 @@
   </ng-template>
 </div>
 <div id="footerBar" *ngIf="this.selectedIndicators.length != 0">
-  <p>IMPACT</p>
+  <p style="margin-left: 13%;">IMPACT</p>
   <nz-tag [nzColor]="'#453457'"><strong>{{ impactCount }}</strong></nz-tag>
 
   <p>OUTCOME</p>
@@ -475,7 +479,11 @@
     show all
   </button>
 </div>
-<nz-modal [(nzVisible)]="isPropertiesModalActive" nzTitle="Indicator Properties" (nzOnCancel)="isPropertiesModalActive = false" (nzOnOk)="propertiesModalOkHandle()" nzWidth="90vw">
+<nz-modal [(nzVisible)]="isPropertiesModalActive" nzTitle="Further information and options" (nzOnCancel)="isPropertiesModalActive = false" (nzOnOk)="propertiesModalOkHandle()" nzWidth="90vw">
+  <div *ngIf="activeItem.indicator?.description != null && activeItem.indicator?.description != ''">
+    <h3><strong>Description</strong></h3>
+    <p>{{activeItem.indicator.description}}</p>
+  </div>
   <div *ngIf="isWorldBankIndicator(activeItem)">
     <h3><strong>Baseline Value</strong></h3>
     <span>Country: </span>

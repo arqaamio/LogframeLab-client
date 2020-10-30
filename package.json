@@ -2,8 +2,8 @@
   "name": "client",
   "version": "0.0.1",
   "scripts": {
-    "cy:open": "CHOKIDAR_USEPOLLING=1 cypress open",
-    "cy:run": "CHOKIDAR_USEPOLLING=1 cypress run --config video=false screenshotOnRunFailure=false",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run --config video=false screenshotOnRunFailure=false",
     "ng": "ng",
     "start:node": "node server.js",
     "start": "ng serve",
@@ -14,7 +14,7 @@
     "test:coverage": "ng test --codeCoverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "e2e:ci": "CHOKIDAR_USEPOLLING=1 start-server-and-test start http://localhost:4200 cy:run"
+    "e2e:ci": "start-server-and-test start http://localhost:4200 cy:run"
   },
   "private": true,
   "dependencies": {

@@ -34,16 +34,16 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         if(this.indicatorService.statementData.length > 0){
             timer(2000).subscribe(() => {
-                // if (this.indicatorService.canvasJson.length == 0) {
+                if (this.indicatorService.canvasJson.length == 0) {
                     let statementImpact = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'IMPACT'));
                     let statementOutcome = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTCOME'));
                     let statementOutput = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT'));
                     // draw chart function
                     this.setFlowChart(this.generateCanvasJson(statementImpact, statementOutcome, statementOutput));
-                // } else {
-                //     // re-draw chart function
-                //     this.setFlowChart(this.indicatorService.canvasJson);
-                // }
+                } else {
+                    // re-draw chart function
+                    this.setFlowChart(this.indicatorService.canvasJson);
+                }
             });
         } else {
             setTimeout(()=>this.indicatorService.loadingStart.next(false), 1000);
@@ -64,13 +64,13 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
         let outputObject = [];
         let rowBoxLength = 7;
         let impactY = 20;
-        let impactX = 250;
+        let impactX = 300;
         let outComeY = 150;
-        let outComeX = 250;
+        let outComeX = 300;
         let extraHeight = 0;
 
         let outputY = 150;
-        let outputX = 250;
+        let outputX = 300;
         if(outcomes.length == 0){
             extraHeight = 150;
         } else if(output.length == 0){
@@ -159,9 +159,9 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "visible": false,
                         "locator": "draw2d.layout.locator.BottomLocator"
                     }],
-                "bgColor": "rgba(68,54,90,1)",
+                "bgColor": "rgba(69, 52, 87, 1)",
                 "color": "rgba(204,204,204,1)",
-                "stroke": 2,
+                "stroke": 0,
                 "radius": 5,
                 "dasharray": null,
                 "text": row.name,
@@ -188,16 +188,16 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "userData": {},
             "cssClass": "draw2d_shape_basic_Label",
             "ports": [],
-            "bgColor": "rgba(0,0,0,0)",
+            "bgColor": "rgba(69, 52, 87, 1)",
             "color": "rgba(27,27,27,1)",
             "stroke": 0,
-            "radius": 0,
+            "radius": 5,
             "dasharray": null,
-            "text": "Impact",
+            "text": "IMPACT",
             "outlineStroke": 0,
             "outlineColor": "rgba(0,0,0,0)",
             "fontSize": 20,
-            "fontColor": "rgba(8,8,8,1)",
+            "fontColor": "rgba(255, 255, 255, 1)",
             "fontFamily": "Montserrat, sans-serif",
             "fontWeight": "bold"
         });
@@ -286,9 +286,9 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "port": "draw2d.InputPort",
                         "locator": "draw2d.layout.locator.BottomLocator"
                     }],
-                "bgColor": "rgba(154,190,170,1)",
+                "bgColor": "rgba(107, 60, 83, 1)",
                 "color": "rgba(204,204,204,1)",
-                "stroke": 2,
+                "stroke": 0,
                 "radius": 5,
                 "dasharray": null,
                 "text": row.name,
@@ -315,16 +315,16 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "userData": {},
             "cssClass": "draw2d_shape_basic_Label",
             "ports": [],
-            "bgColor": "rgba(0,0,0,0)",
-            "color": "rgba(27,27,27,1)",
+            "bgColor": "rgba(107, 60, 83, 1)",
+            "color": "rgba(255, 255, 255, 1)",
             "stroke": 0,
-            "radius": 0,
+            "radius": 5,
             "dasharray": null,
-            "text": "Outcome",
+            "text": "OUTCOME",
             "outlineStroke": 0,
             "outlineColor": "rgba(0,0,0,0)",
             "fontSize": 20,
-            "fontColor": "rgba(8,8,8,1)",
+            "fontColor": "rgba(255, 255, 255, 1)",
             "fontFamily": "Montserrat, sans-serif",
             "fontWeight": "bold"
         })
@@ -393,9 +393,9 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                         "port": "draw2d.OutputPort",
                         "locator": "draw2d.layout.locator.TopLocator"
                     }],
-                "bgColor": "rgba(69,52,87,1)",
+                "bgColor": "rgba(99, 119, 67,1)",
                 "color": "rgba(204,204,204,1)",
-                "stroke": 2,
+                "stroke": 0,
                 "radius": 5,
                 "dasharray": null,
                 "text": row.name,
@@ -405,6 +405,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 "fontColor": "rgba(255,255,255,1)",
                 "fontFamily": "Montserrat, sans-serif",
             });
+
             // if ((output.length - 1) != index && output.length != 1) {
             //     outputObject[outputObject.length - 1]['ports'].push({
             //         "type": "draw2d.InputPort",
@@ -466,20 +467,41 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "userData": {},
             "cssClass": "draw2d_shape_basic_Label",
             "ports": [],
-            "bgColor": "rgba(0,0,0,0)",
-            "color": "rgba(27,27,27,1)",
+            "bgColor": "rgba(99, 119, 67,1)",
+            "color": "rgba(255, 255, 255, 1)",
             "stroke": 0,
-            "radius": 0,
+            "radius": 5,
             "dasharray": null,
-            "text": "Output",
+            "text": "OUTPUT",
             "outlineStroke": 0,
             "outlineColor": "rgba(0,0,0,0)",
             "fontSize": 20,
-            "fontColor": "rgba(8,8,8,1)",
+            "fontColor": "rgba(255, 255, 255, 1)",
             "fontFamily": "Montserrat, sans-serif",
             "fontWeight": "bold"
         });
 
+        // let connections = [{
+        //     alpha: 1,
+        //     angle: 0,
+        //     color: "rgba(204,204,204,1)",
+        //     cssClass: "draw2d_Connection",
+        //     draggable: true,
+        //     id: "e5d515a4-dda5-1552-3b0f-825da43eacc5",
+        //     outlineColor: "rgba(0,0,0,0)",
+        //     outlineStroke: 0,
+        //     policy: "draw2d.policy.line.OrthogonalSelectionFeedbackPolicy",
+        //     radius: 3,
+        //     router: "draw2d.layout.connection.InteractiveManhattanConnectionRouter",
+        //     routingMetaData: {routedByUserInteraction: false, fromDir: 0, toDir: 2},
+        //     selectable: true,
+        //     source: {node: 2, port: "outputTop_2"},
+        //     stroke: 2,
+        //     target: {node: 1, port: "outcomeBottom_1", decoration: "draw2d.decoration.connection.ArrowDecorator"},
+        //     type: "draw2d.Connection",
+        //     userData: {},
+        //     vertex:  [{x: 234, y: 320}, {x: 234, y: 260}]
+        // }]
         let height = (outputY + 150) + ((output.length == 0)?150:0);
         this.canvasHeight = height + 'px';
         return [...impactObject, ...outcomesObject, ...outputObject];
