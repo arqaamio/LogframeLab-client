@@ -1,7 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { MachineLearningService } from 'src/app/services/machinelearning.service';
+import { take, tap } from 'rxjs/operators';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 export class TableItem {
   statement: string;
@@ -30,7 +34,8 @@ export const GRADIENT_RED = { '0%': 'red', '100%': 'red'};
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss']
 })
-export class ResultComponent implements OnInit {
+export class ResultComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
   isVisible: boolean = false;
   selectedIndexObject: any = {};
   editStatement: any = '';
@@ -40,7 +45,8 @@ export class ResultComponent implements OnInit {
   statusFilter= [{text:'GOOD', value:'GOOD'}, {text:'BAD', value: 'BAD'}];
   maxId:number = 0;
 
-  constructor(public indicatorService: IndicatorService, public machineLearningService: MachineLearningService) { 
+  constructor(public indicatorService: IndicatorService, public machineLearningService: MachineLearningService,
+    public messageService: NzMessageService) { 
     this.indicatorService.updateNextButton(true);
   }
 
@@ -49,37 +55,51 @@ export class ResultComponent implements OnInit {
       this.listOfData = this.indicatorService.statementData;
       this.indicatorService.loadingStart.next(false);
     }else {
-    // result api call
-      this.machineLearningService.getStatements().subscribe((res: object) =>{
-        
-        this.listOfData = [...res[Level.IMPACT].map((x)=> {
-          x.level = this.levelFilter[2].text;
-          this.setLevelColor(x);
-          this.setStatusColor(x);
-          this.setScoreGradient(x);
-          x.id = this.maxId++;
-          return x;
-        }),
-          ...res[Level.OUTCOME].map((x)=> {
-            x.level = this.levelFilter[1].text;
-            this.setLevelColor(x);
-            this.setStatusColor(x);
-            this.setScoreGradient(x);
-            x.id = this.maxId++;
-            return x;
-        }),
-          ...res[Level.OUTPUT].map((x)=> {
-            x.level = this.levelFilter[0].text;
-            this.setLevelColor(x);
-            this.setStatusColor(x);
-            this.setScoreGradient(x);
-            x.id = this.maxId++;
-            return x;
-        })];
-        this.updateStatementData();
-        this.indicatorService.loadingStart.next(false);
-      });
-    }
+      this.subscription = this.indicatorService.getIndicatorSubject().pipe(take(1),
+        tap((data) => {
+        if(data.files == null || data.files.length == 0) {
+          this.messageService.info('No document was uploaded');
+        }else {
+          // result api call
+          this.subscription = this.machineLearningService.getStatements(data.files[0]).subscribe((event: HttpEvent<any>) => {
+            switch (event.type) {
+              case HttpEventType.Response:
+                let res = event.body;
+                if(res[Level.IMPACT].length == 0 && res[Level.OUTCOME].length == 0 && res[Level.OUTPUT].length == 0) {
+                  this.messageService.info('No statements were found on the document');
+                }
+                this.listOfData = [...res[Level.IMPACT].map((x)=> {
+                  x.level = this.levelFilter[2].text;
+                  this.setLevelColor(x);
+                  this.setStatusColor(x);
+                  this.setScoreGradient(x);
+                  x.id = this.maxId++;
+                  return x;
+                }),
+                  ...res[Level.OUTCOME].map((x)=> {
+                    x.level = this.levelFilter[1].text;
+                    this.setLevelColor(x);
+                    this.setStatusColor(x);
+                    this.setScoreGradient(x);
+                    x.id = this.maxId++;
+                    return x;
+                }),
+                ...res[Level.OUTPUT].map((x)=> {
+                  x.level = this.levelFilter[0].text;
+                  this.setLevelColor(x);
+                  this.setStatusColor(x);
+                  this.setScoreGradient(x);
+                  x.id = this.maxId++;
+                  return x;
+                })];
+                this.updateStatementData();
+                this.indicatorService.loadingStart.next(false);
+                break;
+            }
+          });
+        }
+      })).subscribe();
+    } 
   }
 
   // status wise add class
@@ -176,5 +196,9 @@ export class ResultComponent implements OnInit {
   levelChangeHandle(listItem){
     this.setLevelColor(listItem);
     this.updateStatementData();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

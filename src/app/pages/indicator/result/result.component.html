@@ -83,4 +83,5 @@
         </ng-template>
       </tbody>
     </nz-table>
+    <button nz-button [nzType]="'primary'" (click)="addRow();" *ngIf="this.listOfData.length == 0"><span>Add Statement</span></button>
 </div>

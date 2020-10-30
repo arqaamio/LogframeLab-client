@@ -77,7 +77,9 @@ export class IndicatorComponent implements OnInit, OnDestroy {
             }).catch(() => console.log('Oops errors!'))
         });
       } else if(this.indicatorService.statementData.filter(x=>x.level == null).length > 0){
-        this.messageService.error('Set level for all indicators');
+        this.messageService.error('Set level for all statements');
+      } else if(this.indicatorService.statementData.filter(x=>x.statement == null || x.statement.trim() == '').length > 0){
+        this.messageService.error('Set statement for all statements');
       }else {
         this.isSpinning = true;
         this.current += 1;
