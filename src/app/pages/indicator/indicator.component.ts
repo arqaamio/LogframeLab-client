@@ -62,7 +62,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
 
   next(): void {
     if (this.current == 1) {
-      if(this.indicatorService.statementData.filter(x=>x.level =='IMPACT').length > 1){
+      if(this.indicatorService.statementData?.filter(x=>x.level =='IMPACT').length > 1){
         this.modal.confirm({
           nzTitle: 'Are you sure you want to continue?',
           nzContent: 'There should be only 1 Impact statement',
@@ -76,9 +76,9 @@ export class IndicatorComponent implements OnInit, OnDestroy {
             this.modal.closeAll();
             }).catch(() => console.log('Oops errors!'))
         });
-      } else if(this.indicatorService.statementData.filter(x=>x.level == null).length > 0){
+      } else if(this.indicatorService.statementData?.filter(x=>x.level == null).length > 0){
         this.messageService.error('Set level for all statements');
-      } else if(this.indicatorService.statementData.filter(x=>x.statement == null || x.statement.trim() == '').length > 0){
+      } else if(this.indicatorService.statementData?.filter(x=>x.statement == null || x.statement.trim() == '').length > 0){
         this.messageService.error('Set statement for all statements');
       }else {
         this.isSpinning = true;
