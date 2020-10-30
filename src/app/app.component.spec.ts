@@ -32,7 +32,8 @@ import { DownloadResultComponent } from './pages/indicator/downloadresult/downlo
 import { routes } from './app.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IndicatorService } from './services/indicator.service';
-import { NzDropDownModule, NzSpinModule } from 'ng-zorro-antd';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { APP_BASE_HREF } from '@angular/common';
 import { NotFoundComponent } from './pages/notfound/notfound.component';
 
