@@ -17,8 +17,8 @@ export class MachineLearningService {
     return this.http.get<SimilarityResponse[]>(this.baseUrl + '/similarity?threshold=' + threshold);
   }
 
-  public validateStatement(statement: string): Observable<any>{
-    return this.http.post<any>(this.baseUrl + '/statement-quality', statement);
+  public validateStatement(statement: string, level: string): Observable<any>{
+    return this.http.post<any>(this.baseUrl + '/statement-quality', {level: level, statement: statement});
   }
   
   public getStatements(file):  Observable<any>{

@@ -174,10 +174,17 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   validateStatement(index: number): void {
+    if(this.listOfData[index].level == null) {
+      this.messageService.error("To validate a statement it must have a level set.")
+      return;
+    }
     console.log("Validate index", index);
     
-    this.machineLearningService.validateStatement(this.listOfData[index].statement)
-       .subscribe(x => {
+    this.machineLearningService.validateStatement(this.listOfData[index].statement, this.listOfData[index].level)
+       .subscribe(res => {
+         this.listOfData[index].score = res.score;
+         this.listOfData[index].status = res.status;
+         this.setStatusColor(this.listOfData[index]);
         this.updateStatementData();
      });
   }
