@@ -2,15 +2,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { timer } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
-declare var draw2d: any;
-declare var window: any;
-declare var Toolbar: any;
+declare let draw2d: any;
+declare let window: any;
+declare let Toolbar: any;
+export const MAX_NUM_BOX_ROW: number = 7;
 @Component({
     selector: 'app-visualisationresult',
     templateUrl: './visualisationresult.component.html',
     styleUrls: ['./visualisationresult.component.scss'],
 })
-
 export class VisualisationresultComponent implements OnInit, OnDestroy {
 
     height: string = (window.screen.height - 400) + 'px';
@@ -38,11 +38,17 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                     let statementImpact = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'IMPACT'));
                     let statementOutcome = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTCOME'));
                     let statementOutput = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT'));
+                    this.generateCanvasJson(statementImpact, statementOutcome, statementOutput)
                     // draw chart function
-                    this.setFlowChart(this.generateCanvasJson(statementImpact, statementOutcome, statementOutput));
+                    this.setFlowChart();
                 } else {
+                    // Set height of the canvas
+                    let statementOutput: any[] = this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT');
+                    let numOutput: number = statementOutput.length;
+                    let outputY: number = numOutput > 0 ? this.indicatorService.canvasJson.filter(x=>x.id==statementOutput[numOutput -1].id)[0].y : 150;
+                    this.canvasHeight = (outputY + 150) + ((numOutput == 0)?150:0) + 'px';
                     // re-draw chart function
-                    this.setFlowChart(this.indicatorService.canvasJson);
+                    this.setFlowChart();
                 }
             });
         } else {
@@ -57,16 +63,15 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     }
 
     // data convert to canvas json 
-    generateCanvasJson(impact, outcomes, output){
+    generateCanvasJson(impact, outcomes, output): void {
         let impactObject = []
         let outcomesObject = [];
         let compositeWidth = 2100;
         let outputObject = [];
-        let rowBoxLength = 7;
         let impactY = 20;
         let impactX = 300;
-        let outComeY = 150;
-        let outComeX = 300;
+        let outcomeY = 150;
+        let outcomeX = 300;
         let extraHeight = 0;
 
         let outputY = 150;
@@ -101,7 +106,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "x": 0,
             "y": 0,
             "width": compositeWidth,
-            "height": impact.length < rowBoxLength ? 160 : 285,
+            "height": impact.length < MAX_NUM_BOX_ROW ? 160 : 285,
             "userData": {},
             "cssClass": "draw2d_shape_composite_Jailhouse",
             "bgColor": "#F9F9F9",
@@ -115,12 +120,12 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             if (index > 15) {
                 return;
             }
-            if (index < rowBoxLength) {
+            if (index < MAX_NUM_BOX_ROW) {
                 impactY = 20;
                 impactX = (250 * index);
             } else {
                 impactY = 150;
-                impactX = (250 * (index - rowBoxLength))
+                impactX = (250 * (index - MAX_NUM_BOX_ROW))
             }
             // Create text box json
             impactObject.push({
@@ -202,7 +207,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "fontWeight": "bold"
         });
         let outcomeHeight = 0;
-        outcomeHeight = outcomes.length <= rowBoxLength ? 165 : 315;
+        outcomeHeight = outcomes.length <= MAX_NUM_BOX_ROW ? 165 : 315;
         outcomeHeight += (output.length == 0)?30:0;
         impactObject.push({
             "type": "draw2d.shape.composite.Jailhouse",
@@ -224,19 +229,20 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             if (index > 15) {
                 return;
             }
-            if (index < rowBoxLength) {
-                outComeY = 150 + impactY;
-                outComeX = (250 * index);
+            if (index < MAX_NUM_BOX_ROW) {
+                outcomeY = 150 + impactY;
+                outcomeX = (250 * index);
             } else {
-                outComeY = 300 + impactY;
-                outComeX = (250 * (index - rowBoxLength))
+                outcomeY = 300 + impactY;
+                outcomeX = (250 * (index - MAX_NUM_BOX_ROW))
             }
+            
             // OutCome text box json
             outcomesObject.push({
                 "type": "draw2d.shape.basic.Text",
                 "id": row.id,
-                "x": 130 + outComeX,
-                "y": outComeY,
+                "x": 130 + outcomeX,
+                "y": outcomeY,
                 "width": 200,
                 "height": 60,
                 "alpha": 1,
@@ -305,7 +311,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "type": "draw2d.shape.basic.Label",
             "id": "66888707-0546-abed-f9d3-1408623bb39g",
             "x": 10,
-            "y": 150 + impactY + ((outcomes.length < rowBoxLength) ? 37 : 75),
+            "y": 150 + impactY + ((outcomes.length < MAX_NUM_BOX_ROW) ? 37 : 75),
             "width": 100,
             "height": 21,
             "alpha": 1,
@@ -333,7 +339,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "type": "draw2d.shape.composite.Jailhouse",
             "id": "354fa3b9-a834-0221-2009-abc2d6bd8a14",
             "x": 0,
-            "y": outComeY + 140 + ((outcomes.length == 0)?20:0),
+            "y": outcomeY + 140 + ((outcomes.length == 0)?20:0),
             "width": compositeWidth,
             "height": 700,
             "userData": {},
@@ -350,12 +356,12 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             if (index > 15) {
                 return;
             }
-            if (index < rowBoxLength) {
-                outputY = 150 + outComeY;
+            if (index < MAX_NUM_BOX_ROW) {
+                outputY = 150 + outcomeY;
                 outputX = (250 * index);
             } else {
-                outputY = 300 + outComeY;
-                outputX = (250 * (index - rowBoxLength))
+                outputY = 300 + outcomeY;
+                outputX = (250 * (index - MAX_NUM_BOX_ROW))
             }
             // Output text box json 
             outputObject.push({
@@ -457,7 +463,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             "type": "draw2d.shape.basic.Label",
             "id": "66888707-0546-abed-f9d3-1408623bb39go",
             "x": 10,
-            "y": 150 + outComeY + ((output.length < rowBoxLength) ? 30 : 75) + ((output.length == 0)?35:0),
+            "y": 150 + outcomeY + ((output.length < MAX_NUM_BOX_ROW) ? 30 : 75) + ((output.length == 0)?35:0),
             "width": 100,
             "height": 21,
             "alpha": 1,
@@ -504,7 +510,7 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
         // }]
         let height = (outputY + 150) + ((output.length == 0)?150:0);
         this.canvasHeight = height + 'px';
-        return [...impactObject, ...outcomesObject, ...outputObject];
+        this.indicatorService.canvasJson = [...impactObject, ...outcomesObject, ...outputObject];
     }
     
     //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.  
@@ -519,24 +525,25 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     }
 
     //Code for chart's drag and drop functionality 
-    setFlowChart(selected): void {
-        var that = this;
+    setFlowChart(): void {
+        let that = this;
         timer(2000).subscribe(() => {
             this.canvas = new draw2d.Canvas("gfx_holder");
             // this.canvas.installEditPolicy(new draw2d.policy.canvas.ExtendedKeyboardPolicy());
-            var reader = new draw2d.io.json.Reader();
-            reader.unmarshal(this.canvas, selected);
+            let reader = new draw2d.io.json.Reader();
+            // reader.unmarshal(this.canvas, json.filter(d => d.type != "draw2d.Connection"));
+            reader.unmarshal(this.canvas, this.indicatorService.canvasJson);
             this.indicatorService.loadingStart.next(false);
             Toolbar.init('toolbar', this.canvas);
             this.isCanvasClear = false;
             // export svg, png function
             this.indicatorService.exportSvg.subscribe((res) => {
                 if (res == 'svgExport') {
-                    var writer = new draw2d.io.svg.Writer();
+                    let writer = new draw2d.io.svg.Writer();
                     writer.marshal(this.canvas, function (svg) {
                         let response: any = {}
                         svg = svg.replace('hidden', 'auto').replace('absolute', 'relative');
-                        var writer = new draw2d.io.png.Writer();
+                        let writer = new draw2d.io.png.Writer();
                         writer.marshal(that.canvas, function (png) {
                             response = { svg, png };
                             that.indicatorService.exportSvg.next(response);
@@ -548,11 +555,11 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
             // canvas to write json
             this.canvas.getCommandStack().addEventListener(function (e) {
                 if (e.isPostChangeEvent()) {
-                    var writer = new draw2d.io.json.Writer();
+                    let writer = new draw2d.io.json.Writer();
                     writer.marshal(that.canvas, function (json) {
-                        if(that.isCanvasClear == false){
-                            that.indicatorService.canvasJson = json;
-                        }
+                        // if(that.isCanvasClear == false){
+                        //     that.indicatorService.canvasJson = json;
+                        // }
                     });
                 }
             });

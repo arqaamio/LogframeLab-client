@@ -117,6 +117,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
             }).catch(() => console.log('Oops errors!'))
         });
       } else {
+        this.messageService.warning('If you wish to go back, you will have to redo your connections');
         this.saveSVGAndProceed();
       }
     } else {
