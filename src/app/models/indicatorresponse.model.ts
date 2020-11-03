@@ -5,7 +5,6 @@ import { SDGCode } from './sdgcode.model';
 export class IndicatorResponse {
     id: number;
     level: string;
-    color: string;
     name: string;
     description: string;
     sector: string;

@@ -14,6 +14,8 @@ interface ItemData {
   yearSelected:Date;
   baselineValue:any;
   statement: any;
+
+  colorLevel:string;
 }
 
 
@@ -40,7 +42,8 @@ export const WORLD_BANK_SOURCE_ID: number = 2;
 export const NO_VALUE: string = 'No Value';
 export const DISAG_YES_FILTER_DATA: FilterData = {text: 'Yes', value:0};
 export const DISAG_NO_FILTER_DATA: FilterData = {text: 'No', value:1};
-export const EMPTY_ACTIVE_ITEM: ItemData = {indicator: null, baselineValue: 0, yearSelected: new Date(), countryCodeSelected: '', statement: null};
+export const EMPTY_ACTIVE_ITEM: ItemData = {indicator: null, colorLevel: '', baselineValue: 0, yearSelected: new Date(), countryCodeSelected: '', statement: null};
+export const COLOR_LEVEL = {'IMPACT': '#453457', 'OUTCOME': '#6B3C53', 'OUTPUT': '#637743'};
 @Component({
   selector: 'app-scanresult',
   templateUrl: './scanresult.component.html',
@@ -99,7 +102,14 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           // with document
           if (isNewInfo && data.dataResponse != null) {
             console.log("with document");
-            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null}});
+            this.listOfData = data.dataResponse.map((indicator,i)=>{
+              return {
+                indicator: indicator,
+                colorLevel: COLOR_LEVEL[indicator.level],
+                countryCodeSelected: null,
+                yearSelected: null,
+                baselineValue: null
+              }});
             this.addFilters();
             this.indicatorService.setLoadedData(this.listOfData);
             this.displayData = this.listOfData;
@@ -113,7 +123,14 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
 
               if(response != null && response.length > 0) {
-                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, countryCodeSelected: null, yearSelected: null, baselineValue: null, statement: null}});
+                this.listOfData = response.map((indicator,i)=>{return {
+                  indicator: indicator,
+                  colorLevel: COLOR_LEVEL[indicator.level],
+                  countryCodeSelected: null,
+                  yearSelected: null,
+                  baselineValue: null,
+                  statement: null
+                }});
                 this.addFilters();
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;

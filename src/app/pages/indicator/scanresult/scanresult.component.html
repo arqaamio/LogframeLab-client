@@ -209,7 +209,7 @@
           >
         </td>
             <td>
-              <nz-tag [nzColor]="data.indicator.color"
+              <nz-tag [nzColor]="data.colorLevel"
                 >{{ data.indicator.level }}
               </nz-tag>
             </td>
@@ -407,7 +407,7 @@
           <ng-template ngFor let-data [ngForOf]="selectedTable.data">
             <tr>
               <td>
-                <nz-tag [nzColor]="data.indicator.color"
+                <nz-tag [nzColor]="data.colorLevel"
                   >{{ data.indicator.level }}
                 </nz-tag>
               </td>
