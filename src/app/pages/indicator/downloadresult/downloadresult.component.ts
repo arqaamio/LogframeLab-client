@@ -26,8 +26,8 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
             if(x.indicator.date && x.indicator.value) {
               x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
               x.indicator.value = x.baselineValue;
-              x.indicator.statement = x.statement;
             }
+            x.indicator.statement = x.statement.statement;
             return x.indicator;
           });
         }
@@ -54,13 +54,13 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
     let body = this.indicatorService.exportSvg.value;
     var link = document.createElement("a");
     if(type == 'svg'){
-      let blob = new Blob([body[type]], { type: "application/octet-stream" });       
+      let blob = new Blob([body[type]], { type: "application/octet-stream" });
       link.href = URL.createObjectURL(blob);
     } else {
       link.href = body[type];
     }
     link.download = 'flowchart.'+type;
-    link.click();   
+    link.click();
   }
 
   ngOnDestroy() {
