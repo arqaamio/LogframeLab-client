@@ -119,8 +119,7 @@
             nz-popover
             nzPopoverTitle="Disaggregation"
             nzPopoverContent="If the indicator requires disaggregation. As a rule of thumb, whenever people are counted, there should a disaggregation (at least by sex)."
-            nzWidth="10%"
-            style="font-size: 10px"
+            nzWidth="12%"
             nzBreakWord
             nzShowFilter
             [nzFilters]="searchFilter.disaggregation"
@@ -133,14 +132,14 @@
             nzColumnKey="sector"
             nzWidth="15%"
             nz-popover
-            nzPopoverTitle="Thematic Area"
+            nzPopoverTitle="Sector"
             nzPopoverContent="The sectors where the indicator is related to."
             nzBreakWord
             nzShowFilter
             [nzFilters]="searchFilter.sector"
             [nzFilterFn]="filterSector"
           >
-            Thematic<br />Area
+            Sector
           </th>
           <th
             nzShowSort
@@ -209,7 +208,7 @@
           >
         </td>
             <td>
-              <nz-tag [nzColor]="data.indicator.color"
+              <nz-tag [nzColor]="data.colorLevel"
                 >{{ data.indicator.level }}
               </nz-tag>
             </td>
@@ -340,14 +339,14 @@
               nzColumnKey="sector"
               nzWidth="10%"
               nz-popover
-              nzPopoverTitle="Thematic Area"
+              nzPopoverTitle="Sector"
               nzPopoverContent="The sectors where the indicator is related to."
               nzBreakWord
               nzShowFilter
               [nzFilters]="searchFilter.sector"
               [nzFilterFn]="filterSector"
             >
-              Thematic Area
+              Sector
             </th>
             <th
               nzShowSort
@@ -407,7 +406,7 @@
           <ng-template ngFor let-data [ngForOf]="selectedTable.data">
             <tr>
               <td>
-                <nz-tag [nzColor]="data.indicator.color"
+                <nz-tag [nzColor]="data.colorLevel"
                   >{{ data.indicator.level }}
                 </nz-tag>
               </td>

@@ -34,22 +34,22 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         if(this.indicatorService.statementData.length > 0){
             timer(2000).subscribe(() => {
-                if (this.indicatorService.canvasJson.length == 0) {
+                // if (this.indicatorService.canvasJson.length == 0) {
                     let statementImpact = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'IMPACT'));
                     let statementOutcome = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTCOME'));
                     let statementOutput = this.resultJsonMap(this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT'));
                     this.generateCanvasJson(statementImpact, statementOutcome, statementOutput)
                     // draw chart function
                     this.setFlowChart();
-                } else {
-                    // Set height of the canvas
-                    let statementOutput: any[] = this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT');
-                    let numOutput: number = statementOutput.length;
-                    let outputY: number = numOutput > 0 ? this.indicatorService.canvasJson.filter(x=>x.id==statementOutput[numOutput -1].id)[0].y : 150;
-                    this.canvasHeight = (outputY + 150) + ((numOutput == 0)?150:0) + 'px';
-                    // re-draw chart function
-                    this.setFlowChart();
-                }
+                // } else {
+                //     // Set height of the canvas
+                //     let statementOutput: any[] = this.indicatorService.statementData.filter(x=>x.level == 'OUTPUT');
+                //     let numOutput: number = statementOutput.length;
+                //     let outputY: number = numOutput > 0 ? this.indicatorService.canvasJson.filter(x=>x.id==statementOutput[numOutput -1].id)[0].y : 150;
+                //     this.canvasHeight = (outputY + 150) + ((numOutput == 0)?150:0) + 'px';
+                //     // re-draw chart function
+                //     this.setFlowChart();
+                // }
             });
         } else {
             setTimeout(()=>this.indicatorService.loadingStart.next(false), 1000);
@@ -557,9 +557,9 @@ export class VisualisationresultComponent implements OnInit, OnDestroy {
                 if (e.isPostChangeEvent()) {
                     let writer = new draw2d.io.json.Writer();
                     writer.marshal(that.canvas, function (json) {
-                        // if(that.isCanvasClear == false){
-                        //     that.indicatorService.canvasJson = json;
-                        // }
+                        if(that.isCanvasClear == false){
+                            that.indicatorService.canvasJson = json;
+                        }
                     });
                 }
             });
