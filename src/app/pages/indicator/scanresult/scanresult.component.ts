@@ -185,8 +185,9 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         });
       });
 
-      this.outcomeStatements = this.indicatorService.statementData?.filter(x=>x.level=='OUTCOME');
-      this.outputStatements = this.indicatorService.statementData?.filter(x=>x.level=='OUTPUT');
+      this.statementData = this.indicatorService.statementData ? this.indicatorService.statementData : [];
+      this.outcomeStatements = this.statementData.filter(x=>x.level=='OUTCOME');
+      this.outputStatements = this.statementData.filter(x=>x.level=='OUTPUT');
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();

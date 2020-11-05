@@ -196,11 +196,11 @@
           nz-popover
           nzPopoverContent="Further information and options"
           (click)="showPropertiesModal(data)" 
-          *ngIf="isWorldBankIndicator(data) || data.indicator?.level !='IMPACT'"
+          *ngIf="isWorldBankIndicator(data) || data.indicator?.level !='IMPACT' || (data.indicator?.description!=null && data.indicator?.description!='')"
           ><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
           </td>
           <td *ngIf="!(isWorldBankIndicator(data) || data.indicator?.level !='IMPACT') &&
-            data.indicator?.description!=null &&data.indicator?.description!=''"></td>
+            (data.indicator?.description==null ||data.indicator?.description=='')"></td>
           <td
             nzShowCheckbox
             [nzChecked]="mapOfCheckedId[data.indicator.id]"
