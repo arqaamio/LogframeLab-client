@@ -1,117 +1,211 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { MachineLearningService } from 'src/app/services/machinelearning.service';
+import { take, tap } from 'rxjs/operators';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
+export class TableItem {
+  statement: string;
+  score: number;
+  level: string;
+  gradient: object;
+  colorLevel: string;
+  statusColor: string;
+  id: number;
+}
+
+export enum Level {
+  IMPACT = 'impact',
+  OUTCOME = 'outcome',
+  OUTPUT = 'output'
+}
+
+export const GRADIENT_GREEN = { '0%': 'red', '50%': 'yellow',  '100%': 'green' };
+export const GRADIENT_LIGHT_GREEN = { '0%': 'red', '50%': 'yellow',  '175%': 'lightgreen' };
+export const GRADIENT_YELLOW = { '0%': 'red', '100%': 'yellow' };
+export const GRADIENT_ORANGE = { '0%': 'red', '100%': 'orange' };
+export const GRADIENT_RED = { '0%': 'red', '100%': 'red'};
 
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss']
 })
-export class ResultComponent implements OnInit { 
+export class ResultComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
   isVisible: boolean = false;
   selectedIndexObject: any = {};
   editStatement: any = '';
+  editId: string = null;
+  listOfData = [];
+  levelFilter = [{text:'OUTPUT', value: 'OUTPUT'}, {text:'OUTCOME', value: 'OUTCOME'}, {text:'IMPACT', value: 'IMPACT'}];
+  statusFilter= [{text:'GOOD', value:'GOOD'}, {text:'BAD', value: 'BAD'}];
+  maxId:number = 0;
 
-  constructor(private modal: NzModalService, public indicatorService: IndicatorService) { 
+  constructor(public indicatorService: IndicatorService, public machineLearningService: MachineLearningService,
+    public messageService: NzMessageService) { 
     this.indicatorService.updateNextButton(true);
   }
 
   ngOnInit(): void {
-    // result api call
-    this.indicatorService.getResult().subscribe((res: any) =>{
+    if(this.indicatorService.statementData){
+      this.listOfData = this.indicatorService.statementData;
       this.indicatorService.loadingStart.next(false);
-      this.indicatorService.resultData = res;
-      this.indicatorService.collapseData = [
-        {
-          active: true,
-          name: 'Impact',
-          status:"active",
-          value:70,
-          data:  res.impact.map((indicator,i)=>{
-            indicator.statusColor = this.setStatus(indicator.status);
-            indicator.scoreType = this.setScoreType(indicator.score);
-            return {indicator: indicator, sort_id: i + 1}
-          })
-        },
-        {
-          active: true,
-          name: "Outcome",
-          status: "exception",
-          value: 30,
-          data: res.outcome.map((indicator,i)=>{
-            indicator.statusColor = this.setStatus(indicator.status);
-            indicator.scoreType = this.setScoreType(indicator.score);
-            return {indicator: indicator, sort_id: i + 1}
-          })
-        },
-        {
-          active: true,
-          name: 'Output',
-          status:"success",
-          value:100,
-          data: res.output.map((indicator,i)=>{
-            indicator.statusColor = this.setStatus(indicator.status);
-            indicator.scoreType = this.setScoreType(indicator.score);
-            return {indicator: indicator, sort_id: i + 1}
-          })
+    }else {
+      this.subscription = this.indicatorService.getIndicatorSubject().pipe(take(1),
+        tap((data) => {
+        if(data.files == null || data.files.length == 0) {
+          this.messageService.info('No document was uploaded');
+        }else {
+          // result api call
+          this.subscription = this.machineLearningService.getStatements(data.files[0]).subscribe((event: HttpEvent<any>) => {
+            switch (event.type) {
+              case HttpEventType.Response:
+                let res = event.body;
+                if(res[Level.IMPACT].length == 0 && res[Level.OUTCOME].length == 0 && res[Level.OUTPUT].length == 0) {
+                  this.messageService.info('No statements were found on the document');
+                }
+                this.listOfData = [...res[Level.IMPACT].map((x)=> {
+                  x.level = this.levelFilter[2].text;
+                  this.setLevelColor(x);
+                  this.setStatusColor(x);
+                  this.setScoreGradient(x);
+                  x.id = this.maxId++;
+                  return x;
+                }),
+                  ...res[Level.OUTCOME].map((x)=> {
+                    x.level = this.levelFilter[1].text;
+                    this.setLevelColor(x);
+                    this.setStatusColor(x);
+                    this.setScoreGradient(x);
+                    x.id = this.maxId++;
+                    return x;
+                }),
+                ...res[Level.OUTPUT].map((x)=> {
+                  x.level = this.levelFilter[0].text;
+                  this.setLevelColor(x);
+                  this.setStatusColor(x);
+                  this.setScoreGradient(x);
+                  x.id = this.maxId++;
+                  return x;
+                })];
+                this.updateStatementData();
+                this.indicatorService.loadingStart.next(false);
+                break;
+            }
+          });
         }
-      ];
-      
-    });
+      })).subscribe();
+    } 
   }
 
   // status wise add class
-  setStatus(status){
-    if(status == 'good'){
-      return 'success';
-    } else if(status == 'bad'){
-      return 'error';
+  setStatusColor(x){
+    x.status = x.status.toUpperCase();
+    if(x.status == 'GOOD'){
+      x.statusColor = 'green';
+    } else if(x.status == 'BAD'){
+      x.statusColor = 'red';
     } else {
-      return 'processing';
+      x.statusColor = 'yellow';
     }
   }
 
   // score wise show progress color class
-  setScoreType(score){
-    if(score <= 50){
-      return 'exception';
-    } else if(score <= 80){
-      return 'active';
-    } else if(score <= 100){
-      return 'success';
+  setScoreGradient(x){
+    
+    if(x.score <= 10){
+      x.gradient = GRADIENT_RED;
+    } else if(x.score <= 25){
+      x.gradient = GRADIENT_ORANGE;
+    } else if(x.score <= 50){
+      x.gradient = GRADIENT_YELLOW;
+    } else if(x.score <= 75){
+      x.gradient = GRADIENT_LIGHT_GREEN;
+    } else {
+      x.gradient = GRADIENT_GREEN;
     }
   }
 
-  // delete statment row
-  showDeleteConfirm(collapseIndex, index): void {
-    this.modal.confirm({
-      nzTitle: 'Are you sure you want to delete this statement?',
-      nzOkText: 'Yes',
-      nzOkType: 'danger',
-      nzOnOk: () => {
-        // remove row
-        this.indicatorService.collapseData[collapseIndex].data.splice(index, 1);
-      },
-      nzCancelText: 'No',
-      nzOnCancel: () => {}
-    });
+  setLevelColor(listItem) {
+    switch(listItem.level) {
+      // OUTPUT
+      case this.levelFilter[0].text:
+        listItem.colorLevel = "#637743";
+        break;
+      // OUTCOME
+      case this.levelFilter[1].text:
+        listItem.colorLevel = "#6B3C53";
+        break;
+      // IMPACT
+      case this.levelFilter[2].text:
+        listItem.colorLevel = "#453457";
+        break;
+    }
+  }
+  
+  startEdit(id: string): void {
+    console.log("StartEdit: ", id);
+    this.editId = id;
   }
 
-  // Edit Statement Open Modal
-  edit(collapseIndex, index){
-    this.selectedIndexObject = {collapseIndex, index};
-    this.editStatement = this.indicatorService.collapseData[collapseIndex].data[index].indicator.statement;
-    this.isVisible = true;
+  stopEdit(listItem): void {
+    this.editId = null;
+    this.updateStatementData();
   }
 
-  // Update Statement Data
-  update(){
-    this.indicatorService.collapseData[this.selectedIndexObject.collapseIndex].data[this.selectedIndexObject.index].indicator.statement = this.editStatement;
-    this.isVisible = false;
+  addRow(): void {
+    this.listOfData = [
+      ...this.listOfData,
+      {
+        id: this.maxId++
+      }
+    ];
+    this.updateStatementData();
   }
 
-  // Modal cancel event
-  handleCancel(){
-    this.isVisible = false;
+  deleteRow(index: number): void {
+    console.log("Delete row:", index);
+    this.listOfData = this.listOfData.filter((d, i) => i != index);
+    this.updateStatementData();
+  }
+
+  validateStatement(index: number): void {
+    if(this.listOfData[index].level == null) {
+      this.messageService.error("To validate a statement it must have a level set.")
+      return;
+    }
+    console.log("Validate index", index);
+    
+    this.machineLearningService.validateStatement(this.listOfData[index].statement, this.listOfData[index].level)
+       .subscribe(res => {
+         this.listOfData[index].score = res.score;
+         this.listOfData[index].status = res.status;
+         this.setStatusColor(this.listOfData[index]);
+        this.updateStatementData();
+     });
+  }
+
+  updateStatementData(): void {
+    this.indicatorService.statementData = this.listOfData;
+  }
+  /**
+   * Filter functions for each column
+   * @param list Filter's list
+   * @param item Data's item
+   */
+  filterLevel = (list: string[], item) => list.some(value => item.level.indexOf(value) !== -1);
+  filterStatus = (list: string[], item) => list.some(value => item.status.indexOf(value) !== -1);
+
+  levelChangeHandle(listItem){
+    this.setLevelColor(listItem);
+    this.updateStatementData();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

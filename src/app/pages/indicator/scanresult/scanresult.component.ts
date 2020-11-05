@@ -7,14 +7,15 @@ import { FilterData } from 'src/app/services/dto/filter-data.dto';
 import { take } from 'rxjs/internal/operators/take';
 import { tap } from 'rxjs/internal/operators/tap';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 
 interface ItemData {
   indicator: IndicatorResponse;
-  sort_id:number;
   countryCodeSelected:string;
   yearSelected:Date;
-  baseLineValue:any;
+  baselineValue:any;
+  statement: any;
+
+  colorLevel:string;
 }
 
 
@@ -41,7 +42,8 @@ export const WORLD_BANK_SOURCE_ID: number = 2;
 export const NO_VALUE: string = 'No Value';
 export const DISAG_YES_FILTER_DATA: FilterData = {text: 'Yes', value:0};
 export const DISAG_NO_FILTER_DATA: FilterData = {text: 'No', value:1};
-
+export const EMPTY_ACTIVE_ITEM: ItemData = {indicator: null, colorLevel: '', baselineValue: 0, yearSelected: new Date(), countryCodeSelected: '', statement: null};
+export const COLOR_LEVEL = {'IMPACT': '#453457', 'OUTCOME': '#6B3C53', 'OUTPUT': '#637743'};
 @Component({
   selector: 'app-scanresult',
   templateUrl: './scanresult.component.html',
@@ -51,9 +53,8 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   indicatorSubscription: Subscription = null;
 
   downloadDisabled = true;
-  isAllDisplayDataChecked = false;
-  isIndeterminate = false;
   mapOfCheckedId: { [key: string]: boolean } = {};
+  mapOfCheckedStatementsId: { [key: string]: boolean } = {};
   listOfData: ItemData[] = [];
   displayData: ItemData[] = [];
   selectedIndicators: ItemData[] = [];
@@ -63,13 +64,17 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   sortValue: string | null = null;
   searchValue = '';
   searchSelected = '';
-  sliderMinValue = 0;
-  sliderMaxValue = 0;
   impactCount = 0;
   outcomeCount = 0;
   outputCount = 0;
   showLoading = true;
-  showKeywordCol = true;
+  showLoadingBaseline: boolean = false;
+  showScoreCol = true;
+  isPropertiesModalActive: boolean = false;
+  activeItem: ItemData = EMPTY_ACTIVE_ITEM;
+  outcomeStatements = [];
+  outputStatements = [];
+  statementData = [];
   myOptions = {
     placement: 'top',
     trigger: 'hover',
@@ -80,19 +85,11 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   countriesList = [];
 
   expandSet = new Set<number>();
-  onExpandChange(id: number, checked: boolean): void {
-    if (checked) {
-      this.expandSet.add(id);
-    } else {
-      this.expandSet.delete(id);
-    }
-  }
-  today = new Date();
 
   constructor(private indicatorService: IndicatorService) {}
 
   ngOnInit(): void {
-   
+
     this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
       .pipe(
@@ -100,30 +97,43 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         tap((data) => {
         let isNewInfo = data==null ? true : data.isNewInfo;
         // show keyword column if document was uploaded
-        this.showKeywordCol = data != null && data.dataResponse != null;
+        this.showScoreCol = data != null && data.dataResponse != null;
         if(data!=null){
           // with document
           if (isNewInfo && data.dataResponse != null) {
-            this.listOfData = data.dataResponse.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1, countryCodeSelected: null, yearSelected: new Date(), baseLineValue: null}});
+            console.log("with document");
+            this.listOfData = data.dataResponse.map((indicator,i)=>{
+              return {
+                indicator: indicator,
+                colorLevel: COLOR_LEVEL[indicator.level],
+                countryCodeSelected: null,
+                yearSelected: null,
+                baselineValue: null
+              }});
+            this.addFilters();
             this.indicatorService.setLoadedData(this.listOfData);
             this.displayData = this.listOfData;
 
-            const result = Utils.findMinAndMaxValue(data.dataResponse, 'numTimes');
-            this.sliderMinValue = result.minValue;
-            this.sliderMaxValue = result.maxValue;
             this.showLoading = false;
           }
 
           // without document
           if (isNewInfo && data.dataResponse == null){
+            console.log("Without document");
             this.indicatorService.getIndicators(data.filters).subscribe((response) => {
 
               if(response != null && response.length > 0) {
-                this.listOfData = response.map((indicator,i)=>{return {indicator: indicator, sort_id: i + 1, countryCodeSelected: null, yearSelected: new Date(), baseLineValue: null}});
-
+                this.listOfData = response.map((indicator,i)=>{return {
+                  indicator: indicator,
+                  colorLevel: COLOR_LEVEL[indicator.level],
+                  countryCodeSelected: null,
+                  yearSelected: null,
+                  baselineValue: null,
+                  statement: null
+                }});
+                this.addFilters();
                 this.indicatorService.setLoadedData(this.listOfData);
                 this.displayData = this.listOfData;
-                this.sliderMinValue = this.sliderMaxValue = 1;
                 this.showLoading = false;
               }
             });
@@ -131,42 +141,22 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
           // without changes in the filters or documents
           if(!data.isNewInfo && data.dataResponse != null){
+            console.log("No changes");
             this.listOfData = data.dataResponse;
             this.displayData = this.listOfData;
             if(data.selectedData != null) {
               this.selectedIndicators = this.filteredSelectedIndicators = data.selectedData;
               this.listOfData.forEach((x, i)=>{
                 if(this.selectedIndicators.find(y=>y.indicator.id == x.indicator.id)){
-                  this.mapOfCheckedId[x.sort_id] = true;
+                  this.mapOfCheckedId[x.indicator.id] = true;
                 }
               });
               this.refreshStatus();
             }
-
+            this.addFilters();
             this.showLoading = false;
-          }
-          let mapLevels: Map<string, FilterData> = new Map();
-          let mapSource: Map<string, FilterData> = new Map();
-          let mapSDGCode: Map<string, FilterData> = new Map();
-          let mapCRSCode: Map<string, FilterData> = new Map();
-          let mapSector: Map<string, FilterData> = new Map();
-          let mapDisag: Map<string, FilterData> = new Map();
+          } 
 
-
-          this.listOfData.forEach((x)=>{
-            mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
-            x.indicator.source.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
-            x.indicator.sdgCode.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
-            x.indicator.crsCode.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
-            mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
-            mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
-          })
-          mapLevels.forEach((value, _)=> {this.searchFilter?.level.push(value);});
-          mapSource.forEach((value, _)=> {this.searchFilter.source.push(value);});
-          mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode.push(value);});
-          mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode.push(value);});
-          mapSector.forEach((value, _)=> {this.searchFilter.sector.push(value);});
-          mapDisag.forEach((value, _)=> {this.searchFilter.disaggregation.push(value);});
           //TODO: Fix this, this can't be here
           let enableNextButton = false;
           for (const key in this.mapOfCheckedId) {
@@ -194,13 +184,12 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           });
         });
       });
+
+      this.outcomeStatements = this.indicatorService.statementData?.filter(x=>x.level=='OUTCOME');
+      this.outputStatements = this.indicatorService.statementData?.filter(x=>x.level=='OUTPUT');
   }
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
-  }
-  checkAll(value: boolean): void {
-    this.displayData.forEach((item) => (this.mapOfCheckedId[item.sort_id] = value));
-    this.refreshStatus();
   }
   sort(sort: { key: string; value: string }, isSelectedTable: boolean): void {
     this.sortName = sort.key;
@@ -236,40 +225,41 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       );
     }
     // checked sort logic
-     this.displayData = this.displayData.sort((a, b) =>
-       this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
-     );
+    //  this.displayData = this.displayData.sort((a, b) =>
+    //    this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
+    //  );
     // checked backend sort logic
-     this.displayData = this.displayData.sort((a, b) =>
-       this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
-         ? b.sort_id > a.sort_id
-           ? -1
-           : 1
-         : 0
-     );
-     if (!isColumnSort) {
-       // unchecked backend sort logic
-       this.displayData = this.displayData.sort((a, b) =>
-         !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
-           ? b.sort_id > a.sort_id
-             ? -1
-             : 1
-           : 0
-       );
-     }
+    //  this.displayData = this.displayData.sort((a, b) =>
+    //    this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
+    //      ? b.sort_id > a.sort_id
+    //        ? -1
+    //        : 1
+    //      : 0
+    //  );
+    //  if (!isColumnSort) {
+    //    // unchecked backend sort logic
+    //    this.displayData = this.displayData.sort((a, b) =>
+    //      !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
+    //        ? b.sort_id > a.sort_id
+    //          ? -1
+    //          : 1
+    //        : 0
+    //    );
+    //  }
     this.refreshStatus();
   }
-  
+
   /**
    * Triggered when selected item in the table
    * Updates the list of selected indicators and clear search of selected indicator
-   * @param id Sort Id of the selected indicator
    * @param item ItemData indicator
+   * @param selected Forced selected state of the indicator
    */
-  selectindicator(id, item: ItemData) {
-    this.indicatorService.canvasJson = {"result":[], "indicator":[]};
-    this.mapOfCheckedId[id] = !this.mapOfCheckedId[id];
-    if(this.mapOfCheckedId[id]){
+  selectIndicator(item: ItemData, selected?: boolean) {
+    this.indicatorService.canvasJson = [];
+    // Set item selected state. Should be selected if properties modal is open
+    this.mapOfCheckedId[item.indicator.id] = selected ? selected : !this.mapOfCheckedId[item.indicator.id] || this.isPropertiesModalActive;
+    if(this.mapOfCheckedId[item.indicator.id]){
       this.selectedIndicators.push(item);
     } else {
       this.selectedIndicators = this.selectedIndicators.filter(x=>x.indicator.id != item.indicator.id);
@@ -284,11 +274,11 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.outputCount = 0;
     this.impactCount = 0;
     this.outcomeCount = 0;
+    
     if (this.displayData.length > 0) {
       this.downloadDisabled = true;
-      this.isAllDisplayDataChecked = true;
       for (let item of this.displayData) {
-        if (this.mapOfCheckedId[item.sort_id]) {
+        if (this.mapOfCheckedId[item.indicator.id]) {
           this.downloadDisabled = false;
           if (item.indicator.level === 'OUTPUT') {
             this.outputCount++;
@@ -298,17 +288,13 @@ export class ScanResultComponent implements OnInit, OnDestroy {
             this.outcomeCount++;
           }
         }
-        if (!this.mapOfCheckedId[item.sort_id]) {
-          this.isAllDisplayDataChecked = false;
-        }
       }
     }
     if (this.downloadDisabled) {
       this.indicatorService.setSelectedData(null);
       this.indicatorService.updateNextButton(false);
     } else {
-       this.indicatorService.setSelectedData(this.mapOfCheckedId);
-      //this.indicatorService.setSelectedData(this.selectedIndicators);
+      this.indicatorService.setSelectedData(this.selectedIndicators);
       this.indicatorService.updateNextButton(true);
     }
   }
@@ -318,7 +304,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   }
 
   onAfterChange(value: number[]): void {
-    this.displayData = this.listOfData.filter((item: ItemData) => value[0] <= item.indicator.numTimes && item.indicator.numTimes <= value[1]);
+    this.displayData = this.listOfData.filter((item: ItemData) => value[0] <= item.indicator.score && item.indicator.score <= value[1]);
   }
 
   /**
@@ -326,12 +312,12 @@ export class ScanResultComponent implements OnInit, OnDestroy {
    * @param list Filter's list
    * @param item Data's item
    */
-  filterLevel = (list: string[], item: ItemData) => list.some(value => item.indicator.level.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterSector = (list: string[], item: ItemData) => list.some(value => item.indicator.sector.indexOf(value) !== -1 || this.mapOfCheckedId[item.sort_id]);
-  filterSource = (list: string[], item: ItemData) => list.some(value => item.indicator.source.some((x)=> {x.name == value}) || this.mapOfCheckedId[item.sort_id]);
-  filterSDGCode = (list: string[], item: ItemData) => list.some(value => item.indicator.sdgCode.some((x)=> {x.name == value})  || this.mapOfCheckedId[item.sort_id]);
-  filterCRSCode = (list: string[], item: ItemData) => list.some(value => item.indicator.crsCode.some((x)=> {x.name == value}) || this.mapOfCheckedId[item.sort_id]);
-  filterDisag = (list: string[], item: ItemData) => list.some(value => item.indicator.disaggregation === (value=='0') || this.mapOfCheckedId[item.sort_id]);
+  filterLevel = (list: string[], item: ItemData) => list.some(value => item.indicator.level.indexOf(value) !== -1);
+  filterSector = (list: string[], item: ItemData) => list.some(value => item.indicator.sector.indexOf(value) !== -1);
+  filterSource = (list: number[], item: ItemData) => list.some(value => item.indicator.source.some(x=> x.id == value));
+  filterSDGCode = (list: number[], item: ItemData) => list.some(value => item.indicator.sdgCode.some(x=> x.id == value));
+  filterCRSCode = (list: number[], item: ItemData) => list.some(value => item.indicator.crsCode.some(x=> x.id == value));
+  filterDisag = (list: string[], item: ItemData) => list.some(value => item.indicator.disaggregation === (value=='0'));
 
 
   printArray(array: Array<any>, property?: string): string{
@@ -346,24 +332,37 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
   disabledDate = (current: Date): boolean => {
     // Can not select days before today and today
-    return differenceInCalendarDays(current, this.today) > 0;
+    return differenceInCalendarDays(current, new Date()) > 0;
   };
 
-  ngModelCountryChange(row, code){
-    row.countryCodeSelected = code;
+  ngModelCountryChange(item, code){
+    item.baselineValue = null;
+    item.countryCodeSelected = code;
+    this.getWorldBankBaselineValue(item);
   }
 
-  ngModelYearChange(row, date:Date){
-    row.baseLineValue = null;
-    if(date){
-      this.indicatorService.getWorldBankBaselineValue(row.indicator.id, row.countryCodeSelected, date.getFullYear()).subscribe(data => {
+  ngModelYearChange(item, date:Date){
+    item.baselineValue = null;
+    item.yearSelected = date;
+    this.getWorldBankBaselineValue(item);
+  }
+
+  getWorldBankBaselineValue(item: ItemData) {
+    if(item.countryCodeSelected && item.yearSelected){
+      this.showLoadingBaseline = true
+      this.indicatorService.getWorldBankBaselineValue(item.indicator.id, item.countryCodeSelected, item.yearSelected.getFullYear()).subscribe(data => {
         console.log(data);
         if(data != null && data.length > 0)
-          row.baseLineValue = data[0].value;
+          item.baselineValue = data[0].value;
         else
-          row.baseLineValue = NO_VALUE;
+          item.baselineValue = NO_VALUE;
+        this.showLoadingBaseline = false;
       });
     }
+  }
+
+  onExpandChange(id: number, checked: boolean): void {
+    checked ? this.expandSet.add(id) : this.expandSet.delete(id);
   }
 
   removeSelectedIndicator(item: ItemData): void {
@@ -375,7 +374,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       this.filteredSelectedIndicators = this.selectedIndicators;
     }
 
-    this.mapOfCheckedId[item.sort_id] = false;
+    this.mapOfCheckedId[item.indicator.id] = false;
     this.refreshStatus();
   }
 
@@ -383,7 +382,64 @@ export class ScanResultComponent implements OnInit, OnDestroy {
    * Returns true if indicator has a source of the World Bank
    * @param indicator Indicator
    */
-  isWorldBankIndicator(indicator: ItemData): boolean {
-    return indicator.indicator.source.find(x=>x.id==WORLD_BANK_SOURCE_ID) != null;
+  isWorldBankIndicator(item: ItemData): boolean {
+    return item.indicator?.source?.find(x=>x.id==WORLD_BANK_SOURCE_ID) != null;
+  }
+  
+  showPropertiesModal(indicator: ItemData): void {
+    this.activeItem = indicator;
+    this.statementData = this.activeItem.indicator.level == 'OUTCOME' ?
+      this.outcomeStatements : this.outputStatements;
+    this.mapOfCheckedStatementsId = {};
+    if(this.activeItem.statement) {
+      this.mapOfCheckedStatementsId[this.activeItem.statement.id] = true;
+    }
+    this.isPropertiesModalActive = true;
+  }
+
+  propertiesModalOkHandle(): void {
+    this.isPropertiesModalActive = false;
+    this.mapOfCheckedStatementsId = {};
+    this.activeItem = EMPTY_ACTIVE_ITEM;
+  }
+
+  selectStatement(statement, selected): void {
+    this.mapOfCheckedStatementsId = {};
+    if(selected) {
+      this.mapOfCheckedStatementsId[statement.id] = true;
+      this.activeItem.statement = statement;
+    } else {
+      this.activeItem.statement = null;
+    }
+  }
+
+  /**
+   * Set filters for the table
+   */
+  addFilters(): void {
+    let mapLevels: Map<string, FilterData> = new Map();
+    let mapSource: Map<string, FilterData> = new Map();
+    let mapSDGCode: Map<string, FilterData> = new Map();
+    let mapCRSCode: Map<string, FilterData> = new Map();
+    let mapSector: Map<string, FilterData> = new Map();
+    let mapDisag: Map<string, FilterData> = new Map();
+
+
+    this.listOfData.forEach((x)=>{
+      if(x.indicator){
+        mapLevels.set(x.indicator.level,new FilterData(x.indicator.level));
+        x.indicator.source?.forEach((z)=> mapSource.set(z.id.toString(),{text:z.name, value: z.id}));
+        x.indicator.sdgCode?.forEach((z)=> mapSDGCode.set(z.id.toString(),{text:z.name, value: z.id}));
+        x.indicator.crsCode?.forEach((z)=> mapCRSCode.set(z.id.toString(),{text:z.name, value: z.id}));
+        mapDisag.set(x.indicator.disaggregation + '', x.indicator.disaggregation ? DISAG_YES_FILTER_DATA: DISAG_NO_FILTER_DATA);
+        mapSector.set(x.indicator.sector,new FilterData(x.indicator.sector));
+      }
+    })
+    mapLevels.forEach((value, _)=> {this.searchFilter.level = [...this.searchFilter.level, value];});
+    mapSource.forEach((value, _)=> {this.searchFilter.source = [...this.searchFilter.source, value];});
+    mapSDGCode.forEach((value, _)=> {this.searchFilter.sdgCode = [...this.searchFilter.sdgCode, value];});
+    mapCRSCode.forEach((value, _)=> {this.searchFilter.crsCode= [...this.searchFilter.crsCode, value];});
+    mapSector.forEach((value, _)=> {this.searchFilter.sector = [...this.searchFilter.sector, value];});
+    mapDisag.forEach((value, _)=> {this.searchFilter.disaggregation = [...this.searchFilter.disaggregation, value];});
   }
 }

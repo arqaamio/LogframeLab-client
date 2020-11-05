@@ -208,3 +208,73 @@ app-manage-indicators {
 .ant-popover {
   max-width: 90vw !important;
 }
+
+
+#stepButton {
+  top: 15rem;
+  background: #a5c2ae;
+  right: -65px;
+  width: 8rem;
+}
+@media screen and (max-height: 725px) {
+  #stepButton {
+    top: 27rem;
+  }
+}
+
+#feedbackButton {
+  top: 20rem;
+  right: -98px;
+  width: 10rem;
+}
+@media screen and (max-height: 905px) {
+  #feedbackButton {
+    top: 32rem;
+  }
+}
+
+#uploadButton {
+  top: 25rem;
+}
+@media screen and (max-height: 1050px) {
+  #uploadButton {
+    top: 37rem;
+  }
+}
+@media screen and (max-height: 650px) {
+  #stepButton   {
+    top: 67%;
+  }
+  #feedbackButton {
+    top: 79%;
+  }
+  #uploadButton {
+    top: 90%;
+  }
+}
+
+.sideButton {
+  z-index: 9999;
+  display: flex;
+  position: absolute;
+  right: -145px;
+  background: #453457;
+  border-radius: 5px 0px 0px 5px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  align-items: center;
+  height: 3rem;
+  width: 13rem;
+  i {
+    margin-left: 5px;
+    margin-right: 10px;
+    font-size: 2rem;
+  }
+  border: none;
+  transition: right 2s;
+}
+
+#stepButton:hover, #feedbackButton:hover, .sideButton:hover {
+  right: 0px;
+}

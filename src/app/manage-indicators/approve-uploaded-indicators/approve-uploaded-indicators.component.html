@@ -10,10 +10,10 @@
         <i nz-icon nzType="close"></i>
         Disapprove selected
       </button>
-
+<!-- 
       <button nz-button (click)="fetchByFilters()" nzType="link" nzSize="default" style="position: absolute; right: 0">
         Filter
-      </button>
+      </button> -->
     </div>
   </div>
   <nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList" [nzFrontPagination]="false"
@@ -43,6 +43,7 @@
         <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">
           Level
         </th>
+        <th>Actions</th>
       </tr>
     </thead>
 
@@ -60,6 +61,12 @@
         <td>{{ind.sourceVerification}}</td>
         <td>{{ind.sector}}</td>
         <td>{{ind.level.name}}</td>
+        <td>
+          <div>
+            <div nz-row><a (click)="edit(ind)">Edit</a></div>
+            <div nz-row><a (click)="delete(ind)">Remove</a></div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </nz-table>
@@ -113,8 +120,8 @@
         <td>{{ item.indicator.sourceVerification }}</td>
         <td>{{ item.indicator.sector }}</td>
         <td>{{ item.indicator.level.name }}</td>
-        <td style="color: green;" (click)="checkSimilarity(item.indicator.id)"><strong>&#10003;</strong></td>
-        <td style="color: red;" (click)="deleteIndicator(item.indicator.id)"><strong>X</strong></td>
+        <td style="color: green;cursor: pointer;" (click)="checkSimilarity(item.indicator.id)"><strong>&#10003;</strong></td>
+        <td style="color: red;cursor: pointer;" (click)="deleteIndicator(item.indicator.id)"><strong>X</strong></td>
       </tr>
       <ng-container *ngFor="let sim of item.similarIndicators" >
         <tr *ngIf="similarExpandSet.has(item.indicator.id)" class="similar-indicator">
@@ -133,10 +140,20 @@
           <td>{{ sim.sector }}</td>
           <td>{{ sim.level.name }}</td>
           <td></td>
-          <td style="color: red;" (click)="deleteIndicator(item.indicator.id, sim.id)"><strong>X</strong></td>
+          <td style="color: red;cursor: pointer;" (click)="deleteIndicator(item.indicator.id, sim.id)"><strong>X</strong></td>
         </tr>
       </ng-container>
     </ng-container>
   </tbody>
 </nz-table>
 </div>
+<app-crud-indicator
+  (hideCrudModal)="hideCrudModal($event)"
+  (indicatorAdded)="refreshIndicatorList(true)"
+  (indicatorDeleted)="refreshIndicatorList(true)"
+  (indicatorUpdated)="refreshIndicatorList(false)"
+  [operation]="operation"
+  [indicatorForOperation]="indicator"
+  [displayCrudModal]="displayCrudModal"
+>
+</app-crud-indicator>

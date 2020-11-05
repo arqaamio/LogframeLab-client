@@ -11,7 +11,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
-import { UploadFile } from 'ng-zorro-antd/upload';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Injectable({
@@ -19,16 +18,14 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 })
 export class IndicatorService {
   private baseUrl = environment.apiBaseUrl;
-  private fileList: UploadFile[] = null;
+  private fileList: NzUploadFile[] = null;
   private filters: FilterDto = null;
   public dataResponse: any = null;
-  public collapseData: any = null;
-  public resultData: any = null;
+  public statementData: any[] = null;
   public selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
-  public canvasJson: any = {"result":[], "indicator":[]};
-  public selectedChart = "result";
+  public canvasJson: any[] = [];
   private nextButtonSubject = new BehaviorSubject<any>(null);
   private isNewInfo: boolean = true;
   private nextButton: boolean = false;
@@ -55,10 +52,8 @@ export class IndicatorService {
     this.indicatorSubject.next(null);
     this.exportSvg.next(null);
     this.currentStep = 0;
-    this.canvasJson = {"result":[], "indicator":[]};
-    this.selectedChart = 'result';
-    this.resultData = null;
-    this.collapseData = null;
+    this.canvasJson = [];
+    this.statementData = null;
   }
 
   setSelectedData(selectedData) {
@@ -195,9 +190,6 @@ export class IndicatorService {
     return this.http.get<IndicatorResponse[]>(url);
   }
 
-  getResult():  Observable<any>{
-    return this.http.get('https://run.mocky.io/v3/0f2900ae-cd42-4d14-9468-e8fbbaa2476e');
-  }
   /**
    * Requests to the backend to return template of given format
    * @param format Template format
@@ -212,7 +204,7 @@ export class IndicatorService {
     return this.http.get<Map<string, string>>(this.baseUrl + '/worldbank/country');
   }
 
-  getWorldBankBaselineValue(indicatorId:string, countryCode:string, year:number):Observable<any> {
+  getWorldBankBaselineValue(indicatorId:number, countryCode:string, year:number):Observable<any> {
     return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
   }
 }

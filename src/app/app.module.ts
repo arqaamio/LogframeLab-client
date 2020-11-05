@@ -37,7 +37,6 @@ import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.com
 import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
 import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
 import { DialogComponent } from './dialog/dialog.component';
-import { ProfileMenuModule } from './profile-menu/profile-menu.module';
 import { AuthGuard } from './utils/auth.guard';
 import { JwtInterceptor } from './utils/auth/jwt.interceptor';
 import { DefaultInterceptor } from './utils/http/default.interceptor';
@@ -57,7 +56,10 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { ResultComponent } from './pages/indicator/result/result.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzBadgeModule, NzDropDownModule } from 'ng-zorro-antd';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { IndicatorsUploadModule } from './indicators-upload/indicators-upload.module';
 
 registerLocaleData(en);
 
@@ -67,7 +69,6 @@ export const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   { path: 'login', component: SigninComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
-  { path: '', component: IndicatorComponent },
   {
     path: 'manage-indicators',
     loadChildren: () =>
@@ -83,13 +84,7 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
-  {
-    path: 'indicators-upload',
-    loadChildren: () =>
-      import('./indicators-upload/indicators-upload.module').then(
-        (m) => m.IndicatorsUploadModule
-      ),
-  },
+  { path: '', component: IndicatorComponent },
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
@@ -128,7 +123,6 @@ export const routes: Routes = [
     NzStepsModule,
     NzProgressModule,
     NzAlertModule,
-    ProfileMenuModule,
     NzMenuModule,
     NzInputModule,
     NzFormModule,
@@ -139,7 +133,10 @@ export const routes: Routes = [
     NzModalModule,
     NzBadgeModule,
     NzPopoverModule,
-    NzDatePickerModule
+    NzPopconfirmModule,
+    NzDropDownModule,
+    NzDatePickerModule,
+    IndicatorsUploadModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -176,7 +173,7 @@ export const routes: Routes = [
     {
       provide: ErrorHandler,
       useClass: ErrorHandlerService
-    },
+    }
   ],
   bootstrap: [AppComponent],
   schemas:[NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA]

@@ -6,7 +6,20 @@
           <img src="assets/logo-11-1.png" alt="Logframe Lab Logo" />
         </a>
       </li>
-      <app-profile></app-profile>
+      <!-- User Menu -->
+      <button nz-button nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomRight'" nzShape="circle" id="userMenuButton">
+        <i nz-icon nzType="user"></i>
+      </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item routerLink="/"><i nz-icon nzType="home"></i>Home</li>
+          <li nz-menu-item *ngIf="isIndicatorAdmin()" routerLink="/manage-indicators"><i nz-icon nzType="table" nzTheme="outline"></i>Manage indicators</li>
+          <li nz-menu-item *ngIf="isIndicatorAdmin()" routerLink="/manage-indicators/approve-uploaded"><i nz-icon nzType="carry-out" nzTheme="outline"></i>Approve indicators</li>
+          <li nz-menu-item *ngIf="isSecAdmin()" routerLink="/user-management"><i nz-icon nzType="lock" nzTheme="outline"></i>Manage users
+          <li nz-menu-item *ngIf="isAuthenticated" (click)="logout()"><i nz-icon nzType="logout"></i>Logout</li>
+          <li nz-menu-item *ngIf="!isAuthenticated" routerLink="/login"><i nz-icon nzType="login"></i>Login</li>
+        </ul>
+      </nz-dropdown-menu>
     </ul>
     <nz-content>
       <router-outlet></router-outlet>

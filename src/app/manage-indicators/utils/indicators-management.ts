@@ -4,6 +4,7 @@ import {IndicatorDto} from './indicator.dto';
 import {ManageIndicatorsService} from '../../services/indicators-management/manage-indicators.service';
 import {IndicatorService} from '../../services/indicator.service';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { Operation } from '../crud-indicator/crud-indicator.component';
 
 export class IndicatorsManagement {
 
@@ -12,6 +13,9 @@ export class IndicatorsManagement {
   pageSize = 10;
   indicatorList: IndicatorDto[] = [];
   isLoading = false;
+  displayCrudModal = false;
+  operation: Operation;
+  indicator: IndicatorDto;
 
   sectorFilter: FilterData[] = [];
   sourceFilter: FilterData[] = [];
@@ -58,7 +62,6 @@ export class IndicatorsManagement {
       ? this.manageIndicatorsService.getIndicatorsForApproval(this.page, this.pageSize, this.filters)
       : this.manageIndicatorsService.getIndicators(this.page, this.pageSize, this.filters);
 
-    // TODO: Fix deprecated
     forkJoin([filtersRequest, indicatorsRequest]).subscribe(results => {
       const filters = results[0];
 
@@ -92,5 +95,37 @@ export class IndicatorsManagement {
     }else {
       return array.map((x)=>x[property]).join(', ');
     }
+  }
+
+  /**
+   * Refresh indicator list with new API request
+   * @param refresh Wether to refresh to page 1
+   */
+  refreshIndicatorList(refresh: boolean) {
+    this.search(refresh, false);
+  }
+
+  edit(ind: IndicatorDto) {
+    this.displayIndicatorInModal(Operation.UPDATE, ind);
+  }
+
+  delete(ind: IndicatorDto) {
+    this.displayIndicatorInModal(Operation.DELETE, ind);
+  }
+
+  read(ind: IndicatorDto) {
+    this.displayIndicatorInModal(Operation.READ, ind);
+  }
+
+  private displayIndicatorInModal(operation: Operation, ind: IndicatorDto) {
+    this.operation = operation;
+    this.indicator = ind;
+    this.displayCrudModal = true;
+  }
+
+  hideCrudModal(event) {
+    this.displayCrudModal = !event;
+    this.operation = undefined;
+    this.indicator = undefined;
   }
 }

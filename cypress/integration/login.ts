@@ -1,9 +1,7 @@
 describe('Login Page', ()=> {
     const BASE_URL = Cypress.config().baseUrl;
-    const API_BASE_URL = 'http://localhost:8080/';
     
     beforeEach(()=> {       
-        cy.fixture('jwtToken.json').as('jwtToken');
         cy.server();
 
         cy.visit('/login');
@@ -19,7 +17,13 @@ describe('Login Page', ()=> {
     });
 
     it('should login', () => {
-        cy.route('POST', API_BASE_URL + 'auth/login', '@jwtToken');
+        const jwtToken = {
+            "token": "faketoken",
+            "tokentype": "Bearer ",
+            "groups": ["SEC_ADMIN", "APP_USER", "INDICATOR_ADMIN"],
+            "expiryDuration": 3600000
+        };
+        cy.route('POST', '**/auth/login', jwtToken);
 
         // closing the Welcome to Logframelab popup
         cy.get('.dialog__close-btn').click();

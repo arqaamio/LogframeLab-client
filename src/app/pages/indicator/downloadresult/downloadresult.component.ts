@@ -2,15 +2,6 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
 import { Subscription } from 'rxjs/internal/Subscription';
 
-interface ItemData {
-  id: number;
-  level: string;
-  color: string;
-  label: string;
-  description: string;
-  keys: Array<string>;
-  var: string;
-}
 
 @Component({
   selector: "app-downloadresult",
@@ -18,12 +9,12 @@ interface ItemData {
   styleUrls: ["./downloadresult.component.scss"],
 })
 export class DownloadResultComponent implements OnInit, OnDestroy {
-  dataExport: ItemData[] = [];
-  indicatorSubscribtion: Subscription = null;
+  dataExport: any[] = [];
+  indicatorSubscription: Subscription = null;
 
   constructor(private indicatorService: IndicatorService) { }
   ngOnInit() {
-    this.indicatorSubscribtion = this.indicatorService
+    this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
       .subscribe((data) => {
         if (
@@ -31,7 +22,14 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
           data.dataResponse != null &&
           data.selectedData != null
         ) {
-          this.dataExport = data.dataResponse.map((x)=> x.indicator);
+          this.dataExport = data.selectedData.map((x)=> {
+            if(x.indicator.date && x.indicator.value) {
+              x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
+              x.indicator.value = x.baselineValue;
+            }
+            x.indicator.statement = x.statement.statement;
+            return x.indicator;
+          });
         }
       });
   }
@@ -56,16 +54,16 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
     let body = this.indicatorService.exportSvg.value;
     var link = document.createElement("a");
     if(type == 'svg'){
-      let blob = new Blob([body[type]], { type: "application/octet-stream" });       
+      let blob = new Blob([body[type]], { type: "application/octet-stream" });
       link.href = URL.createObjectURL(blob);
     } else {
       link.href = body[type];
     }
     link.download = 'flowchart.'+type;
-    link.click();   
+    link.click();
   }
 
   ngOnDestroy() {
-    this.indicatorSubscribtion.unsubscribe();
+    this.indicatorSubscription.unsubscribe();
   }
 }

@@ -21,16 +21,6 @@
 
 }
 
-.stepSection{
-  margin-left: -56px;
-  margin-top: -66px;
-  position: absolute;
-}
-.stepSection button{
-  height: 40px;
-  width:40px;
-}
-
 .steps-action {
   position: static;
   margin: 10px auto;
@@ -303,34 +293,7 @@ background-color: #453457;
   max-width: 48rem;
   }*/
 
-.feedbackIcon {
-  display: flex;
-  position: absolute;
-  top: 20%;
-  right: 0;
-  background: #453457;
-  border-radius: 0.6rem 0 0 0.6rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
-  width: 7rem;
-}
 
-#uploadButton {
-  display: flex;
-  position: absolute;
-  bottom: 20%;
-  right: 0;
-  background: #453457;
-  border-radius: 0.6rem 0 0 0.6rem;
-//  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
-//  width: 7rem;
+::ng-deep .ant-btn-primary {
+  background-color: #453457;
 }

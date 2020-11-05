@@ -5,7 +5,6 @@ import { SDGCode } from './sdgcode.model';
 export class IndicatorResponse {
     id: number;
     level: string;
-    color: string;
     name: string;
     description: string;
     sector: string;
@@ -13,7 +12,8 @@ export class IndicatorResponse {
     disaggregation: boolean;
     crsCode: Array<CRSCode>;
     sdgCode: Array<SDGCode>;
-    numTimes: number;
+    score: number;
     keys: Array<string>;
-    var: string;
+    date: string;
+    value: string;
 }

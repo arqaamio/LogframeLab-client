@@ -4,12 +4,16 @@
 .delete-icon{
     color:#df514d;
     font-size: 20px;
-    margin-left: 6px;
 }
-.edit-icon{
+.add-icon{
     color:#49345d;
     font-size: 20px;
-     margin-right: 6px;
+    margin-right: 6px;
+}
+.check-icon{
+    color:green;
+    font-size: 20px;
+    margin-right: 6px;
 }
 .action{
     text-align: center;
@@ -19,7 +23,8 @@
     background-color: #fff !important;
     color:rgba(0, 0, 0, 0.65) !important;
 }
-.delete-icon:hover, .edit-icon:hover {
+
+.add-icon:hover, .delete-icon:hover, .check-icon:hover {
     cursor: pointer;
 }
 .score-row {
@@ -27,4 +32,21 @@
 }
 .content-panel {
     min-height:250px;
+}
+
+.editable-cell {
+    position: relative;
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+
+.editable-row:hover .editable-cell {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 4px 11px;
+}
+
+button {
+    float: right;
+    margin-right: 50px;
 }

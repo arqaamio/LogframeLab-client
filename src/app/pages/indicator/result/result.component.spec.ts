@@ -10,18 +10,20 @@ import { HttpClientModule } from '@angular/common/http'
 import { ResultComponent } from './result.component';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { MachineLearningService } from 'src/app/services/machinelearning.service';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
   let fixture: ComponentFixture<ResultComponent>;
   let indicatorService: IndicatorService;
+  let machineLearningService: MachineLearningService;
   
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ResultComponent ],
       imports:[BrowserAnimationsModule, NzTableModule, NzTagModule, NzCollapseModule,
         NzModalModule, HttpClientTestingModule, HttpClientModule, NzMessageModule, NzInputModule],
-        providers:[IndicatorService]
+        providers:[IndicatorService, MachineLearningService]
     })
     .compileComponents();
   }));
@@ -29,6 +31,7 @@ describe('ResultComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ResultComponent);
     indicatorService = TestBed.inject(IndicatorService);
+    machineLearningService = TestBed.inject(MachineLearningService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -37,49 +40,9 @@ describe('ResultComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('getResult function call', () => {
-    spyOn(indicatorService, 'getResult').and.callThrough();
+  it('should make a request to the statements endpoint', () => {
+    spyOn(machineLearningService, 'getStatements').and.callThrough();
     component.ngOnInit();
-  });
-
-  it('result data binding', () => {
-    indicatorService.getResult().subscribe((res) =>{
-      indicatorService.collapseData = [
-        {
-          active: true,
-          name: 'Impact',
-          status:"active",
-          value:70,
-          data:  res.impact.map((indicator,i)=>{
-            indicator.statusColor = 'success';
-            indicator.scoreType = 'active';
-            return {indicator: indicator, sort_id: i + 1}
-          })
-        },
-        {
-          active: true,
-          name: "Outcome",
-          status: "exception",
-          value: 30,
-          data: res.outcome.map((indicator,i)=>{
-            indicator.statusColor = 'exception';
-            indicator.scoreType = 'active';
-            return {indicator: indicator, sort_id: i + 1}
-          })
-        },
-        {
-          active: true,
-          name: 'Output',
-          status:"success",
-          value:100,
-          data: res.output.map((indicator,i)=>{
-            indicator.statusColor = 'success';
-            indicator.scoreType = 'active';
-            return {indicator: indicator, sort_id: i + 1}
-          })
-        }
-      ];
-    });    
   });
 
 });
