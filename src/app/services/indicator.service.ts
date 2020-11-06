@@ -21,7 +21,7 @@ export class IndicatorService {
   private fileList: NzUploadFile[] = null;
   private filters: FilterDto = null;
   public dataResponse: any = null;
-  public statementData: any[] = null;
+  public statementData: any[] = [];
   public selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
