@@ -46,12 +46,12 @@ export class ResultComponent implements OnInit, OnDestroy {
   maxId:number = 0;
 
   constructor(public indicatorService: IndicatorService, public machineLearningService: MachineLearningService,
-    public messageService: NzMessageService) { 
+    public messageService: NzMessageService) {
     this.indicatorService.updateNextButton(true);
   }
 
   ngOnInit(): void {
-    if(this.indicatorService.statementData){
+    if(this.indicatorService.statementData.length > 0){
       this.listOfData = this.indicatorService.statementData;
       this.indicatorService.loadingStart.next(false);
     }else {
@@ -99,7 +99,7 @@ export class ResultComponent implements OnInit, OnDestroy {
           });
         }
       })).subscribe();
-    } 
+    }
   }
 
   // status wise add class
@@ -116,7 +116,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   // score wise show progress color class
   setScoreGradient(x){
-    
+
     if(x.score <= 10){
       x.gradient = GRADIENT_RED;
     } else if(x.score <= 25){
@@ -146,7 +146,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         break;
     }
   }
-  
+
   startEdit(id: string): void {
     console.log("StartEdit: ", id);
     this.editId = id;
@@ -179,7 +179,7 @@ export class ResultComponent implements OnInit, OnDestroy {
       return;
     }
     console.log("Validate index", index);
-    
+
     this.machineLearningService.validateStatement(this.listOfData[index].statement, this.listOfData[index].level)
        .subscribe(res => {
          this.listOfData[index].score = res.score;
