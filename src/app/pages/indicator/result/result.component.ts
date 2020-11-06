@@ -185,6 +185,7 @@ export class ResultComponent implements OnInit, OnDestroy {
          this.listOfData[index].score = res.score;
          this.listOfData[index].status = res.status;
          this.setStatusColor(this.listOfData[index]);
+         this.setScoreGradient(this.listOfData[index]);
         this.updateStatementData();
      });
   }
@@ -206,6 +207,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if(this.subscription)
+      this.subscription.unsubscribe();
   }
 }
