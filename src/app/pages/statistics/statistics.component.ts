@@ -31,21 +31,10 @@ export class StatisticsComponent implements OnInit {
             this.counterSectorLevel.push(item);
         });
       });
-      // this.statisticsData = [
-      //   {
-      //       date: '2020-10',
-      //       downloadDFIDTemplate: 5,
-      //       downloadPRMTemplate: 2,
-      //       downloadWordTemplate: 44,
-      //       downloadXLSXTemplate: 8,
-      //   },{
-      //     date: '2020-11',
-      //     downloadDFIDTemplate: 10,
-      //     downloadPRMTemplate: 22,
-      //     downloadWordTemplate: 5,
-      //     downloadXLSXTemplate: 8,
-      // }]
       this.statisticService.getStatistics().subscribe(res=> {
+        res.forEach(x=> {
+          x.date = (<string> x.date).substring(0, 7);
+        })
         this.statisticsData = res;
       });
   }

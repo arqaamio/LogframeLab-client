@@ -213,15 +213,13 @@ export class IndicatorService {
    * Retrieves the total number of indicators in the database
    */
   public getTotalNumIndicators(): Observable<number> {
-    // return this.http.get<number>(this.baseUrl + '/total-number');
-    return this.http.get<number>('https://run.mocky.io/v3/3282de8f-4c6d-44ca-93d0-b044c104c4d6');
+    return this.http.get<number>(this.baseUrl + '/total-number');
   }
 
   /**
    * Retrieves the count of indicators per sector and level
    */
   public getIndicatorsByLevelAndSector(): Observable<NumIndicatorSectorLevel[]> {
-    return this.http.get<NumIndicatorSectorLevel[]>('https://run.mocky.io/v3/686d62d8-8703-4863-8836-ae35ba892dcf');
-    // return this.http.get<number>(this.baseUrl + '/sector-level-count');
+    return this.http.get<NumIndicatorSectorLevel[]>(this.baseUrl + '/sector-level-count');
   }
 }
