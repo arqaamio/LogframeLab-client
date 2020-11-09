@@ -7,9 +7,16 @@
 }
 
 .flex-container > div {
-    width: 20%;
+    width: 50%;
     margin: 10px 10px 0px 10px;
     text-align: left;
+}
+
+#levelDiv {
+    width: 100px;
+    nz-select {
+        width: 100px;
+    }
 }
 
 .flex-container nz-select {

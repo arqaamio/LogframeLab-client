@@ -42,10 +42,15 @@ export class IndicatorsManagement {
       return;
     }
     this.sectorFilter = filters.sector.map(IndicatorsManagement.processFilter);
+    this.sectorFilter = [{text: '(blank)', value:''}, ...this.sectorFilter];
     this.sourceFilter = filters.source.map(this.mapFilter);
+    this.sourceFilter = [{text: '(blank)', value:''}, ...this.sourceFilter];
     this.levelFilter = filters.level.map(this.mapFilter);
+    this.levelFilter = [{text: '(blank)', value:''}, ...this.levelFilter];
     this.sdgCodeFilter = filters.sdgCode.map(this.mapFilter);
+    this.sdgCodeFilter = [{text: '(blank)', value:''}, ...this.sdgCodeFilter];
     this.crsCodeFilter = filters.crsCode.map(this.mapFilter);
+    this.crsCodeFilter = [{text: '(blank)', value:''}, ...this.crsCodeFilter];
 
     this.hasFilters = true;
   }
