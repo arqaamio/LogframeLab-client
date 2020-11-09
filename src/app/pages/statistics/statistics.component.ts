@@ -11,7 +11,6 @@ export class StatisticsComponent implements OnInit {
 
   numTotalIndicators: number = 0;
   counterSectorLevel: any[] = [];
-  dataSet: any[] = [];
   statisticsData: any[] = [];
 
   constructor(private indicatorService: IndicatorService, private statisticService: StatisticService) {
