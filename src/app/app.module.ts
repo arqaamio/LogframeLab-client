@@ -60,6 +60,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { IndicatorsUploadModule } from './indicators-upload/indicators-upload.module';
+import { StatisticsModule } from './pages/statistics/statistics.module';
 
 registerLocaleData(en);
 
@@ -136,6 +137,7 @@ export const routes: Routes = [
     NzPopconfirmModule,
     NzDropDownModule,
     NzDatePickerModule,
+    StatisticsModule,
     IndicatorsUploadModule
   ],
   providers: [

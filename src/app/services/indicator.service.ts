@@ -12,6 +12,7 @@ import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { NumIndicatorSectorLevel } from '../models/numindicatorsectorlevel.model';
 
 @Injectable({
   providedIn: 'root',
@@ -206,5 +207,21 @@ export class IndicatorService {
 
   getWorldBankBaselineValue(indicatorId:number, countryCode:string, year:number):Observable<any> {
     return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
+  }
+
+  /**
+   * Retrieves the total number of indicators in the database
+   */
+  public getTotalNumIndicators(): Observable<number> {
+    // return this.http.get<number>(this.baseUrl + '/total-number');
+    return this.http.get<number>('https://run.mocky.io/v3/3282de8f-4c6d-44ca-93d0-b044c104c4d6');
+  }
+
+  /**
+   * Retrieves the count of indicators per sector and level
+   */
+  public getIndicatorsByLevelAndSector(): Observable<NumIndicatorSectorLevel[]> {
+    return this.http.get<NumIndicatorSectorLevel[]>('https://run.mocky.io/v3/686d62d8-8703-4863-8836-ae35ba892dcf');
+    // return this.http.get<number>(this.baseUrl + '/sector-level-count');
   }
 }
