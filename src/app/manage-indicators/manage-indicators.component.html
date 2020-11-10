@@ -45,6 +45,7 @@
       <th>Source Verification</th>
       <th nzShowFilter [nzFilters]="sectorFilter" (nzFilterChange)="addFilter('sector', $event)">Sector</th>
       <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">Level</th>
+      <th>Times Downloaded</th>
       <th>Actions</th>
     </tr>
     </thead>
@@ -62,6 +63,7 @@
       <td nzBreakWord>{{ind.sourceVerification}}</td>
       <td>{{ind.sector}}</td>
       <td>{{ind.level.name}}</td>
+      <td>{{ind.timesDownloaded}}</td>
       <td>
         <div>
           <div nz-row><a (click)="edit(ind)">Edit</a></div>
