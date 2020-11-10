@@ -6,6 +6,8 @@ import {IndicatorService} from '../../services/indicator.service';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Operation } from '../crud-indicator/crud-indicator.component';
 
+export const EMPTY_VALUE: string = 'empty_string';
+export const EMPTY_VALUE_ID: number = -1;
 export class IndicatorsManagement {
 
   totalRowCount: number;
@@ -42,10 +44,15 @@ export class IndicatorsManagement {
       return;
     }
     this.sectorFilter = filters.sector.map(IndicatorsManagement.processFilter);
+    this.sectorFilter = [{text: '(blank)', value: EMPTY_VALUE}, ...this.sectorFilter];
     this.sourceFilter = filters.source.map(this.mapFilter);
+    this.sourceFilter = [{text: '(blank)', value: EMPTY_VALUE_ID}, ...this.sourceFilter];
     this.levelFilter = filters.level.map(this.mapFilter);
+    this.levelFilter = [{text: '(blank)', value: EMPTY_VALUE_ID}, ...this.levelFilter];
     this.sdgCodeFilter = filters.sdgCode.map(this.mapFilter);
+    this.sdgCodeFilter = [{text: '(blank)', value: EMPTY_VALUE_ID}, ...this.sdgCodeFilter];
     this.crsCodeFilter = filters.crsCode.map(this.mapFilter);
+    this.crsCodeFilter = [{text: '(blank)', value: EMPTY_VALUE_ID}, ...this.crsCodeFilter];
 
     this.hasFilters = true;
   }

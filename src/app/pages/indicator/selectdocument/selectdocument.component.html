@@ -1,5 +1,5 @@
 <div class="uploadArea">
-    <div class="flex-container" *ngIf='progress==0'>
+    <div class="flex-container">
       <div>
         <label>Sector:</label><br />
         <nz-select
@@ -50,7 +50,7 @@
           ></nz-option>
         </nz-select>
       </div>
-      <div>
+      <div id="levelDiv">
         <label>Levels:</label><br />
         <nz-select
           nzMode="multiple"
@@ -64,23 +64,6 @@
             [nzLabel]="option.name"
             [nzValue]="option"
             [nzHide]="isOptionSelected('level', option)"
-          ></nz-option>
-        </nz-select>
-      </div>
-      <div>
-        <label>DACs:</label><br />
-        <nz-select
-          nzMode="multiple"
-          nzPlaceHolder="Filter by DACs"
-          [(ngModel)]="selectedValues.crsCode"
-          (ngModelChange)="onChangeFilter('crsCode', $event)"
-          [compareWith]="compare"
-        >
-          <nz-option
-            *ngFor="let option of filterOptions.crsCode"
-            [nzLabel]="option.name"
-            [nzValue]="option"
-            [nzHide]="isOptionSelected('crsCode', option)"
           ></nz-option>
         </nz-select>
       </div>
