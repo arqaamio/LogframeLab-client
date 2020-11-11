@@ -9,11 +9,12 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { AddUserRowComponent } from './add-user-row/add-user-row.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthGuard } from '../utils/auth.guard';
 
 
 const routes: Routes = [
-  { path: '', component: UserManagementComponent }
+  { path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

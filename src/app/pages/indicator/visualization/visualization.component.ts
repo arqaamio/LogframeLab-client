@@ -7,11 +7,11 @@ declare let window: any;
 declare let Toolbar: any;
 export const MAX_NUM_BOX_ROW: number = 7;
 @Component({
-    selector: 'app-visualisationresult',
-    templateUrl: './visualisationresult.component.html',
-    styleUrls: ['./visualisationresult.component.scss'],
+    selector: 'app-visualization',
+    templateUrl: './visualization.component.html',
+    styleUrls: ['./visualization.component.scss'],
 })
-export class VisualisationresultComponent implements OnInit, OnDestroy {
+export class VisualizationComponent implements OnInit, OnDestroy {
 
     height: string = (window.screen.height - 400) + 'px';
     width: string = (window.screen.width - 105) + 'px';

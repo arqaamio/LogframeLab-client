@@ -5,7 +5,7 @@ import { Component, OnInit } from "@angular/core";
   templateUrl: "./dataprotection.component.html",
   styleUrls: ["./dataprotection.component.scss"],
 })
-export class DataprotectionComponent implements OnInit {
+export class DataProtectionComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}

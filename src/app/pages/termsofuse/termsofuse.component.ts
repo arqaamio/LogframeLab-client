@@ -5,7 +5,7 @@ import { Component, OnInit } from "@angular/core";
   templateUrl: "./termsofuse.component.html",
   styleUrls: ["./termsofuse.component.scss"],
 })
-export class TermsofuseComponent implements OnInit {
+export class TermsOfUseComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}

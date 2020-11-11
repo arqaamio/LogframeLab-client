@@ -17,7 +17,7 @@ export const DONE_TITLE: string = 'Done';
   templateUrl: './selectdocument.component.html',
   styleUrls: ['./selectdocument.component.scss'],
 })
-export class SelectdocumentComponent implements OnInit, OnDestroy {
+export class SelectDocumentComponent implements OnInit, OnDestroy {
   uploadStateTitle = '';
   indicatorSubscription: Subscription = null;
   stompSubscription: Subscription = null;

@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
-import { registerLocaleData, APP_BASE_HREF } from '@angular/common';
+import { registerLocaleData, APP_BASE_HREF, CommonModule } from '@angular/common';
 
 import en from '@angular/common/locales/en';
 
@@ -24,19 +24,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
-import { HomeComponent } from './pages/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
-import { IndicatorComponent } from './pages/indicator/indicator.component';
-import { TermsofuseComponent } from './pages/termsofuse/termsofuse.component';
-import { DataprotectionComponent } from './pages/dataprotection/dataprotection.component';
-import { SigninComponent } from './pages/signin/signin.component';
-import { SignupComponent } from './pages/signup/signup.component';
-import { ImprintComponent } from './pages/imprint/imprint.component';
-import { SelectdocumentComponent } from './pages/indicator/selectdocument/selectdocument.component';
-import { ScanResultComponent } from './pages/indicator/scanresult/scanresult.component';
-import { VisualisationresultComponent } from './pages/indicator/visualisationresult/visualisationresult.component';
-import { DownloadResultComponent } from './pages/indicator/downloadresult/downloadresult.component';
-import { DialogComponent } from './dialog/dialog.component';
 import { AuthGuard } from './utils/auth.guard';
 import { JwtInterceptor } from './utils/auth/jwt.interceptor';
 import { DefaultInterceptor } from './utils/http/default.interceptor';
@@ -50,10 +38,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import {RxStompService, InjectableRxStompConfig, rxStompServiceFactory} from '@stomp/ng2-stompjs';
 import {rxStompConfig} from './configuration/rxstomp.config'
-import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ErrorHandlerService } from './services/errorhandler.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { ResultComponent } from './pages/indicator/result/result.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -61,84 +47,46 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { IndicatorsUploadModule } from './indicators-upload/indicators-upload.module';
 import { StatisticsModule } from './pages/statistics/statistics.module';
+import { DataProtectionModule } from './pages/dataprotection/dataprotection.module';
+import { ImprintModule } from './pages/imprint/imprint.module';
+import { NotFoundModule } from './pages/notfound/notfound.module';
+import { TermsOfUseModule } from './pages/termsofuse/termsofuse.module';
+import { IndicatorModule } from './pages/indicator/indicator.module';
+import { LoginModule } from './pages/login/login.module';
+import { DialogModule } from './components/dialog/dialog.module';
+import { UserManagementModule } from './user-management/user-management.module';
+import { ManageIndicatorsModule } from './manage-indicators/manage-indicators.module';
 
 registerLocaleData(en);
 
 export const routes: Routes = [
-  { path: 'dataprotection', component: DataprotectionComponent },
-  { path: 'terms', component: TermsofuseComponent },
-  { path: 'imprint', component: ImprintComponent },
-  { path: 'login', component: SigninComponent, canActivate: [AuthGuard] },
-  { path: 'signup', component: SignupComponent },
-  {
-    path: 'manage-indicators',
-    loadChildren: () =>
-      import('./manage-indicators/manage-indicators.module').then(
-        (m) => m.ManageIndicatorsModule
-      ),
-  },
-  {
-    path: 'user-management',
-    loadChildren: () =>
-      import('./user-management/user-management.module').then(
-        (m) => m.UserManagementModule
-      ),
-    canActivate: [AuthGuard],
-  },
-  { path: '', component: IndicatorComponent },
-  { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
   declarations: [
-    AppComponent,
-    IndicatorComponent,
-    DialogComponent,
-    HomeComponent,
-    TermsofuseComponent,
-    DataprotectionComponent,
-    SigninComponent,
-    SignupComponent,
-    ImprintComponent,
-    SelectdocumentComponent,
-    ScanResultComponent,
-    VisualisationresultComponent,
-    DownloadResultComponent,
-    NotFoundComponent,
-    ResultComponent
+    AppComponent
   ],
   imports: [
     BrowserAnimationsModule,
-    RouterModule.forRoot(routes),
-    FormsModule,
-    ReactiveFormsModule,
+    CommonModule,
     HttpClientModule,
-    NzLayoutModule,
-    NzGridModule,
-    NzUploadModule,
-    NzMessageModule,
-    NzListModule,
-    NzTagModule,
+    RouterModule.forRoot(routes),
     NzButtonModule,
-    NzSpinModule,
-    NzTableModule,
-    NzStepsModule,
-    NzProgressModule,
-    NzAlertModule,
-    NzMenuModule,
-    NzInputModule,
-    NzFormModule,
-    NzSelectModule,
-    NzSliderModule,
-    NzIconModule,
-    NzCollapseModule,
-    NzModalModule,
-    NzBadgeModule,
-    NzPopoverModule,
-    NzPopconfirmModule,
     NzDropDownModule,
-    NzDatePickerModule,
+    NzGridModule,
+    NzIconModule,
+    NzLayoutModule,
+    NzMessageModule,
+    DialogModule,
+    DataProtectionModule,
+    IndicatorModule,
+    ImprintModule,
+    TermsOfUseModule,
     StatisticsModule,
-    IndicatorsUploadModule
+    LoginModule,
+    IndicatorsUploadModule,
+    UserManagementModule,
+    ManageIndicatorsModule,
+    NotFoundModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
