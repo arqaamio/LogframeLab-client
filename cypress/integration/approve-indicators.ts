@@ -38,7 +38,7 @@ describe('Approve indicators Page', ()=> {
         cy.contains('Disaggregation');
         cy.contains('Keywords');
         cy.contains('Name');
-        cy.contains('SDG Code');
+        cy.contains('SDG Goal');
         cy.contains('Source');
         cy.contains('Source Verification');
         cy.contains('Sector');
