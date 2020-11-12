@@ -17,7 +17,7 @@
       <ng-template #contentTemplate>
         <div class="stepInfo" *ngIf="current == 0">
           <p class="stepPara">
-            First, either upload a single Word document here (.doc or .docx).
+            First, either upload a single MS Word document here (.doc or .docx).
             You can use your grant or project funding application file for this purpose.
             <br/><br/>
             You can also start without a file upload and just access the entire database of indicators.
@@ -155,3 +155,14 @@
   Feedback
 </button></a>
 <button id="uploadButton" nz-button nzType="question" routerLink="/indicators-upload" class="sideButton"><i nz-icon nzType="cloud-upload"></i>Submit Indicators</button>
+<a href="https://logframelab.tawk.help/" target="_blank">
+<button
+    nz-button
+    nzType="question"
+    class="sideButton"
+    id="knowledgeBaseButton"
+  >
+  <i nz-icon nzType="book"></i>
+    Knowledge Base
+  </button>
+</a>

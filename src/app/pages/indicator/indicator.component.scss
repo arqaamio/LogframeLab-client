@@ -40,7 +40,7 @@
   background: #453457;
   border: 1px solid #ffffff;
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 5px;
   padding: 0 1.5rem 0 1.5rem;
   font-family: Montserrat, sans-serif;
   font-style: normal;
@@ -134,7 +134,7 @@ background-color: #453457;
   color: white;
   background-color: #453457;
   font-size: 1.5rem;
-  border-radius: 0.6rem;
+  border-radius: 5px;
   padding: 0 0.3rem 0.3rem 0.3rem;
   opacity: 0.5;
 }
@@ -153,7 +153,7 @@ background-color: #453457;
   color: white;
   background-color: #453457;
   font-size: 1.5rem;
-  border-radius: 0.6rem;
+  border-radius: 5px;
   padding: 0 0.3rem 0.3rem 0.3rem;
 }
 //selected icon color (The tep one is currently viewing)
@@ -166,7 +166,7 @@ background-color: #453457;
   font-size: 1.5rem;
   background-color: #453457;
   font-size: 1.5rem;
-  border-radius: 0.6rem;
+  border-radius: 5px;
   padding: 0 0.3rem 0.3rem 0.3rem;
 }
 //text color before
@@ -187,23 +187,6 @@ background-color: #453457;
   background-color: #453457;
 }
 
-.stepIcon {
-  display: flex;
-  position: absolute;
-  top: 28%;
-  right: 0;
-  background: #a5c2ae;
-  // padding: 0.5rem;
-  border-radius: 0.6rem 0 0 0.6rem;
-  font-size: 2rem;
-  font-weight: 900;
-  color: #ffffff;
-  // margin: 1rem 0 1rem 0;
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
-  width: 4rem;
-}
 .stepInfo {
   width: 20rem;
   height: 19rem;
@@ -296,4 +279,8 @@ background-color: #453457;
 
 ::ng-deep .ant-btn-primary {
   background-color: #453457;
+}
+
+.ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+  border-radius: 5px;
 }

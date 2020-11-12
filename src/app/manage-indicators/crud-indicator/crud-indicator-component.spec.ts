@@ -42,7 +42,7 @@ describe('CrudIndicatorComponent', () => {
 
     it('should test compare of objects', () => {
         expect(component.compare({}, {})).toEqual(true);
-        expect(component.compare({id:1, name:"SDG Code"}, {id:1, name:"SDG Code"})).toEqual(true);
+        expect(component.compare({id:1, name:"SDG Goal"}, {id:1, name:"SDG Goal"})).toEqual(true);
         expect(component.compare({id:2, name:"Source"}, {id:1, name:"Source"})).toEqual(false);
     });
 

@@ -29,7 +29,7 @@ describe('AddNewIndicatorService', () => {
     const indicator: IndicatorDto = new IndicatorDto();
     indicator.id = 1;
     indicator.crsCode = [{id: 1, name: "CRS Code"}, {id: 2, name: "CRS Code 2"}];
-    indicator.sdgCode = [{id: 1, name: "SDG Code"}];
+    indicator.sdgCode = [{id: 1, name: "SDG Goal"}];
     indicator.source = [];
     
     const request: IndicatorRequestDto = new IndicatorRequestDto();
@@ -52,7 +52,7 @@ describe('AddNewIndicatorService', () => {
     const indicator: IndicatorDto = new IndicatorDto();
     indicator.id = 1;
     indicator.crsCode = [{id: 1, name: "CRS Code"}, {id: 2, name: "CRS Code 2"}];
-    indicator.sdgCode = [{id: 1, name: "SDG Code"}];
+    indicator.sdgCode = [{id: 1, name: "SDG Goal"}];
     indicator.source = [];
     
     const request: IndicatorRequestDto = new IndicatorRequestDto();
