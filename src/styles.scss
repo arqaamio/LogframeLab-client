@@ -244,6 +244,11 @@ app-manage-indicators {
     top: 37rem;
   }
 }
+@media screen and (max-height: 720px) {
+  #feedbackButton {
+    top: 30%;
+  }
+}
 @media screen and (max-height: 650px) {
   #stepButton   {
     top: 67%;
