@@ -1,5 +1,5 @@
 <div class="uploadArea">
-    <div class="flex-container" *ngIf='progress==0'>
+    <div class="flex-container">
       <div>
         <label>Sector:</label><br />
         <nz-select
@@ -50,7 +50,7 @@
           ></nz-option>
         </nz-select>
       </div>
-      <div>
+      <div id="levelDiv">
         <label>Levels:</label><br />
         <nz-select
           nzMode="multiple"
@@ -64,23 +64,6 @@
             [nzLabel]="option.name"
             [nzValue]="option"
             [nzHide]="isOptionSelected('level', option)"
-          ></nz-option>
-        </nz-select>
-      </div>
-      <div>
-        <label>DACs:</label><br />
-        <nz-select
-          nzMode="multiple"
-          nzPlaceHolder="Filter by DACs"
-          [(ngModel)]="selectedValues.crsCode"
-          (ngModelChange)="onChangeFilter('crsCode', $event)"
-          [compareWith]="compare"
-        >
-          <nz-option
-            *ngFor="let option of filterOptions.crsCode"
-            [nzLabel]="option.name"
-            [nzValue]="option"
-            [nzHide]="isOptionSelected('crsCode', option)"
           ></nz-option>
         </nz-select>
       </div>
@@ -98,7 +81,7 @@
 >
   <div class="uploadText" *ngIf='progress==0'>
     <i class = "uploadIcon" nz-icon nzType="folder" nzTheme="outline"></i>
-    <p class="ant-upload-text">Click to this area to upload</p>
+    <p class="ant-upload-text">Click here to upload</p>
     <p class="ant-upload-hint">
       Support for a single word file upload.
     </p>
@@ -107,7 +90,7 @@
       <p class="disclaimerText"><!--Disclaimer text added here-->
         <b>Disclaimer:</b> Uploading data here is safe. You can trust us with your info, because we never save it
         anywhere. The algorithm uses your text to scan for keywords and retains access to it only so you can complete the procedure.
-        Your data is discarded as soon as you click ‘done’ in the 6th step, or if you refresh the window before you’re done.
+        Your data is discarded as soon as you click ‘done’ in the last step, or if you refresh the window before you’re done.
         We cannot access your information at any point.
       </p>
     </div>

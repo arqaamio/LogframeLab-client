@@ -65,10 +65,10 @@ export class ResultComponent implements OnInit, OnDestroy {
             switch (event.type) {
               case HttpEventType.Response:
                 let res = event.body;
-                if(res[Level.IMPACT].length == 0 && res[Level.OUTCOME].length == 0 && res[Level.OUTPUT].length == 0) {
+                if(!res || (!res[Level.IMPACT] || res[Level.IMPACT].length == 0) && (!res[Level.OUTCOME] || res[Level.OUTCOME].length == 0) && (!res[Level.OUTPUT] || res[Level.OUTPUT].length == 0) ){
                   this.messageService.info('No statements were found on the document');
-                }
-                this.listOfData = [...res[Level.IMPACT].map((x)=> {
+                }else
+                this.listOfData = [...res[Level.IMPACT]?.map((x)=> {
                   x.level = this.levelFilter[2].text;
                   this.setLevelColor(x);
                   this.setStatusColor(x);
@@ -76,7 +76,7 @@ export class ResultComponent implements OnInit, OnDestroy {
                   x.id = this.maxId++;
                   return x;
                 }),
-                  ...res[Level.OUTCOME].map((x)=> {
+                  ...res[Level.OUTCOME]?.map((x)=> {
                     x.level = this.levelFilter[1].text;
                     this.setLevelColor(x);
                     this.setStatusColor(x);
@@ -84,7 +84,7 @@ export class ResultComponent implements OnInit, OnDestroy {
                     x.id = this.maxId++;
                     return x;
                 }),
-                ...res[Level.OUTPUT].map((x)=> {
+                ...res[Level.OUTPUT]?.map((x)=> {
                   x.level = this.levelFilter[0].text;
                   this.setLevelColor(x);
                   this.setStatusColor(x);
