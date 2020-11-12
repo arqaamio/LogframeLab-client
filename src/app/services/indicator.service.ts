@@ -54,7 +54,7 @@ export class IndicatorService {
     this.exportSvg.next(null);
     this.currentStep = 0;
     this.canvasJson = [];
-    this.statementData = null;
+    this.statementData =  [];
   }
 
   setSelectedData(selectedData) {
