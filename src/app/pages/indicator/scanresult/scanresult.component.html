@@ -260,9 +260,9 @@
   </div>
 
   <!-- Selected items table -->
-  <ng-template #contentTemplate>
+  <ng-template #contentTemplate>    
     <div class="warning">
-      <div style="position: relative">
+      <i nz-icon nzType="close" id="closeIcon" (click)="isPopOverVisible=false"></i>
         <input
           (input)="search(true)"
           nzSize="large"
@@ -272,7 +272,6 @@
           placeholder="Search selected indicator"
           [(ngModel)]="searchSelected"
         />
-      </div>
       <nz-table
         #selectedTable
         [nzData]="filteredSelectedIndicators"
@@ -472,6 +471,7 @@
 
   <button nz-button id="showAllButton"
   nz-popover
+  [(nzPopoverVisible)]="isPopOverVisible"
   [nzPopoverContent]="contentTemplate"
   nzPopoverTrigger="click"
   nzPopoverPlacement="topRight">

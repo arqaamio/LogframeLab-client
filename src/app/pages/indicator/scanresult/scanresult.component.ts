@@ -71,6 +71,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   showLoadingBaseline: boolean = false;
   showScoreCol = true;
   isPropertiesModalActive: boolean = false;
+  isPopOverVisible: boolean = false;
   activeItem: ItemData = EMPTY_ACTIVE_ITEM;
   outcomeStatements = [];
   outputStatements = [];

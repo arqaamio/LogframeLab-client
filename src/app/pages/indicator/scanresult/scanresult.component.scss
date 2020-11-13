@@ -73,3 +73,14 @@
   margin-right: 5px;
   display: inline-block;
 }
+#closeIcon {
+  float: right;
+  z-index: 999999999999999999;
+  right: 20px;
+  font-size: 1rem;
+  padding-bottom: 20px;
+  cursor: pointer;
+  :hover {
+    cursor: pointer;
+  }
+}
