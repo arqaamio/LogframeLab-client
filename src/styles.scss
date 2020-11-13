@@ -150,7 +150,7 @@ body, html {
 	background: #88b7d5;
 	border: 2px solid #c2e1f5;
 	padding:10px;
-	border-radius:6px;
+	border-radius:5px;
 }
 
 .tooltip:after,.tooltip:before {
@@ -187,7 +187,7 @@ h1, h2, h3, p, button {
   background: #453457;
   border: 1px solid #ffffff;
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 5px;
   // padding: 0 1.5rem 0 1.5rem;
   font-weight: bold;
   font-size: 12px;
@@ -222,13 +222,13 @@ app-manage-indicators {
   }
 }
 
-#feedbackButton {
+#knowledgeBaseButton {
   top: 20rem;
   right: -98px;
   width: 10rem;
 }
 @media screen and (max-height: 905px) {
-  #feedbackButton {
+  #knowledgeBaseButton {
     top: 32rem;
   }
 }
@@ -236,16 +236,24 @@ app-manage-indicators {
 #uploadButton {
   top: 25rem;
 }
+#feedbackButton {
+  top: 42rem;
+}
 @media screen and (max-height: 1050px) {
   #uploadButton {
     top: 37rem;
+  }
+}
+@media screen and (max-height: 720px) {
+  #feedbackButton {
+    top: 30%;
   }
 }
 @media screen and (max-height: 650px) {
   #stepButton   {
     top: 67%;
   }
-  #feedbackButton {
+  #knowledgeBaseButton {
     top: 79%;
   }
   #uploadButton {

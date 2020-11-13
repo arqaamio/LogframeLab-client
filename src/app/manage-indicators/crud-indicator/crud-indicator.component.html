@@ -66,10 +66,10 @@
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-label [nzSpan]="7" nzFor="sdgCode"><label for="sdgCode">SDG code</label>
+          <nz-form-label [nzSpan]="7" nzFor="sdgCode"><label for="sdgCode">SDG Goal</label>
           </nz-form-label>
           <nz-form-control [nzSpan]="12">
-            <nz-select id="sdgCode" name="sdgCode" [(ngModel)]="indicator.sdgCode" nzPlaceHolder="SDG Code"
+            <nz-select id="sdgCode" name="sdgCode" [(ngModel)]="indicator.sdgCode" nzPlaceHolder="SDG Goal"
             [disabled]="!(isEditing() || isNew())" nzMode="multiple" [compareWith]="compare" nzAllowClear>
               <nz-option *ngFor="let item of sdgCodes" [nzLabel]="item.name" [nzValue]="item"></nz-option>
             </nz-select>

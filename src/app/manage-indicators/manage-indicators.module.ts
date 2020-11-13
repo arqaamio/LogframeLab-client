@@ -16,12 +16,13 @@ import {NzSelectModule} from 'ng-zorro-antd/select';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzIconModule} from 'ng-zorro-antd/icon';
-import { NzSliderComponent, NzSliderModule } from 'ng-zorro-antd/slider';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { AuthGuard } from '../utils/auth.guard';
 
 
 const routes: Routes = [
-  {path: '', component: ManageIndicatorsComponent},
-  {path: 'approve-uploaded', component: ApproveUploadedIndicatorsComponent}
+  {path: 'manage-indicators', component: ManageIndicatorsComponent, canActivate: [AuthGuard]},
+  {path: 'manage-indicators/approve-uploaded', component: ApproveUploadedIndicatorsComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
@@ -40,7 +41,7 @@ const routes: Routes = [
     NzSwitchModule,
     NzSelectModule,
     NzSliderModule,
-    NzIconModule,
+    NzIconModule
   ]
 })
 export class ManageIndicatorsModule {

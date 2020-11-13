@@ -32,6 +32,7 @@ export class IndicatorService {
   private nextButton: boolean = false;
   public currentStep: number = 0;
   public loadingStart = new BehaviorSubject<any>(false);
+  public canvas: any = null;
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
   private nextSubject() {

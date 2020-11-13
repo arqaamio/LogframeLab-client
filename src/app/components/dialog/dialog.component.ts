@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { trigger, style, animate, transition } from "@angular/animations";
 
 @Component({
-  selector: "app-pop",
+  selector: "app-dialog",
   templateUrl: "./dialog.component.html",
   styleUrls: ["./dialog.component.scss"],
   animations: [
