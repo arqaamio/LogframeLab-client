@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { timer } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -23,15 +23,21 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     isCanvasClear: boolean = false;
     output: any[] = [];
 
+    @ViewChild('canvas_vis') canvasVis;
+
     constructor(private indicatorService: IndicatorService, private messageService: NzMessageService) {
         this.indicatorService.updateNextButton(true);
     }
 
     ngOnDestroy(): void {
         // this.isCanvasClear = true;
+        this.indicatorService.canvas = this.canvasVis;
     }
 
     ngOnInit(): void {
+      if(this.indicatorService.canvas){
+        this.canvasVis = this.indicatorService.canvas;
+      }
         if(this.indicatorService.statementData.length > 0){
             timer(2000).subscribe(() => {
                 // if (this.indicatorService.canvasJson.length == 0) {
@@ -62,7 +68,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
         return statementData.map((d, index)=> ({id: d.id, name:d.statement}));
     }
 
-    // data convert to canvas json 
+    // data convert to canvas json
     generateCanvasJson(impact, outcomes, output): void {
         let impactObject = []
         let outcomesObject = [];
@@ -236,7 +242,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
                 outcomeY = 300 + impactY;
                 outcomeX = (250 * (index - MAX_NUM_BOX_ROW))
             }
-            
+
             // OutCome text box json
             outcomesObject.push({
                 "type": "draw2d.shape.basic.Text",
@@ -363,7 +369,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
                 outputY = 300 + outcomeY;
                 outputX = (250 * (index - MAX_NUM_BOX_ROW))
             }
-            // Output text box json 
+            // Output text box json
             outputObject.push({
                 "type": "draw2d.shape.basic.Text",
                 "id": row.id,
@@ -512,8 +518,8 @@ export class VisualizationComponent implements OnInit, OnDestroy {
         this.canvasHeight = height + 'px';
         this.indicatorService.canvasJson = [...impactObject, ...outcomesObject, ...outputObject];
     }
-    
-    //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.  
+
+    //Code to de-select the indicator/item from the Result tab when user removes/delete any indicator box in the chart section.
     selectStatement(id: number) {
         // if (this.isCanvasClear == false && this.indicatorService.selectedChart == 'indicator') {
         //     this.indicatorService.selectedData[id] = !this.indicatorService.selectedData[id];
@@ -524,7 +530,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
         this.indicatorService.statementData = this.indicatorService.statementData.filter(x=>x.id!=id);
     }
 
-    //Code for chart's drag and drop functionality 
+    //Code for chart's drag and drop functionality
     setFlowChart(): void {
         let that = this;
         timer(2000).subscribe(() => {
