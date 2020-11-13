@@ -213,13 +213,13 @@ export class IndicatorService {
    * Retrieves the total number of indicators in the database
    */
   public getTotalNumIndicators(): Observable<number> {
-    return this.http.get<number>(this.baseUrl + '/total-number');
+    return this.http.get<number>(this.baseUrl + '/indicator/total-number');
   }
 
   /**
    * Retrieves the count of indicators per sector and level
    */
   public getIndicatorsByLevelAndSector(): Observable<NumIndicatorSectorLevel[]> {
-    return this.http.get<NumIndicatorSectorLevel[]>(this.baseUrl + '/sector-level-count');
+    return this.http.get<NumIndicatorSectorLevel[]>(this.baseUrl + '/indicator/sector-level-count');
   }
 }
