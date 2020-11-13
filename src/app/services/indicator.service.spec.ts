@@ -6,6 +6,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { HttpResponse } from '@angular/common/http';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
 import { Level } from './dto/filter.dto';
+import { NumIndicatorSectorLevel } from '../models/numindicatorsectorlevel.model';
 
 describe('IndicatorService', () => {
   let indicatorService: IndicatorService;
@@ -22,8 +23,8 @@ describe('IndicatorService', () => {
       ],
     });
 
-    indicatorService = TestBed.get(IndicatorService);
-    httpMock = TestBed.get(HttpTestingController);
+    indicatorService = TestBed.inject(IndicatorService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
 	it('should be created', () => {
@@ -86,6 +87,32 @@ describe('IndicatorService', () => {
     let req = httpMock.expectOne(environment.apiBaseUrl + '/indicator?levels='+level.id+'&sector='+sector);
     expect(req.request.method).toBe('GET');
     req.flush(indicatorsList);
+
+    httpMock.verify();
+  }));
+
+  it('should get total number of indicators', inject([HttpTestingController], (httpClient: HttpTestingController) => {
+    const totalNumber: number = 300;
+    indicatorService.getTotalNumIndicators()
+      .subscribe((response: number) => {
+        expect(response).toBe(totalNumber);
+    });
+    let req = httpMock.expectOne(environment.apiBaseUrl + '/total-number');
+    expect(req.request.method).toBe('GET');
+    req.flush(totalNumber);
+
+    httpMock.verify();
+  }));
+
+  it('should get indicators by level and sector', inject([HttpTestingController], (httpClient: HttpTestingController) => {
+    const expected: NumIndicatorSectorLevel[] = [{sector: 'Sector', counter: [{ count: 200, level: 'Impact'}]}];
+    indicatorService.getIndicatorsByLevelAndSector()
+      .subscribe((response: NumIndicatorSectorLevel[]) => {
+        expect(response).toBe(expected);
+    });
+    let req = httpMock.expectOne(environment.apiBaseUrl + '/sector-level-count');
+    expect(req.request.method).toBe('GET');
+    req.flush(expected);
 
     httpMock.verify();
   }));

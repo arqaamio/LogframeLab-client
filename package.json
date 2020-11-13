@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "cy:open": "cypress open",
-    "cy:run": "cypress run --config video=false screenshotOnRunFailure=false",
+    "cy:run": "CHOKIDAR_USPOLLING=1 cypress run --config video=false screenshotOnRunFailure=false",
     "ng": "ng",
     "start:node": "node server.js",
     "start": "ng serve",

@@ -12,6 +12,7 @@ import { environment } from '../../environments/environment';
 import { FilterDto } from './dto/filter.dto';
 import { IndicatorResponse } from '../models/indicatorresponse.model';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { NumIndicatorSectorLevel } from '../models/numindicatorsectorlevel.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class IndicatorService {
   private fileList: NzUploadFile[] = null;
   private filters: FilterDto = null;
   public dataResponse: any = null;
-  public statementData: any[] = null;
+  public statementData: any[] = [];
   public selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
@@ -53,7 +54,7 @@ export class IndicatorService {
     this.exportSvg.next(null);
     this.currentStep = 0;
     this.canvasJson = [];
-    this.statementData = null;
+    this.statementData =  [];
   }
 
   setSelectedData(selectedData) {
@@ -206,5 +207,19 @@ export class IndicatorService {
 
   getWorldBankBaselineValue(indicatorId:number, countryCode:string, year:number):Observable<any> {
     return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
+  }
+
+  /**
+   * Retrieves the total number of indicators in the database
+   */
+  public getTotalNumIndicators(): Observable<number> {
+    return this.http.get<number>(this.baseUrl + '/total-number');
+  }
+
+  /**
+   * Retrieves the count of indicators per sector and level
+   */
+  public getIndicatorsByLevelAndSector(): Observable<NumIndicatorSectorLevel[]> {
+    return this.http.get<NumIndicatorSectorLevel[]>(this.baseUrl + '/sector-level-count');
   }
 }

@@ -46,12 +46,12 @@ export class ResultComponent implements OnInit, OnDestroy {
   maxId:number = 0;
 
   constructor(public indicatorService: IndicatorService, public machineLearningService: MachineLearningService,
-    public messageService: NzMessageService) { 
+    public messageService: NzMessageService) {
     this.indicatorService.updateNextButton(true);
   }
 
   ngOnInit(): void {
-    if(this.indicatorService.statementData){
+    if(this.indicatorService.statementData.length > 0){
       this.listOfData = this.indicatorService.statementData;
       this.indicatorService.loadingStart.next(false);
     }else {
@@ -65,10 +65,10 @@ export class ResultComponent implements OnInit, OnDestroy {
             switch (event.type) {
               case HttpEventType.Response:
                 let res = event.body;
-                if(res[Level.IMPACT].length == 0 && res[Level.OUTCOME].length == 0 && res[Level.OUTPUT].length == 0) {
+                if(!res || (!res[Level.IMPACT] || res[Level.IMPACT].length == 0) && (!res[Level.OUTCOME] || res[Level.OUTCOME].length == 0) && (!res[Level.OUTPUT] || res[Level.OUTPUT].length == 0) ){
                   this.messageService.info('No statements were found on the document');
-                }
-                this.listOfData = [...res[Level.IMPACT].map((x)=> {
+                }else
+                this.listOfData = [...res[Level.IMPACT]?.map((x)=> {
                   x.level = this.levelFilter[2].text;
                   this.setLevelColor(x);
                   this.setStatusColor(x);
@@ -76,7 +76,7 @@ export class ResultComponent implements OnInit, OnDestroy {
                   x.id = this.maxId++;
                   return x;
                 }),
-                  ...res[Level.OUTCOME].map((x)=> {
+                  ...res[Level.OUTCOME]?.map((x)=> {
                     x.level = this.levelFilter[1].text;
                     this.setLevelColor(x);
                     this.setStatusColor(x);
@@ -84,7 +84,7 @@ export class ResultComponent implements OnInit, OnDestroy {
                     x.id = this.maxId++;
                     return x;
                 }),
-                ...res[Level.OUTPUT].map((x)=> {
+                ...res[Level.OUTPUT]?.map((x)=> {
                   x.level = this.levelFilter[0].text;
                   this.setLevelColor(x);
                   this.setStatusColor(x);
@@ -99,7 +99,7 @@ export class ResultComponent implements OnInit, OnDestroy {
           });
         }
       })).subscribe();
-    } 
+    }
   }
 
   // status wise add class
@@ -116,7 +116,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   // score wise show progress color class
   setScoreGradient(x){
-    
+
     if(x.score <= 10){
       x.gradient = GRADIENT_RED;
     } else if(x.score <= 25){
@@ -146,7 +146,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         break;
     }
   }
-  
+
   startEdit(id: string): void {
     console.log("StartEdit: ", id);
     this.editId = id;
@@ -179,7 +179,7 @@ export class ResultComponent implements OnInit, OnDestroy {
       return;
     }
     console.log("Validate index", index);
-    
+
     this.machineLearningService.validateStatement(this.listOfData[index].statement, this.listOfData[index].level)
        .subscribe(res => {
          this.listOfData[index].score = res.score;

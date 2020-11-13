@@ -1,0 +1,62 @@
+<h3>Total number of indicators: {{numTotalIndicators}}</h3>
+<nz-table #counterSectorLevelTable 
+  [nzData]="counterSectorLevel"
+  nzShowPagination="false"
+  [nzPageSize]="counterSectorLevel.length"
+  nzShowPagination="false"
+  nzShowSizeChanger="false"
+  nzSize="small"
+  [nzScroll]="{ y: '300px' }"
+  nzBordered
+  id="counterSectorLevelTable"
+  >
+  <thead>
+    <tr>
+      <th>Sector</th>
+      <th nzWidth="80px">IMPACT</th>
+      <th nzWidth="90px">OUTCOME</th>
+      <th nzWidth="80px">OUTPUT</th>
+      <th nzWidth="90px">TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of counterSectorLevelTable.data">
+      <td>{{data.sector}}</td>
+      <td>{{data.IMPACT}}</td> 
+      <td>{{data.OUTCOME}}</td> 
+      <td>{{data.OUTPUT}}</td>
+      <td>{{data.IMPACT + data.OUTCOME + data.OUTPUT}}</td>
+    </tr>
+  </tbody>
+</nz-table>
+<h2>Statistics</h2>
+<nz-table #statisticsTable 
+  [nzData]="statisticsData"
+  nzShowPagination="false"
+  [nzPageSize]="statisticsData.length"
+  nzShowPagination="false"
+  nzShowSizeChanger="false"
+  nzSize="small"
+  [nzScroll]="{ y: '300px' }"
+  nzBordered
+  id="statisticsTable"
+  >
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th nzWidth="90px">DFID</th>
+      <th nzWidth="80px">PRM</th>
+      <th nzWidth="80px">WORD</th>
+      <th nzWidth="80px">XLSX</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of statisticsTable.data">
+      <td>{{data.date}}</td>
+      <td>{{data.downloadDFIDTemplate}}</td>
+      <td>{{data.downloadPRMTemplate}}</td> 
+      <td>{{data.downloadWordTemplate}}</td> 
+      <td>{{data.downloadXLSXTemplate}}</td>
+    </tr>
+  </tbody>
+</nz-table>

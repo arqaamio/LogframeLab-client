@@ -18,6 +18,7 @@ export class IndicatorDto {
   level: Level;
   levelId: number;
   keywordsList: string[];
+  timesDownloaded: number;
 
   static clone(indicator: IndicatorDto): IndicatorDto {
     const newInstance = new IndicatorDto();
@@ -35,6 +36,7 @@ export class IndicatorDto {
     newInstance.level = indicator.level;
     newInstance.levelId = indicator.level.id;
     newInstance.keywordsList = indicator.keywordsList;
+    newInstance.timesDownloaded = indicator.timesDownloaded;
 
     return newInstance;
   }

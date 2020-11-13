@@ -1,5 +1,3 @@
-
-
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MachineLearningService } from './machinelearning.service';
@@ -7,7 +5,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { environment } from '../../environments/environment';
 import { SimilarityResponse } from '../models/similarityresponse.model';
 
-describe('MMachineLearningServicea', () => {
+describe('MachineLearningService', () => {
   let machineLearningService: MachineLearningService;
   let httpMock: HttpTestingController;
 
@@ -22,8 +20,8 @@ describe('MMachineLearningServicea', () => {
       ],
     });
 
-    machineLearningService = TestBed.get(MachineLearningService);
-    httpMock = TestBed.get(HttpTestingController);
+    machineLearningService = TestBed.inject(MachineLearningService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
