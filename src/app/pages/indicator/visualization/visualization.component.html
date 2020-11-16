@@ -8,7 +8,7 @@
         <button class='steps-button ant-btn toolbar-btn delete'>Delete</button>
       </div>
   <div class="row">
-    <div class="draw2d" [style.height]="height">
+    <div #parent_canvas_vis  class="draw2d" [style.height]="height">
       <div #canvas_vis onselectstart="javascript:/*IE8 hack*/return false" id="gfx_holder"
         style="width:2100px; position: absolute;left: 0;" [style.height]="canvasHeight"></div>
     </div>

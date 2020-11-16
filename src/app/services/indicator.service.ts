@@ -32,7 +32,7 @@ export class IndicatorService {
   private nextButton: boolean = false;
   public currentStep: number = 0;
   public loadingStart = new BehaviorSubject<any>(false);
-  public canvas: any = null;
+  private visualizationCanvas: any = null;
 
   constructor(private http: HttpClient, private msg: NzMessageService) {}
   private nextSubject() {
@@ -223,4 +223,26 @@ export class IndicatorService {
   public getIndicatorsByLevelAndSector(): Observable<NumIndicatorSectorLevel[]> {
     return this.http.get<NumIndicatorSectorLevel[]>(this.baseUrl + '/sector-level-count');
   }
+
+  /**
+   * Init the visualization canvas
+   */
+  initVisualization() {
+    this.visualizationCanvas = null;
+   }
+
+   /**
+    * Save canvas visualization status
+    * @param visualizationCanvas
+    */
+   saveVisulalizationStatus(visualizationCanvas){
+    this.visualizationCanvas = visualizationCanvas;
+   }
+
+   /**
+    * get Canvas visulization
+    */
+   getCanvasVisualization(){
+    return this.visualizationCanvas;
+   }
 }

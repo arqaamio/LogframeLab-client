@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { timer } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -23,20 +23,27 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     isCanvasClear: boolean = false;
     output: any[] = [];
 
-    @ViewChild('canvas_vis') canvasVis;
+    lastVisualizationStatus:any = null;
 
-    constructor(private indicatorService: IndicatorService, private messageService: NzMessageService) {
+    @ViewChild('parent_canvas_vis') parentCanvasVis:ElementRef;
+
+    constructor(private _renderer: Renderer2, private indicatorService: IndicatorService, private messageService: NzMessageService) {
         this.indicatorService.updateNextButton(true);
     }
 
     ngOnDestroy(): void {
-        // this.isCanvasClear = true;
-        this.indicatorService.canvas = this.canvasVis;
+        if(!this.lastVisualizationStatus)
+          this.indicatorService.saveVisulalizationStatus(this.parentCanvasVis.nativeElement.children[0]);
     }
 
     ngOnInit(): void {
-      if(this.indicatorService.canvas){
-        this.canvasVis = this.indicatorService.canvas;
+      this.lastVisualizationStatus = this.indicatorService.getCanvasVisualization();
+      if(this.lastVisualizationStatus){
+        timer(4000).subscribe(() => {
+          this.indicatorService.loadingStart.next(false);
+           this._renderer.appendChild( this.parentCanvasVis.nativeElement, this.lastVisualizationStatus);
+        });
+        return;
       }
         if(this.indicatorService.statementData.length > 0){
             timer(2000).subscribe(() => {

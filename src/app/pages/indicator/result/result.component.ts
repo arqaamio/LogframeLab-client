@@ -51,6 +51,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.indicatorService.initVisualization();
     if(this.indicatorService.statementData.length > 0){
       this.listOfData = this.indicatorService.statementData;
       this.indicatorService.loadingStart.next(false);
