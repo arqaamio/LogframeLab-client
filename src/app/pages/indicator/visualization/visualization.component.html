@@ -1,16 +1,34 @@
-<div style="min-height: 300px;" [ngClass]="{'fullscreen':isFullscreen, 'smallscreen':!isFullscreen}">
-  <div id="toolbar" class="steps-action">
-      <button (click)="isFullscreen = !isFullscreen"
-      class='steps-button ant-btn toolbar-btn fullscreen-btn'><i nz-icon style="font-size: 18px;"
-        [nzType]="isFullscreen?'fullscreen-exit':'fullscreen'" nzTheme="outline"></i></button>
-        <button class='steps-button ant-btn toolbar-btn undo'>Undo</button>
-        <button class='steps-button ant-btn toolbar-btn redo'>Redo</button>
-        <button class='steps-button ant-btn toolbar-btn delete'>Delete</button>
+<div
+  #parent_canvas_vis
+  style="min-height: 300px"
+  [ngClass]="{ fullscreen: isFullscreen, smallscreen: !isFullscreen }"
+>
+  <div>
+    <div id="toolbar" class="steps-action">
+      <button
+        (click)="isFullscreen = !isFullscreen"
+        class="steps-button ant-btn toolbar-btn fullscreen-btn"
+      >
+        <i
+          nz-icon
+          style="font-size: 18px"
+          [nzType]="isFullscreen ? 'fullscreen-exit' : 'fullscreen'"
+          nzTheme="outline"
+        ></i>
+      </button>
+      <button class="steps-button ant-btn toolbar-btn undo">Undo</button>
+      <button class="steps-button ant-btn toolbar-btn redo">Redo</button>
+      <button class="steps-button ant-btn toolbar-btn delete">Delete</button>
+    </div>
+    <div class="row">
+      <div class="draw2d" [style.height]="height">
+        <div
+          onselectstart="javascript:/*IE8 hack*/return false"
+          id="gfx_holder"
+          style="width: 2100px; position: absolute; left: 0"
+          [style.height]="canvasHeight"
+        ></div>
       </div>
-  <div class="row">
-    <div #parent_canvas_vis  class="draw2d" [style.height]="height">
-      <div #canvas_vis onselectstart="javascript:/*IE8 hack*/return false" id="gfx_holder"
-        style="width:2100px; position: absolute;left: 0;" [style.height]="canvasHeight"></div>
     </div>
   </div>
 </div>
