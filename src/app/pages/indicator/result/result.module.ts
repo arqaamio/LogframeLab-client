@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzButtonModule,
     NzGridModule,
     NzIconModule,
+    NzInputModule,
+    NzPopconfirmModule,
     NzProgressModule,
     NzSelectModule,
     NzTableModule,
