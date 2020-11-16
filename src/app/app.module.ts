@@ -24,7 +24,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './utils/auth.guard';
 import { JwtInterceptor } from './utils/auth/jwt.interceptor';
 import { DefaultInterceptor } from './utils/http/default.interceptor';
@@ -69,7 +69,7 @@ export const routes: Routes = [
     BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}),
     NzButtonModule,
     NzDropDownModule,
     NzGridModule,
