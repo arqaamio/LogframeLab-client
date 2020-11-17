@@ -89,12 +89,12 @@ export class IndicatorComponent implements OnInit, OnDestroy {
       this.isSpinning = true;
       let json = this.indicatorService.canvasJson;
       let connectioned = [];
-      
+
       let connection = json.filter(d => d.type === "draw2d.Connection");
       connection.forEach((data) => {
         let sourceNode = data.source.port.split('_')[1];
         let targetNode = data.target.port.split('_')[1];
-        
+
         if(connectioned.indexOf(sourceNode) == -1) {
           connectioned.push(sourceNode);
         }
@@ -102,7 +102,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
           connectioned.push(targetNode);
         }
       });
-      
+
       if (this.indicatorService.statementData.length > connectioned.length) {
         this.isSpinning = false;
         this.modal.confirm({
@@ -117,7 +117,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
             }).catch(() => console.log('Oops errors!'))
         });
       } else {
-        this.messageService.warning('If you wish to go back, you will have to redo your connections');
+        this.messageService.warning('If you wish to go back');
         this.saveSVGAndProceed();
       }
     } else {

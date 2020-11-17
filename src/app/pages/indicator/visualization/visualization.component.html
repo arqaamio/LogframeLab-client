@@ -1,7 +1,9 @@
 <div
-  #parent_canvas_vis
   style="min-height: 300px"
-  [ngClass]="{ fullscreen: isFullscreen, smallscreen: !isFullscreen }"
+  [ngClass]="{
+    fullscreen: isFullscreen,
+    smallscreen: !isFullscreen
+  }"
 >
   <div>
     <div id="toolbar" class="steps-action">

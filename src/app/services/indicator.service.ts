@@ -26,7 +26,7 @@ export class IndicatorService {
   public selectedData: { [key: string]: boolean } = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
-  public canvasJson: any[] = [];
+  public canvasJson: any= [];
   private nextButtonSubject = new BehaviorSubject<any>(null);
   private isNewInfo: boolean = true;
   private nextButton: boolean = false;
