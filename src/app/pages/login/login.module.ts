@@ -15,6 +15,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [LoginComponent],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     NzButtonModule,

@@ -73,6 +73,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   isPropertiesModalActive: boolean = false;
   isPopOverVisible: boolean = false;
   activeItem: ItemData = EMPTY_ACTIVE_ITEM;
+  impactStatements = [];
   outcomeStatements = [];
   outputStatements = [];
   statementData = [];
@@ -187,6 +188,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       });
 
       this.statementData = this.indicatorService.statementData ? this.indicatorService.statementData : [];
+      this.impactStatements = this.statementData.filter(x=>x.level=='IMPACT');
       this.outcomeStatements = this.statementData.filter(x=>x.level=='OUTCOME');
       this.outputStatements = this.statementData.filter(x=>x.level=='OUTPUT');
   }
@@ -261,10 +263,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.indicatorService.canvasJson = [];
     // Set item selected state. Should be selected if properties modal is open
     this.mapOfCheckedId[item.indicator.id] = selected ? selected : !this.mapOfCheckedId[item.indicator.id] || this.isPropertiesModalActive;
+    this.selectedIndicators = this.selectedIndicators.filter(x=>x.indicator.id != item.indicator.id);
+
     if(this.mapOfCheckedId[item.indicator.id]){
       this.selectedIndicators.push(item);
-    } else {
-      this.selectedIndicators = this.selectedIndicators.filter(x=>x.indicator.id != item.indicator.id);
     }
     this.filteredSelectedIndicators = this.selectedIndicators;
     this.searchSelected = '';
@@ -390,8 +392,17 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   
   showPropertiesModal(indicator: ItemData): void {
     this.activeItem = indicator;
-    this.statementData = this.activeItem.indicator.level == 'OUTCOME' ?
-      this.outcomeStatements : this.outputStatements;
+    switch(this.activeItem.indicator.level){
+      case 'IMPACT':
+        this.statementData = this.impactStatements;
+        break;
+      case 'OUTCOME':
+        this.statementData = this.outcomeStatements;
+        break;
+      case 'OUTPUT':
+        this.statementData = this.outputStatements;
+        break;
+    }
     this.mapOfCheckedStatementsId = {};
     if(this.activeItem.statement) {
       this.mapOfCheckedStatementsId[this.activeItem.statement.id] = true;

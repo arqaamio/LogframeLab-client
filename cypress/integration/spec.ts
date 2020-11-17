@@ -18,7 +18,7 @@ describe('Home Page', ()=> {
     // side buttons
     cy.get('#stepButton').should('be.visible');
     cy.get('#feedbackButton').should('be.visible');
-    cy.get('#feedbackButton').should('be.visible');
+    cy.get('#knowledgeBaseButton').should('be.visible');
     cy.get('#uploadButton').should('be.visible');
     
     cy.get('.dialog__close-btn').click();
@@ -58,7 +58,7 @@ describe('Home Page', ()=> {
     cy.contains('Poverty').click();
     cy.get('#nextButton').click({ force: true }).then(()=> {
       cy.contains('Level');
-      cy.contains('Statement');
+      cy.contains('Result Statement');
       cy.contains('Status');
       cy.contains('Score');
       cy.contains('Action');

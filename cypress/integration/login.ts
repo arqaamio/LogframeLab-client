@@ -10,6 +10,8 @@ describe('Login Page', ()=> {
 
     it('should display', ()=> {
         cy.get('.login-button').contains('Login');
+        cy.contains('You probably have clicked here by accident. You won\'t need to login to use Logframe Lab');
+        cy.contains('Home');
         cy.contains('Terms Of Use');
         cy.contains('Data Protection Declaration');
         cy.contains('Imprint');
@@ -50,5 +52,13 @@ describe('Login Page', ()=> {
         cy.contains('Login').click();
 
         cy.url().should('equal', BASE_URL+ 'login');
+    });
+
+    it('should give go to the main page', () => {
+        // closing the Welcome to Logframelab popup
+        cy.get('.dialog__close-btn').click();
+
+        cy.contains('Home').click();
+        cy.url().should('equal', BASE_URL +'');
     });
 });

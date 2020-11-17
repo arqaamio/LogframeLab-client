@@ -1,4 +1,4 @@
-<div nz-col [nzSpan]="6" [nzOffset]="9">
+<div nz-col [nzSpan]="6" [nzOffset]="8">
   <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" class="login-form">
     <nz-form-item>
       <nz-form-control>
@@ -22,4 +22,15 @@
       </nz-form-control>
     </nz-form-item>
   </form>
+</div>
+<br/>
+<br/><br/>
+<div id="disclaimer">
+  You probably have clicked here by accident. You won't need to login to use Logframe Lab.
+  <br/>
+  This section is for us internally to ensure the smooth running of the web application and access our indicator database.
+</div>
+<br/>
+<div>
+  <button nz-button nzType="primary" class="default-button" routerLink="/" id="homeButton">Home</button>
 </div>
