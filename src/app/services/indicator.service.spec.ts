@@ -97,7 +97,7 @@ describe('IndicatorService', () => {
       .subscribe((response: number) => {
         expect(response).toBe(totalNumber);
     });
-    let req = httpMock.expectOne(environment.apiBaseUrl + '/total-number');
+    let req = httpMock.expectOne(environment.apiBaseUrl + '/indicator/total-number');
     expect(req.request.method).toBe('GET');
     req.flush(totalNumber);
 
@@ -110,7 +110,7 @@ describe('IndicatorService', () => {
       .subscribe((response: NumIndicatorSectorLevel[]) => {
         expect(response).toBe(expected);
     });
-    let req = httpMock.expectOne(environment.apiBaseUrl + '/sector-level-count');
+    let req = httpMock.expectOne(environment.apiBaseUrl + '/indicator/sector-level-count');
     expect(req.request.method).toBe('GET');
     req.flush(expected);
 
