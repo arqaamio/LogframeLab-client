@@ -16,7 +16,11 @@ export class ErrorHandlerService implements ErrorHandler {
     handleError(error: Error | ClientError | any) {
       if(error instanceof ClientError) {
          if(error.sendMessage){
-            this.msg.create(error.level.toString().toLowerCase(), error.object.error.message + '. ' + error.object.error.exception);
+            if(error.object.error){
+               this.msg.create(error.level.toString().toLowerCase(), error.object.error.message + '. ' + error.object.error.exception);
+            } else {
+               this.msg.create(error.level.toString().toLowerCase(), error.message);
+            }
          }
          console.log(error.object);
       } else {

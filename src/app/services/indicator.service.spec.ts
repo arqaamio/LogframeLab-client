@@ -84,7 +84,7 @@ describe('IndicatorService', () => {
       .subscribe((response: IndicatorResponse[]) => {
         expect(response).toBe(indicatorsList);
     });
-    let req = httpMock.expectOne(environment.apiBaseUrl + '/indicator?levels='+level.id+'&sector='+sector);
+    let req = httpMock.expectOne(environment.apiBaseUrl + '/indicator?levels='+level.id+'&sectors='+sector);
     expect(req.request.method).toBe('GET');
     req.flush(indicatorsList);
 

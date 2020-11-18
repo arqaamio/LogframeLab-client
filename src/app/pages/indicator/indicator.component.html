@@ -15,7 +15,7 @@
       </button>
       <ng-template #contentTemplate>
         <div class="stepInfo" *ngIf="current == 0">
-          <p><strong>Step 1<i nz-icon nzType="close" (click)="clickClose()" class="closeIcon"></i></strong></p>
+          <p><strong>Step 1<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
           <p class="stepPara">
             First, either upload a single MS Word document here (.doc or .docx).
             You can use your grant or project funding application file for this purpose.
@@ -29,7 +29,7 @@
             you'll be able to add more filters in the next step.
         </div>
         <div class="step2Info" *ngIf="current == 1">
-          <p><strong>Step 2<i nz-icon nzType="close" (click)="clickClose()" class="closeIcon"></i></strong></p>
+          <p><strong>Step 2<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
           <p>
             If you uploaded a document, here you will see the results statements (Impact, Outcome and Outputs) of your project. We are using machine learning to identify them, so there might be some mistakes.
             <br/><br/>
@@ -47,7 +47,7 @@
           </p>
         </div>
         <div class="step2Info" *ngIf="current == 2">
-          <p><strong>Step 3<i nz-icon nzType="close" (click)="clickClose()" class="closeIcon"></i></strong></p>
+          <p><strong>Step 3<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
           <p>
             Here are the suggested indicators for you, based on the keywords in your
             document and the sectors selected. Indicators are categorised as Impacts,
@@ -62,7 +62,7 @@
           </p>
         </div>
         <div class="step2Info" *ngIf="current == 3">
-          <p><strong>Step 4<i nz-icon nzType="close" (click)="clickClose()" class="closeIcon"></i></strong></p>
+          <p><strong>Step 4<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
           <p>
             In this step you are able to view the success indicators in a visualization
             format. These indicators are derived from the selection you did in previous          

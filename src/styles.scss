@@ -289,3 +289,10 @@ app-manage-indicators {
 #stepButton:hover, #feedbackButton:hover, .sideButton:hover {
   right: 0px;
 }
+
+.closeHelpIcon {
+  cursor: pointer;
+  font-size: 1rem;
+  float: right;
+  margin-right: 15px;
+}
