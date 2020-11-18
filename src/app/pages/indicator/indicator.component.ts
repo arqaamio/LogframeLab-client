@@ -3,6 +3,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-indicator',
@@ -21,16 +22,21 @@ export class IndicatorComponent implements OnInit, OnDestroy {
   constructor(
     private indicatorService: IndicatorService,
     private messageService: NzMessageService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    // To reload when clicking on the logo while already on the route
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    };  
     this.nextButtonSubscription = this.indicatorService
       .getNextButtonSubject()
-      .subscribe((data) => {
+      .subscribe((data) => {        
         if (data != null) {
-          if (data.enabled != null) this.isNext = data.enabled;
-          if (data.press) this.next();
+          if (data.enabled != null && data.enabled!=this.isNext) this.isNext = data.enabled;
+          if (data.press) this.next(data.force);
         }
       });
 
@@ -49,7 +55,7 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     this.indicatorService.currentStep = this.current;
     if(this.indicatorService.currentStep == 0) {
       this.indicatorService.setLoadedData(null);
-      this.indicatorService.statementData = null;
+      this.indicatorService.statementData = [];
     }
     if(this.indicatorService.currentStep == 2){
       this.indicatorService.canvasJson = [];
@@ -60,8 +66,10 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  next(): void {
-    if (this.current == 1) {
+  next(forcePress?: boolean): void {
+    if( this.current === 0 && !forcePress) {
+      this.indicatorService.getNextButtonSubject().next({pressed: true});
+    } else if (this.current == 1) {
       if(this.indicatorService.statementData?.filter(x=>x.level =='IMPACT').length > 1){
         this.modal.confirm({
           nzTitle: 'Are you sure you want to continue?',

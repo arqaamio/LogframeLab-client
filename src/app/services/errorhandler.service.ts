@@ -13,10 +13,10 @@ export class ErrorHandlerService implements ErrorHandler {
      * Handles all the errors sent by the application
      * @param error Errors that were thrown
      */
-    handleError(error: Error | ClientError) {
+    handleError(error: Error | ClientError | any) {
       if(error instanceof ClientError) {
          if(error.sendMessage){
-            this.msg.create(error.level.toString().toLowerCase(), error.message);
+            this.msg.create(error.level.toString().toLowerCase(), error.object.error.message + '. ' + error.object.error.exception);
          }
          console.log(error.object);
       } else {

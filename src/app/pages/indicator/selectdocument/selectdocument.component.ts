@@ -6,6 +6,7 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { RxStompService } from '@stomp/ng2-stompjs';
+import { interval } from 'rxjs/internal/observable/interval';
 
 export const WEBSOCKET_BROKER_URL: string = '/topic/progress';
 export const UPLOAD_TITLE: string = 'Uploading';
@@ -21,6 +22,8 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
   uploadStateTitle = '';
   indicatorSubscription: Subscription = null;
   stompSubscription: Subscription = null;
+  uploadSubscription: Subscription = null;
+  nextButtonSubscription: Subscription = null;
   fileList: NzUploadFile[] = [];
   fileName: string;
   selectedValues = new FilterDto();
@@ -33,15 +36,19 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
     private indicatorService: IndicatorService,
     private rxStompService: RxStompService
   ) {
-    // can't be in ngOnInit because of Angular Lifecycle Hooks
-    this.indicatorService.updateNextButton(true);
     this.rxStompService.deactivate();
   }
 
   ngOnInit() {
+    // because of Angular Lifecycle Hooks
+    setTimeout(() => {
+      this.indicatorService.loadingStart.next(true);
+      this.indicatorService.updateNextButton(true);
+    });
     if(this.filterOptions.level.length === 0){
       this.indicatorService.getFilters().subscribe((filters) => {
         this.filterOptions = filters;
+        this.indicatorService.loadingStart.next(false);
       });
     }
     this.indicatorSubscription = this.indicatorService
@@ -60,13 +67,37 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+      this.nextButtonSubscription = this.indicatorService
+        .getNextButtonSubject()
+        .subscribe((data) => {
+          // Next button pressed
+          if (data?.pressed && !data?.force) {
+              this.fileList = this.fileList.filter(x=>x.status!='removed');
+              this.indicatorService.setFileUploadList(this.fileList);
+              if(this.fileList.length> 0){
+                this.uploadAndScan(this.fileList[0]);
+              }else {
+                this.indicatorService.pressNextButton(true);        
+              }
+          }
+        });
   }
 
+  removeFile(): void {
+    this.fileList = [];
+    this.indicatorService.setFileUploadList(this.fileList);
+  }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = [file];
+    return false;
+  };
   /**
    * Function called when a file is selected by nz-upload
    * @param item NZ-Zorro item with the selected file
    */
-  uploadAndScan = (item: any) => {
+  uploadAndScan = (item: NzUploadFile) => {
     this.rxStompService.activate();
     this.indicatorService.updateNextButton(false);
     this.indicatorService.setSelectedData(null);
@@ -82,8 +113,8 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
       });
     }, 1000);
 
-    return this.indicatorService
-      .uploadFile(item.file)
+    this.uploadSubscription = this.indicatorService
+      .uploadFile(item)
       .subscribe((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.Sent:
@@ -96,11 +127,11 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
               this.uploadStateTitle = SCANNING_TITLE;
               this.progress = 1;
               // fake real time progress
-              // const subscription = interval(1000).subscribe(()=>{
-              //   this.progress++;
-              //   // Stopping condition
-              //   if(this.fileScanned) subscription.unsubscribe();
-              // });
+              const subscription = interval(1000).subscribe(()=>{
+                this.progress++;
+                // Stopping condition
+                if(this.fileScanned) subscription.unsubscribe();
+              });
               setTimeout(null,1000);
             }
             break;
@@ -110,13 +141,20 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
             this.uploadStateTitle = DONE_TITLE;
             this.indicatorService.setIsNewInfo(true);
             this.indicatorService.setLoadedData(event.body);
-            this.indicatorService.setFileUploadList([item.file]);
-           
+            this.indicatorService.setFileUploadList([item]);
+
             setTimeout(()=> {
-              this.indicatorService.pressNextButton();
-              this.indicatorService.loadingStart.next(true);
+              this.indicatorService.pressNextButton(true);
+              this.indicatorService.loadingStart.next(true);  
             }, 1000);
+          
         }
+      }, (error)=> {
+        
+        this.fileScanned = true;
+        this.progress = 0;
+        this.rxStompService.deactivate();
+        throw error;
       });
   }
 
@@ -160,5 +198,7 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
       this.stompSubscription.unsubscribe();
       this.rxStompService.deactivate();
     }
+    this.uploadSubscription?.unsubscribe();
+    this.nextButtonSubscription?.unsubscribe();
   }
 }
