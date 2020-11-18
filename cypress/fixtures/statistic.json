@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "downloadWordTemplate": 2,
+        "downloadDFIDTemplate": 0,
+        "downloadXLSXTemplate": 0,
+        "downloadPRMTemplate": 0,
+        "date": "2020-11-01T00:00:00.000+00:00"
+    },
+    {
+        "id": 2,
+        "downloadWordTemplate": 0,
+        "downloadDFIDTemplate": 1,
+        "downloadXLSXTemplate": 4,
+        "downloadPRMTemplate": 0,
+        "date": "2020-12-01T00:00:00.000+00:00"
+    }
+]

@@ -196,10 +196,10 @@
           nz-popover
           nzPopoverContent="Further information and options"
           (click)="showPropertiesModal(data)" 
-          *ngIf="isWorldBankIndicator(data) || data.indicator?.level !='IMPACT' || (data.indicator?.description!=null && data.indicator?.description!='')"
+          *ngIf="isWorldBankIndicator(data) || statementData.length > 0 || (data.indicator?.description!=null && data.indicator?.description!='')"
           ><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
           </td>
-          <td *ngIf="!(isWorldBankIndicator(data) || data.indicator?.level !='IMPACT') &&
+          <td *ngIf="!isWorldBankIndicator(data) && statementData.length == 0 &&
             (data.indicator?.description==null ||data.indicator?.description=='')"></td>
           <td
             nzShowCheckbox
@@ -320,21 +320,6 @@
             </th>
             <th
               nzShowSort
-              nzColumnKey="disaggregation"
-              nz-popover
-              nzPopoverTitle="Disaggregation"
-              nzPopoverContent="If the indicator requires disaggregation. As a rule of thumb, whenever people are counted, there should a disaggregation (at least by sex)."
-              nzWidth="10%"
-              style="font-size: 10px"
-              nzBreakWord
-              nzShowFilter
-              [nzFilters]="searchFilter.disaggregation"
-              [nzFilterFn]="filterDisag"
-            >
-              Disaggregation
-            </th>
-            <th
-              nzShowSort
               nzColumnKey="sector"
               nzWidth="10%"
               nz-popover
@@ -346,20 +331,6 @@
               [nzFilterFn]="filterSector"
             >
               Sector
-            </th>
-            <th
-              nzShowSort
-              nzColumnKey="crsCode"
-              nz-popover
-              nzPopoverTitle="OECD DAC/CRD Code"
-              nzPopoverContent="This is the three digit code referring to the CRS codes, another way to understand what the indicator is related to."
-              nzWidth="10%"
-              nzBreakWord
-              nzShowFilter
-              [nzFilters]="searchFilter.crsCode"
-              [nzFilterFn]="filterCRSCode"
-            >
-              OECD DAC/CRS Code
             </th>
             <th
               nzShowSort
@@ -377,12 +348,12 @@
             </th>
             <th
               nz-popover
-              nzPopoverTitle="Keyword frequency"
-              nzPopoverContent="The number of times the document triggers the keywords of each indicator. Ideally you do not want to use indicators with a keyword frequency of less than 10."
+              nzPopoverTitle="Score"
+              nzPopoverContent="Quality of the indicator."
               nzWidth="10%"
               *ngIf="showScoreCol"
             >
-              Keyword Frequency
+              Score
               <nz-slider
                 (nzOnAfterChange)="onAfterChange($event)"
                 [nzTooltipVisible]="'default'"
@@ -390,6 +361,9 @@
                 [nzMin]="0"
                 [nzMax]="100"
               ></nz-slider>
+            </th>
+            <th>
+              Result Statement
             </th>
             <th>
               <i
@@ -413,28 +387,7 @@
               <td nzBreakWord>
                 {{ printArray(data.indicator.source, 'name') }}
               </td>
-              <td style="text-align: center">
-                <div style="text-align: center">
-                  <i
-                    *ngIf="!data.indicator.disaggregation"
-                    style="font-size: 25px; color: rgb(216, 126, 126)"
-                    nz-icon
-                    nzType="close"
-                    nzTheme="outline"
-                  ></i>
-                  <i
-                    *ngIf="data.indicator.disaggregation"
-                    style="font-size: 25px; color: #a5c2ae"
-                    nz-icon
-                    nzType="check"
-                    nzTheme="outline"
-                  ></i>
-                </div>
-              </td>
               <td nzBreakWord>{{ data.indicator.sector }}</td>
-              <td nzBreakWord>
-                {{ printArray(data.indicator.crsCode, 'name') }}
-              </td>
               <td
                 title="{{ printArray(data.indicator.sdgCode, 'name') }}"
                 nzBreakWord
@@ -442,6 +395,8 @@
                 {{ printArray(data.indicator.sdgCode, 'name') }}
               </td>
               <td *ngIf="showScoreCol">{{ data.indicator.score }}</td>
+              <td *ngIf="data.statement">{{ data.statement.statement }}</td>
+              <td *ngIf="!data.statement">No relation set up yet</td>
               <td (click)="removeSelectedIndicator(data)">
                 <i
                   nz-icon
@@ -479,6 +434,8 @@
   </button>
 </div>
 <nz-modal [(nzVisible)]="isPropertiesModalActive" nzTitle="Further information and options" (nzOnCancel)="isPropertiesModalActive = false" (nzOnOk)="propertiesModalOkHandle()" nzWidth="90vw">
+  <h3><strong>Indicator</strong></h3>
+  <p>{{activeItem.indicator?.name}}</p>
   <div *ngIf="activeItem.indicator?.description != null && activeItem.indicator?.description != ''">
     <h3><strong>Description</strong></h3>
     <p>{{activeItem.indicator.description}}</p>
@@ -494,7 +451,6 @@
     <nz-spin nzSimple *ngIf="showLoadingBaseline" id="baselineSpin"></nz-spin>
     <span style="margin-left: 5px;">Baseline value: <strong>{{ activeItem.baselineValue }}</strong></span>
   </div>
-  <div *ngIf="activeItem.indicator?.level !='IMPACT'">
   <h3><strong>Statements</strong></h3>
   <nz-table
       #statementTable
@@ -550,5 +506,4 @@
         </ng-template>
       </tbody>
     </nz-table>
-  </div>
 </nz-modal>

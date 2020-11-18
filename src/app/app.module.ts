@@ -2,7 +2,7 @@ import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzIconModule, NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { registerLocaleData, APP_BASE_HREF, CommonModule } from '@angular/common';
@@ -56,8 +56,14 @@ import { LoginModule } from './pages/login/login.module';
 import { DialogModule } from './components/dialog/dialog.module';
 import { UserManagementModule } from './user-management/user-management.module';
 import { ManageIndicatorsModule } from './manage-indicators/manage-indicators.module';
+import * as AllIcons from '@ant-design/icons-angular/icons';
+import { IconDefinition } from '@ant-design/icons-angular';
 
 registerLocaleData(en);
+const antDesignIcons = AllIcons as {
+  [key: string]: IconDefinition;
+};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 
 export const routes: Routes = [
 ];
@@ -123,7 +129,8 @@ export const routes: Routes = [
     {
       provide: ErrorHandler,
       useClass: ErrorHandlerService
-    }
+    },
+    { provide: NZ_ICONS, useValue: icons }
   ],
   bootstrap: [AppComponent],
   schemas:[NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA]
