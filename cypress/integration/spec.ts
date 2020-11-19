@@ -54,7 +54,7 @@ describe('Home Page', ()=> {
 
   it("should go to the results tab without document", () => {
     cy.get('.dialog__close-btn').click();
-    cy.contains('Filter by Sector').click();
+    cy.contains('Filter by Sector').click({force: true});
     cy.contains('Poverty').click();
     cy.get('#nextButton').click({ force: true }).then(()=> {
       cy.contains('Level');
@@ -68,12 +68,13 @@ describe('Home Page', ()=> {
   });
 
   it('should display help', ()=> {
-      cy.contains('Close').should('not.be.visible');
+      cy.get('.dialog__close-btn').click();
+      cy.get('.closeHelpIcon').should('not.be.visible');
       cy.get('#stepButton').should('be.visible');
       cy.get('#stepButton').click();
-      cy.contains('Close').should('be.visible');
-      cy.contains('Close').click();
-      cy.contains('Close').should('not.be.visible');
+      cy.get('.closeHelpIcon').should('be.visible');
+      cy.get('.closeHelpIcon').click();
+      cy.get('.closeHelpIcon').should('not.be.visible');
   });
 
   /*it('should go to the feedback page', ()=> {

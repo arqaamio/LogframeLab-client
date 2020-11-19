@@ -67,7 +67,7 @@
 .uploadText {
     padding-top: 2rem;
     padding-bottom: 1rem;
-    min-height: 20rem;
+    min-height: 10rem;
     background-color: rgba(242, 242, 242, 0.7);
     margin: auto;
 }
@@ -83,7 +83,7 @@
 }
 
 .disclaimer {
-    padding-top: 2rem;
+    margin-top: 1rem;
     position: relative;
     width: 60%;
     max-height: 8rem;
@@ -113,4 +113,17 @@ nz-upload{
 h2 {
     font-family: montserrat, sans-serif;
     padding: 1rem 0 1rem 0;
+}
+
+::ng-deep .ant-btn-icon-only.ant-btn-sm:hover{
+    background-color: #6B3C53;
+    border: none;
+    color: white;
+    i {
+        color: white;
+    }
+}
+
+::ng-deep .ant-upload-list-item-info:hover {
+    background-color: #a5c2ae !important;
 }

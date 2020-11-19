@@ -25,24 +25,10 @@ describe('NotFoundComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {        
-        // expect((element.getElementsByTagName('h1').item(0) as HTMLElement).firstChild.nodeValue).toEqual('404');
-        // expect((element.getElementsByTagName('h3').item(0) as HTMLElement).firstChild.nodeName).toEqual('STRONG');
-        // expect((element.getElementsByTagName('h3').item(0) as HTMLElement).firstChild.firstChild.nodeValue).toEqual('Page Not Found');
-        
+    it('should create', () => {                
         let button: HTMLElement = element.getElementsByTagName('button').item(0) as HTMLElement;
         expect(button).toBeTruthy();
         expect(button.firstChild.nodeValue).toBe('Home');
         expect(component).toBeTruthy();
-    });
-
-    it('should go to the main page', fakeAsync(inject([HttpTestingController], (httpMock: HttpTestingController) => {
-        let spy = spyOn(component, "goToHome");
-        fixture.debugElement.query(By.css('button')).triggerEventHandler('click', null)
-        expect(spy).toHaveBeenCalled();
-    })));
-
-    afterEach(() => {
-        fixture.destroy();
     });
 });

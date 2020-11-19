@@ -2,7 +2,6 @@
   nz-button
   nzType="question"
   nz-popover
-  nzPopoverTitle="Indicators Upload"
   [(nzPopoverVisible)]="visible"
   nzPopoverVisibleChange
   nzPopoverTrigger="click"
@@ -38,6 +37,7 @@
   </a>
 <ng-template #contentTemplate>
   <div class="stepInfo">
+    <p><strong>Indicators Upload<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
     <p class="stepPara">
         We are always looking to widen our database of indicators. You can use our template to send us new indicators
         (instructions are in the first row of the Excel template, once you download it).
@@ -47,8 +47,8 @@
         Should you have more than a few indicators, or know of an indicator source, that we have not added yet,
         please use the chat/send message button on the right side of your screen, and leave us a message with the
         link to the website or document, and we can discuss with you there.
+    </p>
   </div>
-  <a (click)="clickClose()">Close</a>
 </ng-template>
 <div nz-col nzOffset="5" style="margin-top: 80px;">
   <div nz-row>

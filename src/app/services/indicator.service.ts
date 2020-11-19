@@ -88,9 +88,10 @@ export class IndicatorService {
 
   /**
    * Sends for the button to be pressed
+   * @param force Force pressing of the button
    */
-  pressNextButton(): void {
-    this.nextButtonSubject.next({'press': true});
+  pressNextButton(force?: boolean): void {
+    this.nextButtonSubject.next({'press': true, 'force': force});
   }
 
   /**
@@ -181,7 +182,7 @@ export class IndicatorService {
         args+='sources=' + filtersDto.source.map((x)=>x.id).join(', ')+'&';
 
       filtersDto.sector.forEach(element => {
-        args+='sector='+element+'&';
+        args+='sectors='+element+'&';
       });
     }
     if(args!= '') {

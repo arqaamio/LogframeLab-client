@@ -75,7 +75,7 @@ export const routes: Routes = [
     BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}),
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, onSameUrlNavigation: 'reload'}),
     NzButtonModule,
     NzDropDownModule,
     NzGridModule,
