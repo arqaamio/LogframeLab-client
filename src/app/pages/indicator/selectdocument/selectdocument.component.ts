@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { interval } from 'rxjs/internal/observable/interval';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 export const WEBSOCKET_BROKER_URL: string = '/topic/progress';
 export const UPLOAD_TITLE: string = 'Uploading';
@@ -34,7 +35,8 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
 
   constructor(
     private indicatorService: IndicatorService,
-    private rxStompService: RxStompService
+    private rxStompService: RxStompService,
+    private modalService: NzModalService
   ) {
     this.rxStompService.deactivate();
   }
@@ -49,6 +51,16 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
       this.indicatorService.getFilters().subscribe((filters) => {
         this.filterOptions = filters;
         this.indicatorService.loadingStart.next(false);
+      }, error=> {
+        // because of the first timeout with the loading
+        setTimeout(() => {
+          this.indicatorService.loadingStart.next(false);
+        });    
+        this.modalService.error({
+          nzTitle: 'An error has occurred',
+          nzContent: 'It seems we are having technical issues. Try reloading the page, otherwise please try again later.'
+        });
+        console.error(error);
       });
     }
     this.indicatorSubscription = this.indicatorService
@@ -150,8 +162,12 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
           
         }
       }, (error)=> {
-        
+        this.modalService.error({
+          nzTitle: 'An error has occurred',
+          nzContent: 'It seems we are having technical issues. Try reloading the page, otherwise please try again later.'
+        });
         this.fileScanned = true;
+        this.indicatorService.updateNextButton(true);
         this.progress = 0;
         this.rxStompService.deactivate();
         throw error;

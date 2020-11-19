@@ -114,3 +114,16 @@ h2 {
     font-family: montserrat, sans-serif;
     padding: 1rem 0 1rem 0;
 }
+
+::ng-deep .ant-btn-icon-only.ant-btn-sm:hover{
+    background-color: #6B3C53;
+    border: none;
+    color: white;
+    i {
+        color: white;
+    }
+}
+
+::ng-deep .ant-upload-list-item-info:hover {
+    background-color: #a5c2ae !important;
+}

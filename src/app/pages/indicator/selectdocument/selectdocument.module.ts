@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [SelectDocumentComponent],
@@ -24,6 +25,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzSelectModule,
     NzDropDownModule,
     NzButtonModule,
+    NzModalModule,
     NzProgressModule
   ],
   exports: [SelectDocumentComponent]

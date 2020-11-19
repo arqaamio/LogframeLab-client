@@ -16,7 +16,7 @@ export class ErrorHandlerService implements ErrorHandler {
     handleError(error: Error | ClientError | any) {
       if(error instanceof ClientError) {
          if(error.sendMessage){
-            if(error.object.error){
+            if(error.object.error && error.object.error.message){
                this.msg.create(error.level.toString().toLowerCase(), error.object.error.message + '. ' + error.object.error.exception);
             } else {
                this.msg.create(error.level.toString().toLowerCase(), error.message);
