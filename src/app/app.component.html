@@ -15,6 +15,7 @@
           <li nz-menu-item routerLink="/"><i nz-icon nzType="home"></i>Home</li>
           <li nz-menu-item *ngIf="isIndicatorAdmin()" routerLink="/manage-indicators"><i nz-icon nzType="table" nzTheme="outline"></i>Manage indicators</li>
           <li nz-menu-item *ngIf="isIndicatorAdmin()" routerLink="/manage-indicators/approve-uploaded"><i nz-icon nzType="carry-out" nzTheme="outline"></i>Approve indicators</li>
+          <li nz-menu-item *ngIf="isIndicatorAdmin()" routerLink="/source"><i nz-icon nzType="solution" nzTheme="outline"></i>Sources</li>
           <li nz-menu-item *ngIf="isSecAdmin()" routerLink="/user-management"><i nz-icon nzType="lock" nzTheme="outline"></i>Manage users
           <li nz-menu-item *ngIf="isSecAdmin()" routerLink="/statistics"><i nz-icon nzType="bar-chart" nzTheme="outline"></i>Statistics
           <li nz-menu-item *ngIf="isAuthenticated" (click)="logout()"><i nz-icon nzType="logout"></i>Logout</li>

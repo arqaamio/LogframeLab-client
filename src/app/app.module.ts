@@ -58,6 +58,7 @@ import { UserManagementModule } from './user-management/user-management.module';
 import { ManageIndicatorsModule } from './manage-indicators/manage-indicators.module';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { IconDefinition } from '@ant-design/icons-angular';
+import { SourcesModule } from './pages/sources/sources.module';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -92,6 +93,7 @@ export const routes: Routes = [
     IndicatorsUploadModule,
     UserManagementModule,
     ManageIndicatorsModule,
+    SourcesModule,
     NotFoundModule
   ],
   providers: [
