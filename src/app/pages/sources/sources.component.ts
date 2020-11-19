@@ -3,7 +3,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { SourceService } from 'src/app/services/source.service';
 
 interface ItemData {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -24,29 +24,46 @@ export class SourcesComponent implements OnInit {
     this.refreshTable();
   }
 
+  /**
+   * Request the sources to fill the table
+   */
   refreshTable(): void {
     this.sourceService.getSources().subscribe((resp)=> {
       this.listOfData = resp;
     });
   }
 
+  /**
+   * Shows the modal to edit the name of the source
+   * @param id Id of the source to edit
+   */
   editSource(id: number): void {
     this.sourceId = id;
+    this.sourceName = this.listOfData.find(x=>x.id == id).name;
     this.isModalVisible = true;
   }
 
+  /**
+   * Saves the source whether its an existing or a new one
+   */
   saveSource(){
     if(this.sourceId){
       this.sourceService.updateSource(this.sourceId, this.sourceName).subscribe(x=>{
         this.refreshTable();
+        this.handleCancelModal();
       });
     }else {
       this.sourceService.createSource(this.sourceName).subscribe(x=>{
         this.refreshTable();
+        this.handleCancelModal();
       });
     }
   }
 
+  /**
+   * Deletes the source with the id
+   * @param id Id of the source to be deleted
+   */
   deleteSource(id: number): void {
     this.modal.confirm({
       nzTitle: '<i>Are you sure you want to delete this source?</i>',
@@ -59,8 +76,13 @@ export class SourcesComponent implements OnInit {
     });
   }
 
+  /**
+   * Handler of when pressed on cancel button of modal
+   * Closes the modal
+   */
   handleCancelModal(): void {
     this.sourceId = null;
+    this.sourceName = null;
     this.isModalVisible = false;
   }
 }
