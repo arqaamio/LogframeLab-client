@@ -56,6 +56,7 @@ import { LoginModule } from './pages/login/login.module';
 import { DialogModule } from './components/dialog/dialog.module';
 import { UserManagementModule } from './user-management/user-management.module';
 import { ManageIndicatorsModule } from './manage-indicators/manage-indicators.module';
+import { SourcesModule } from './pages/sources/sources.module';
 
 registerLocaleData(en);
 
@@ -86,6 +87,7 @@ export const routes: Routes = [
     IndicatorsUploadModule,
     UserManagementModule,
     ManageIndicatorsModule,
+    SourcesModule,
     NotFoundModule
   ],
   providers: [
