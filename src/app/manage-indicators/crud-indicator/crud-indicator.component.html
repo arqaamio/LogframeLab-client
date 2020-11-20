@@ -13,7 +13,7 @@
           <nz-form-label [nzSpan]="7" nzFor="crsCode"><label for="crsCode">CRS code</label>
           </nz-form-label>
           <nz-form-control [nzSpan]="12">
-            <nz-select id="crsCode" name="crsCode" [(ngModel)]="indicator.crsCode" nzPlaceHolder="CRS Code"
+            <nz-select id="crsCode" name="crsCode" [(ngModel)]="indicator.crsCode" nzPlaceHolder="CRS Code" *ngIf="displayCrudModal"
             [disabled]="!(isEditing() || isNew())" nzMode="multiple" [compareWith]="compare" nzAllowClear>
               <nz-option *ngFor="let item of crsCodes" [nzLabel]="item.name" [nzValue]="item"></nz-option>
             </nz-select>
@@ -69,7 +69,7 @@
           <nz-form-label [nzSpan]="7" nzFor="sdgCode"><label for="sdgCode">SDG Goal</label>
           </nz-form-label>
           <nz-form-control [nzSpan]="12">
-            <nz-select id="sdgCode" name="sdgCode" [(ngModel)]="indicator.sdgCode" nzPlaceHolder="SDG Goal"
+            <nz-select id="sdgCode" name="sdgCode" [(ngModel)]="indicator.sdgCode" nzPlaceHolder="SDG Goal" *ngIf="displayCrudModal"
             [disabled]="!(isEditing() || isNew())" nzMode="multiple" [compareWith]="compare" nzAllowClear>
               <nz-option *ngFor="let item of sdgCodes" [nzLabel]="item.name" [nzValue]="item"></nz-option>
             </nz-select>
@@ -79,7 +79,7 @@
           <nz-form-label [nzSpan]="7" nzFor="source"><label for="source">Source</label>
           </nz-form-label>
           <nz-form-control [nzSpan]="12">
-            <nz-select id="source" name="source" [(ngModel)]="indicator.source" nzPlaceHolder="Source"
+            <nz-select id="source" name="source" [(ngModel)]="indicator.source" nzPlaceHolder="Source" *ngIf="displayCrudModal"
             [disabled]="!(isEditing() || isNew())" nzMode="multiple" [compareWith]="compare" nzAllowClear>
               <nz-option *ngFor="let item of sources" [nzLabel]="item.name" [nzValue]="item"></nz-option>
             </nz-select>
@@ -107,7 +107,7 @@
           <nz-form-label [nzSpan]="7" nzFor="level">Level</nz-form-label>
           <nz-form-control [nzSpan]="12">
             <nz-select id="level" name="level" [(ngModel)]="indicator.levelId" nzPlaceHolder="Level"
-                       [disabled]="!(isEditing() || isNew())">
+                       [disabled]="!(isEditing() || isNew())" *ngIf="displayCrudModal">
               <nz-option *ngFor="let level of levels" [nzLabel]="level.name"
                          [nzValue]="level.id"></nz-option>
             </nz-select>
