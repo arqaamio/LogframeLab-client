@@ -59,6 +59,9 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Sends request to create a new indicator
+   */
   createIndicator() {
     this.newIndicatorService.createIndicator(this.indicator).subscribe(res => {
       if (res.ok) {
