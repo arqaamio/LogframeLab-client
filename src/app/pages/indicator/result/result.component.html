@@ -37,23 +37,23 @@
         <ng-template ngFor let-data [ngForOf]="dynamicTable.data" let-index="index">
           <tr class="editable-row">
             <td>
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)" data-cy="level">
                 <nz-tag [nzColor]="data.colorLevel"
                 >{{ data.level }}
               </nz-tag>
               </div>
               <nz-select id="level" name="level" [(ngModel)]="data.level" nzPlaceHolder="Level"
-              [hidden]="editId !== data.id" (ngModelChange)="levelChangeHandle(data)">
+              [hidden]="editId !== data.id" (ngModelChange)="levelChangeHandle(data)" data-cy="level-input">
                 <nz-option *ngFor="let level of levelFilter" [nzLabel]="level.text"
                             [nzValue]="level.text"></nz-option>
               </nz-select>
             </td>
             
             <td title="You can edit by selecting the row">
-              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)" data-cy="statement">
                 {{ data.statement }}
               </div>
-              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.statement" (blur)="stopEdit(data)" />
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.statement" (blur)="stopEdit(data)" data-cy="statement-input"/>
             </td>
             <td>
                <nz-tag [nzColor]="data.statusColor"
