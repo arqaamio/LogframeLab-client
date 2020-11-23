@@ -48,7 +48,7 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
       this.indicatorService.updateNextButton(true);
     });
     if(this.filterOptions.level.length === 0){
-      this.indicatorService.getFilters().subscribe((filters) => {
+      this.indicatorService.getFilters(false).subscribe((filters) => {
         this.filterOptions = filters;
         this.indicatorService.loadingStart.next(false);
       }, error=> {

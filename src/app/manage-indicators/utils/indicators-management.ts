@@ -64,7 +64,7 @@ export class IndicatorsManagement {
 
     this.isLoading = true;
 
-    const filtersRequest = this.indicatorService.getFilters();
+    const filtersRequest = this.indicatorService.getFilters(false);
     const indicatorsRequest = forApproval
       ? this.manageIndicatorsService.getIndicatorsForApproval(this.page, this.pageSize, this.filters)
       : this.manageIndicatorsService.getIndicators(this.page, this.pageSize, this.filters);
