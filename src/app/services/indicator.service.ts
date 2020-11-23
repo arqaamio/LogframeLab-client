@@ -153,8 +153,8 @@ export class IndicatorService {
    return this.http.request(req);
   }
 
-  getFilters(): Observable<FilterDto> {
-    return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters');
+  getFilters(all: boolean): Observable<FilterDto> {
+    return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters'+ (all ? '?all=1' : ''));
   }
 
   /**
