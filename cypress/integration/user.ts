@@ -20,6 +20,7 @@ describe('User Page', ()=> {
 
         cy.fixture('users.json').as('users');
         cy.route('**/auth/users', '@users');
+        cy.route('**/auth/groups', [{'id':2,'name':'APP_USER'},{'id':3,'name':'INDICATOR_ADMIN'},{'id':1,'name':'SEC_ADMIN'}]);
 
         cy.contains('Login').click().then(()=> {
             cy.visit('/user-management');
@@ -37,9 +38,6 @@ describe('User Page', ()=> {
     });
 
     it('should create user', () => {
-        cy.fixture('users.json').as('users');
-        cy.route('**/auth/groups', [{'id':2,'name':'APP_USER'},{'id':3,'name':'INDICATOR_ADMIN'},{'id':1,'name':'SEC_ADMIN'}]);
-
         cy.contains('Add user').click();
         const user: string = 'new user';
         const password: string = 'new password';
@@ -53,7 +51,6 @@ describe('User Page', ()=> {
         cy.route('POST', '**/auth/users', {'username':user,'groups':['APP_USER', 'INDICATOR_ADMIN']})
         cy.contains('Submit').click({force: true});
 
-        cy.contains(user);
         cy.contains('APP_USER, INDICATOR_ADMIN');
     });
 

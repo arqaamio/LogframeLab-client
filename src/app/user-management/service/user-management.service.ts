@@ -17,4 +17,8 @@ export class UserManagementService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.apiBaseUrl}/auth/users`);
   }
+
+  deleteUserByUsername(username: string): Observable<User> {
+    return this.http.delete<User>(`${environment.apiBaseUrl}/auth/users/${username}`);
+  }
 }

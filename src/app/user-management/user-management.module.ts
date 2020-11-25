@@ -8,9 +8,9 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { AddUserRowComponent } from './add-user-row/add-user-row.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from '../utils/auth.guard';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 const routes: Routes = [
@@ -18,7 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [UserManagementComponent, AddUserRowComponent],
+  declarations: [UserManagementComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -28,6 +28,7 @@ const routes: Routes = [
     NzFormModule,
     ReactiveFormsModule,
     NzInputModule,
+    NzModalModule,
     NzSelectModule,
     FormsModule
   ]
