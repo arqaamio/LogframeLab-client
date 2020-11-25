@@ -361,6 +361,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         else
           item.baselineValue = NO_VALUE;
         this.showLoadingBaseline = false;
+      }, error=> {
+        this.showLoadingBaseline = false;
+        item.baselineValue = NO_VALUE;
+        throw error;
       });
     }
   }

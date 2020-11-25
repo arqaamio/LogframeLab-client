@@ -23,7 +23,7 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
           data.selectedData != null
         ) {
           this.dataExport = data.selectedData.map((x)=> {
-            if(x.yearSelected && x.baselineValue) {
+          if(x.yearSelected && (x.baselineValue  || x.baselineValue === 0)) {
               x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
               x.indicator.value = x.baselineValue;
             }
