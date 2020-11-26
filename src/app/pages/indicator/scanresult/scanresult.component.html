@@ -276,7 +276,7 @@
         #selectedTable
         [nzData]="filteredSelectedIndicators"
         [nzPageSize]="filteredSelectedIndicators.length"
-        [nzScroll]="{ y: '500px' }"
+        [nzScroll]="{ y: '500px', x: '1000px'}"
         nzShowSizeChanger="false"
         nzSize="middle"
         nzBordered
@@ -397,7 +397,7 @@
               </td>
               <td *ngIf="showScoreCol">{{ data.indicator.score }}</td>
               <td *ngIf="data.statement">{{ data.statement.statement }}</td>
-              <td *ngIf="!data.statement">No relation set up yet</td>
+              <td *ngIf="!data.statement" (click)="showPropertiesModal(data)" class="show-pointer">No relation set up yet</td>
               <td (click)="removeSelectedIndicator(data)">
                 <i
                   nz-icon
