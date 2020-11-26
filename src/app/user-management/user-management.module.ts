@@ -11,6 +11,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from '../utils/auth.guard';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     NzInputModule,
     NzModalModule,
+    NzPopconfirmModule,
     NzSelectModule,
     FormsModule
   ]

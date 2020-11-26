@@ -24,7 +24,11 @@
         <td>
           <div nz-row [nzGutter]="[24, 24]">
             <div nz-col [nzSpan]="50" (click)="editUser(user)"><a>Edit user</a></div>
-            <div nz-col [nzSpan]="50" (click)="deleteUser(user)"><a>Remove user</a></div>
+            <div nz-col [nzSpan]="50">
+              <a nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete this user?" (nzOnConfirm)="deleteUser(user)">
+              Delete user
+              </a></div>
+            
           </div>
         </td>
       </tr>
