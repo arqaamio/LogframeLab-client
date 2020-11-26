@@ -1,75 +1,41 @@
-# LogframeLab-client
+# Logframe Lab
 
-Logframe Lab is a project of Arqaam which anticipates to fill two gaps. On the one hand, it shall support the creation of more standardised logframes from implementing partners, which will in turn lead to more standardised data and thus more comparability of projects. On the other hand, it can help development actors to learn more about logframes and indicators, and how to choose good indicators for their respective projects.
+Logframe Lab is an open source web application created to help NGOs and community-based organisations match their project ideas with the most relevant metrics for tracking their success. This tool leads you step-by-step through a simple process that results in a formatted, logical framework (logframe) that you can download and use for reporting your progress to your funders.
 
-## 1- Install Nodejs 13.x
+Its live at https://logframelab.ai
 
-https://nodejs.org/en/download/current/
+## Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-## 2- Open the current project directory
+### Installing Dependencies
+1. Install [Node] 13 https://nodejs.org/en/download/
+
+### Quick Start
+1. Fork the repository 
+2. Git clone the repository (Replace `YOUR-USERNAME`)
 ```sh
-cd LogframeLab-client
+$ git clone https://github.com/YOUR-USERNAME/LogframeLab-client
+```
+3. Install NPM dependencies
+```sh
+$ npm install
+```
+4. Run the application (It becomes available at localhost:4200)
+```sh
+$ ng serve --open
 ```
 
-## 3- Install project dependencies
-```sh
-npm install
-```
+## Contributing
+Want to help build on Logframe Lab? Check out our documentation [here](CONTRIBUTING.md).
 
-## 4- Run Angular application
-```sh
-ng serve --open
-```
+## License
 
-### Running the Angular in a different environment
-E.g. The development environment:
-```sh
-ng serve --configuration=development
-```
+Logframe Lab is licensed under the terms of the Creative Commons Attribution Share Alike 4.0 license, which can be read in full [here](LICENSE).
 
-# How to contribute
-
-## 1- Fork the project
-
-## 2- Clone the forked project
-```sh
-git clone https://github.com/username/repository.git
-```
-
-## 3- open the project directory
-```sh
-cd LogframeLab-client
-```
-
-## 4- Sync the loacl forked repository with the main repo
-```sh
-git remote add upstream https://github.com/arqaamio/LogframeLab-client.git
-git fetch upstream
-```
-
-## 5- Check the updated develop branch from the main repo
-```sh
-git checkout upstream/develop
-```
-
-## 6- Copy the develop branch into a new feature branch
-```sh
-git checkout -b feature/<feature_name>
-```
-
-## 7- Develop the new feature and commit the changes
-```sh
-git add .
-git commit -m "<feature_id_from_task_managment_system> feature description"
-```
-
-## 8- Push the new feature/<feature_name> to the forked repository
-```sh
-git push --set-upstream origin feature/<feature_name>
-```
-
-## 9- Select the feature/<feature_name> from the forked repository in github
-
-## 10- Pull request the new feature/<feature_name> branch against the develop branch in the main repository
+## Maintainers
+Ari is available at: ari (dot) xxxx (at) protonmail (dot) com
 
 [![License: CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+[LogframeLab-server]: <https://github.com/arqaamio/LogframeLab-server>
+[Node]: <https://nodejs.org/en/>
