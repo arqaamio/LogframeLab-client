@@ -23,7 +23,7 @@ export class IndicatorService {
   private filters: FilterDto = null;
   public dataResponse: any = null;
   public statementData: any[] = [];
-  public selectedData: { [key: string]: boolean } = null;
+  public selectedData: any = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
   public canvasJson: any= [];

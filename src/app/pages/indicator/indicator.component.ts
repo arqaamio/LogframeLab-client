@@ -93,6 +93,52 @@ export class IndicatorComponent implements OnInit, OnDestroy {
         this.current += 1;
         this.indicatorService.currentStep = this.current;
       }
+    }else if (this.current == 2) {
+      if(this.indicatorService.statementData?.length> 0){
+        let statementsInIndicator: boolean = this.indicatorService.statementData.every((x)=> this.indicatorService.selectedData.find(y=>y.statement?.statement == x.statement));
+        if(this.indicatorService.selectedData.filter(x=>!x.statement || x.statement=='').length > 0){
+          this.modal.confirm({
+            nzTitle: 'Are you sure you want to continue?',
+            nzContent: 'There are some indicators that are not connected to statements',
+            nzCancelText: 'Go Back',
+            nzOkText: 'Proceed',
+            nzOnOk: () =>
+              new Promise((resolve, reject) => {
+              this.isSpinning = true;
+              this.current += 1;
+              this.indicatorService.currentStep = this.current;
+              this.modal.closeAll();
+              }).catch(() => console.log('Oops errors!'))
+          });
+        } else if(!statementsInIndicator){
+          this.modal.confirm({
+            nzTitle: 'Are you sure you want to continue?',
+            nzContent: 'There are results statements without indicators, these will not be visible in the logframe',
+            nzCancelText: 'Go Back',
+            nzOkText: 'Proceed',
+            nzOnOk: () =>
+              new Promise((resolve, reject) => {
+              this.isSpinning = true;
+              this.current += 1;
+              this.indicatorService.currentStep = this.current;
+              this.modal.closeAll();
+              }).catch(() => console.log('Oops errors!'))
+          });
+        } else {
+          this.isSpinning = true;
+          setTimeout(() => {
+            this.current += 1;
+            this.indicatorService.currentStep = this.current;
+          });
+        }
+      } else {
+        this.isSpinning = true;
+        setTimeout(() => {
+          this.current += 1;
+          this.indicatorService.currentStep = this.current;
+        });
+
+      }
     }else if (this.current == 3) {
       this.isSpinning = true;
       let json = this.indicatorService.canvasJson;
