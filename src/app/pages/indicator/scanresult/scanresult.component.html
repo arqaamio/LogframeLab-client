@@ -275,7 +275,8 @@
       <nz-table
         #selectedTable
         [nzData]="filteredSelectedIndicators"
-        [nzPageSize]="selectedIndicators.length"
+        [nzPageSize]="filteredSelectedIndicators.length"
+        [nzScroll]="{ y: '500px' }"
         nzShowSizeChanger="false"
         nzSize="middle"
         nzBordered
@@ -365,7 +366,7 @@
             <th>
               Result Statement
             </th>
-            <th>
+            <th nzWidth="50px">
               <i
                 nz-icon
                 nzType="delete"
