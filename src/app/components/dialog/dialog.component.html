@@ -1,25 +1,19 @@
-<nz-layout [@dialog] *ngIf="visible" class="dialog">
-	<button nz-button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X
-		<!--&#x2716;-->
-	</button>
-	<h1 class="dialog__title">Welcome to <strong>Logframe Lab</strong>
-	</h1>
-	<p class ="dialog__information">
-		Logframe Lab is an open source web application created to help NGOs and community-based organisations match
-		their project ideas with the most relevant metrics for tracking their success. This tool leads you step-by-step
-		through a simple process that results in a formatted, logical framework (logframe) that you can download and use
-		for reporting your progress to your funders.
-	</p>
-	<p class="dialog__howTo">
-		How to use Logframe Lab
-	</p>
-	<div class="dialog__video" style="text-align: center;">
-		<!--iframe width="auto" height="auto" src="https://www.youtube.com/embed/6wD4V0rvlDI?list=PLEsfXFp6DpzQThMU768hTZInWUqfoyTEW" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe -->
-		<h3 style="margin-top: 50px;">Coming Soon</h3>
-	</div>
-	<div>
-		<button id="showMeButton" nz-button nzType="primary" *ngIf="closable" (click)="close()" class="dialog__lower-close-btn">Show
-			me!</button>
-	</div>
-</nz-layout>
-<div *ngIf="visible" class="overlay" (click)="close()"></div>
+<nz-modal [(nzVisible)]="visible" nzWidth="900px" [nzFooter]="footer" (nzOnCancel)="visible = false" nzWrapClassName="dialog-modal">
+		<h1 class="dialog__title">Welcome to <strong>Logframe Lab</strong></h1>
+		<p class ="dialog__information">
+			Logframe Lab is an open source web application created to help NGOs and community-based organisations match
+			their project ideas with the most relevant metrics for tracking their success. This tool leads you step-by-step
+			through a simple process that results in a formatted, logical framework (logframe) that you can download and use
+			for reporting your progress to your funders.
+		</p>
+		<p class="dialog__howTo">
+			How to use Logframe Lab
+		</p>
+		<div class="dialog__video" style="text-align: center;">
+			<iframe width="435" height="245" src="https://www.youtube.com/embed/tSEjnOoGHBU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			<!-- <h3 style="margin-top: 50px;">Coming Soon</h3> -->
+		</div>
+		<ng-template #footer>
+			<button id="getStartedButton" nz-button nzType="primary" *ngIf="closable" (click)="close()" class="dialog__lower-close-btn default-button">Get Started!</button>
+		</ng-template>
+</nz-modal>

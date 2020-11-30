@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogComponent } from './dialog.component';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 @NgModule({
@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NzLayoutModule
+    NzModalModule
   ],
   exports: [DialogComponent]
 })

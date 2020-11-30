@@ -23,7 +23,7 @@ export class IndicatorService {
   private filters: FilterDto = null;
   public dataResponse: any = null;
   public statementData: any[] = [];
-  public selectedData: { [key: string]: boolean } = null;
+  public selectedData: any = null;
   private indicatorSubject = new BehaviorSubject<any>(null);
   public exportSvg = new BehaviorSubject<any>(null);
   public canvasJson: any= [];
@@ -153,8 +153,8 @@ export class IndicatorService {
    return this.http.request(req);
   }
 
-  getFilters(): Observable<FilterDto> {
-    return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters');
+  getFilters(all: boolean): Observable<FilterDto> {
+    return this.http.get<FilterDto>(this.baseUrl + '/indicator/filters'+ (all ? '?all=1' : ''));
   }
 
   /**

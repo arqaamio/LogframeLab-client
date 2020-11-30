@@ -28,7 +28,7 @@ describe('Login Page', ()=> {
         cy.route('POST', '**/auth/login', jwtToken);
 
         // closing the Welcome to Logframelab popup
-        cy.get('.dialog__close-btn').click();
+        cy.get('.ant-modal-close-x').click();
 
         const user: string = 'fakeuser';
         const password: string = 'fakepassword';
@@ -42,7 +42,7 @@ describe('Login Page', ()=> {
     it('should give error since invalid login', () => {
 
         // closing the Welcome to Logframelab popup
-        cy.get('.dialog__close-btn').click();
+        cy.get('.ant-modal-close-x').click();
 
         const user: string = 'fakeuser';
         const password: string = 'fakepassword';
@@ -56,7 +56,7 @@ describe('Login Page', ()=> {
 
     it('should give go to the main page', () => {
         // closing the Welcome to Logframelab popup
-        cy.get('.dialog__close-btn').click();
+        cy.get('.ant-modal-close-x').click();
 
         cy.contains('Home').click();
         cy.url().should('equal', BASE_URL +'');

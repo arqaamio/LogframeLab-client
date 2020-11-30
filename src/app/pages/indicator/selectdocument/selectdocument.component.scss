@@ -127,3 +127,8 @@ h2 {
 ::ng-deep .ant-upload-list-item-info:hover {
     background-color: #a5c2ae !important;
 }
+
+::ng-deep .ant-upload-list-item {
+    width: 60%;
+    margin-left: 20%;
+}

@@ -54,6 +54,11 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.indicatorService.initVisualization();
     if(this.indicatorService.statementData.length > 0){
       this.listOfData = this.indicatorService.statementData;
+      this.listOfData.forEach(element => {
+        if(element.id > this.maxId){
+          this.maxId = element.id;
+        }
+      });
       this.indicatorService.loadingStart.next(false);
     }else {
       this.subscription = this.indicatorService.getIndicatorSubject().pipe(take(1),
@@ -163,10 +168,11 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   addRow(): void {
+    this.maxId = this.maxId+ 1;
     this.listOfData = [
       ...this.listOfData,
       {
-        id: this.maxId++
+        id: this.maxId
       }
     ];
     this.updateStatementData();

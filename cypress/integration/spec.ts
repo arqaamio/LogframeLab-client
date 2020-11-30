@@ -21,7 +21,7 @@ describe('Home Page', ()=> {
     cy.get('#knowledgeBaseButton').should('be.visible');
     cy.get('#uploadButton').should('be.visible');
     
-    cy.get('.dialog__close-btn').click();
+    cy.get('.ant-modal-close-x').click();
     // top header
     cy.contains('SELECTION');
     cy.contains('RESULT');
@@ -53,7 +53,7 @@ describe('Home Page', ()=> {
   });
 
   it("should go to the results tab without document", () => {
-    cy.get('.dialog__close-btn').click();
+    cy.get('.ant-modal-close-x').click();
     cy.contains('Filter by Sector').click({force: true});
     cy.contains('Poverty').click();
     cy.get('#nextButton').click({ force: true }).then(()=> {
@@ -68,7 +68,7 @@ describe('Home Page', ()=> {
   });
 
   it('should display help', ()=> {
-      cy.get('.dialog__close-btn').click();
+      cy.get('.ant-modal-close-x').click();
       cy.get('.closeHelpIcon').should('not.be.visible');
       cy.get('#stepButton').should('be.visible');
       cy.get('#stepButton').click();
