@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } fro
 import { AuthenticationService } from '../services/authentication.service';
 import { GroupDto } from '../services/dto/group.dto';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { UserDTO } from './service/userdto';
 
 export const SEC_ADMIN_GROUP_NAME: string = 'SEC_ADMIN';
 
@@ -15,7 +16,7 @@ export const SEC_ADMIN_GROUP_NAME: string = 'SEC_ADMIN';
 })
 export class UserManagementComponent implements OnInit {
 
-  dataset: any[];
+  dataset: UserDTO[];
   visible: boolean = false;
   newUserForm: FormGroup;
   groupOptions: GroupDto[];
@@ -52,10 +53,6 @@ export class UserManagementComponent implements OnInit {
     this.visible = true;
     this.newUserForm.get('username').enable();
     this.selectedGroups = [];
-  }
-
-  addedUserHandler($event: User) {
-    this.refreshUserTable();
   }
 
   editUser(user) {
@@ -115,5 +112,6 @@ export class UserManagementComponent implements OnInit {
   cancel() {
     this.visible = false;
     this.newUserForm.reset();
+    this.selectedGroups = [];
   }
 }
