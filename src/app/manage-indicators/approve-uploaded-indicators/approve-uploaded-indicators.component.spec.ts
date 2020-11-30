@@ -66,7 +66,7 @@ describe('ApproveUploadedIndicators', () => {
         let expectedSimilarIndicators: SimilarityResponse[] = [similarIndicators[0], deletedSimilarityResponse, similarIndicators[2]];
         component.similarExpandSet = expectedSimilarExpandSet;
         component.similarIndicators = similarIndicators;
-        spyOn(manageIndicatorsService, 'deleteIndicator').and.returnValue(Observable.create());
+        spyOn(manageIndicatorsService, 'deleteIndicator').and.returnValue(new Observable());
         component.deleteIndicator(1, 2);
         expect(manageIndicatorsService.deleteIndicator).toHaveBeenCalledWith(2);
         expect(expectedSimilarExpandSet).toEqual(component.similarExpandSet);

@@ -361,6 +361,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         else
           item.baselineValue = NO_VALUE;
         this.showLoadingBaseline = false;
+      }, error=> {
+        this.showLoadingBaseline = false;
+        item.baselineValue = NO_VALUE;
+        throw error;
       });
     }
   }
@@ -371,7 +375,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
   removeSelectedIndicator(item: ItemData): void {
     this.selectedIndicators = this.selectedIndicators.filter((x)=>{return x.indicator.id != item.indicator.id});
-    this.filteredSelectedIndicators.filter((x)=>{return x.indicator.id != item.indicator.id});
+    this.filteredSelectedIndicators = this.filteredSelectedIndicators.filter((x)=>{return x.indicator.id != item.indicator.id});
     // If after removing there are no items left according to the filter, but there are still selected indicators
     // show selected indicators
     if(this.filteredSelectedIndicators.length == 0 && this.selectedIndicators.length !=0){

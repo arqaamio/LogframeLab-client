@@ -51,7 +51,7 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.indicatorService.getFilters().subscribe(filters => {
+    this.indicatorService.getFilters(true).subscribe(filters => {
       this.levels = filters.level;
       this.sdgCodes = filters.sdgCode;
       this.crsCodes = filters.crsCode;
@@ -59,6 +59,9 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Sends request to create a new indicator
+   */
   createIndicator() {
     this.newIndicatorService.createIndicator(this.indicator).subscribe(res => {
       if (res.ok) {
