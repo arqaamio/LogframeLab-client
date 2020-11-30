@@ -111,10 +111,11 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     let impactX = 300;
     let outcomeY = 150;
     let outcomeX = 300;
-    let extraHeight = 0;
 
     let outputY = 150;
     let outputX = 300;
+
+    let extraHeight = 0;
     if (outcomes.length == 0) {
       extraHeight = 150;
     } else if (output.length == 0) {
@@ -122,6 +123,29 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     } else if (outcomes.length == 0 && output.length == 0) {
       extraHeight = 300;
     }
+
+    let offsetOutcome = 0;
+    let offsetOutput = 0;
+
+    // Calculate the big sentence offset for outcome statements
+    let maxSentenceImactsize = 0;
+    for (let element of impact) {
+      if (element.name && element.name.length > maxSentenceImactsize)
+        maxSentenceImactsize = element.name.length;
+    }
+    let numberRowsImact = (maxSentenceImactsize * 6.4) / 180;
+    if (numberRowsImact > 10) offsetOutcome = (numberRowsImact - 10) * 12;
+    // Calculate the big sentence offset for output
+    let maxSentenceOutcomesize = 0;
+    for (let element of outcomes) {
+      if (element.name && element.name.length > maxSentenceOutcomesize)
+        maxSentenceOutcomesize = element.name.length;
+    }
+    // offsetOutput  = offsetOutcome + ((maxSentenceOutcomesize / 20) - 9 )* 8;
+    let numberRowsOutcome = (maxSentenceOutcomesize * 6.4) / 180;
+    if (numberRowsOutcome > 10)
+      offsetOutput = offsetOutcome + (numberRowsOutcome - 10) * 12;
+    //
     impactObject.push({
       type: "draw2d.shape.composite.Jailhouse",
       id: "354fa3b9-a834-0221-2009-abc2d6bd8a",
@@ -145,7 +169,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       x: 0,
       y: 0,
       width: compositeWidth,
-      height: impact.length < MAX_NUM_BOX_ROW ? 160 : 285,
+      height: offsetOutcome + (impact.length < MAX_NUM_BOX_ROW ? 160 : 285),
       userData: {},
       cssClass: "draw2d_shape_composite_Jailhouse",
       bgColor: "#F9F9F9",
@@ -253,9 +277,9 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       type: "draw2d.shape.composite.Jailhouse",
       id: "354fa3b9-a834-0221-2009-abc2d6bd8a12",
       x: 0,
-      y: impactY + 125,
+      y: offsetOutput + impactY + 125,
       width: compositeWidth,
-      height: outcomeHeight,
+      height: (outcomeHeight + 1000),
       userData: {},
       cssClass: "draw2d_shape_composite_Jailhouse",
       bgColor: "#F2F2F2",
@@ -282,7 +306,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
         type: "draw2d.shape.basic.Text",
         id: row.id,
         x: 130 + outcomeX,
-        y: outcomeY,
+        y: offsetOutcome + outcomeY, // y outcome addspace_impact
         width: 200,
         height: 60,
         alpha: 1,
@@ -353,7 +377,11 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       type: "draw2d.shape.basic.Label",
       id: "66888707-0546-abed-f9d3-1408623bb39g",
       x: 10,
-      y: 150 + impactY + (outcomes.length < MAX_NUM_BOX_ROW ? 37 : 75),
+      y:
+        offsetOutcome +
+        150 +
+        impactY +
+        (outcomes.length < MAX_NUM_BOX_ROW ? 37 : 75), // y outcome addspace_impact
       width: 100,
       height: 21,
       alpha: 1,
@@ -377,13 +405,14 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       fontWeight: "bold",
     });
 
+    // output Jailhouse
     outcomesObject.push({
       type: "draw2d.shape.composite.Jailhouse",
       id: "354fa3b9-a834-0221-2009-abc2d6bd8a14",
       x: 0,
-      y: outcomeY + 140 + (outcomes.length == 0 ? 20 : 0),
+      y: offsetOutput + outcomeY + 140 + (outcomes.length == 0 ? 20 : 0),
       width: compositeWidth,
-      height: 700,
+      height: 700 + offsetOutput,
       userData: {},
       cssClass: "draw2d_shape_composite_Jailhouse",
       bgColor: "#EAEAEA",
@@ -410,7 +439,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
         type: "draw2d.shape.basic.Text",
         id: row.id,
         x: 130 + outputX,
-        y: outputY,
+        y: outputY + offsetOutput, // y outcome addspace_outcome
         width: 200,
         height: 60,
         alpha: 1,
@@ -461,10 +490,11 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       id: "66888707-0546-abed-f9d3-1408623bb39go",
       x: 10,
       y:
+        offsetOutput +
         150 +
         outcomeY +
         (output.length < MAX_NUM_BOX_ROW ? 30 : 75) +
-        (output.length == 0 ? 35 : 0),
+        (output.length == 0 ? 35 : 0), // y outcome addspace_outcome
       width: 100,
       height: 21,
       alpha: 1,
@@ -487,7 +517,12 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       fontFamily: "Montserrat, sans-serif",
       fontWeight: "bold",
     });
-    let height = outputY + 150 + (output.length == 0 ? 150 : 0);
+    let height =
+      offsetOutcome +
+      offsetOutput +
+      outputY +
+      150 +
+      (output.length == 0 ? 150 : 0);
     this.canvasHeight = height + "px";
     // load connections
     let connections = [];

@@ -30,10 +30,10 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     // To reload when clicking on the logo while already on the route
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
-    };  
+    };
     this.nextButtonSubscription = this.indicatorService
       .getNextButtonSubject()
-      .subscribe((data) => {        
+      .subscribe((data) => {
         if (data != null) {
           if (data.enabled != null && data.enabled!=this.isNext) this.isNext = data.enabled;
           if (data.press) this.next(data.force);
