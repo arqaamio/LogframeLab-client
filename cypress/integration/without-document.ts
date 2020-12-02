@@ -9,7 +9,7 @@ describe('Main Workflow without document', ()=> {
     cy.server();
     cy.route('GET', '**/indicator/filters', '@filters');
     cy.route('GET', '**/indicator', '@allLevelsIndicators');
-    cy.route('GET', '**/indicator?sector=Poverty', '@povertyIndicators');      
+    cy.route('GET', '**/indicator?sectors=Poverty', '@povertyIndicators');      
     
     cy.visit('/');
   });
@@ -53,11 +53,20 @@ describe('Main Workflow without document', ()=> {
         
         // Add statement to remove
         addStatement(2, 'New statement 3', 'OUTPUT', 30, 'bad');
+        // Removing statement
         cy.get('.anticon').eq(2).click({force: true});
-        // cy.contains('OK').click({force: true});
-        // cy.contains('New statement 3').should('not.exist');
-        // cy.contains('OUTPUT').should('not.exist');
+        cy.get(':nth-child(3) > :nth-child(5) > a > .anticon > svg').click();
+        cy.get('.ant-popover-message').should('exist');
+        cy.contains('Cancel').click();
+        cy.get('.ant-popover-message').should('not.exist');
+        cy.get(':nth-child(3) > :nth-child(5) > a > .anticon > svg').click();
+        cy.contains('OK').click({force:true});
+        cy.contains('New statement 3').should('not.exist');
         
+        // Indicators Tab
+        cy.get('#nextButton').click({ force: true }).then(()=> {
+          
+        });
       });
   });
 
