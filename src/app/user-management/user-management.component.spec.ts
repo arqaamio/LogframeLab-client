@@ -155,7 +155,8 @@ describe('UserManagementComponent', () => {
     }));
 
     it('should submit form and save user', inject([HttpTestingController], (httpMock: HttpTestingController) => {
-        // start form        
+        // start form
+        component.dataset = [];
         component.ngOnInit();
         const spyError = spyOn(messageService, 'error').and.callThrough();
         const spyCreateUser = spyOn(authenticationService, 'provisionUser').and.returnValue(of(new HttpResponse()));
@@ -172,7 +173,8 @@ describe('UserManagementComponent', () => {
     }));
 
     it('should try to submit error but show error message', inject([HttpTestingController], (httpMock: HttpTestingController) => {
-        // start form        
+        // start form
+        component.dataset = [];
         component.ngOnInit();
         const spyError = spyOn(messageService, 'error').and.callThrough();
         // const spyUser = spyOn(authenticationService, 'provisionUser').and.returnValue(of({}));
@@ -197,6 +199,13 @@ describe('UserManagementComponent', () => {
         component.submit();
         expect(spyError).toHaveBeenCalled();
         expect(spyUser).not.toHaveBeenCalled();
+
+        component.selectedGroups = [2];
+        component.dataset = [{username:'username', groups: ['SEC_ADMIN', 'APP_USER']}]
+        component.submit();
+        expect(spyError).toHaveBeenCalled();
+        expect(spyUser).not.toHaveBeenCalled();
+
     }));
 
     it('should hide popup of edit and clear fields', inject([HttpTestingController], (httpMock: HttpTestingController) => {
