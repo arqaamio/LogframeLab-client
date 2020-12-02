@@ -31,24 +31,55 @@ describe('Main Workflow without document', ()=> {
         cy.contains('Done').should('not.be.visible');
         cy.contains('Add Statement').click();
         cy.get('[data-cy=statement]').click();
+        // Add result statement
         const statement: string = 'New statement';
-        cy.get('[data-cy=statement-input]').type(statement, );
+        cy.get('[data-cy=statement-input]').type(statement);
         cy.get('[nzType="check-circle"]').click();  
         cy.contains('To validate a statement it must have a level set.');
-        // cy.get(':nth-child(1) > :nth-child(1) > [data-cy=level-input] > .ant-select-selector').click();
 
-        // cy.get('[data-cy=level-input]').click();
-        // cy.get('[data-cy=level]').click();
+        // Add level
+        cy.get('[data-cy=level]').click();
+        cy.get('.ant-select-selection-search-input').click()
+        cy.contains('IMPACT').click();
+
+        // Validate statement
+        cy.route('POST', '**/statement-quality', {score: 80, status:'good'});
+
+        cy.get('.check-icon').click();
+        cy.contains('GOOD');
+        cy.contains('80%');
+
+        addStatement(1, 'New statement 2', 'OUTCOME', 20, 'bad');
         
-        // cy.get('[data-cy=level-input]').click();
-        // cy.get('[data-cy=level-input]').click();
-        // cy.get('[nzType="plus-circle"]').click();  
-        // cy.contains('IMPACT').click();
-        // cy.get('[nzType="check-circle"]').click();  
-
-
-      //   cy.contains('IMPACT').click();
+        // Add statement to remove
+        addStatement(2, 'New statement 3', 'OUTPUT', 30, 'bad');
+        cy.get('.anticon').eq(2).click({force: true});
+        // cy.contains('OK').click({force: true});
+        // cy.contains('New statement 3').should('not.exist');
+        // cy.contains('OUTPUT').should('not.exist');
+        
       });
   });
 
+  function addStatement(index: number, statement: string, level: string, score: number, status: string): void {
+    // Add new statement
+    cy.get('.add-icon').eq(0).click();
+
+    cy.get('[data-cy=statement]').eq(index).click();
+
+    // Add result statement
+    cy.get('[data-cy=statement-input]').eq(index).type(statement);
+
+    // Add level
+    cy.get('[data-cy=level]').eq(index).click({force: true});
+    cy.get('.ant-select-selection-search-input').eq(index).click();
+    cy.contains(level).click();
+
+    // Validate statement
+    cy.route('POST', '**/statement-quality', {score: score, status:status});
+
+    cy.get('.check-icon').eq(index).click();
+    cy.contains(status.toUpperCase());
+    cy.contains(score+'%');
+  }
 });

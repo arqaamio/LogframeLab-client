@@ -51,7 +51,7 @@ describe('Sources Page', ()=> {
         cy.get('.ant-input').type(newSource);
         cy.get('.ant-input').should('have.value', newSource);
         cy.contains('OK').click();
-        cy.get('.ant-modal-header').should('not.be.visible');
+        cy.get('.ant-modal-header').should('not.exist');
     });
 
     it('should edit source', ()=> {
@@ -63,7 +63,7 @@ describe('Sources Page', ()=> {
         cy.get('.ant-input').type(newSource);
         cy.get('.ant-input').should('have.value', newSource);
         cy.contains('OK').click();
-        cy.get('.ant-modal-header').should('not.be.visible');
+        cy.get('.ant-modal-header').should('not.exist');
     });
 
     it('should delete source', ()=> {
@@ -71,6 +71,6 @@ describe('Sources Page', ()=> {
         cy.contains('Are you sure you want to delete this source?');
         cy.contains('Cancel');
         cy.contains('OK').click();
-        cy.get('.ant-modal-body').should('not.be.visible');
+        cy.get('.ant-modal-body').should('not.exist');
     });
 });
