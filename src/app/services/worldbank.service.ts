@@ -24,7 +24,7 @@ export class WorldBankService {
    * @param countryCode Country Code
    * @param year Year
    */
-  getWorldBankBaselineValue(indicatorId:number, countryCode:string, year?:number):Observable<any> {
-    return this.http.get(this.baseUrl + '/values?countryId='+countryCode+'&indicatorId='+indicatorId+(year?'&years=' + year : ''));
+  getWorldBankBaselineValue(indicatorId:number, countryCode:string, year?:number):Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + '/values?countryId='+countryCode+'&indicatorId='+indicatorId+(year?'&years=' + year : ''));
   }
 }

@@ -1,5 +1,5 @@
 import { TestBed, ComponentFixture, inject } from '@angular/core/testing';
-import { ScanResultComponent } from './scanresult.component';
+import { NO_VALUE, ScanResultComponent } from './scanresult.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -13,6 +13,10 @@ import { IndicatorService } from 'src/app/services/indicator.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { Source } from 'src/app/models/source.model';
+import { WorldBankService } from 'src/app/services/worldbank.service';
+import { of } from 'rxjs/internal/observable/of';
+import { ClientError } from 'src/app/models/clienterror.model';
+import { throwError } from 'rxjs';
 
 
 describe('ScanResultComponent', () => {
@@ -20,6 +24,7 @@ describe('ScanResultComponent', () => {
     let element: HTMLElement;
     let fixture: ComponentFixture<ScanResultComponent>;
     let indicatorService: IndicatorService;
+    let worldBankService: WorldBankService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -27,15 +32,11 @@ describe('ScanResultComponent', () => {
             providers: [],
             declarations: [ScanResultComponent],
         }).compileComponents();
-    // });
-    // TODO: this should be uncommented according to
-    // https://angular.io/guide/testing-components-basics
-    // but https://stackoverflow.com/a/51543242
-    // beforeEach(() => {
         fixture = TestBed.createComponent(ScanResultComponent);
         component = fixture.componentInstance;
         element = fixture.nativeElement;
         indicatorService = TestBed.inject(IndicatorService);
+        worldBankService = TestBed.inject(WorldBankService);
         fixture.detectChanges();
     });
 
@@ -146,6 +147,37 @@ describe('ScanResultComponent', () => {
         // expect(component.displayData).toEqual(expectedResult);
     })));
 
+    it('should retrieve latest baseline value for selected indicator and set date and baseline value', () => {
+        const baselineValue: any = sampleBaselineValues();
+        const spyBaseline = spyOn(worldBankService, 'getWorldBankBaselineValue').and.returnValue(of(baselineValue));
+        component.activeItem = sampleItem();
+        component.getLatestBaselineValue();
+        expect(spyBaseline).toHaveBeenCalledWith(component.activeItem.indicator.id, component.activeItem.countryCodeSelected);
+        expect(component.activeItem.baselineValue).toEqual(2);
+        expect(component.activeItem.yearSelected.getFullYear()).toEqual(2005);
+        expect(component.showLoadingBaseline).toBe(false);
+    });
+
+    it('should return no baseline value for selected indicator and country and set date and baseline value', () => {
+        const baselineValue: any = [];
+        const spyBaseline = spyOn(worldBankService, 'getWorldBankBaselineValue').and.returnValue(of(baselineValue));
+        component.activeItem = sampleItem();
+        component.getLatestBaselineValue();
+        expect(spyBaseline).toHaveBeenCalledWith(component.activeItem.indicator.id, component.activeItem.countryCodeSelected);
+        expect(component.activeItem.baselineValue).toEqual(NO_VALUE);
+        expect(component.activeItem.yearSelected).toBeNull();
+        expect(component.showLoadingBaseline).toBe(false);
+    });
+
+    it('should give error when retrieving latest baseline value', () => {
+        const spyBaseline = spyOn(worldBankService, 'getWorldBankBaselineValue').and.returnValue(throwError('Fake error'));
+        component.activeItem = sampleItem();
+        component.getLatestBaselineValue();
+        expect(spyBaseline).toHaveBeenCalledWith(component.activeItem.indicator.id, component.activeItem.countryCodeSelected);
+        expect(component.activeItem.baselineValue).toEqual(NO_VALUE);
+        expect(component.activeItem.yearSelected).toBeNull();
+        expect(component.showLoadingBaseline).toBe(false);
+    });
 
     it('should validate if indicator has a source of World Bank', () => {
         let worldBankSource: Source = {id:2, name:"World Bank"};
@@ -165,4 +197,13 @@ describe('ScanResultComponent', () => {
     afterEach(() => {
         fixture.destroy();
     });
+
+    function sampleItem(): any {
+        return {indicator: { id: 1, level: 'IMPACT', description: '', name: '', sector: '', source: null, disaggregation: false, crsCode: null, sdgCode: null, score: 2, keys: [], date:'', value: ''}, countryCodeSelected: "", yearSelected:null, baselineValue: "", statement: null, colorLevel: '' };
+    }
+
+    function sampleBaselineValues(): any[] {
+        return [{'indicator':null,'country':null,'countryiso3code':null,'date':'2003','value':1,'unit':null,'obs_status':null,'decimal':null},
+                {'indicator':null,'country':null,'countryiso3code':null,'date':'2005','value':2,'unit':null,'obs_status':null,'decimal':null}];
+    }
 });

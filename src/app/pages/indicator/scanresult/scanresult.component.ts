@@ -236,28 +236,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           : -1
       );
     }
-    // checked sort logic
-    //  this.displayData = this.displayData.sort((a, b) =>
-    //    this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
-    //  );
-    // checked backend sort logic
-    //  this.displayData = this.displayData.sort((a, b) =>
-    //    this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
-    //      ? b.sort_id > a.sort_id
-    //        ? -1
-    //        : 1
-    //      : 0
-    //  );
-    //  if (!isColumnSort) {
-    //    // unchecked backend sort logic
-    //    this.displayData = this.displayData.sort((a, b) =>
-    //      !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
-    //        ? b.sort_id > a.sort_id
-    //          ? -1
-    //          : 1
-    //        : 0
-    //    );
-    //  }
     this.refreshStatus();
   }
 
@@ -377,9 +355,12 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Retrieves the most recent baseline value for the selected indicator
+   */
   getLatestBaselineValue(): void {
     this.showLoadingBaseline = true;
-    this.worldBankService.getWorldBankBaselineValue(this.activeItem.indicator.id, this.activeItem.countryCodeSelected, null).subscribe(data => {
+    this.worldBankService.getWorldBankBaselineValue(this.activeItem.indicator.id, this.activeItem.countryCodeSelected).subscribe(data => {
       if(data != null && data.length > 0){
         const latest = data[data.length -1];
         this.activeItem.baselineValue = latest.value;
