@@ -171,7 +171,6 @@ export class IndicatorComponent implements OnInit, OnDestroy {
             }).catch(() => console.log('Oops errors!'))
         });
       } else {
-        this.messageService.warning('If you wish to go back');
         this.saveSVGAndProceed();
       }
     } else {

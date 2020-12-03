@@ -88,3 +88,16 @@
 .show-pointer {
   cursor: pointer;
 }
+
+#baselineLatest {
+  margin-left: 10px;
+}
+
+#baselineLatest:not(:disabled) {
+  background-color: #A5C2AE;
+  border: none;
+}
+
+#baselineLatest:hover:not(:disabled) {
+    background-color: #453457;
+}

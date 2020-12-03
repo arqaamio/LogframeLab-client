@@ -203,13 +203,6 @@ export class IndicatorService {
       { responseType: 'blob', observe: 'response' }
     );
   }
-  getWorldBankCountries():Observable<Map<string, string>> {
-    return this.http.get<Map<string, string>>(this.baseUrl + '/worldbank/country');
-  }
-
-  getWorldBankBaselineValue(indicatorId:number, countryCode:string, year:number):Observable<any> {
-    return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
-  }
 
   /**
    * Retrieves the total number of indicators in the database
