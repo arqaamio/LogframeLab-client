@@ -110,20 +110,20 @@ export class IndicatorComponent implements OnInit, OnDestroy {
               this.modal.closeAll();
               }).catch(() => console.log('Oops errors!'))
           });
-        } else if(!statementsInIndicator){
-          this.modal.confirm({
-            nzTitle: 'Are you sure you want to continue?',
-            nzContent: 'There are results statements without indicators, these will not be visible in the logframe',
-            nzCancelText: 'Go Back',
-            nzOkText: 'Proceed',
-            nzOnOk: () =>
-              new Promise((resolve, reject) => {
-              this.isSpinning = true;
-              this.current += 1;
-              this.indicatorService.currentStep = this.current;
-              this.modal.closeAll();
-              }).catch(() => console.log('Oops errors!'))
-          });
+        // } else if(!statementsInIndicator){
+        //   this.modal.confirm({
+        //     nzTitle: 'Are you sure you want to continue?',
+        //     nzContent: 'There are results statements without indicators, these will not be visible in the logframe',
+        //     nzCancelText: 'Go Back',
+        //     nzOkText: 'Proceed',
+        //     nzOnOk: () =>
+        //       new Promise((resolve, reject) => {
+        //       this.isSpinning = true;
+        //       this.current += 1;
+        //       this.indicatorService.currentStep = this.current;
+        //       this.modal.closeAll();
+        //       }).catch(() => console.log('Oops errors!'))
+        //   });
         } else {
           this.isSpinning = true;
           setTimeout(() => {

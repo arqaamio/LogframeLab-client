@@ -40,7 +40,7 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
    */
   downloadFile(format: string): void {
     this.indicatorService
-      .downloadIndicators(this.dataExport, format)
+      .downloadIndicators(this.dataExport, format, this.indicatorService.statementData)
       .subscribe((response) => {
         let blob = new Blob([response.body], { type: "application/octet-stream" });
         var link = document.createElement("a");

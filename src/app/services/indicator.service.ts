@@ -119,10 +119,13 @@ export class IndicatorService {
     return this.baseUrl;
   }
 
-  public downloadIndicators(indicatorsList, format): Observable<HttpResponse<Blob>> {
+  public downloadIndicators(indicatorsList, format, statementData: any[]): Observable<HttpResponse<Blob>> {
+    const body = {indicators:indicatorsList, statements: statementData.map(x=>{
+      return {statement: x.statement, level:x.level}
+    })};
     return this.http.post(
       this.baseUrl + "/indicator/download?format=" + format,
-      indicatorsList,
+      body,
       { responseType: 'blob', observe: 'response' }
     );
   }
