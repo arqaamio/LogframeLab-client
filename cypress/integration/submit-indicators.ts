@@ -14,12 +14,12 @@ describe('Submit indicators Page', ()=> {
     });
 
     it('should display help', ()=> {
-        cy.get('.closeHelpIcon').should('not.be.visible');
+        cy.get('.closeHelpIcon').should('not.exist');
         cy.get('#stepButton').should('be.visible');
         cy.get('#stepButton').click();
         cy.get('.closeHelpIcon').should('be.visible');
         cy.get('.closeHelpIcon').click();
-        cy.get('.closeHelpIcon').should('not.be.visible');
+        cy.get('.closeHelpIcon').should('not.exist');
     });
     
     /*it('should go to the feedback page', ()=> {

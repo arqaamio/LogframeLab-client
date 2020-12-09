@@ -196,11 +196,17 @@
           nz-popover
           nzPopoverContent="Further information and options"
           (click)="showPropertiesModal(data)" 
+          ><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
+          </td>
+          <!-- <td class="propertiesCell"
+          nz-popover
+          nzPopoverContent="Further information and options"
+          (click)="showPropertiesModal(data)" 
           *ngIf="isWorldBankIndicator(data) || statementData.length > 0 || (data.indicator?.description!=null && data.indicator?.description!='')"
           ><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
           </td>
           <td *ngIf="!isWorldBankIndicator(data) && statementData.length == 0 &&
-            (data.indicator?.description==null ||data.indicator?.description=='')"></td>
+            (data.indicator?.description==null ||data.indicator?.description=='')"></td> -->
           <td
             nzShowCheckbox
             [nzChecked]="mapOfCheckedId[data.indicator.id]"
@@ -452,6 +458,13 @@
     <button nz-button nzType="primary" (click)="getLatestBaselineValue()" id="baselineLatest" [disabled]="!activeItem.countryCodeSelected">SELECT LATEST</button>
     <nz-spin nzSimple *ngIf="showLoadingBaseline" id="baselineSpin"></nz-spin>
     <span style="margin-left: 5px;">Baseline value: <strong>{{ activeItem.baselineValue }}</strong></span>
+  </div>
+  <div *ngIf="!isWorldBankIndicator(activeItem)">
+    <h3><strong>Baseline Value</strong></h3>
+    <span>Year: </span>
+    <nz-year-picker style="margin-left: 5px;" [(ngModel)]="activeItem.yearSelected" [nzDisabledDate]="disabledDate" nzPlaceHolder="Select year"></nz-year-picker>
+    <span style="margin-left: 5px;">Baseline value:</span>
+    <input nz-input placeholder="Baseline value" [(ngModel)]="activeItem.baselineValue" id="baselineInput">
   </div>
   <h3><strong>Statements</strong></h3>
   <nz-table
