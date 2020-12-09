@@ -16,9 +16,6 @@ import {User} from '../user-management/service/user';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public currentJwt: Observable<JwtDto>;
-  private JWT_KEY = 'jwt';
-  private readonly currentJwtSubject: BehaviorSubject<JwtDto>;
 
   constructor(private http: HttpClient) {
     this.currentJwtSubject = new BehaviorSubject<JwtDto>(JSON.parse(localStorage.getItem(this.JWT_KEY)));
@@ -28,6 +25,19 @@ export class AuthenticationService {
   public get jwt$(): BehaviorSubject<JwtDto> {
     return this.currentJwtSubject;
   }
+
+  get userGroups() {
+    return this.http.get<GroupDto[]>(`${environment.apiBaseUrl}/auth/groups`, {
+      headers: new HttpHeaders({
+     'Content-Type':  'application/json'
+    })});
+  }
+  public currentJwt: Observable<JwtDto>;
+  private JWT_KEY = 'jwt';
+  private readonly currentJwtSubject: BehaviorSubject<JwtDto>;
+
+
+  private refreshTokenTimeout;
 
   login(username: string, password: string) {
     return this.http.post<JwtDto>(`${environment.apiBaseUrl}/auth/login`, JSON.stringify({
@@ -40,6 +50,7 @@ export class AuthenticationService {
     }).pipe(
       map(jwt => {
         this.processJwt(jwt);
+        this.startRefreshTokenTimer();
       }));
   }
 
@@ -56,13 +67,6 @@ export class AuthenticationService {
     this.processJwt(jwtDto);
   }
 
-  get userGroups() {
-    return this.http.get<GroupDto[]>(`${environment.apiBaseUrl}/auth/groups`, {
-      headers: new HttpHeaders({
-     'Content-Type':  'application/json'
-    })});
-  }
-
   provisionUser(user: User): Observable<HttpResponse<User>> {
     return this.http.post<User>(`${environment.apiBaseUrl}/auth/users`, JSON.stringify(user),
      {
@@ -76,5 +80,30 @@ export class AuthenticationService {
     localStorage.setItem(this.JWT_KEY, JSON.stringify(jwt));
     this.currentJwtSubject.next(jwt);
     this.currentJwt = this.currentJwtSubject.asObservable();
+  }
+
+  refreshToken(token: string){
+
+    return this.http.post<JwtDto>(`${environment.apiBaseUrl}/auth/refresh`, JSON.stringify({
+      token
+    }),{
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    }).pipe(
+      map(jwt => {
+        this.processJwt(jwt);
+        this.startRefreshTokenTimer();
+      }));
+  }
+
+  private startRefreshTokenTimer(){
+
+    const jwtDto = this.currentJwtSubject.value;
+    this.refreshTokenTimeout = setTimeout(() => this.refreshToken(jwtDto.token).subscribe(), 7200000);
+  }
+
+  private stopRefreshTokenTimer() {
+    clearTimeout(this.refreshTokenTimeout);
   }
 }
