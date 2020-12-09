@@ -110,7 +110,7 @@ describe('ResultComponent', () => {
   it('should add row', () => {
     // clone array
     let expectedListOfData: any = exampleListOfData();
-    expectedListOfData.push({id:1});
+    expectedListOfData.push({id:2});
     component.maxId = 1;
     component.listOfData = exampleListOfData();
     component.addRow();

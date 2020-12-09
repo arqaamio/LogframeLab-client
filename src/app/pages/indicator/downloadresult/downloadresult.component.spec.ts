@@ -56,7 +56,7 @@ describe('DownloadResultComponent', () => {
         const response: Observable<HttpResponse<Blob>> = new Observable();
         spyOn(indicatorService, 'downloadIndicators').and.returnValue(response);
         component.downloadFile('docx');
-        expect(indicatorService.downloadIndicators).toHaveBeenCalledWith(component.dataExport, 'docx');
+        expect(indicatorService.downloadIndicators).toHaveBeenCalledWith(component.dataExport, 'docx', []);
         
         // expect(element.ownerDocument.getElementsByTagName('a').length).toEqual(4);
         httpMock.verify();
