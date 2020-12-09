@@ -444,11 +444,12 @@
   <div *ngIf="isWorldBankIndicator(activeItem)">
     <h3><strong>Baseline Value</strong></h3>
     <span>Country: </span>
-    <nz-select style="margin-left: 5px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(activeItem, $event)" nzPlaceHolder="Select a country" [(ngModel)]="activeItem.countryCodeSelected">
+    <nz-select style="margin-left: 5px; min-width: 200px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(activeItem, $event)" nzPlaceHolder="Select a country" [(ngModel)]="activeItem.countryCodeSelected">
       <nz-option *ngFor="let country of countriesList" nzLabel="{{country.label}}" nzValue="{{country.code}}"></nz-option>
     </nz-select>
     <span style="margin-left: 5px;">Year: </span>
     <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(activeItem, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="activeItem.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
+    <button nz-button nzType="primary" (click)="getLatestBaselineValue()" id="baselineLatest" [disabled]="!activeItem.countryCodeSelected">SELECT LATEST</button>
     <nz-spin nzSimple *ngIf="showLoadingBaseline" id="baselineSpin"></nz-spin>
     <span style="margin-left: 5px;">Baseline value: <strong>{{ activeItem.baselineValue }}</strong></span>
   </div>

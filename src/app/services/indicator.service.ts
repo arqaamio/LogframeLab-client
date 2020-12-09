@@ -119,10 +119,13 @@ export class IndicatorService {
     return this.baseUrl;
   }
 
-  public downloadIndicators(indicatorsList, format): Observable<HttpResponse<Blob>> {
+  public downloadIndicators(indicatorsList, format, statementData: any[]): Observable<HttpResponse<Blob>> {
+    const body = {indicators:indicatorsList, statements: statementData.map(x=>{
+      return {statement: x.statement, level:x.level}
+    })};
     return this.http.post(
       this.baseUrl + "/indicator/download?format=" + format,
-      indicatorsList,
+      body,
       { responseType: 'blob', observe: 'response' }
     );
   }
@@ -202,13 +205,6 @@ export class IndicatorService {
       this.baseUrl + "/indicator/template/" + format,
       { responseType: 'blob', observe: 'response' }
     );
-  }
-  getWorldBankCountries():Observable<Map<string, string>> {
-    return this.http.get<Map<string, string>>(this.baseUrl + '/worldbank/country');
-  }
-
-  getWorldBankBaselineValue(indicatorId:number, countryCode:string, year:number):Observable<any> {
-    return this.http.get(this.baseUrl + '/worldbank/values?countryId='+countryCode+'&indicatorId='+indicatorId+'&years=' + year);
   }
 
   /**

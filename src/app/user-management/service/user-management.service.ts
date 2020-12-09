@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
-import {User} from "./user";
+import { UserDTO } from "./userdto";
 import {environment} from "../../../environments/environment";
 import { Observable } from 'rxjs/internal/Observable';
 import {catchError, shareReplay} from "rxjs/operators";
@@ -14,11 +14,11 @@ export class UserManagementService {
   constructor(private http: HttpClient) {
   }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiBaseUrl}/auth/users`);
+  getUsers(): Observable<UserDTO[]> {
+    return this.http.get<UserDTO[]>(`${environment.apiBaseUrl}/auth/users`);
   }
 
-  deleteUserByUsername(username: string): Observable<User> {
-    return this.http.delete<User>(`${environment.apiBaseUrl}/auth/users/${username}`);
+  deleteUserByUsername(username: string): Observable<UserDTO> {
+    return this.http.delete<UserDTO>(`${environment.apiBaseUrl}/auth/users/${username}`);
   }
 }

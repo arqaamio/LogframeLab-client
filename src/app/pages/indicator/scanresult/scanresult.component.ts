@@ -7,6 +7,7 @@ import { FilterData } from 'src/app/services/dto/filter-data.dto';
 import { take } from 'rxjs/internal/operators/take';
 import { tap } from 'rxjs/internal/operators/tap';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+import { WorldBankService } from '../../../services/worldbank.service';
 
 interface ItemData {
   indicator: IndicatorResponse;
@@ -88,7 +89,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
   expandSet = new Set<number>();
 
-  constructor(private indicatorService: IndicatorService) {}
+  constructor(private indicatorService: IndicatorService, private worldBankService: WorldBankService) {}
 
   ngOnInit(): void {
 
@@ -177,13 +178,20 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         this.indicatorService.setIsNewInfo(false);
       })).subscribe();
 
-      this.indicatorService.getWorldBankCountries().subscribe(data => {
+      this.worldBankService.getWorldBankCountries().subscribe(data => {
         console.log('get worldbank countries');
         Object.keys(data).forEach(item => {
           this.countriesList.push({
             label: data[item],
             code: item
           });
+        });
+
+        // Sort countries by its label
+        this.countriesList.sort((left, right): number => {
+          if (left.label < right.label) return -1;
+          if (left.label > right.label) return 1;
+          return 0;
         });
       });
 
@@ -228,28 +236,6 @@ export class ScanResultComponent implements OnInit, OnDestroy {
           : -1
       );
     }
-    // checked sort logic
-    //  this.displayData = this.displayData.sort((a, b) =>
-    //    this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id] ? 1 : -1
-    //  );
-    // checked backend sort logic
-    //  this.displayData = this.displayData.sort((a, b) =>
-    //    this.mapOfCheckedId[b.sort_id] && this.mapOfCheckedId[a.sort_id]
-    //      ? b.sort_id > a.sort_id
-    //        ? -1
-    //        : 1
-    //      : 0
-    //  );
-    //  if (!isColumnSort) {
-    //    // unchecked backend sort logic
-    //    this.displayData = this.displayData.sort((a, b) =>
-    //      !this.mapOfCheckedId[b.sort_id] && !this.mapOfCheckedId[a.sort_id]
-    //        ? b.sort_id > a.sort_id
-    //          ? -1
-    //          : 1
-    //        : 0
-    //    );
-    //  }
     this.refreshStatus();
   }
 
@@ -354,7 +340,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   getWorldBankBaselineValue(item: ItemData) {
     if(item.countryCodeSelected && item.yearSelected){
       this.showLoadingBaseline = true
-      this.indicatorService.getWorldBankBaselineValue(item.indicator.id, item.countryCodeSelected, item.yearSelected.getFullYear()).subscribe(data => {
+      this.worldBankService.getWorldBankBaselineValue(item.indicator.id, item.countryCodeSelected, item.yearSelected.getFullYear()).subscribe(data => {
         console.log(data);
         if(data != null && data.length > 0)
           item.baselineValue = data[0].value;
@@ -367,6 +353,30 @@ export class ScanResultComponent implements OnInit, OnDestroy {
         throw error;
       });
     }
+  }
+
+  /**
+   * Retrieves the most recent baseline value for the selected indicator
+   */
+  getLatestBaselineValue(): void {
+    this.showLoadingBaseline = true;
+    this.worldBankService.getWorldBankBaselineValue(this.activeItem.indicator.id, this.activeItem.countryCodeSelected).subscribe(data => {
+      if(data != null && data.length > 0){
+        const latest = data[data.length -1];
+        this.activeItem.baselineValue = latest.value;
+        this.activeItem.yearSelected = new Date();
+        this.activeItem.yearSelected.setFullYear(Number(latest.date));
+      } else{
+        this.activeItem.baselineValue = NO_VALUE;
+        this.activeItem.yearSelected = null;
+      }
+      this.showLoadingBaseline = false;
+    }, error=> {
+      this.showLoadingBaseline = false;
+      this.activeItem.baselineValue = NO_VALUE;
+      this.activeItem.yearSelected = null;
+      throw error;
+    });
   }
 
   onExpandChange(id: number, checked: boolean): void {
