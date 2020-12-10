@@ -1,5 +1,4 @@
 describe('User Page', ()=> {
-
     beforeEach(()=> {
         sessionStorage.setItem('shownDialog', 'true');
         cy.server();
@@ -73,7 +72,6 @@ describe('User Page', ()=> {
         cy.route('**/auth/groups', [{'id':2,'name':'APP_USER'},{'id':3,'name':'INDICATOR_ADMIN'},{'id':1,'name':'SEC_ADMIN'}]);
 
         cy.contains('Add user').click();
-        
         // with username
         const user: string = 'new user';
         const password: string = 'new password';
@@ -121,7 +119,7 @@ describe('User Page', ()=> {
         cy.route('**/auth/groups', [{'id':2,'name':'APP_USER'},{'id':3,'name':'INDICATOR_ADMIN'},{'id':1,'name':'SEC_ADMIN'}]);
 
         cy.contains('Edit user').click();
-        
+
         // with username
         const user: string = 'fakeuser';
         const password: string = 'new password';
