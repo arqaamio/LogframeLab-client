@@ -24,6 +24,14 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
   
+Cypress.Commands.add("getBySel", (selector, ...args) => {
+  // return cy.get(`[data-test=${selector}]`, ...args);
+  return cy.get(`[data-cy=${selector}]`, ...args);
+});
+
+Cypress.Commands.add("getBySelLike", (selector, ...args) => {
+  return cy.get(`[data-cy*=${selector}]`, ...args);
+});
 
 declare global {
   namespace Cypress {
@@ -134,4 +142,4 @@ function hexStringToByte(str) {
 
     return new Uint8Array(a);
 }
-  export {};
+export {};

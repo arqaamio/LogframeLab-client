@@ -1,0 +1,194 @@
+[
+    {
+        "id": 42,
+        "name": "ACF"
+    },
+    {
+        "id": 15,
+        "name": "Asian Development Bank"
+    },
+    {
+        "id": 43,
+        "name": "CaLP"
+    },
+    {
+        "id": 4,
+        "name": "Capacity4Dev"
+    },
+    {
+        "id": 19,
+        "name": "CIDA"
+    },
+    {
+        "id": 41,
+        "name": "CMAM Forum"
+    },
+    {
+        "id": 44,
+        "name": "DCED"
+    },
+    {
+        "id": 13,
+        "name": "ECHO"
+    },
+    {
+        "id": 39,
+        "name": "ENN"
+    },
+    {
+        "id": 24,
+        "name": "EU PIMS"
+    },
+    {
+        "id": 3,
+        "name": "European Union"
+    },
+    {
+        "id": 37,
+        "name": "FANTA"
+    },
+    {
+        "id": 9,
+        "name": "FAO"
+    },
+    {
+        "id": 28,
+        "name": "Freedom House"
+    },
+    {
+        "id": 38,
+        "name": "FSN"
+    },
+    {
+        "id": 12,
+        "name": "Global Clusters"
+    },
+    {
+        "id": 34,
+        "name": "Helvetas"
+    },
+    {
+        "id": 23,
+        "name": "Hikaya"
+    },
+    {
+        "id": 27,
+        "name": "HIPSO"
+    },
+    {
+        "id": 14,
+        "name": "IASC Indicator Registry"
+    },
+    {
+        "id": 31,
+        "name": "IFRC"
+    },
+    {
+        "id": 25,
+        "name": "ILO"
+    },
+    {
+        "id": 26,
+        "name": "IMF"
+    },
+    {
+        "id": 33,
+        "name": "INEE"
+    },
+    {
+        "id": 11,
+        "name": "IOM"
+    },
+    {
+        "id": 22,
+        "name": "IRC"
+    },
+    {
+        "id": 21,
+        "name": "MEASURE Evaluation"
+    },
+    {
+        "id": 32,
+        "name": "Miehlbradt"
+    },
+    {
+        "id": 46,
+        "name": "NCBI"
+    },
+    {
+        "id": 45,
+        "name": "OECD"
+    },
+    {
+        "id": 99,
+        "name": "Other"
+    },
+    {
+        "id": 30,
+        "name": "PIN"
+    },
+    {
+        "id": 35,
+        "name": "RTI"
+    },
+    {
+        "id": 40,
+        "name": "SCH"
+    },
+    {
+        "id": 29,
+        "name": "Sendai Framework"
+    },
+    {
+        "id": 36,
+        "name": "Sphere"
+    },
+    {
+        "id": 16,
+        "name": "UN"
+    },
+    {
+        "id": 5,
+        "name": "UN OHCHR"
+    },
+    {
+        "id": 1,
+        "name": "UN Sustainable Development Goals"
+    },
+    {
+        "id": 17,
+        "name": "UN Women"
+    },
+    {
+        "id": 18,
+        "name": "UNDP"
+    },
+    {
+        "id": 47,
+        "name": "UNESCO"
+    },
+    {
+        "id": 10,
+        "name": "UNHCR"
+    },
+    {
+        "id": 7,
+        "name": "UNICEF"
+    },
+    {
+        "id": 20,
+        "name": "USAID"
+    },
+    {
+        "id": 8,
+        "name": "WFP"
+    },
+    {
+        "id": 6,
+        "name": "WHO"
+    },
+    {
+        "id": 2,
+        "name": "World Bank"
+    }
+]
