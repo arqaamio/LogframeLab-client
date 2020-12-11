@@ -89,8 +89,7 @@ git push -f
 That's it! Thank you for your contribution!
  
 ### Where can I get more help, if I need it?
-
-Contact the maintainers: sheena.amdadoo@gmail.com and yiriwayah@gmail.com
+Contact the maintainer: sheena.amdadoo@gmail.com and yiriwayah@gmail.com 
 
 [LogframeLab-server]: <https://github.com/arqaamio/LogframeLab-server>
 [Node]: <https://nodejs.org/en/>
