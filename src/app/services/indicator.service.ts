@@ -121,7 +121,7 @@ export class IndicatorService {
 
   public downloadIndicators(indicatorsList, format, statementData: any[]): Observable<HttpResponse<Blob>> {
     const body = {indicators:indicatorsList, statements: statementData.map(x=>{
-      return {statement: x.statement, level:x.level}
+      return {statement: x.statement, level:x.level, assumption: x.assumption || ''}
     })};
     return this.http.post(
       this.baseUrl + "/indicator/download?format=" + format,

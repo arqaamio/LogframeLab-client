@@ -11,7 +11,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzInputModule } from 'ng-zorro-antd/input';
-
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [ResultComponent],
@@ -26,7 +26,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzProgressModule,
     NzSelectModule,
     NzTableModule,
-    NzTagModule
+    NzTagModule,
+    NzModalModule
   ],
   exports: [ResultComponent]
 })
