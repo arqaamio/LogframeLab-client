@@ -11,14 +11,14 @@ import { WorldBankService } from '../../../services/worldbank.service';
 
 interface ItemData {
   indicator: IndicatorResponse;
-  countryCodeSelected:string;
-  yearSelected:Date;
-  baselineValue:any;
+  countryCodeSelected: string;
+  yearSelected: Date;
+  baselineValue: any;
   statement: any;
-
-  colorLevel:string;
+  targetDate: Date;
+  targetValue: string;
+  colorLevel: string;
 }
-
 
 export class SearchFilter {
   level: FilterData[];
@@ -43,8 +43,18 @@ export const WORLD_BANK_SOURCE_ID: number = 2;
 export const NO_VALUE: string = 'No Value';
 export const DISAG_YES_FILTER_DATA: FilterData = {text: 'Yes', value:0};
 export const DISAG_NO_FILTER_DATA: FilterData = {text: 'No', value:1};
-export const EMPTY_ACTIVE_ITEM: ItemData = {indicator: null, colorLevel: '', baselineValue: 0, yearSelected: new Date(), countryCodeSelected: '', statement: null};
+export const EMPTY_ACTIVE_ITEM: ItemData = {
+  indicator: null,
+  colorLevel: '',
+  baselineValue: 0,
+  yearSelected: new Date(),
+  countryCodeSelected: '',
+  statement: null,
+  targetDate: new Date(),
+  targetValue: ''
+};
 export const COLOR_LEVEL = {'IMPACT': '#453457', 'OUTCOME': '#6B3C53', 'OUTPUT': '#637743'};
+
 @Component({
   selector: 'app-scanresult',
   templateUrl: './scanresult.component.html',
@@ -111,7 +121,9 @@ export class ScanResultComponent implements OnInit, OnDestroy {
                 colorLevel: COLOR_LEVEL[indicator.level],
                 countryCodeSelected: null,
                 yearSelected: null,
-                baselineValue: null
+                baselineValue: null,
+                targetValue: null,
+                targetDate: null
               }});
             this.addFilters();
             this.indicatorService.setLoadedData(this.listOfData);
@@ -132,7 +144,9 @@ export class ScanResultComponent implements OnInit, OnDestroy {
                   countryCodeSelected: null,
                   yearSelected: null,
                   baselineValue: null,
-                  statement: null
+                  statement: null,
+                  targetValue: null,
+                  targetDate: null
                 }});
                 this.addFilters();
                 this.indicatorService.setLoadedData(this.listOfData);
@@ -216,9 +230,10 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       // this.mapOfCheckedId[item.sort_id] = false;
       return item.indicator.name.toUpperCase().indexOf(search.toUpperCase()) !== -1;
     };
-    if(isSelectedTable){
+    
+    if(isSelectedTable) {
       this.filteredSelectedIndicators = this.selectedIndicators.filter((item: ItemData) => filterFunc(item));
-    }else {
+    } else {
       this.displayData = this.listOfData.filter((item: ItemData) => filterFunc(item));
     }
     /** sort data **/
@@ -325,29 +340,30 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     return differenceInCalendarDays(current, new Date()) > 0;
   };
 
-  ngModelCountryChange(item, code){
+  ngModelCountryChange(item, code) {
     item.baselineValue = null;
     item.countryCodeSelected = code;
     this.getWorldBankBaselineValue(item);
   }
 
-  ngModelYearChange(item, date:Date){
+  ngModelYearChange(item, date:Date) {
     item.baselineValue = null;
     item.yearSelected = date;
     this.getWorldBankBaselineValue(item);
   }
 
   getWorldBankBaselineValue(item: ItemData) {
-    if(item.countryCodeSelected && item.yearSelected){
+    if(item.countryCodeSelected && item.yearSelected) {
       this.showLoadingBaseline = true
-      this.worldBankService.getWorldBankBaselineValue(item.indicator.id, item.countryCodeSelected, item.yearSelected.getFullYear()).subscribe(data => {
+      this.worldBankService.getWorldBankBaselineValue(item.indicator.id, item.countryCodeSelected, item.yearSelected.getFullYear())
+      .subscribe((data) => {
         console.log(data);
         if(data != null && data.length > 0)
           item.baselineValue = data[0].value;
         else
           item.baselineValue = NO_VALUE;
         this.showLoadingBaseline = false;
-      }, error=> {
+      }, (error) => {
         this.showLoadingBaseline = false;
         item.baselineValue = NO_VALUE;
         throw error;
@@ -360,18 +376,19 @@ export class ScanResultComponent implements OnInit, OnDestroy {
    */
   getLatestBaselineValue(): void {
     this.showLoadingBaseline = true;
-    this.worldBankService.getWorldBankBaselineValue(this.activeItem.indicator.id, this.activeItem.countryCodeSelected).subscribe(data => {
-      if(data != null && data.length > 0){
+    this.worldBankService.getWorldBankBaselineValue(this.activeItem.indicator.id, this.activeItem.countryCodeSelected)
+    .subscribe((data) => {
+      if(data != null && data.length > 0) {
         const latest = data[data.length -1];
         this.activeItem.baselineValue = latest.value;
         this.activeItem.yearSelected = new Date();
         this.activeItem.yearSelected.setFullYear(Number(latest.date));
-      } else{
+      } else {
         this.activeItem.baselineValue = NO_VALUE;
         this.activeItem.yearSelected = null;
       }
       this.showLoadingBaseline = false;
-    }, error=> {
+    }, (error) => {
       this.showLoadingBaseline = false;
       this.activeItem.baselineValue = NO_VALUE;
       this.activeItem.yearSelected = null;
