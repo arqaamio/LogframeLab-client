@@ -34,7 +34,11 @@ export class IndicatorService {
   public loadingStart = new BehaviorSubject<any>(false);
   private visualizationCanvas: any = null;
 
-  constructor(private http: HttpClient, private msg: NzMessageService) {}
+  constructor(
+    private http: HttpClient,
+    private msg: NzMessageService
+  ) {}
+
   private nextSubject() {
     this.indicatorSubject.next({
       files: this.fileList,
@@ -44,7 +48,6 @@ export class IndicatorService {
       isNewInfo: this.isNewInfo,
     });
   }
-
 
   clearIndicatorData() {
     this.filters = null;
@@ -173,7 +176,6 @@ export class IndicatorService {
       if(filtersDto.crsCode != null && filtersDto.crsCode.length > 0)
         args+='crsCodes=' + filtersDto.crsCode.map((x)=>x.id).join(', ')+'&';
 
-
       filtersDto.level.forEach(element => {
         args+='levels='+element.id+'&';
       });
@@ -188,6 +190,7 @@ export class IndicatorService {
         args+='sectors='+element+'&';
       });
     }
+
     if(args!= '') {
       // Remove the last extra &
       url+='?' + args.slice(0, -1);
@@ -226,20 +229,20 @@ export class IndicatorService {
    */
   initVisualization() {
     this.visualizationCanvas = null;
-   }
+  }
 
    /**
     * Save canvas visualization status
     * @param visualizationCanvas
     */
-   saveVisulalizationStatus(visualizationCanvas){
+  saveVisulalizationStatus(visualizationCanvas){
     this.visualizationCanvas = visualizationCanvas;
-   }
+  }
 
    /**
     * get Canvas visulization
     */
-   getCanvasVisualization(){
+  getCanvasVisualization(){
     return this.visualizationCanvas;
-   }
+  }
 }

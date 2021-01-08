@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
 import { Subscription } from 'rxjs/internal/Subscription';
 
-
 @Component({
   selector: "app-downloadresult",
   templateUrl: "./downloadresult.component.html",
@@ -12,7 +11,10 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
   dataExport: any[] = [];
   indicatorSubscription: Subscription = null;
 
-  constructor(private indicatorService: IndicatorService) { }
+  constructor(
+    private indicatorService: IndicatorService
+  ) { }
+
   ngOnInit() {
     this.indicatorSubscription = this.indicatorService
       .getIndicatorSubject()
@@ -23,15 +25,22 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
           data.selectedData != null
         ) {
           this.dataExport = data.selectedData.map((x)=> {
-          if(x.yearSelected && (x.baselineValue  || x.baselineValue === 0)) {
-              x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
-              x.indicator.value = x.baselineValue;
-            }
-            x.indicator.statement = x.statement?.statement;
-            return x.indicator;
-          });
-        }
-      });
+          if(x.yearSelected && (x.baselineValue || x.baselineValue === 0)) {
+            x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
+            x.indicator.value = x.baselineValue;
+          }
+          x.indicator.statement = x.statement?.statement;
+          if(x.targetDate && (x.targetValue || x.targetValue === 0)) {
+            x.indicator.targetDate = (<Date>x.targetDate).getFullYear().toString();
+            x.indicator.targetValue = x.targetValue;
+          } else {
+            x.indicator.targetDate = null;
+            x.indicator.targetValue = null;
+          }
+          return x.indicator;
+        });
+      }
+    });
   }
 
   /**
