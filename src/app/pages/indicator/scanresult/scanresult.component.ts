@@ -16,8 +16,8 @@ interface ItemData {
   baselineValue: any;
   statement: any;
   targetDate: Date;
-  targetValue: string;
-  colorLevel: string;
+  targetValue?: string;
+  colorLevel?: string;
 }
 
 export class SearchFilter {
