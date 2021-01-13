@@ -65,20 +65,20 @@
           <p><strong>Step 4<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
           <p>
             In this step you are able to view the success indicators in a visualization
-            format. These indicators are derived from the selection you did in previous          
-            step (Step 2) which are categorized into 3 levels – Impacts, Outcomes or          
+            format. These indicators are derived from the selection you did in previous
+            step (Step 2) which are categorized into 3 levels – Impacts, Outcomes or
             Outputs.
             <br/><br/>
             You can connect the shapes by dragging the ports. The ports will be hidden once shapes
-            are connected and will only be visible of you disconnect again. You can also          
-            delete the connectors and/or shapes by simply selecting them and use your          
+            are connected and will only be visible of you disconnect again. You can also
+            delete the connectors and/or shapes by simply selecting them and use your
             delete button from your keyboard.
             <br/><br/>
             If the shapes are located at a distance and you would like to connect the ports
-            then you first have to click on the port and then drag the connector to the end          
+            then you first have to click on the port and then drag the connector to the end
             shape.
             <br/><br/>
-            If by any chance you accidently delete a shape there is a easy option to undo and 
+            If by any chance you accidently delete a shape there is a easy option to undo and
             redo. If you want to maximize the visualization please use zoom button.
             <br/><br/>
             Note: If you remove a shape from this visualization this will also remove the indicator
@@ -91,6 +91,14 @@
 
 <nz-spin [nzSpinning]="isSpinning" [nzIndicator]="indicatorTemplate">
   <div class="content-section">
+    <div class="main-header">
+      Logframe Lab - The Free, Open-Source Logframe Builder
+    </div>
+    <div class="main-subtitle">
+      Using intelligent machine learning, Logframe Lab produces practical, relevant indicators taken from securely
+      uploaded project proposals. Once confirmed, these indicators are turned into a useable logical framework.
+      Start by uploading a project proposal below
+    </div>
   <nz-steps [nzCurrent]="current">
     <nz-step nzTitle="SELECTION" nzIcon="folder"></nz-step>
     <nz-step nzTitle="RESULT" nzIcon="bars"></nz-step>
