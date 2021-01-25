@@ -34,7 +34,7 @@
             <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
               <nz-tag [nzColor]="data.colorLevel">
                 {{ data.level }}
-              </nz-tag>
+              </nz-tag> 
             </div>
             <nz-select
               id="level"
@@ -84,7 +84,7 @@
             <a nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete this statement?" (nzOnConfirm)="deleteRow(index)">
               <i nz-icon nzType="close-circle" class="delete-icon" nzTheme="fill" title="Delete statement"></i>
             </a>
-            <div class="add-statement" (click)="isModalVisible = true; addAssumptions(data)">
+            <div class="add-statement" *ngIf="data.level !== 'IMPACT'" (click)="isModalVisible = true; addAssumptions(data)">
               <i nz-icon nzTheme="fill" title="Add Assumptions">+</i>
             </div>
           </td>
@@ -96,5 +96,5 @@
 </div>
 
 <nz-modal [(nzVisible)]="isModalVisible" nzTitle="Add Assumptions" (nzOnCancel)="handleCancelModal()" (nzOnOk)="saveSource()">
-  <input type="text" nz-input placeholder="Add Assumptions" [(ngModel)]="addAssumption"/>
+  <textarea type="text" nz-input placeholder="Add Assumptions" [(ngModel)]="addAssumption"> </textarea>
 </nz-modal>
