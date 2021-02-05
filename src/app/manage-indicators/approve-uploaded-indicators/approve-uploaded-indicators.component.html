@@ -1,8 +1,7 @@
 <div nz-col nzSpan="22" nzOffset="1">
-  <div nz-col style="margin-bottom: 30px; margin-top: 50px">
+  <div nz-col class="nz_col">
     <div nz-row>
-      <button nz-button nzType="primary" [disabled]="checkedIds.size === 0" style="margin-right: 10px"
-        (click)="approveSelected()">
+      <button nz-button nzType="primary" [disabled]="checkedIds.size === 0" class="nz_approve_col" (click)="approveSelected()">
         <i nz-icon nzType="check"></i>
         Approve selected
       </button>
@@ -10,12 +9,9 @@
         <i nz-icon nzType="close"></i>
         Disapprove selected
       </button>
-<!-- 
-      <button nz-button (click)="fetchByFilters()" nzType="link" nzSize="default" style="position: absolute; right: 0">
-        Filter
-      </button> -->
     </div>
   </div>
+
   <nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList" [nzFrontPagination]="false"
     [nzLoading]="isLoading" [nzTotal]="totalRowCount" [(nzPageIndex)]="page" [(nzPageSize)]="pageSize"
     (nzPageSizeChange)="search(true, true)" (nzPageIndexChange)="search(false, true)" nzSize="small">
@@ -46,7 +42,6 @@
         <th>Actions</th>
       </tr>
     </thead>
-
     <tbody>
       <tr *ngFor="let ind of indicators.data">
         <td [nzChecked]="checkedIds.has(ind.id)" (nzCheckedChange)="select(ind.id, $event)"></td>
@@ -71,89 +66,81 @@
     </tbody>
   </nz-table>
 
-<h2>Similar Indicators</h2>
-<p>Threshold: </p>
-<nz-slider [nzDisabled]="thresholdDisabled" [nzStep]=0.1 [nzMax]=1 [(ngModel)]="threshold" (nzOnAfterChange)="thresholdUpdated($event)"></nz-slider>  
-<nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList" [nzFrontPagination]="false"
-  [nzLoading]="isLoadingSimilar" nzSize="small">
-  <thead>
-    <tr>
-      <th></th>
-      <th>
-        CRS Code
-      </th>
-      <th>Description</th>
-      <th>Disaggregation</th>
-      <th>Keywords</th>
-      <th>Name</th>
-      <th>
-        SDG Goal
-      </th>
-      <th>
-        Source
-      </th>
-      <th>Source Verification</th>
-      <th>
-        Sector
-      </th>
-      <th>
-        Level
-      </th>
-      <th style="color: green;"><strong>&#10003;</strong></th>
-      <th style="color: red;"><strong>X</strong></th>
-    </tr>
-  </thead>
+  <h2>Similar Indicators</h2>
+  <p>Threshold: </p>
+  <nz-slider [nzDisabled]="thresholdDisabled" [nzStep]=0.1 [nzMax]=1 [(ngModel)]="threshold" (nzOnAfterChange)="thresholdUpdated($event)">
+  </nz-slider>  
 
-  <tbody>
-    <ng-container *ngFor="let item of similarIndicators">
+  <nz-table #indicators nzShowSizeChanger nzBordered [nzData]="indicatorList" [nzFrontPagination]="false"
+    [nzLoading]="isLoadingSimilar" nzSize="small">
+    <thead>
       <tr>
-        <td [nzExpand]="expandSet.has(item.indicator.id)" (nzExpandChange)="onExpandChange(item.indicator.id, $event)"></td>
-        <td>{{ printArray(item.indicator.crsCode, 'name') }}</td>
-        <td>{{ item.indicator.description }}</td>
-        <td>{{ item.indicator.disaggregation }}</td>
-        <td>{{ item.indicator.keywords }}</td>
-        <td [ngSwitch]="item.indicator.dataSource == ''">
-         <span *ngSwitchCase="false"><a href="{{item.indicator.dataSource}}">{{ item.indicator.name }}</a></span>
-         <span *ngSwitchCase="true">{{ item.indicator.name }}</span></td>
-        <td>{{ printArray(item.indicator.sdgCode, 'name') }}</td>
-        <td>{{ printArray(item.indicator.source, 'name') }}</td>
-        <td>{{ item.indicator.sourceVerification }}</td>
-        <td>{{ item.indicator.sector }}</td>
-        <td>{{ item.indicator.level.name }}</td>
-        <td style="color: green;cursor: pointer;" (click)="checkSimilarity(item.indicator.id)"><strong>&#10003;</strong></td>
-        <td style="color: red;cursor: pointer;" (click)="deleteIndicator(item.indicator.id)"><strong>X</strong></td>
+        <th></th>
+        <th>CRS Code</th>
+        <th>Description</th>
+        <th>Disaggregation</th>
+        <th>Keywords</th>
+        <th>Name</th>
+        <th>SDG Goal</th>
+        <th>Source</th>
+        <th>Source Verification</th>
+        <th>Sector</th>
+        <th>Level</th>
+        <th class="clr_green"><strong>&#10003;</strong></th>
+        <th class="clr_red"><strong>X</strong></th>
       </tr>
-      <ng-container *ngFor="let sim of item.similarIndicators" >
-        <tr *ngIf="similarExpandSet.has(item.indicator.id)" class="similar-indicator">
-          <td></td>
-          <td>{{ printArray(sim.crsCode, 'name') }}</td>
-          <td>{{ sim.description }}</td>
-          <td>{{ sim.disaggregation }}</td>
-          <td>{{ sim.keywords }}</td>
-          <td [ngSwitch]="sim.dataSource == ''">
-            <span *ngSwitchCase="true">{{ sim.name }}</span>
-            <span *ngSwitchCase="false"><a href="{{sim.dataSource}}">{{ sim.name }}</a></span>
-          </td>
-          <td>{{ printArray(sim.sdgCode, 'name')  }}</td>
-          <td>{{ printArray(sim.source, 'name')  }}</td>
-          <td>{{ sim.sourceVerification }}</td>
-          <td>{{ sim.sector }}</td>
-          <td>{{ sim.level.name }}</td>
-          <td></td>
-          <td style="color: red;cursor: pointer;" (click)="deleteIndicator(item.indicator.id, sim.id)"><strong>X</strong></td>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let item of similarIndicators">
+        <tr>
+          <td [nzExpand]="expandSet.has(item.indicator.id)" (nzExpandChange)="onExpandChange(item.indicator.id, $event)"></td>
+          <td>{{ printArray(item.indicator.crsCode, 'name') }}</td>
+          <td>{{ item.indicator.description }}</td>
+          <td>{{ item.indicator.disaggregation }}</td>
+          <td>{{ item.indicator.keywords }}</td>
+          <td [ngSwitch]="item.indicator.dataSource == ''">
+          <span *ngSwitchCase="false"><a href="{{item.indicator.dataSource}}">{{ item.indicator.name }}</a></span>
+          <span *ngSwitchCase="true">{{ item.indicator.name }}</span></td>
+          <td>{{ printArray(item.indicator.sdgCode, 'name') }}</td>
+          <td>{{ printArray(item.indicator.source, 'name') }}</td>
+          <td>{{ item.indicator.sourceVerification }}</td>
+          <td>{{ item.indicator.sector }}</td>
+          <td>{{ item.indicator.level.name }}</td>
+          <td class="clr_green crsr_pointer" (click)="checkSimilarity(item.indicator.id)"><strong>&#10003;</strong></td>
+          <td class="clr_red crsr_pointer" (click)="deleteIndicator(item.indicator.id)"><strong>X</strong></td>
         </tr>
+        <ng-container *ngFor="let sim of item.similarIndicators" >
+          <tr *ngIf="similarExpandSet.has(item.indicator.id)" class="similar-indicator">
+            <td></td>
+            <td>{{ printArray(sim.crsCode, 'name') }}</td>
+            <td>{{ sim.description }}</td>
+            <td>{{ sim.disaggregation }}</td>
+            <td>{{ sim.keywords }}</td>
+            <td [ngSwitch]="sim.dataSource == ''">
+              <span *ngSwitchCase="true">{{ sim.name }}</span>
+              <span *ngSwitchCase="false"><a href="{{sim.dataSource}}">{{ sim.name }}</a></span>
+            </td>
+            <td>{{ printArray(sim.sdgCode, 'name')  }}</td>
+            <td>{{ printArray(sim.source, 'name')  }}</td>
+            <td>{{ sim.sourceVerification }}</td>
+            <td>{{ sim.sector }}</td>
+            <td>{{ sim.level.name }}</td>
+            <td></td>
+            <td class="clr_red crsr_pointer" (click)="deleteIndicator(item.indicator.id, sim.id)"><strong>X</strong></td>
+          </tr>
+        </ng-container>
       </ng-container>
-    </ng-container>
-  </tbody>
-</nz-table>
-</div>
-<app-crud-indicator
-  (hideCrudModal)="hideCrudModal($event)"
-  (indicatorAdded)="refreshIndicatorList(true)"
-  (indicatorDeleted)="refreshIndicatorList(true)"
-  (indicatorUpdated)="refreshIndicatorList(false)"
-  [operation]="operation"
-  [indicatorForOperation]="indicator"
-  [displayCrudModal]="displayCrudModal"
->
+    </tbody>
+  </nz-table>
+  </div>
+  <app-crud-indicator
+    (hideCrudModal)="hideCrudModal($event)"
+    (indicatorAdded)="refreshIndicatorList(true)"
+    (indicatorDeleted)="refreshIndicatorList(true)"
+    (indicatorUpdated)="refreshIndicatorList(false)"
+    [operation]="operation"
+    [indicatorForOperation]="indicator"
+    [displayCrudModal]="displayCrudModal"
+  >
 </app-crud-indicator>

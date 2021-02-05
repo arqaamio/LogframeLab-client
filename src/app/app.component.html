@@ -2,7 +2,7 @@
   <nz-layout>
     <ul nz-menu nzMode="horizontal" class="nz-header">
       <li nz-menu-item>
-        <a style="color: black" routerLink="/" routerLinkActive="active">
+        <a class="route-link" routerLink="/" routerLinkActive="active">
           <img src="assets/logo-11-1.png" alt="Logframe Lab Logo" />
         </a>
       </li>
@@ -23,9 +23,11 @@
         </ul>
       </nz-dropdown-menu>
     </ul>
+    
     <nz-content>
       <router-outlet></router-outlet>
     </nz-content>
+    
     <nz-footer>
       <div>
         <br />
@@ -34,21 +36,13 @@
         <a routerLink="/dataprotection">Data Protection Declaration</a><br />
         <a routerLink="/imprint">Imprint</a><br /><br />
       </div>
-      <div
-        style="
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          height: 28px;
-          background-color: #222222;
-        "
-      >
+      <div class="link-route">
         <a href="https://www.facebook.com/Arqaam-102944338143720">
           <i
             nz-icon
             nzType="facebook"
             nzTheme="outline"
-            style="padding-left: 20px; font-size: 15px"
+            class="link-icon"
           ></i>
         </a>
         <a href="https://www.linkedin.com/company/arqaam/">
@@ -56,7 +50,7 @@
             nz-icon
             nzType="linkedin"
             nzTheme="outline"
-            style="padding-left: 20px; font-size: 15px"
+            class="link-icon"
           ></i>
         </a>
         <a href="https://github.com/arqaamio">
@@ -64,7 +58,7 @@
             nz-icon
             nzType="github"
             nzTheme="outline"
-            style="padding-left: 20px; font-size: 15px"
+            class="link-icon"
           ></i>
         </a>
         <a href="https://twitter.com/arqaamdata">
@@ -72,7 +66,7 @@
             nz-icon
             nzType="twitter"
             nzTheme="outline"
-            style="padding-left: 20px; font-size: 15px"
+            class="link-icon"
           ></i>
         </a>
         <a href="https://medium.com/@arqaam">
@@ -80,16 +74,11 @@
             nz-icon
             nzType="medium"
             nzTheme="outline"
-            style="padding-left: 20px; font-size: 15px"
+            class="link-icon"
           ></i>
         </a>
         <a
-          style="
-            margin: auto;
-            padding-right: 9%;
-            text-align: center;
-            line-height: 28px;
-          "
+          class="arqaam-link"
           href="http://arqaam.org"
           target="_blank"
         >

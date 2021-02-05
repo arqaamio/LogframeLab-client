@@ -1,23 +1,23 @@
 <nz-table #editRowTable nzBordered [nzData]="listOfData" nzTableLayout="fixed">
-    <thead>
-      <tr>
-        <th nzWidth="20%">ID</th>
-        <th nzWidth="60%">Name</th>
-        <th nzWidth="20%">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of editRowTable.data">
-          <td>{{ data.id }}</td>
-          <td>{{ data.name }}</td>
-          <td><a class='edit' (click)="editSource(data.id)">Edit</a>
-              <a (click)="deleteSource(data.id)">Delete</a></td>
-      </tr>
-    </tbody>
-  </nz-table>
-  <br />
+  <thead>
+    <tr>
+      <th nzWidth="20%">ID</th>
+      <th nzWidth="60%">Name</th>
+      <th nzWidth="20%">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of editRowTable.data">
+        <td>{{ data.id }}</td>
+        <td>{{ data.name }}</td>
+        <td><a class='edit' (click)="editSource(data.id)">Edit</a>
+            <a (click)="deleteSource(data.id)">Delete</a></td>
+    </tr>
+  </tbody>
+</nz-table>
+<br />
 <br />
 <button nz-button (click)="isModalVisible = true" nzType="primary" class="default-button">Add Source</button>
 <nz-modal [(nzVisible)]="isModalVisible" nzTitle="Create/Edit Source" (nzOnCancel)="handleCancelModal()" (nzOnOk)="saveSource()">
-    <input type="text" nz-input placeholder="Introduce the name of the new or updated source" [(ngModel)]="sourceName"/>
+  <input type="text" nz-input placeholder="Introduce the name of the new or updated source" [(ngModel)]="sourceName"/>
 </nz-modal>

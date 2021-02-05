@@ -60,6 +60,7 @@
         [(ngModel)]="searchValue"
       />
     </div>
+
     <nz-table
       #dynamicTable
       [nzData]="displayData"
@@ -76,8 +77,7 @@
         <!--TODO nzSingleSort-->
         <tr>
           <th nzWidth="3%"></th>
-          <th nzWidth="3%"
-          ></th>
+          <th nzWidth="3%"></th>
           <th
             nzShowSort
             nzColumnKey="level"
@@ -192,27 +192,19 @@
             (click)="selectIndicator(data)"
             [class.row-checked]="mapOfCheckedId[data.indicator.id]"
           >
-          <td class="propertiesCell"
-          nz-popover
-          nzPopoverContent="Further information and options"
-          (click)="showPropertiesModal(data)" 
-          ><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
-          </td>
-          <!-- <td class="propertiesCell"
-          nz-popover
-          nzPopoverContent="Further information and options"
-          (click)="showPropertiesModal(data)" 
-          *ngIf="isWorldBankIndicator(data) || statementData.length > 0 || (data.indicator?.description!=null && data.indicator?.description!='')"
-          ><span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
-          </td>
-          <td *ngIf="!isWorldBankIndicator(data) && statementData.length == 0 &&
-            (data.indicator?.description==null ||data.indicator?.description=='')"></td> -->
-          <td
-            nzShowCheckbox
-            [nzChecked]="mapOfCheckedId[data.indicator.id]"
-            (nzCheckedChange)="selectIndicator(data, $event)"
-          >
-        </td>
+            <td class="propertiesCell"
+            nz-popover
+            nzPopoverContent="Further information and options"
+            (click)="showPropertiesModal(data)" 
+            >
+              <span class="propertiesButton"><i nz-icon nzType="solution"></i></span>
+            </td>
+            <td
+              nzShowCheckbox
+              [nzChecked]="mapOfCheckedId[data.indicator.id]"
+              (nzCheckedChange)="selectIndicator(data, $event)"
+            >
+            </td>
             <td>
               <nz-tag [nzColor]="data.colorLevel"
                 >{{ data.indicator.level }}
@@ -419,15 +411,14 @@
     </div>
   </ng-template>
 </div>
+
 <div id="footerBar" *ngIf="this.selectedIndicators.length != 0">
   <p style="margin-left: 13%;">IMPACT</p>
   <nz-tag [nzColor]="'#453457'"><strong>{{ impactCount }}</strong></nz-tag>
-
   <p>OUTCOME</p>
   <nz-tag [nzColor]="'#6B3C53'"><strong>{{ outcomeCount }}</strong></nz-tag>
   <p>OUTPUT</p>
   <nz-tag [nzColor]="'#637743'"><strong>{{ outputCount }}</strong></nz-tag>
-  
   <p>TOTAL</p>
   <nz-tag [nzColor]="'black'"><strong>{{ impactCount+outcomeCount+outputCount }}</strong></nz-tag>
 
@@ -440,6 +431,7 @@
     show all
   </button>
 </div>
+
 <nz-modal [(nzVisible)]="isPropertiesModalActive" nzTitle="Further information and options" (nzOnCancel)="isPropertiesModalActive = false" (nzOnOk)="propertiesModalOkHandle()" nzWidth="90vw">
   <h3><strong>Indicator</strong></h3>
   <p>{{activeItem.indicator?.name}}</p>
@@ -468,57 +460,55 @@
   </div>
   <h3><strong>Statements</strong></h3>
   <nz-table
-      #statementTable
-      [nzData]="this.statementData"
-      [nzPageSize]="this.statementData.length"
-      nzShowPagination="false"
-      nzShowSizeChanger="false"
-      nzSize="middle"
-      nzBordered
-    >
-      <thead>
+    #statementTable
+    [nzData]="this.statementData"
+    [nzPageSize]="this.statementData.length"
+    nzShowPagination="false"
+    nzShowSizeChanger="false"
+    nzSize="middle"
+    nzBordered
+  >
+    <thead>
+      <tr>
+        <th nzWidth="3%"></th>
+        <th nzWidth="7%">
+          Level
+        </th>
+        <th style="font-weight: bold;">
+          Statement
+        </th>
+        <th nzWidth="5%">
+          Status
+        </th>
+        <th nzWidth="5%">
+          Score
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="statementTable.data" let-index="index">
         <tr>
-          <th nzWidth="3%"></th>
-          <th nzWidth="7%">
-            Level
-          </th>
-          <th style="font-weight: bold;">
-            Statement
-          </th>
-          <th nzWidth="5%">
-            Status
-          </th>
-          <th nzWidth="5%">
-            Score
-          </th>
+          <td
+          nzShowCheckbox
+          [nzChecked]="this.mapOfCheckedStatementsId[data.id]"
+          (nzCheckedChange)="selectStatement(data, $event)"
+        >
+          <td>
+            <nz-tag [nzColor]="data.colorLevel">{{ data.level }}</nz-tag>
+          </td>
+          <td>
+            {{ data.statement }}
+          </td>
+          <td>
+            <nz-tag [nzColor]="data.statusColor">
+              {{ data.status }}
+            </nz-tag>
+          </td>
+          <td> 
+            {{data.score}}%
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <ng-template ngFor let-data [ngForOf]="statementTable.data" let-index="index">
-          <tr>
-            <td
-            nzShowCheckbox
-            [nzChecked]="this.mapOfCheckedStatementsId[data.id]"
-            (nzCheckedChange)="selectStatement(data, $event)"
-          >
-            <td>
-                <nz-tag [nzColor]="data.colorLevel">{{ data.level }}
-              </nz-tag>
-            </td>
-            
-            <td>
-                {{ data.statement }}
-            </td>
-            <td>
-              <nz-tag [nzColor]="data.statusColor">
-                 {{ data.status }}
-              </nz-tag>
-            </td>
-            <td> 
-                {{data.score}}%
-            </td>
-          </tr>
-        </ng-template>
-      </tbody>
-    </nz-table>
+      </ng-template>
+    </tbody>
+  </nz-table>
 </nz-modal>

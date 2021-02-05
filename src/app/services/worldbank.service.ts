@@ -9,7 +9,9 @@ import { environment } from '../../environments/environment';
 export class WorldBankService {
   private baseUrl = environment.apiBaseUrl + '/worldbank';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) { }
   
   /**
    * Retrieves all the countries world bank indicators values are available in

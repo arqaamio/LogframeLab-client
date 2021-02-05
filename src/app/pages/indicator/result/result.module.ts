@@ -12,7 +12,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
-
 @NgModule({
   declarations: [ResultComponent],
   imports: [

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import {ManageIndicatorsService} from '../services/indicators-management/manage-indicators.service';
-import {NzMessageService} from 'ng-zorro-antd/message';
+import { ManageIndicatorsService } from '../services/indicators-management/manage-indicators.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from '../services/indicator.service';
 
 export const XLSX_FORMAT = "xlsx";
@@ -15,8 +15,11 @@ export class IndicatorsUploadComponent implements OnInit {
   uploading = false;
   visible = false;
 
-  constructor(private indicatorsService: ManageIndicatorsService, private msg: NzMessageService,
-    private indicatorService: IndicatorService) { }
+  constructor(
+    private indicatorsService: ManageIndicatorsService,
+    private msg: NzMessageService,
+    private indicatorService: IndicatorService
+  ) { }
 
   ngOnInit(): void {
   }

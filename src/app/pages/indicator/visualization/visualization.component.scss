@@ -1,6 +1,7 @@
 body{
-    margin:0px;
-  }
+  margin:0px;
+}
+
 .fullscreen {
   position: fixed;
   height: 100vh;
@@ -11,13 +12,16 @@ body{
   left: 0;
   z-index: 9;
 }
+
 .fullscreen .draw2d{
   height: 88vh !important;
 }
+
 .smallscreen{
   min-height: 300px;
   width: 1400px;
 }
+
 @media (max-width:1380px) {
   .smallscreen {
     width:100%;
@@ -25,9 +29,10 @@ body{
 }
 
 .row {
-    display: flex;
-    overflow: auto;
+  display: flex;
+  overflow: auto;
 }
+
 .draw2d{
   position: relative;
   flex: 10;
@@ -36,10 +41,12 @@ body{
 .left-chart-name {
   flex: 1;
 }
+
 .left-chart-name div{
   font-size:16px;
   font-weight: 500;
 }
+
 .left-chart-name .level-1{
   margin-top: 30px;
 }
@@ -51,6 +58,7 @@ body{
 .left-chart-name .level-3{
   margin-top: 140px;
 }
+
 #toolbar {
   margin-bottom: 10px;
 }

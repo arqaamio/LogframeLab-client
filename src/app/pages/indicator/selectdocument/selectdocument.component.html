@@ -1,105 +1,106 @@
 <div class="uploadArea">
-    <div class="flex-container"*ngIf='progress==0'>
-      <div>
-        <label>Sector:</label><br />
-        <nz-select
-          nzMode="multiple"
-          (ngModelChange)="onChangeFilter('sector', $event)"
-          nzPlaceHolder="Filter by Sector"
-          [(ngModel)]="selectedValues.sector"
-        >
-          <nz-option
-            *ngFor="let option of filterOptions.sector"
-            [nzLabel]="option"
-            [nzValue]="option"
-            [nzHide]="isOptionSelected('sector', option)"
-          ></nz-option>
-        </nz-select>
-      </div>
-      <div>
-        <label>Sources:</label><br />
-        <nz-select
-          nzMode="multiple"
-          nzPlaceHolder="Filter by sources"
-          [(ngModel)]="selectedValues.source"
-          (ngModelChange)="onChangeFilter('source', $event)"
-          [compareWith]="compare"
-        >
-          <nz-option
-            *ngFor="let option of filterOptions.source"
-            [nzLabel]="option.name"
-            [nzValue]="option"
-            [nzHide]="isOptionSelected('source', option)"
-          ></nz-option>
-        </nz-select>
-      </div>
-      <div>
-        <label>SDGs:</label><br />
-        <nz-select
-          nzMode="multiple"
-          nzPlaceHolder="Filter by SDGs"
-          [(ngModel)]="selectedValues.sdgCode"
-          (ngModelChange)="onChangeFilter('sdgCode', $event)"
-          [compareWith]="compare"
-        >
-          <nz-option
-            *ngFor="let option of filterOptions.sdgCode"
-            [nzLabel]="option.name"
-            [nzValue]="option"
-            [nzHide]="isOptionSelected('sdgCode', option)"
-          ></nz-option>
-        </nz-select>
-      </div>
-      <div id="levelDiv">
-        <label>Levels:</label><br />
-        <nz-select
-          nzMode="multiple"
-          nzPlaceHolder="Filter by levels"
-          [(ngModel)]="selectedValues.level"
-          (ngModelChange)="onChangeFilter('level', $event)"
-          [compareWith]="compare"
-        >
-          <nz-option
-            *ngFor="let option of filterOptions.level"
-            [nzLabel]="option.name"
-            [nzValue]="option"
-            [nzHide]="isOptionSelected('level', option)"
-          ></nz-option>
-        </nz-select>
-      </div>
+  <div class="flex-container"*ngIf='progress==0'>
+    <div>
+      <label>Sector:</label><br />
+      <nz-select
+        nzMode="multiple"
+        (ngModelChange)="onChangeFilter('sector', $event)"
+        nzPlaceHolder="Filter by Sector"
+        [(ngModel)]="selectedValues.sector"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.sector"
+          [nzLabel]="option"
+          [nzValue]="option"
+          [nzHide]="isOptionSelected('sector', option)"
+        ></nz-option>
+      </nz-select>
+    </div>
+    <div>
+      <label>Sources:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by sources"
+        [(ngModel)]="selectedValues.source"
+        (ngModelChange)="onChangeFilter('source', $event)"
+        [compareWith]="compare"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.source"
+          [nzLabel]="option.name"
+          [nzValue]="option"
+          [nzHide]="isOptionSelected('source', option)"
+        ></nz-option>
+      </nz-select>
+    </div>
+    <div>
+      <label>SDGs:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by SDGs"
+        [(ngModel)]="selectedValues.sdgCode"
+        (ngModelChange)="onChangeFilter('sdgCode', $event)"
+        [compareWith]="compare"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.sdgCode"
+          [nzLabel]="option.name"
+          [nzValue]="option"
+          [nzHide]="isOptionSelected('sdgCode', option)"
+        ></nz-option>
+      </nz-select>
+    </div>
+    <div id="levelDiv">
+      <label>Levels:</label><br />
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Filter by levels"
+        [(ngModel)]="selectedValues.level"
+        (ngModelChange)="onChangeFilter('level', $event)"
+        [compareWith]="compare"
+      >
+        <nz-option
+          *ngFor="let option of filterOptions.level"
+          [nzLabel]="option.name"
+          [nzValue]="option"
+          [nzHide]="isOptionSelected('level', option)"
+        ></nz-option>
+      </nz-select>
+    </div>
   </div>
+
   <nz-upload
-  nzType="drag"
-  [nzMultiple]="false"
-  nzAccept=".doc,.docx"
-  [nzLimit]="1"
-  [nzSize]="25000"
-  [nzFileList]="fileList"
-  [nzBeforeUpload]="beforeUpload"
-  [nzShowUploadList]="true"
-  *ngIf="progress==0"
->
-  <div class="uploadText" *ngIf='progress==0'>
-    <i class = "uploadIcon" nz-icon nzType="folder" nzTheme="outline"></i>
-    <p class="ant-upload-text">Click here to upload</p>
-    <p class="ant-upload-hint">
-      Support for a single MS Word file upload.
+    nzType="drag"
+    [nzMultiple]="false"
+    nzAccept=".doc,.docx"
+    [nzLimit]="1"
+    [nzSize]="25000"
+    [nzFileList]="fileList"
+    [nzBeforeUpload]="beforeUpload"
+    [nzShowUploadList]="true"
+    *ngIf="progress==0"
+  >
+    <div class="uploadText" *ngIf='progress==0'>
+      <i class = "uploadIcon" nz-icon nzType="folder" nzTheme="outline"></i>
+      <p class="ant-upload-text">Click here to upload</p>
+      <p class="ant-upload-hint">
+        Support for a single MS Word file upload.
+      </p>
+    </div>
+  </nz-upload>
+
+  <div class="disclaimer" *ngIf="progress==0">
+    <p class="disclaimerText">
+      <b>Disclaimer:</b> Uploading data here is safe. You can trust us with your info, because we never save it
+      anywhere. The algorithm uses your text to scan for keywords and retains access to it only so you can complete the procedure.
+      Your data is discarded as soon as you click ‘done’ in the last step, or if you refresh the window before you’re done.
+      We cannot access your information at any point.
     </p>
   </div>
-</nz-upload>
-<div class="disclaimer" *ngIf="progress==0">
-  <p class="disclaimerText">
-    <b>Disclaimer:</b> Uploading data here is safe. You can trust us with your info, because we never save it
-    anywhere. The algorithm uses your text to scan for keywords and retains access to it only so you can complete the procedure.
-    Your data is discarded as soon as you click ‘done’ in the last step, or if you refresh the window before you’re done.
-    We cannot access your information at any point.
-  </p>
-</div>
 
-<div *ngIf="progress!=0">
-  <h2>{{uploadStateTitle}}</h2>
-  <nz-progress [nzPercent]="progress" nzType="circle" [nzWidth]="150">
-  </nz-progress>
-</div>
-
+  <div *ngIf="progress!=0">
+    <h2>{{uploadStateTitle}}</h2>
+    <nz-progress [nzPercent]="progress" nzType="circle" [nzWidth]="150">
+    </nz-progress>
+  </div>
 </div>

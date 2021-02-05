@@ -1,4 +1,4 @@
-import {Level} from '../../services/dto/filter.dto';
+import { Level } from '../../services/dto/filter.dto';
 import { CRSCode } from 'src/app/models/crscode.model';
 import { Source } from 'src/app/models/source.model';
 import { SDGCode } from 'src/app/models/sdgcode.model';

@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
 import { Subscription } from 'rxjs/internal/Subscription';
 
-
 @Component({
   selector: "app-downloadresult",
   templateUrl: "./downloadresult.component.html",
@@ -12,26 +11,29 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
   dataExport: any[] = [];
   indicatorSubscription: Subscription = null;
 
-  constructor(private indicatorService: IndicatorService) { }
+  constructor(
+    private indicatorService: IndicatorService
+  ) { }
+
   ngOnInit() {
     this.indicatorSubscription = this.indicatorService
-      .getIndicatorSubject()
-      .subscribe((data) => {
-        if (
-          data != null &&
-          data.dataResponse != null &&
-          data.selectedData != null
-        ) {
-          this.dataExport = data.selectedData.map((x)=> {
+    .getIndicatorSubject()
+    .subscribe((data) => {
+      if (
+        data != null &&
+        data.dataResponse != null &&
+        data.selectedData != null
+      ) {
+        this.dataExport = data.selectedData.map((x) => {
           if(x.yearSelected && (x.baselineValue  || x.baselineValue === 0)) {
-              x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
-              x.indicator.value = x.baselineValue;
-            }
-            x.indicator.statement = x.statement?.statement;
-            return x.indicator;
-          });
-        }
-      });
+            x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
+            x.indicator.value = x.baselineValue;
+          }
+          x.indicator.statement = x.statement?.statement;
+          return x.indicator;
+        });
+      }
+    });
   }
 
   /**
@@ -40,20 +42,20 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
    */
   downloadFile(format: string): void {
     this.indicatorService
-      .downloadIndicators(this.dataExport, format, this.indicatorService.statementData)
-      .subscribe((response) => {
-        let blob = new Blob([response.body], { type: "application/octet-stream" });
-        var link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = response.headers.get("filename");
-        link.click();
-      });
+    .downloadIndicators(this.dataExport, format, this.indicatorService.statementData)
+    .subscribe((response) => {
+      let blob = new Blob([response.body], { type: "application/octet-stream" });
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = response.headers.get("filename");
+      link.click();
+    });
   }
 
-  downloadSvgAndPng(type){
+  downloadSvgAndPng(type) {
     let body = this.indicatorService.exportSvg.value;
     var link = document.createElement("a");
-    if(type == 'svg'){
+    if(type == 'svg') {
       let blob = new Blob([body[type]], { type: "application/octet-stream" });
       link.href = URL.createObjectURL(blob);
     } else {
