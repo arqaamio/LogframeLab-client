@@ -378,8 +378,8 @@
           <ng-template ngFor let-data [ngForOf]="selectedTable.data">
             <tr>
               <td>
-                <nz-tag [nzColor]="data.colorLevel"
-                  >{{ data.indicator.level }}
+                <nz-tag [nzColor]="data.colorLevel">
+                  {{ data.indicator.level }}
                 </nz-tag>
               </td>
               <td>{{ data.indicator.name }}</td>
@@ -387,10 +387,7 @@
                 {{ printArray(data.indicator.source, 'name') }}
               </td>
               <td nzBreakWord>{{ data.indicator.sector }}</td>
-              <td
-                title="{{ printArray(data.indicator.sdgCode, 'name') }}"
-                nzBreakWord
-              >
+              <td title="{{ printArray(data.indicator.sdgCode, 'name') }}" nzBreakWord >
                 {{ printArray(data.indicator.sdgCode, 'name') }}
               </td>
               <td *ngIf="showScoreCol">{{ data.indicator.score }}</td>
@@ -414,51 +411,88 @@
 
 <div id="footerBar" *ngIf="this.selectedIndicators.length != 0">
   <p style="margin-left: 13%;">IMPACT</p>
-  <nz-tag [nzColor]="'#453457'"><strong>{{ impactCount }}</strong></nz-tag>
+  <nz-tag [nzColor]="'#453457'">
+    <strong>{{ impactCount }}</strong>
+  </nz-tag>
   <p>OUTCOME</p>
-  <nz-tag [nzColor]="'#6B3C53'"><strong>{{ outcomeCount }}</strong></nz-tag>
+  <nz-tag [nzColor]="'#6B3C53'">
+    <strong>{{ outcomeCount }}</strong>
+  </nz-tag>
   <p>OUTPUT</p>
-  <nz-tag [nzColor]="'#637743'"><strong>{{ outputCount }}</strong></nz-tag>
+  <nz-tag [nzColor]="'#637743'">
+    <strong>{{ outputCount }}</strong>
+  </nz-tag>
   <p>TOTAL</p>
-  <nz-tag [nzColor]="'black'"><strong>{{ impactCount+outcomeCount+outputCount }}</strong></nz-tag>
-
+  <nz-tag [nzColor]="'black'">
+    <strong>{{ impactCount+outcomeCount+outputCount }}</strong>
+  </nz-tag>
   <button nz-button id="showAllButton"
-  nz-popover
-  [(nzPopoverVisible)]="isPopOverVisible"
-  [nzPopoverContent]="contentTemplate"
-  nzPopoverTrigger="click"
-  nzPopoverPlacement="topRight">
+    nz-popover
+    [(nzPopoverVisible)]="isPopOverVisible"
+    [nzPopoverContent]="contentTemplate"
+    nzPopoverTrigger="click"
+    nzPopoverPlacement="topRight">
     show all
   </button>
 </div>
 
 <nz-modal [(nzVisible)]="isPropertiesModalActive" nzTitle="Further information and options" (nzOnCancel)="isPropertiesModalActive = false" (nzOnOk)="propertiesModalOkHandle()" nzWidth="90vw">
-  <h3><strong>Indicator</strong></h3>
+  <h3>
+    <strong>Indicator</strong>
+  </h3>
   <p>{{activeItem.indicator?.name}}</p>
   <div *ngIf="activeItem.indicator?.description != null && activeItem.indicator?.description != ''">
-    <h3><strong>Description</strong></h3>
+    <h3>
+      <strong>Description</strong>
+    </h3>
     <p>{{activeItem.indicator.description}}</p>
   </div>
-  <div *ngIf="isWorldBankIndicator(activeItem)">
-    <h3><strong>Baseline Value</strong></h3>
-    <span>Country: </span>
-    <nz-select style="margin-left: 5px; min-width: 200px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(activeItem, $event)" nzPlaceHolder="Select a country" [(ngModel)]="activeItem.countryCodeSelected">
-      <nz-option *ngFor="let country of countriesList" nzLabel="{{country.label}}" nzValue="{{country.code}}"></nz-option>
-    </nz-select>
-    <span style="margin-left: 5px;">Year: </span>
-    <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(activeItem, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="activeItem.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
-    <button nz-button nzType="primary" (click)="getLatestBaselineValue()" id="baselineLatest" [disabled]="!activeItem.countryCodeSelected">SELECT LATEST</button>
-    <nz-spin nzSimple *ngIf="showLoadingBaseline" id="baselineSpin"></nz-spin>
-    <span style="margin-left: 5px;">Baseline value: <strong>{{ activeItem.baselineValue }}</strong></span>
+
+  <div style="width: 100%; display: flex; justify-content: space-between;">
+    <div *ngIf="isWorldBankIndicator(activeItem)" style="width: 900px;">
+      <h3>
+        <strong>Baseline Value</strong>
+      </h3>
+      <span>Country: </span>
+      <nz-select style="margin-left: 5px; min-width: 200px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(activeItem, $event)" nzPlaceHolder="Select a country" [(ngModel)]="activeItem.countryCodeSelected">
+        <nz-option *ngFor="let country of countriesList" nzLabel="{{country.label}}" nzValue="{{country.code}}"></nz-option>
+      </nz-select>
+      <span style="margin-left: 5px;">Year: </span>
+      <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(activeItem, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="activeItem.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
+      <button nz-button nzType="primary" (click)="getLatestBaselineValue()" id="baselineLatest" [disabled]="!activeItem.countryCodeSelected">SELECT LATEST</button>
+      <nz-spin nzSimple *ngIf="showLoadingBaseline" id="baselineSpin"></nz-spin>
+      <span style="margin-left: 5px;">Baseline value:
+        <strong>{{ activeItem.baselineValue }}</strong>
+      </span>
+    </div>
+
+    <div *ngIf="!isWorldBankIndicator(activeItem)" style="width: 900px;">
+      <h3>
+        <strong>Baseline Value</strong>
+      </h3>
+      <span>Year: </span>
+      <nz-year-picker style="margin-left: 5px;" [(ngModel)]="activeItem.yearSelected" [nzDisabledDate]="disabledDate" nzPlaceHolder="Select year"></nz-year-picker>
+      <span style="margin-left: 5px;">Baseline value:</span>
+      <input nz-input placeholder="Baseline value" [(ngModel)]="activeItem.baselineValue" id="baselineInput">
+    </div>
+    
+    <div style="width: 650px;">
+      <h3>
+        <strong>
+          <Tbody>Target Value</Tbody>
+        </strong>
+      </h3>
+      <span>Target Year: </span>
+      <nz-year-picker style="margin-left: 5px; min-width: 170px;" [(ngModel)]="activeItem.targetDate" nzPlaceHolder="Select target year"></nz-year-picker>
+      <span style="margin-left: 5px;">Target value:</span>
+      <input style="max-width: 200px; margin-left: 5px;" nz-input placeholder="Target value" [(ngModel)]="activeItem.targetValue" id="targetValueInput">
+    </div>
   </div>
-  <div *ngIf="!isWorldBankIndicator(activeItem)">
-    <h3><strong>Baseline Value</strong></h3>
-    <span>Year: </span>
-    <nz-year-picker style="margin-left: 5px;" [(ngModel)]="activeItem.yearSelected" [nzDisabledDate]="disabledDate" nzPlaceHolder="Select year"></nz-year-picker>
-    <span style="margin-left: 5px;">Baseline value:</span>
-    <input nz-input placeholder="Baseline value" [(ngModel)]="activeItem.baselineValue" id="baselineInput">
-  </div>
-  <h3><strong>Statements</strong></h3>
+  
+  <h3>
+    <strong>Statements</strong>
+  </h3>
+
   <nz-table
     #statementTable
     [nzData]="this.statementData"
@@ -489,12 +523,12 @@
       <ng-template ngFor let-data [ngForOf]="statementTable.data" let-index="index">
         <tr>
           <td
-          nzShowCheckbox
-          [nzChecked]="this.mapOfCheckedStatementsId[data.id]"
-          (nzCheckedChange)="selectStatement(data, $event)"
-        >
+            nzShowCheckbox
+            [nzChecked]="this.mapOfCheckedStatementsId[data.id]"
+            (nzCheckedChange)="selectStatement(data, $event)"
+          >
           <td>
-            <nz-tag [nzColor]="data.colorLevel">{{ data.level }}</nz-tag>
+            <nz-tag [nzColor]="data.colorLevel">{{ data.level }} </nz-tag>
           </td>
           <td>
             {{ data.statement }}

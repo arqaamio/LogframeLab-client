@@ -155,17 +155,17 @@ background-color: #453457;
 
 //selected icon color (The tep one is currently viewing)
 ::ng-deep .ant-steps-item-active  {
-  .ant-steps-icon {
-    background-color: #a5c2ae;
-    color: white !important;
-    font-size: 1.5rem;
-    border-radius: 5px;
-    padding: 0 0.3rem 0.3rem 0.3rem;
-  
-  }
-  .ant-steps-item-title {
-    color: #a5c2ae !important;
-  }
+    .ant-steps-icon {
+      background-color: #a5c2ae;
+      color: white !important;
+      font-size: 1.5rem;
+      border-radius: 5px;
+      padding: 0 0.3rem 0.3rem 0.3rem;
+
+    }
+    .ant-steps-item-title {
+      color: #a5c2ae !important;
+    }
 }
 
 //text color before
@@ -217,4 +217,41 @@ background-color: #453457;
 
 .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
   border-radius: 5px;
+}
+
+.main-header{
+  height: 33px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-transform: uppercase;
+  //
+  color: #453457;
+}
+
+.main-subtitle{
+  //position: absolute;
+  width: 925px;
+  height: 33px;
+  left: 218px;
+  top: 138px;
+
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #453457;
+  padding-bottom: 50px;
+  padding-top: 20px;
 }

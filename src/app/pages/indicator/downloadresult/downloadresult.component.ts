@@ -17,20 +17,27 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.indicatorSubscription = this.indicatorService
-    .getIndicatorSubject()
-    .subscribe((data) => {
-      if (
-        data != null &&
-        data.dataResponse != null &&
-        data.selectedData != null
-      ) {
-        this.dataExport = data.selectedData.map((x) => {
-          if(x.yearSelected && (x.baselineValue  || x.baselineValue === 0)) {
-            x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
-            x.indicator.value = x.baselineValue;
-          }
-          x.indicator.statement = x.statement?.statement;
-          return x.indicator;
+      .getIndicatorSubject()
+      .subscribe((data) => {
+        if (
+          data != null &&
+          data.dataResponse != null &&
+          data.selectedData != null
+        ) {
+          this.dataExport = data.selectedData.map((x)=> {
+            if(x.yearSelected && (x.baselineValue || x.baselineValue === 0)) {
+              x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
+              x.indicator.value = x.baselineValue;
+            }
+            x.indicator.statement = x.statement?.statement;
+            if(x.targetDate && (x.targetValue || x.targetValue === 0)) {
+              x.indicator.targetDate = (<Date>x.targetDate).getFullYear().toString();
+              x.indicator.targetValue = x.targetValue;
+            } else {
+              x.indicator.targetDate = null;
+              x.indicator.targetValue = null;
+            }
+           return x.indicator;
         });
       }
     });

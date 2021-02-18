@@ -21,9 +21,21 @@ describe('ResultComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ResultComponent ],
-      imports:[BrowserAnimationsModule, NzTableModule, NzTagModule, NzCollapseModule,
-        NzModalModule, HttpClientTestingModule, HttpClientModule, NzMessageModule, NzInputModule],
-        providers:[IndicatorService, MachineLearningService]
+      imports:[
+        NzTagModule,
+        NzModalModule,
+        NzInputModule,
+        NzTableModule,
+        NzMessageModule,
+        NzCollapseModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        HttpClientTestingModule,
+      ],
+      providers:[
+        IndicatorService,
+        MachineLearningService
+      ]
     })
     .compileComponents();
   }));

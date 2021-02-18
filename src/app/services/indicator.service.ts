@@ -126,7 +126,7 @@ export class IndicatorService {
 
   public downloadIndicators(indicatorsList, format, statementData: any[]): Observable<HttpResponse<Blob>> {
     const body = {indicators:indicatorsList, statements: statementData.map(x=>{
-      return {statement: x.statement, level:x.level}
+      return {statement: x.statement, level:x.level, assumption: x.assumption || ''}
     })};
     return this.http.post(
       this.baseUrl + "/indicator/download?format=" + format,
@@ -178,7 +178,6 @@ export class IndicatorService {
       if(filtersDto.crsCode != null && filtersDto.crsCode.length > 0)
         args+='crsCodes=' + filtersDto.crsCode.map((x)=>x.id).join(', ')+'&';
 
-
       filtersDto.level.forEach(element => {
         args+='levels='+element.id+'&';
       });
@@ -193,6 +192,7 @@ export class IndicatorService {
         args+='sectors='+element+'&';
       });
     }
+
     if(args!= '') {
       // Remove the last extra &
       url+='?' + args.slice(0, -1);
@@ -238,8 +238,8 @@ export class IndicatorService {
     * @param visualizationCanvas
     */
   saveVisulalizationStatus(visualizationCanvas){
-  this.visualizationCanvas = visualizationCanvas;
-   }
+    this.visualizationCanvas = visualizationCanvas;
+  }
 
    /**
     * get Canvas visulization

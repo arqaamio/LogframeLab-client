@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { MachineLearningService } from 'src/app/services/machinelearning.service';
 import { take, tap } from 'rxjs/operators';
@@ -42,10 +42,16 @@ export class ResultComponent implements OnInit, OnDestroy {
   listOfData = [];
   levelFilter = [{text:'OUTPUT', value: 'OUTPUT'}, {text:'OUTCOME', value: 'OUTCOME'}, {text:'IMPACT', value: 'IMPACT'}];
   statusFilter= [{text:'GOOD', value:'GOOD'}, {text:'BAD', value: 'BAD'}];
-  maxId:number = 0;
+  maxId: number = 0;
+  isModalVisible = false;
+  addAssumption: string = null;
+  getStatementId: number;
 
-  constructor(public indicatorService: IndicatorService, public machineLearningService: MachineLearningService,
-    public messageService: NzMessageService) {
+  constructor(
+    public indicatorService: IndicatorService,
+    public machineLearningService: MachineLearningService,
+    public messageService: NzMessageService
+  ) {
     this.indicatorService.updateNextButton(true);
   }
 
@@ -53,8 +59,8 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.indicatorService.initVisualization();
     if(this.indicatorService.statementData.length > 0) {
       this.listOfData = this.indicatorService.statementData;
-      this.listOfData.forEach(element => {
-        if(element.id > this.maxId){
+      this.listOfData.forEach((element) => {
+        if(element.id > this.maxId) {
           this.maxId = element.id;
         }
       });
@@ -64,7 +70,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         tap((data) => {
         if(data.files == null || data.files.length == 0) {
           this.messageService.info('No document was uploaded');
-        }else {
+        } else {
           // result api call
           this.subscription = this.machineLearningService.getStatements(data.files[0]).subscribe((event: HttpEvent<any>) => {
             switch (event.type) {
@@ -77,33 +83,35 @@ export class ResultComponent implements OnInit, OnDestroy {
                 if(res[Level.IMPACT].length == 0 && res[Level.OUTCOME].length == 0 && res[Level.OUTPUT].length == 0) {
                   this.messageService.info('No statements were found on the document');
                 } else
-                this.listOfData = [...res[Level.IMPACT].map((x) => {
-                  x.level = this.levelFilter[2].text;
-                  this.setLevelColor(x);
-                  this.setStatusColor(x);
-                  this.setScoreGradient(x);
-                  x.id = this.maxId++;
-                  return x;
-                }),
-                  ...res[Level.OUTCOME].map((x) => {
+                  this.listOfData = [
+                  ...res[Level.IMPACT].map((x)=> {
+                    x.level = this.levelFilter[2].text;
+                    this.setLevelColor(x);
+                    this.setStatusColor(x);
+                    this.setScoreGradient(x);
+                    x.id = this.maxId++;
+                    return x;
+                  }),
+                  ...res[Level.OUTCOME].map((x)=> {
                     x.level = this.levelFilter[1].text;
                     this.setLevelColor(x);
                     this.setStatusColor(x);
                     this.setScoreGradient(x);
                     x.id = this.maxId++;
                     return x;
-                }),
-                ...res[Level.OUTPUT].map((x) => {
-                  x.level = this.levelFilter[0].text;
-                  this.setLevelColor(x);
-                  this.setStatusColor(x);
-                  this.setScoreGradient(x);
-                  x.id = this.maxId++;
-                  return x;
-                })];
-                this.updateStatementData();
-                this.indicatorService.loadingStart.next(false);
-                break;
+                  }),
+                  ...res[Level.OUTPUT].map((x)=> {
+                    x.level = this.levelFilter[0].text;
+                    this.setLevelColor(x);
+                    this.setStatusColor(x);
+                    this.setScoreGradient(x);
+                    x.id = this.maxId++;
+                    return x;
+                  })
+                ];
+              this.updateStatementData();
+              this.indicatorService.loadingStart.next(false);
+              break;
             }
           });
         }
@@ -121,6 +129,20 @@ export class ResultComponent implements OnInit, OnDestroy {
     } else {
       x.statusColor = 'yellow';
     }
+  }
+
+  handleCancelModal() {
+    this.isModalVisible = false;
+  }
+
+  saveSource() {
+    this.listOfData.map((val) => {
+      if(val.id == this.getStatementId) {
+        val['assumption'] = this.addAssumption;
+      }
+    });
+    this.addAssumption = null;
+    this.isModalVisible = false;
   }
 
   // score wise show progress color class
@@ -176,6 +198,10 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.updateStatementData();
   }
 
+  addAssumptions(getRow) {
+    this.getStatementId = getRow.id;
+  }
+
   deleteRow(index: number): void {
     console.log("Delete row:", index);
     this.listOfData = this.listOfData.filter((d, i) => i != index);
@@ -190,18 +216,19 @@ export class ResultComponent implements OnInit, OnDestroy {
     console.log("Validate index", index);
 
     this.machineLearningService.validateStatement(this.listOfData[index].statement, this.listOfData[index].level)
-       .subscribe(res => {
-         this.listOfData[index].score = res.score;
-         this.listOfData[index].status = res.status;
-         this.setStatusColor(this.listOfData[index]);
-         this.setScoreGradient(this.listOfData[index]);
-        this.updateStatementData();
-     });
+      .subscribe(res => {
+        this.listOfData[index].score = res.score;
+        this.listOfData[index].status = res.status;
+        this.setStatusColor(this.listOfData[index]);
+        this.setScoreGradient(this.listOfData[index]);
+      this.updateStatementData();
+    });
   }
 
   updateStatementData(): void {
     this.indicatorService.statementData = this.listOfData;
   }
+  
   /**
    * Filter functions for each column
    * @param list Filter's list
