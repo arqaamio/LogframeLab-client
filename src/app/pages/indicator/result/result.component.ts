@@ -22,8 +22,8 @@ export enum Level {
   OUTPUT = 'output'
 }
 
-export const GRADIENT_GREEN = { '0%': 'red', '50%': 'yellow',  '100%': 'green' };
-export const GRADIENT_LIGHT_GREEN = { '0%': 'red', '50%': 'yellow',  '175%': 'lightgreen' };
+export const GRADIENT_GREEN = { '0%': 'red', '50%': 'yellow', '100%': 'green' };
+export const GRADIENT_LIGHT_GREEN = { '0%': 'red', '50%': 'yellow', '175%': 'lightgreen' };
 export const GRADIENT_YELLOW = { '0%': 'red', '100%': 'yellow' };
 export const GRADIENT_ORANGE = { '0%': 'red', '100%': 'orange' };
 export const GRADIENT_RED = { '0%': 'red', '100%': 'red'};
@@ -80,10 +80,10 @@ export class ResultComponent implements OnInit, OnDestroy {
                 res[Level.OUTCOME] = res[Level.OUTCOME] ? res[Level.OUTCOME] : [];
                 res[Level.OUTPUT] = res[Level.OUTPUT] ? res[Level.OUTPUT] : [];
                 
-                if(res[Level.IMPACT].length == 0 && res[Level.OUTCOME].length == 0 && res[Level.OUTPUT].length == 0){
+                if(res[Level.IMPACT].length == 0 && res[Level.OUTCOME].length == 0 && res[Level.OUTPUT].length == 0) {
                   this.messageService.info('No statements were found on the document');
                 } else
-                this.listOfData = [
+                  this.listOfData = [
                   ...res[Level.IMPACT].map((x)=> {
                     x.level = this.levelFilter[2].text;
                     this.setLevelColor(x);
@@ -120,11 +120,11 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   // status wise add class
-  setStatusColor(x){
+  setStatusColor(x) {
     x.status = x.status.toUpperCase();
-    if(x.status == 'GOOD'){
+    if(x.status == 'GOOD') {
       x.statusColor = 'green';
-    } else if(x.status == 'BAD'){
+    } else if (x.status == 'BAD') {
       x.statusColor = 'red';
     } else {
       x.statusColor = 'yellow';
@@ -146,14 +146,14 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   // score wise show progress color class
-  setScoreGradient(x){
-    if(x.score <= 10){
+  setScoreGradient(x) {
+    if(x.score <= 10) {
       x.gradient = GRADIENT_RED;
-    } else if(x.score <= 25){
+    } else if(x.score <= 25) {
       x.gradient = GRADIENT_ORANGE;
-    } else if(x.score <= 50){
+    } else if(x.score <= 50) {
       x.gradient = GRADIENT_YELLOW;
-    } else if(x.score <= 75){
+    } else if(x.score <= 75) {
       x.gradient = GRADIENT_LIGHT_GREEN;
     } else {
       x.gradient = GRADIENT_GREEN;

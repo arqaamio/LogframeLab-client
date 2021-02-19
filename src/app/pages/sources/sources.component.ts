@@ -18,7 +18,10 @@ export class SourcesComponent implements OnInit {
   sourceName: string = null;
   sourceId: number = null;
 
-  constructor(private sourceService: SourceService, private modal: NzModalService) { }
+  constructor(
+    private sourceService: SourceService,
+    private modal: NzModalService
+  ) { }
 
   ngOnInit() {
     this.refreshTable();

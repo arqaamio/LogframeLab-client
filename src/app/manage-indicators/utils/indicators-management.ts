@@ -1,15 +1,15 @@
-import {FilterDto} from '../../services/dto/filter.dto';
-import {FilterData} from '../../services/dto/filter-data.dto';
-import {IndicatorDto} from './indicator.dto';
-import {ManageIndicatorsService} from '../../services/indicators-management/manage-indicators.service';
-import {IndicatorService} from '../../services/indicator.service';
+import { FilterDto } from '../../services/dto/filter.dto';
+import { FilterData } from '../../services/dto/filter-data.dto';
+import { IndicatorDto } from './indicator.dto';
+import { ManageIndicatorsService } from '../../services/indicators-management/manage-indicators.service';
+import { IndicatorService } from '../../services/indicator.service';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Operation } from '../crud-indicator/crud-indicator.component';
 
 export const EMPTY_VALUE: string = 'empty_string';
 export const EMPTY_VALUE_ID: number = -1;
-export class IndicatorsManagement {
 
+export class IndicatorsManagement {
   totalRowCount: number;
   page = 1;
   pageSize = 50;
@@ -18,19 +18,18 @@ export class IndicatorsManagement {
   displayCrudModal = false;
   operation: Operation;
   indicator: IndicatorDto;
-
   sectorFilter: FilterData[] = [];
   sourceFilter: FilterData[] = [];
   levelFilter: FilterData[] = [];
   sdgCodeFilter: FilterData[] = [];
   crsCodeFilter: FilterData[] = [];
-
   filters = new FilterDto();
-
   hasFilters = false;
 
-  constructor(public manageIndicatorsService: ManageIndicatorsService, public indicatorService: IndicatorService) {
-  }
+  constructor(
+    public manageIndicatorsService: ManageIndicatorsService,
+    public indicatorService: IndicatorService
+  ) { }
 
   private static processFilter(value: string): FilterData {
     const filter = new FilterData();

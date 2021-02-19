@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import Utils from 'src/app/utils/utils';
 import { IndicatorResponse } from 'src/app/models/indicatorresponse.model';
 import { FilterData } from 'src/app/services/dto/filter-data.dto';
 import { take } from 'rxjs/internal/operators/take';
@@ -62,7 +61,6 @@ export const COLOR_LEVEL = {'IMPACT': '#453457', 'OUTCOME': '#6B3C53', 'OUTPUT':
 })
 export class ScanResultComponent implements OnInit, OnDestroy {
   indicatorSubscription: Subscription = null;
-
   downloadDisabled = true;
   mapOfCheckedId: { [key: string]: boolean } = {};
   mapOfCheckedStatementsId: { [key: string]: boolean } = {};
@@ -88,149 +86,148 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   outcomeStatements = [];
   outputStatements = [];
   statementData = [];
+  countriesList = [];
   myOptions = {
     placement: 'top',
     trigger: 'hover',
     theme: 'light',
     'hide-delay': 0,
   };
-
-  countriesList = [];
-
   expandSet = new Set<number>();
 
-  constructor(private indicatorService: IndicatorService, private worldBankService: WorldBankService) {}
+  constructor(
+    private indicatorService: IndicatorService,
+    private worldBankService: WorldBankService
+  ) {}
 
   ngOnInit(): void {
-
     this.indicatorSubscription = this.indicatorService
-      .getIndicatorSubject()
-      .pipe(
-        take(1),
-        tap((data) => {
-        let isNewInfo = data==null ? true : data.isNewInfo;
-        // show keyword column if document was uploaded
-        this.showScoreCol = data != null && data.dataResponse != null;
-        if(data!=null){
-          // with document
-          if (isNewInfo && data.dataResponse != null) {
-            console.log("with document");
-            this.listOfData = data.dataResponse.map((indicator,i)=>{
-              return {
+    .getIndicatorSubject()
+    .pipe(
+      take(1),
+      tap((data) => {
+      let isNewInfo = data==null ? true : data.isNewInfo;
+      // show keyword column if document was uploaded
+      this.showScoreCol = data != null && data.dataResponse != null;
+      if(data!=null) {
+        // with document
+        if (isNewInfo && data.dataResponse != null) {
+          console.log("with document");
+          this.listOfData = data.dataResponse.map((indicator,i) => {
+            return {
+              indicator: indicator,
+              colorLevel: COLOR_LEVEL[indicator.level],
+              countryCodeSelected: null,
+              yearSelected: null,
+              baselineValue: null
+            }
+          });
+          this.addFilters();
+          this.indicatorService.setLoadedData(this.listOfData);
+          this.displayData = this.listOfData;
+          this.showLoading = false;
+        }
+
+        // without document
+        if (isNewInfo && data.dataResponse == null){
+          console.log("Without document");
+          this.indicatorService.getIndicators(data.filters).subscribe((response) => {
+            if(response != null && response.length > 0) {
+              this.listOfData = response.map((indicator,i) => {return {
                 indicator: indicator,
                 colorLevel: COLOR_LEVEL[indicator.level],
                 countryCodeSelected: null,
                 yearSelected: null,
                 baselineValue: null,
+                statement: null,
                 targetValue: null,
                 targetDate: null
               }});
-            this.addFilters();
-            this.indicatorService.setLoadedData(this.listOfData);
-            this.displayData = this.listOfData;
+              this.addFilters();
+              this.indicatorService.setLoadedData(this.listOfData);
+              this.displayData = this.listOfData;
+              this.showLoading = false;
+            }
+          });
+        }
 
-            this.showLoading = false;
-          }
-
-          // without document
-          if (isNewInfo && data.dataResponse == null){
-            console.log("Without document");
-            this.indicatorService.getIndicators(data.filters).subscribe((response) => {
-
-              if(response != null && response.length > 0) {
-                this.listOfData = response.map((indicator,i)=>{return {
-                  indicator: indicator,
-                  colorLevel: COLOR_LEVEL[indicator.level],
-                  countryCodeSelected: null,
-                  yearSelected: null,
-                  baselineValue: null,
-                  statement: null,
-                  targetValue: null,
-                  targetDate: null
-                }});
-                this.addFilters();
-                this.indicatorService.setLoadedData(this.listOfData);
-                this.displayData = this.listOfData;
-                this.showLoading = false;
+        // without changes in the filters or documents
+        if(!data.isNewInfo && data.dataResponse != null){
+          console.log("No changes");
+          this.listOfData = data.dataResponse;
+          this.displayData = this.listOfData;
+          if(data.selectedData != null) {
+            this.selectedIndicators = this.filteredSelectedIndicators = data.selectedData;
+            this.listOfData.forEach((x, i)=>{
+              if(this.selectedIndicators.find(y=>y.indicator.id == x.indicator.id)){
+                this.mapOfCheckedId[x.indicator.id] = true;
               }
             });
+            this.refreshStatus();
           }
+          this.addFilters();
+          this.showLoading = false;
+        } 
 
-          // without changes in the filters or documents
-          if(!data.isNewInfo && data.dataResponse != null){
-            console.log("No changes");
-            this.listOfData = data.dataResponse;
-            this.displayData = this.listOfData;
-            if(data.selectedData != null) {
-              this.selectedIndicators = this.filteredSelectedIndicators = data.selectedData;
-              this.listOfData.forEach((x, i)=>{
-                if(this.selectedIndicators.find(y=>y.indicator.id == x.indicator.id)){
-                  this.mapOfCheckedId[x.indicator.id] = true;
-                }
-              });
-              this.refreshStatus();
-            }
-            this.addFilters();
-            this.showLoading = false;
-          } 
-
-          //TODO: Fix this, this can't be here
-          let enableNextButton = false;
-          for (const key in this.mapOfCheckedId) {
-            if (Object.prototype.hasOwnProperty.call(this.mapOfCheckedId, key)) {
-              if(this.mapOfCheckedId[key]){
-                enableNextButton = true;
-                break;
-              }
+        //TODO: Fix this, this can't be here
+        let enableNextButton = false;
+        for (const key in this.mapOfCheckedId) {
+          if (Object.prototype.hasOwnProperty.call(this.mapOfCheckedId, key)) {
+            if(this.mapOfCheckedId[key]){
+              enableNextButton = true;
+              break;
             }
           }
-          setTimeout(() => {
-            this.indicatorService.updateNextButton(enableNextButton);
-            this.indicatorService.loadingStart.next(false);
-          },1000);
         }
-        this.indicatorService.setIsNewInfo(false);
-      })).subscribe();
+        setTimeout(() => {
+          this.indicatorService.updateNextButton(enableNextButton);
+          this.indicatorService.loadingStart.next(false);
+        },1000);
+      }
+      this.indicatorService.setIsNewInfo(false);
+    })).subscribe();
 
-      this.worldBankService.getWorldBankCountries().subscribe(data => {
-        console.log('get worldbank countries');
-        Object.keys(data).forEach(item => {
-          this.countriesList.push({
-            label: data[item],
-            code: item
-          });
-        });
-
-        // Sort countries by its label
-        this.countriesList.sort((left, right): number => {
-          if (left.label < right.label) return -1;
-          if (left.label > right.label) return 1;
-          return 0;
+    this.worldBankService.getWorldBankCountries().subscribe(data => {
+      console.log('get worldbank countries');
+      Object.keys(data).forEach(item => {
+        this.countriesList.push({
+          label: data[item],
+          code: item
         });
       });
 
-      this.statementData = this.indicatorService.statementData ? this.indicatorService.statementData : [];
-      this.impactStatements = this.statementData.filter(x=>x.level=='IMPACT');
-      this.outcomeStatements = this.statementData.filter(x=>x.level=='OUTCOME');
-      this.outputStatements = this.statementData.filter(x=>x.level=='OUTPUT');
+      // Sort countries by its label
+      this.countriesList.sort((left, right): number => {
+        if (left.label < right.label) return -1;
+        if (left.label > right.label) return 1;
+        return 0;
+      });
+    });
+
+    this.statementData = this.indicatorService.statementData ? this.indicatorService.statementData : [];
+    this.impactStatements = this.statementData.filter(x=>x.level=='IMPACT');
+    this.outcomeStatements = this.statementData.filter(x=>x.level=='OUTCOME');
+    this.outputStatements = this.statementData.filter(x=>x.level=='OUTPUT');
   }
+
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
   }
+
   sort(sort: { key: string; value: string }, isSelectedTable: boolean): void {
     this.sortName = sort.key;
     this.sortValue = sort.value;
     this.search(isSelectedTable);
   }
+
   search(isSelectedTable: boolean): void {
     let search: string = isSelectedTable ? this.searchSelected : this.searchValue;
     /** filter data **/
     // filter by indicator
     const filterFunc = (item: ItemData) => {
-      // this.mapOfCheckedId[item.sort_id] = false;
       return item.indicator.name.toUpperCase().indexOf(search.toUpperCase()) !== -1;
     };
-    
+        
     if(isSelectedTable) {
       this.filteredSelectedIndicators = this.selectedIndicators.filter((item: ItemData) => filterFunc(item));
     } else {
@@ -265,13 +262,11 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     // Set item selected state. Should be selected if properties modal is open
     this.mapOfCheckedId[item.indicator.id] = selected ? selected : !this.mapOfCheckedId[item.indicator.id] || this.isPropertiesModalActive;
     this.selectedIndicators = this.selectedIndicators.filter(x=>x.indicator.id != item.indicator.id);
-
-    if(this.mapOfCheckedId[item.indicator.id]){
+    if(this.mapOfCheckedId[item.indicator.id]) {
       this.selectedIndicators.push(item);
     }
     this.filteredSelectedIndicators = this.selectedIndicators;
     this.searchSelected = '';
-
     this.refreshStatus();
   }
 
@@ -327,9 +322,9 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
   printArray(array: Array<any>, property?: string): string{
     if(array == null || array.length == 0) return '';
-    if(property==null){
+    if(property == null) {
       return array.join(', ');
-    }else {
+    } else {
       return array.map((x)=>x[property]).join(', ');
     }
   }
@@ -405,7 +400,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     this.filteredSelectedIndicators = this.filteredSelectedIndicators.filter((x)=>{return x.indicator.id != item.indicator.id});
     // If after removing there are no items left according to the filter, but there are still selected indicators
     // show selected indicators
-    if(this.filteredSelectedIndicators.length == 0 && this.selectedIndicators.length !=0){
+    if(this.filteredSelectedIndicators.length == 0 && this.selectedIndicators.length !=0) {
       this.filteredSelectedIndicators = this.selectedIndicators;
     }
 
@@ -423,7 +418,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
   
   showPropertiesModal(indicator: ItemData): void {
     this.activeItem = indicator;
-    switch(this.activeItem.indicator.level){
+    switch(this.activeItem.indicator.level) {
       case 'IMPACT':
         this.statementData = this.impactStatements;
         break;

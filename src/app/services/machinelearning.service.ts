@@ -11,7 +11,10 @@ import { SimilarityResponse } from '../models/similarityresponse.model';
 export class MachineLearningService {
   private baseUrl = environment.apiBaseUrl + '/ml';
 
-  constructor(private http: HttpClient, private msg: NzMessageService) {}
+  constructor(
+    private http: HttpClient,
+    private msg: NzMessageService
+  ) { }
   
   public getSimilarIndicators(threshold: number): Observable<SimilarityResponse[]> {
     return this.http.get<SimilarityResponse[]>(this.baseUrl + '/similarity?threshold=' + threshold);
@@ -25,12 +28,12 @@ export class MachineLearningService {
     const formData = new FormData();
     formData.append('file', file);
     const req = new HttpRequest<any>(
-        'POST',
-        this.baseUrl + '/statements',
-        formData, {
-          reportProgress: true,
-        }
-      );
+      'POST',
+      this.baseUrl + '/statements',
+      formData, {
+        reportProgress: true,
+      }
+    );
     return this.http.request(req);
   }
 }

@@ -1,28 +1,18 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
-import {IndicatorDto} from '../utils/indicator.dto';
-import {Level} from '../../services/dto/filter.dto';
-import {IndicatorService} from '../../services/indicator.service';
-import {AddNewIndicatorService} from './service/add-new-indicator.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { IndicatorDto } from '../utils/indicator.dto';
+import { Level } from '../../services/dto/filter.dto';
+import { IndicatorService } from '../../services/indicator.service';
+import { AddNewIndicatorService } from './service/add-new-indicator.service';
 
 @Component({
   selector: 'app-crud-indicator',
   templateUrl: './crud-indicator.component.html'
 })
 export class CrudIndicatorComponent implements OnInit, OnChanges {
-
   indicator = new IndicatorDto();
 
   @Input()
   indicatorForOperation: IndicatorDto = undefined;
-
   levels: Level[] = [];
   sdgCodes = [];
   crsCodes = [];
@@ -46,9 +36,10 @@ export class CrudIndicatorComponent implements OnInit, OnChanges {
   @Input()
   operation: Operation = undefined;
 
-  constructor(private indicatorService: IndicatorService,
-              private newIndicatorService: AddNewIndicatorService) {
-  }
+  constructor(
+    private indicatorService: IndicatorService,
+    private newIndicatorService: AddNewIndicatorService
+  ) { }
 
   ngOnInit(): void {
     this.indicatorService.getFilters(true).subscribe(filters => {

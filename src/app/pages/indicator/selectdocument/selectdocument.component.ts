@@ -64,36 +64,36 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
       });
     }
     this.indicatorSubscription = this.indicatorService
-      .getIndicatorSubject()
-      .pipe(
-        take(1),
-        tap((data) => {
-          if(data==null) this.indicatorService.setIsNewInfo(true);
-          if(data!=null && data.files != null && data.files.length > 0) {
-            this.fileList = data.files;
-            this.fileName = this.fileList[0].name;
-          }
-          if (data != null && data.filters != null) {
-            this.selectedValues = data.filters;
-          }
-        })
-      )
-      .subscribe();
+    .getIndicatorSubject()
+    .pipe(
+      take(1),
+      tap((data) => {
+        if(data==null) this.indicatorService.setIsNewInfo(true);
+        if(data!=null && data.files != null && data.files.length > 0) {
+          this.fileList = data.files;
+          this.fileName = this.fileList[0].name;
+        }
+        if (data != null && data.filters != null) {
+          this.selectedValues = data.filters;
+        }
+      })
+    )
+    .subscribe();
 
-      this.nextButtonSubscription = this.indicatorService
-        .getNextButtonSubject()
-        .subscribe((data) => {
-          // Next button pressed
-          if (data?.pressed && !data?.force) {
-              this.fileList = this.fileList.filter(x=>x.status!='removed');
-              this.indicatorService.setFileUploadList(this.fileList);
-              if(this.fileList.length> 0){
-                this.uploadAndScan(this.fileList[0]);
-              }else {
-                this.indicatorService.pressNextButton(true);        
-              }
+    this.nextButtonSubscription = this.indicatorService
+      .getNextButtonSubject()
+      .subscribe((data) => {
+        // Next button pressed
+        if (data?.pressed && !data?.force) {
+          this.fileList = this.fileList.filter(x=>x.status!='removed');
+          this.indicatorService.setFileUploadList(this.fileList);
+          if(this.fileList.length> 0){
+            this.uploadAndScan(this.fileList[0]);
+          } else {
+            this.indicatorService.pressNextButton(true);        
           }
-        });
+        }
+      });
   }
 
   removeFile(): void {
@@ -105,6 +105,7 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
     this.fileList = [file];
     return false;
   };
+
   /**
    * Function called when a file is selected by nz-upload
    * @param item NZ-Zorro item with the selected file
@@ -126,52 +127,52 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
     }, 1000);
 
     this.uploadSubscription = this.indicatorService
-      .uploadFile(item)
-      .subscribe((event: HttpEvent<any>) => {
-        switch (event.type) {
-          case HttpEventType.Sent:
-            break;
-          case HttpEventType.ResponseHeader:
-            break;
-          case HttpEventType.UploadProgress:
-            this.progress = Math.round((event.loaded / event.total) * 100);
-            if(this.progress == 100){
-              this.uploadStateTitle = SCANNING_TITLE;
-              this.progress = 1;
-              // fake real time progress
-              const subscription = interval(1000).subscribe(()=>{
-                this.progress++;
-                // Stopping condition
-                if(this.fileScanned) subscription.unsubscribe();
-              });
-              setTimeout(null,1000);
-            }
-            break;
-          case HttpEventType.Response:
-            this.fileScanned = true;
-            this.progress = 100;
-            this.uploadStateTitle = DONE_TITLE;
-            this.indicatorService.setIsNewInfo(true);
-            this.indicatorService.setLoadedData(event.body);
-            this.indicatorService.setFileUploadList([item]);
+    .uploadFile(item)
+    .subscribe((event: HttpEvent<any>) => {
+      switch (event.type) {
+        case HttpEventType.Sent:
+          break;
+        case HttpEventType.ResponseHeader:
+          break;
+        case HttpEventType.UploadProgress:
+          this.progress = Math.round((event.loaded / event.total) * 100);
+          if(this.progress == 100){
+            this.uploadStateTitle = SCANNING_TITLE;
+            this.progress = 1;
+            // fake real time progress
+            const subscription = interval(1000).subscribe(() => {
+              this.progress++;
+              // Stopping condition
+              if(this.fileScanned) subscription.unsubscribe();
+            });
+            setTimeout(null,1000);
+          }
+          break;
+        case HttpEventType.Response:
+          this.fileScanned = true;
+          this.progress = 100;
+          this.uploadStateTitle = DONE_TITLE;
+          this.indicatorService.setIsNewInfo(true);
+          this.indicatorService.setLoadedData(event.body);
+          this.indicatorService.setFileUploadList([item]);
 
-            setTimeout(()=> {
-              this.indicatorService.pressNextButton(true);
-              this.indicatorService.loadingStart.next(true);  
-            }, 1000);
-          
-        }
-      }, (error)=> {
-        this.modalService.error({
-          nzTitle: 'An error has occurred',
-          nzContent: 'It seems we are having technical issues. Try reloading the page, otherwise please try again later.'
-        });
-        this.fileScanned = true;
-        this.indicatorService.updateNextButton(true);
-        this.progress = 0;
-        this.rxStompService.deactivate();
-        throw error;
+          setTimeout(()=> {
+            this.indicatorService.pressNextButton(true);
+            this.indicatorService.loadingStart.next(true);  
+          }, 1000);
+        
+      }
+    }, (error) => {
+      this.modalService.error({
+        nzTitle: 'An error has occurred',
+        nzContent: 'It seems we are having technical issues. Try reloading the page, otherwise please try again later.'
       });
+      this.fileScanned = true;
+      this.indicatorService.updateNextButton(true);
+      this.progress = 0;
+      this.rxStompService.deactivate();
+      throw error;
+    });
   }
 
   /**
@@ -191,7 +192,7 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
    * @param value Value of the filter to check
    */
   isOptionSelected(filter: string, value: any): boolean {
-    if(filter ==='sector'){
+    if(filter === 'sector') {
       return this.selectedValues[filter].indexOf(value) !== -1;
     } else {
       return this.selectedValues[filter].some(x=>x.id == value.id);
@@ -210,7 +211,7 @@ export class SelectDocumentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
-    if(this.stompSubscription != null){
+    if(this.stompSubscription != null) {
       this.stompSubscription.unsubscribe();
       this.rxStompService.deactivate();
     }

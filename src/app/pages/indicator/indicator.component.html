@@ -88,6 +88,66 @@
         <a href="https://youtu.be/tSEjnOoGHBU" style="color: #a5c2ae;" target="_blank" and rel="noopener noreferrer">LogframeLab - How to guide</a>
       </ng-template>
     </div>
+    <div class="step2Info" *ngIf="current == 1">
+      <p><strong>Step 2<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
+      <p>
+        If you uploaded a document, here you will see the results statements (Impact, Outcome and Outputs) of your project. We are using machine learning to identify them, so there might be some mistakes.
+        <br/><br/>
+        On the right side of the table you can see the quality of the results statement. The higher the score, the better ,the colours are there to help you see the quality.
+        <br/><br/>
+        You can do 4 actions here, you can add new indicators through the purple "+" button, that is always at the end of the list. There you can chose the level and write the text.
+        <br/><br/>
+        You can always adjust change your results statement to improve it (or if our model did not find it adequately), and then the second button (with the tick in green), allows you to run the model again to check the quality of the statement. You can do this as many times as you want.
+        <br/><br/>
+        The red "x" deletes a results statement, be careful, we do not ask for confirmation.
+        <br/><br/>
+        Once you are satisfied with your results statements, you can click next. Whatever is now in this table will be moved to the visualisation and the final download automatically.
+        <br/><br/>
+        Should you not want to use this function, you can delete all statements and move on.
+      </p>
+    </div>
+    <div class="step2Info" *ngIf="current == 2">
+      <p><strong>Step 3<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
+      <p>
+        Here are the suggested indicators for you, based on the keywords in your
+        document and the sectors selected. Indicators are categorised as Impacts,
+        Outcomes, or Outputs. If you have not uploaded a document, we are showing
+        you all indicators that matched your filter criteria.
+        <br/><br/>
+        Select the indicators you want to use to track the success of your project,
+        then click Next.
+        <br/><br/>
+        Note: In this step, you can select additional sectors or indicators
+        that you wish to include in your logframe.
+      </p>
+    </div>
+    <div class="step2Info" *ngIf="current == 3">
+      <p><strong>Step 4<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
+      <p>
+        In this step you are able to view the success indicators in a visualization
+        format. These indicators are derived from the selection you did in previous          
+        step (Step 2) which are categorized into 3 levels – Impacts, Outcomes or          
+        Outputs.
+        <br/><br/>
+        You can connect the shapes by dragging the ports. The ports will be hidden once shapes
+        are connected and will only be visible of you disconnect again. You can also          
+        delete the connectors and/or shapes by simply selecting them and use your          
+        delete button from your keyboard.
+        <br/><br/>
+        If the shapes are located at a distance and you would like to connect the ports
+        then you first have to click on the port and then drag the connector to the end          
+        shape.
+        <br/><br/>
+        If by any chance you accidently delete a shape there is a easy option to undo and 
+        redo. If you want to maximize the visualization please use zoom button.
+        <br/><br/>
+        Note: If you remove a shape from this visualization this will also remove the indicator
+        which you had selected in Step #2.
+      </p>
+    </div>
+    <a href="https://youtu.be/tSEjnOoGHBU" style="color: #a5c2ae;" target="_blank" and rel="noopener noreferrer">LogframeLab - How to guide</a>
+  </ng-template>
+</div>
 
 <nz-spin [nzSpinning]="isSpinning" [nzIndicator]="indicatorTemplate">
   <div class="content-section">
@@ -168,11 +228,11 @@
 <button id="uploadButton" nz-button nzType="question" routerLink="/indicators-upload" class="sideButton"><i nz-icon nzType="cloud-upload"></i>Submit Indicators</button>
 <a href="https://logframelab.tawk.help/" target="_blank">
 <button
-    nz-button
-    nzType="question"
-    class="sideButton"
-    id="knowledgeBaseButton"
-  >
+  nz-button
+  nzType="question"
+  class="sideButton"
+  id="knowledgeBaseButton"
+>
   <i nz-icon nzType="book"></i>
     Knowledge Base
   </button>

@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
-import {IndicatorDto} from '../../utils/indicator.dto';
-import {environment} from '../../../../environments/environment';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { IndicatorDto } from '../../utils/indicator.dto';
+import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 import { Level } from 'src/app/services/dto/filter.dto';
 
@@ -26,8 +26,9 @@ export class IndicatorRequestDto {
 })
 export class AddNewIndicatorService {
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   createIndicator(indicator: IndicatorDto): Observable<HttpResponse<any>> {
     return this.http.post(`${environment.apiBaseUrl}/indicators`,

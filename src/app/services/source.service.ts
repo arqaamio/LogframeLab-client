@@ -9,7 +9,9 @@ import { environment } from '../../environments/environment';
 export class SourceService {
   private baseUrl = environment.apiBaseUrl + '/source';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) { }
   
   /**
    * Retrieves all the sources

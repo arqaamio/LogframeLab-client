@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {IndicatorDto} from '../utils/indicator.dto';
-import {IndicatorsManagement} from '../utils/indicators-management';
-import {ManageIndicatorsService} from '../../services/indicators-management/manage-indicators.service';
-import {IndicatorService} from '../../services/indicator.service';
-import {ApprovalDto} from '../utils/approval.dto';
+import { Component, OnInit } from '@angular/core';
+import { IndicatorDto } from '../utils/indicator.dto';
+import { IndicatorsManagement } from '../utils/indicators-management';
+import { ManageIndicatorsService } from '../../services/indicators-management/manage-indicators.service';
+import { IndicatorService } from '../../services/indicator.service';
+import { ApprovalDto } from '../utils/approval.dto';
 import { MachineLearningService } from 'src/app/services/machinelearning.service';
 import { SimilarityResponse } from 'src/app/models/similarityresponse.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -14,23 +14,23 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrls: ['./approve-uploaded-indicators.component.scss']
 })
 export class ApproveUploadedIndicatorsComponent extends IndicatorsManagement implements OnInit {
-
   allChecked = false;
   someChecked = false;
-
   checkedIds = new Set<number>();
-
   selectedIndicators: IndicatorDto[] = [];
   similarIndicators: SimilarityResponse[] = [];
-
   expandSet = new Set<number>();
   similarExpandSet = new Set<number>();
   threshold: number = 0.8;
   thresholdDisabled = false;
   isLoadingSimilar = true;
 
-  constructor(public manageIndicatorsService: ManageIndicatorsService, public indicatorService: IndicatorService,
-    public machineLearningService: MachineLearningService, public messageService: NzMessageService) {
+  constructor(
+    public manageIndicatorsService: ManageIndicatorsService,
+    public indicatorService: IndicatorService,
+    public machineLearningService: MachineLearningService,
+    public messageService: NzMessageService
+  ) {
     super(manageIndicatorsService, indicatorService);
   }
 
@@ -59,8 +59,7 @@ export class ApproveUploadedIndicatorsComponent extends IndicatorsManagement imp
   }
 
   refreshCheckedStatus(): void {
-    this.allChecked = this.checkedIds.size > 0 && this.indicatorList.every(({id}) => this.checkedIds.has(
-      id));
+    this.allChecked = this.checkedIds.size > 0 && this.indicatorList.every(({id}) => this.checkedIds.has(id));
     this.someChecked = this.indicatorList.some(({id}) => this.checkedIds.has(id)) && !this.allChecked;
   }
 
@@ -148,14 +147,12 @@ export class ApproveUploadedIndicatorsComponent extends IndicatorsManagement imp
   deleteIndicator(id: number, similarIndicatorId?: number): void{
     let deleteId: number = similarIndicatorId ? similarIndicatorId : id;    
     this.manageIndicatorsService.deleteIndicator(deleteId).subscribe(()=> {
-
-      if(similarIndicatorId){
+      if(similarIndicatorId) {
         let similarityResponse: SimilarityResponse = this.similarIndicators.find((x)=>{return x.indicator.id == id;});
         similarityResponse.similarIndicators = similarityResponse.similarIndicators.filter((x)=>{return x.id!=similarIndicatorId;});
-
         this.similarExpandSet.delete(similarIndicatorId);
         this.similarIndicators = this.similarIndicators.filter((x)=>{return x.indicator.id!=similarIndicatorId;});
-      }else {
+      } else {
         this.similarIndicators = this.similarIndicators.filter((x)=>{return x.indicator.id!=id;});
         this.similarExpandSet.delete(id);
       }

@@ -1,15 +1,8 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef,
-  Renderer2,
-  HostListener,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
 import { timer } from "rxjs";
 import { NzMessageService } from "ng-zorro-antd/message";
+
 declare let draw2d: any;
 declare let window: any;
 declare let Toolbar: any;
@@ -32,7 +25,6 @@ export class VisualizationComponent implements OnInit, OnDestroy {
   output: any[] = [];
 
   constructor(
-    private _renderer: Renderer2,
     private indicatorService: IndicatorService,
     private messageService: NzMessageService
   ) {
@@ -71,22 +63,6 @@ export class VisualizationComponent implements OnInit, OnDestroy {
         );
         // draw chart function
         this.setFlowChart();
-        /*} else {
-          // Set height of the canvas
-          let statementOutput: any[] = this.indicatorService.statementData.filter(
-            (x) => x.level == "OUTPUT"
-          );
-          let numOutput: number = statementOutput.length;
-          let outputY: number =
-            numOutput > 0
-              ? this.indicatorService.canvasJson.filter(
-                  (x) => x.id == statementOutput[numOutput - 1].id
-                )[0].y
-              : 150;
-          this.canvasHeight = outputY + 150 + (numOutput == 0 ? 150 : 0) + "px";
-          // re-draw chart function
-          this.setFlowChart();
-        }*/
       });
     } else {
       setTimeout(() => this.indicatorService.loadingStart.next(false), 1000);
@@ -111,11 +87,10 @@ export class VisualizationComponent implements OnInit, OnDestroy {
     let impactX = 300;
     let outcomeY = 150;
     let outcomeX = 300;
-
     let outputY = 150;
     let outputX = 300;
-
     let extraHeight = 0;
+
     if (outcomes.length == 0) {
       extraHeight = 150;
     } else if (output.length == 0) {
@@ -133,14 +108,17 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       if (element.name && element.name.length > maxSentenceImactsize)
         maxSentenceImactsize = element.name.length;
     }
+    
     let numberRowsImact = (maxSentenceImactsize * 6.4) / 180;
     if (numberRowsImact > 10) offsetOutcome = (numberRowsImact - 10) * 12;
+
     // Calculate the big sentence offset for output
     let maxSentenceOutcomesize = 0;
     for (let element of outcomes) {
       if (element.name && element.name.length > maxSentenceOutcomesize)
         maxSentenceOutcomesize = element.name.length;
     }
+    
     // offsetOutput  = offsetOutcome + ((maxSentenceOutcomesize / 20) - 9 )* 8;
     let numberRowsOutcome = (maxSentenceOutcomesize * 6.4) / 180;
     if (numberRowsOutcome > 10)
@@ -270,6 +248,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       fontFamily: "Montserrat, sans-serif",
       fontWeight: "bold",
     });
+
     let outcomeHeight = 0;
     outcomeHeight = outcomes.length <= MAX_NUM_BOX_ROW ? 165 : 315;
     outcomeHeight += output.length == 0 ? 30 : 0;
@@ -289,6 +268,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       alpha: 1,
       radius: 0,
     });
+
     outcomes.forEach((row, index) => {
       if (index > 15) {
         return;
@@ -613,6 +593,7 @@ export class VisualizationComponent implements OnInit, OnDestroy {
       });
     });
   }
+  
   toggelFullScreen(visFrom) {
     if (visFrom.value.isFullscreen) visFrom.value.isFullscreen = false;
     else visFrom.value.isFullscreen = true;
