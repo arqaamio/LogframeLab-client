@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzSelectModule,
     NzSliderModule,
     NzSpinModule,
-    NzTagModule
+    NzTagModule,
+    NzInputNumberModule
   ],
   exports: [ScanResultComponent]
 })

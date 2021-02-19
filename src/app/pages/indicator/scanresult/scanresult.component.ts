@@ -8,6 +8,7 @@ import { take } from 'rxjs/internal/operators/take';
 import { tap } from 'rxjs/internal/operators/tap';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import { WorldBankService } from '../../../services/worldbank.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 interface ItemData {
   indicator: IndicatorResponse;
@@ -99,7 +100,7 @@ export class ScanResultComponent implements OnInit, OnDestroy {
 
   expandSet = new Set<number>();
 
-  constructor(private indicatorService: IndicatorService, private worldBankService: WorldBankService) {}
+  constructor(private indicatorService: IndicatorService, private worldBankService: WorldBankService, private message: NzMessageService) {}
 
   ngOnInit(): void {
 
@@ -214,14 +215,17 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       this.outcomeStatements = this.statementData.filter(x=>x.level=='OUTCOME');
       this.outputStatements = this.statementData.filter(x=>x.level=='OUTPUT');
   }
+
   ngOnDestroy() {
     this.indicatorSubscription.unsubscribe();
   }
+
   sort(sort: { key: string; value: string }, isSelectedTable: boolean): void {
     this.sortName = sort.key;
     this.sortValue = sort.value;
     this.search(isSelectedTable);
   }
+
   search(isSelectedTable: boolean): void {
     let search: string = isSelectedTable ? this.searchSelected : this.searchValue;
     /** filter data **/
@@ -252,6 +256,12 @@ export class ScanResultComponent implements OnInit, OnDestroy {
       );
     }
     this.refreshStatus();
+  }
+
+  onTargetChange = (getEv, getCurrentThis) => {
+    if(getEv < getCurrentThis.yearSelected) {
+      this.message.warning('The target year is lower than the baseline year');
+    }
   }
 
   /**
