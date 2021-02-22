@@ -104,6 +104,7 @@
     <nz-step nzTitle="RESULT" nzIcon="bars"></nz-step>
     <nz-step nzTitle="INDICATORS" nzIcon="dashboard"></nz-step>
     <nz-step nzTitle="VISUALISATION" nzIcon="eye"></nz-step>
+    <nz-step nzTitle="ACTIVITIES" nzIcon="project"></nz-step>
     <nz-step nzTitle="DOWNLOAD" nzIcon="download"></nz-step>
   </nz-steps>
   <div class="steps-content">
@@ -111,7 +112,8 @@
     <app-result *ngIf="current === 1"> </app-result>
     <app-scanresult *ngIf="current === 2"> </app-scanresult>
     <app-visualization *ngIf="current === 3"> </app-visualization>
-    <app-downloadresult *ngIf="current === 4"> </app-downloadresult>
+    <app-activities *ngIf="current === 4"></app-activities>
+    <app-downloadresult *ngIf="current === 5"> </app-downloadresult>
   </div>
   <div class="steps-action">
     <button
@@ -133,7 +135,7 @@
       class="steps-button"
       nzType="default"
       (click)="next()"
-      [hidden]="current === 4"
+      [hidden]="current === 5"
       id="nextButton"
     >
       <span>Next</span>
@@ -143,7 +145,7 @@
       class="steps-button"
       nzType="primary"
       (click)="done()"
-      [hidden]="current !== 4"
+      [hidden]="current !== 5"
     >
       <span>Done</span>
     </button>

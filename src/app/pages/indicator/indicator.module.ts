@@ -12,13 +12,24 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { ActivitiesComponent } from './activities/activities.component';
+import {NzInputModule} from 'ng-zorro-antd/input';
+import {NzSelectModule} from 'ng-zorro-antd/select';
+import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzDividerModule} from 'ng-zorro-antd/divider';
+import { AddActivitiesComponent } from './activities/add-activities/add-activities.component';
+import { AddMeansComponent } from './activities/add-means/add-means.component';
+import { AddCostsComponent } from './activities/add-costs/add-costs.component';
+import { AddAssumptionsComponent } from './activities/add-assumptions/add-assumptions.component';
+import {FormsModule} from '@angular/forms';
+import {NzListModule} from 'ng-zorro-antd/list';
 
 const routes: Routes = [
   { path: '', component: IndicatorComponent }
 ];
 
 @NgModule({
-  declarations: [IndicatorComponent],
+  declarations: [IndicatorComponent, ActivitiesComponent, AddActivitiesComponent, AddMeansComponent, AddCostsComponent, AddAssumptionsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -31,7 +42,13 @@ const routes: Routes = [
     ResultModule,
     ScanResultModule,
     VisualizationModule,
-    DownloadResultModule
+    DownloadResultModule,
+    NzInputModule,
+    NzSelectModule,
+    NzFormModule,
+    NzDividerModule,
+    FormsModule,
+    NzListModule
   ]
 })
 export class IndicatorModule { }

@@ -130,7 +130,8 @@ export class IndicatorComponent implements OnInit, OnDestroy {
         //   this.modal.confirm({
         //     nzTitle: 'Are you sure you want to continue?',
         //     nzContent: 'There are results statements without indicators, these will not be visible in the logframe',
-        //     nzCancelText: 'Go Back',
+        //     nzCancelT
+          //     ext: 'Go Back',
         //     nzOkText: 'Proceed',
         //     nzOnOk: () =>
         //       new Promise((resolve, reject) => {
@@ -189,6 +190,21 @@ export class IndicatorComponent implements OnInit, OnDestroy {
       } else {
         this.saveSVGAndProceed();
       }
+
+      this.modal.confirm({
+        nzTitle: 'Add Activities',
+        nzContent: 'Do You Want To Add Activities',
+        nzCancelText: 'Yes',
+        nzOkText: 'Skip',
+        nzOnOk: () =>
+          new Promise((resolve, reject) => {
+            // this.isSpinning = true;
+            this.current += 1;
+            this.indicatorService.currentStep = this.current;
+            this.modal.closeAll();
+            this.next(true)
+          }).catch(() => console.log('Oops errors!'))
+      });
     } else {
         if(this.current === 2) {
             this.isSpinning = true;
