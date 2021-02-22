@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';

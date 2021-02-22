@@ -3,18 +3,11 @@
   max-width: 90rem;
   padding: 10px;
   margin: 60px;
-  //width: 984px;
-  //height: 56px;
-  //left: 299px;
-  //top: 155px;
 }
 
 .steps-content {
   margin-top: 16px;
-  //border: 1px dashed #e9e9e9;
   border-radius: 6px;
-  //background-color: #fafafa;
-  //min-height: 300px;
   text-align: center;
   background-color: hsla(0,0%,94.9%,.7);
   border: .25rem dashed #c6c6c5
@@ -29,10 +22,10 @@
 
 ::ng-deep {
   @media only screen and (max-width: 1200px) {
-  th {
-    background-color: red;
+    th {
+      background-color: red;
+    }
   }
-}
 }
 
 
@@ -51,14 +44,13 @@
   text-align: center;
   text-transform: uppercase;
   width: 10rem;
-
-  /* White */
-
   color: #ffffff;
 }
+
 .steps-button:hover {
   background-color: #a5c2ae;
 }
+
 /*
 //before selection text color
 ::ng-deep .ant-steps-item-custom .ant-steps-item-icon > .ant-steps-icon {
@@ -150,6 +142,7 @@ background-color: #453457;
   > .ant-steps-item-title {
   color: #453457;
 }
+
 //finished icon color
 ::ng-deep .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
   background: #453457;
@@ -159,6 +152,7 @@ background-color: #453457;
   border-radius: 5px;
   padding: 0 0.3rem 0.3rem 0.3rem;
 }
+
 //selected icon color (The tep one is currently viewing)
 ::ng-deep .ant-steps-item-active  {
     .ant-steps-icon {
@@ -173,6 +167,7 @@ background-color: #453457;
       color: #a5c2ae !important;
     }
 }
+
 //text color before
 ::ng-deep
   .ant-steps-item-wait
@@ -182,6 +177,7 @@ background-color: #453457;
   color: #453457;
   opacity: 0.5;
 }
+
 //line color
 ::ng-deep
   .ant-steps-item-finish
@@ -197,89 +193,23 @@ background-color: #453457;
   z-index: 1000;
   overflow: auto;
 }
+
 .step2Info {
   width: 20rem;
   height: 19rem;
   overflow: auto;
 }
+
 .loading-row{
   top: 70%;
   position: absolute;
   left: 49%;
 }
+
 .loading-row i {
   color: #453457;
   font-size:24px !important;
 }
-/*
-  @media only screen and (max-width: 48.5rem) {
-    .stepSection{
-      position: absolute;
-      left: 50%;
-      margin-left: -80px;
-      width: 12.5rem;
-      height: 348px;
-      border-radius: .6rem;
-      box-shadow: .25rem .35rem .1625rem #00000029;
-      max-width: 30rem;
-      background: #453457;
-    }
-  }
-  */
-
-// #step1{
-//   position: relative;
-// }
-// #step2{
-//   position: relative;
-//   right: 20%;
-// }
-// #step3{
-//   position: relative;
-//   right: 5%;
-// }
-// #step4{
-//   position: relative;
-//   left: 9.75%;
-// }
-// #step5{
-//   position: relative;
-//   left: 25%;
-// }
-// #step6{
-//   position: relative;
-// }
-/*.welcomeLayout{
-  background-color:  white;
-  align-items: center;
-  padding: 3rem;
-  }
-
-  .welcomeSection{
-  text-align: left;
-  padding: 2rem 5rem;
-  }
-  .welcomeH3{
-    padding: 1.5rem 0rem 1.5rem 0rem;
-    line-height: 3.5rem;
-    font-size: 3rem;
-    font-weight: 900;
-    text-align: center;
-    font-family:montserrat, sans-serif;
-    transform: scale(1, 1.5);
-    }
-  .welcomeMessage{
-  font-size:.90rem;
-  font-weight: 500;
-  line-height: 1rem;
-  background-color: rgb(233, 233, 233);
-  padding: 25px;
-  border-radius: 15px;
-  border-top-left-radius: 15px;
-  box-shadow: .25rem .35rem .1625rem #00000029;
-  max-width: 48rem;
-  }*/
-
 
 ::ng-deep .ant-btn-primary {
   background-color: #453457;

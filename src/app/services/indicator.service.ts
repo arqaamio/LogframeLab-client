@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpResponse,
-  HttpRequest,
-} from '@angular/common/http';
-
+import { HttpClient, HttpResponse, HttpRequest } from '@angular/common/http';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
@@ -65,14 +60,17 @@ export class IndicatorService {
     this.selectedData = selectedData;
     this.nextSubject();
   }
+
   setFileUploadList(files: NzUploadFile[]) {
     this.fileList = files;
     this.nextSubject();
   }
+
   setFilters(filters: FilterDto) {
     this.filters = filters;
     this.nextSubject();
   }
+
   setLoadedData(dataResponse: any) {
     this.dataResponse = dataResponse;
     this.nextSubject();
@@ -103,6 +101,7 @@ export class IndicatorService {
   getNextButtonSubject(): BehaviorSubject<any> {
     return this.nextButtonSubject;
   }
+
   /**
    * Updates the isNewInfo which tells if there was changes in the search
    * @param value Value to which the isNewInfo will be updated to
@@ -112,12 +111,15 @@ export class IndicatorService {
     this.isNewInfo = value;
     return this.isNewInfo;
   }
+  
   clearIndicatorSubject() {
     this.indicatorSubject.next(null);
   }
+  
   getIndicatorSubject() {
     return this.indicatorSubject;
   }
+  
   public getBaseUrl() {
     return this.baseUrl;
   }

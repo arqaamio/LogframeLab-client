@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import {ManageIndicatorsService} from '../services/indicators-management/manage-indicators.service';
-import {NzMessageService} from 'ng-zorro-antd/message';
+import { ManageIndicatorsService } from '../services/indicators-management/manage-indicators.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from '../services/indicator.service';
 import { Title, Meta } from '@angular/platform-browser';
 

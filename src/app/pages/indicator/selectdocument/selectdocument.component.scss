@@ -29,8 +29,6 @@
     left: 0rem;
     height: 20rem;
     max-width: 61.5rem;
-    //border: .25rem dashed #C6C6C5;
-    //background-color: rgba(242, 242, 242, 0.7);
 }
 
 //TODO: ng-deep is depecrated http://angular.io/guide/component-styles#deprecated-deep--and-ng-deep
@@ -42,20 +40,6 @@
     padding: 0px !important;
 }
 
-/*
-@media only screen and (max-width: 48.5rem) {
-    .uploadArea{
-        margin-bottom: 30rem;
-        position: relative;
-        top:25rem;
-        left:0;
-        height: 20rem;
-        max-width: 61.5rem;
-        //border: .25rem dashed #C6C6C5;
-
-    }
-  }
-*/
 .uploadIcon {
     background: #a5c2ae;
     padding: 12px;
@@ -100,12 +84,7 @@
     font-size: 0.7rem;
     line-height: 11px;
 }
-/*
-nz-upload{
-    padding: 0 !important;//not working
-    border: .25rem dashed #C6C6C5;
-}
-*/
+
 ::ng-deep nz-progress div.ant-progress-circle {
     padding-bottom: 10%;
 }
@@ -115,7 +94,7 @@ h2 {
     padding: 1rem 0 1rem 0;
 }
 
-::ng-deep .ant-btn-icon-only.ant-btn-sm:hover{
+::ng-deep .ant-btn-icon-only.ant-btn-sm:hover {
     background-color: #6B3C53;
     border: none;
     color: white;

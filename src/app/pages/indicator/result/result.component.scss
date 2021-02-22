@@ -5,25 +5,27 @@ nz-table {
 .collapse-title {
     text-align:left;
 }
-.delete-icon{
+.delete-icon {
     color:#df514d;
     font-size: 20px;
 }
-.add-icon{
+.add-icon {
     color:#49345d;
     font-size: 20px;
     margin-right: 6px;
 }
-.check-icon{
+
+.check-icon {
     color:green;
     font-size: 20px;
     margin-right: 6px;
 }
-.action{
+
+.action {
     text-align: center;
 }
 .add-statement{
-    border: 1px solid #e8e8e8;
+    border: 1px solid #848484;
     background-color: transparent;
     align-items: center;
     display: flex;
@@ -35,7 +37,7 @@ nz-table {
     cursor: pointer;
 }
 
-.ant-table-tbody > tr.ant-table-row:hover > td{
+.ant-table-tbody > tr.ant-table-row:hover > td {
     background-color: #fff !important;
     color:rgba(0, 0, 0, 0.65) !important;
 }
@@ -43,9 +45,11 @@ nz-table {
 .add-icon:hover, .delete-icon:hover, .check-icon:hover {
     cursor: pointer;
 }
+
 .score-row {
     text-align: right;
 }
+
 .content-panel {
     min-height:250px;
 }
@@ -54,7 +58,7 @@ nz-table {
     position: relative;
     padding: 5px 12px;
     cursor: pointer;
-  }
+}
 
 .editable-row:hover .editable-cell {
     border: 1px solid #d9d9d9;

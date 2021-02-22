@@ -4,7 +4,6 @@
   src: url('./assets/Montserrat/Montserrat-Regular.ttf');
 }
 
-
 app-selectdocument {
   .ant-upload.ant-upload-drag .ant-upload-btn{
    // min-height: 300px !important;
@@ -47,11 +46,13 @@ app-indicator {
   border-color: #a5c2ae;
   border-right-width: 1px !important;
 }
+
 //"Search indicator in "Result" after selection border color
 .ant-input:focus {
   border-color: #453457;
   box-shadow: 0 0 0 2px rgb(69,52,87, 0.5);
 }
+
 //all search boxes in "Filters" after selection (focused)
 .ant-select-focused.ant-select-multiple .ant-select-selector {
   border-color: #453457;
@@ -64,6 +65,7 @@ app-indicator {
   background-color: #a5c2ae;
   border: #5d7063;
 }
+
 //icon inside alert
 .ant-alert-info  .ant-alert-icon {
   color: #453457;
@@ -90,15 +92,18 @@ app-indicator {
 .ant-menu-item:hover, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:hover {
   color: #a5c2ae;
 }
+
 //menu after selecting the user icon
 .ant-menu-submenu > .ant-menu {
   background-color:rgba(242, 242, 242);
   border-radius: 4px;
 }
+
 //item text inside menu when hovering over
 .ant-menu-item > a:hover {
   color: #453457;
 }
+
 .ant-menu-item > a {
   color: #a5c2ae;
   font-weight: 500;
@@ -108,20 +113,24 @@ app-indicator {
 .ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
   color: #a5c2ae;
 }
+
 //color for an "a" types
 a{
   color: #453457;
 }
+
 //mouse hovering over the a
 a:hover{
   color: #a5c2ae;
 }
+
 //button hover (specifically the green help button)
 .ant-btn:hover, .ant-btn:focus {
   border-color: #453457;
   background: #453457;
   color: white;
 }
+
 //Selecting indicators in the results step (hover purple and change text color to white)
 .ant-table-tbody > tr.ant-table-row:hover > td {
   background: #453457;
@@ -131,6 +140,7 @@ a:hover{
 .ant-table-row-expand-icon {
   color: black;
 }
+
 //login input (username and password input
 .ant-input-affix-wrapper-focused {
   border-color: #453457;
@@ -188,7 +198,6 @@ h1, h2, h3, p, button {
   border: 1px solid #ffffff;
   box-sizing: border-box;
   border-radius: 5px;
-  // padding: 0 1.5rem 0 1.5rem;
   font-weight: bold;
   font-size: 12px;
   line-height: 15px;
@@ -228,6 +237,7 @@ app-manage-indicators {
 #knowledgeBaseButton {
   top: 20rem;
 }
+
 @media screen and (max-height: 905px) {
   #knowledgeBaseButton {
     top: 32rem;
@@ -237,21 +247,25 @@ app-manage-indicators {
 #uploadButton {
   top: 25rem;
 }
+
 #feedbackButton {
   top: 42rem;
   width: 10rem;
   right: -98px;
 }
+
 @media screen and (max-height: 1050px) {
   #uploadButton {
     top: 37rem;
   }
 }
+
 @media screen and (max-height: 720px) {
   #feedbackButton {
     top: 30%;
   }
 }
+
 @media screen and (max-height: 650px) {
   #stepButton   {
     top: 67%;

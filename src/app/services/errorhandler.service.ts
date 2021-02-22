@@ -6,14 +6,15 @@ import { ClientError } from '../models/clienterror.model';
 @Injectable()
 export class ErrorHandlerService implements ErrorHandler {
  
-    constructor(private msg: NzMessageService) { 
-    }
+   constructor(
+      private msg: NzMessageService
+   ) { }
    
     /**
      * Handles all the errors sent by the application
      * @param error Errors that were thrown
      */
-    handleError(error: Error | ClientError | any) {
+   handleError(error: Error | ClientError | any) {
       if(error instanceof ClientError) {
          if(error.sendMessage){
             if(error.object.error && error.object.error.message){
@@ -28,6 +29,6 @@ export class ErrorHandlerService implements ErrorHandler {
       }
       console.error(error);
       return throwError(error);
-    }
+   }
     
-  }
+}

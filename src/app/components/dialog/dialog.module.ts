@@ -4,7 +4,6 @@ import { DialogComponent } from './dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 
-
 @NgModule({
   declarations: [DialogComponent],
   imports: [

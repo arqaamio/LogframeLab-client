@@ -1,16 +1,12 @@
-import {Injectable} from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpResponse
-} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
-import {environment} from '../../environments/environment';
-import {JwtDto} from './dto/jwt.dto';
-import {map} from 'rxjs/operators';
-import {GroupDto} from './dto/group.dto';
-import {User} from '../user-management/service/user';
+import { environment } from '../../environments/environment';
+import { JwtDto } from './dto/jwt.dto';
+import { map } from 'rxjs/operators';
+import { GroupDto } from './dto/group.dto';
+import { User } from '../user-management/service/user';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +16,9 @@ export class AuthenticationService {
   private JWT_KEY = 'jwt';
   private readonly currentJwtSubject: BehaviorSubject<JwtDto>;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
     this.currentJwtSubject = new BehaviorSubject<JwtDto>(JSON.parse(localStorage.getItem(this.JWT_KEY)));
     this.currentJwt = this.currentJwtSubject.asObservable();
   }
@@ -33,21 +31,19 @@ export class AuthenticationService {
     return this.http.post<JwtDto>(`${environment.apiBaseUrl}/auth/login`, JSON.stringify({
       username,
       password
-    }),{
+    }), {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
-    }).pipe(
-      map(jwt => {
-        this.processJwt(jwt);
-      }));
+    }).pipe( map(jwt => {
+      this.processJwt(jwt);
+    }));
   }
 
   // TODO send logout request to api
   logout(username?: string): void {
     localStorage.removeItem(this.JWT_KEY);
     this.currentJwtSubject.next(undefined);
-
   }
 
   renewJwt(jwt: string): void {
@@ -64,12 +60,11 @@ export class AuthenticationService {
   }
 
   provisionUser(user: User): Observable<HttpResponse<User>> {
-    return this.http.post<User>(`${environment.apiBaseUrl}/auth/users`, JSON.stringify(user),
-     {
-       observe: 'response',
-       headers: new HttpHeaders({
+    return this.http.post<User>(`${environment.apiBaseUrl}/auth/users`, JSON.stringify(user), {
+      observe: 'response',
+      headers: new HttpHeaders({
       'Content-Type':  'application/json'
-     })});
+    })});
   }
 
   private processJwt(jwt: JwtDto) {

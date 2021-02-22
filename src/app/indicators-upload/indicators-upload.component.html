@@ -11,8 +11,9 @@
   [nzPopoverPlacement]="'rightTop'"
   data-cy="help"
 >
-<i nz-icon nzType="question"></i> Help
+  <i nz-icon nzType="question"></i> Help
 </button>
+
 <a href="https://feedback.logframelab.ai" target="_blank">
   <button
     nz-button
@@ -21,36 +22,42 @@
     id="feedbackButton"
     data-cy="feedback"
   >
-  <i nz-icon nzType="bulb"></i>
+    <i nz-icon nzType="bulb"></i>
     Feedback
-  </button></a>
+  </button>
+</a>
+
 <a href="https://logframelab.tawk.help/" target="_blank">
   <button
-      nz-button
-      nzType="question"
-      class="sideButton"
-      id="knowledgeBaseButton"
-    >
-    <i nz-icon nzType="book"></i>
-      Knowledge Base
-    </button>
-  </a>
+    nz-button
+    nzType="question"
+    class="sideButton"
+    id="knowledgeBaseButton"
+  >
+  <i nz-icon nzType="book"></i>
+    Knowledge Base
+  </button>
+</a>
+
 <ng-template #contentTemplate>
   <div class="stepInfo">
-    <p><strong>Indicators Upload<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong></p>
+    <p>
+      <strong>Indicators Upload<i nz-icon nzType="close" (click)="clickClose()" class="closeHelpIcon"></i></strong>
+    </p>
     <p class="stepPara">
-        We are always looking to widen our database of indicators. You can use our template to send us new indicators
-        (instructions are in the first row of the Excel template, once you download it).
-        When you are done. You can just uploading the template with your new data again here (on the right side).
-        As this is anonymous, we already thank you in advance! 
-        <br/><br/>
-        Should you have more than a few indicators, or know of an indicator source, that we have not added yet,
-        please use the chat/send message button on the right side of your screen, and leave us a message with the
-        link to the website or document, and we can discuss with you there.
+      We are always looking to widen our database of indicators. You can use our template to send us new indicators
+      (instructions are in the first row of the Excel template, once you download it).
+      When you are done. You can just uploading the template with your new data again here (on the right side).
+      As this is anonymous, we already thank you in advance! 
+      <br/><br/>
+      Should you have more than a few indicators, or know of an indicator source, that we have not added yet,
+      please use the chat/send message button on the right side of your screen, and leave us a message with the
+      link to the website or document, and we can discuss with you there.
     </p>
   </div>
 </ng-template>
-<div nz-col nzOffset="5" style="margin-top: 80px;">
+
+<div nz-col nzOffset="5" class="dwnlod-temp">
   <div nz-row>
     <div nz-col nzSpan="7">
       <div class="ant-upload ant-upload-drag" (click)="downloadTemplate()">
@@ -69,10 +76,11 @@
 
     <div nz-col nzSpan="2"></div>
 
-    <div nz-col nzSpan="7" style="text-align: center;">
+    <div nz-col nzSpan="7" class="before-down">
       <nz-upload nzType="drag" nzMultiple="false" nzAccept=".xlsx,.xls" nzLimit="1"
-                 [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
-                 [nzShowUploadList]="false">
+        [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
+        [nzShowUploadList]="false"
+      >
         <p class="ant-upload-drag-icon">
           <i nz-icon nzType="inbox"></i>
         </p>
@@ -81,7 +89,8 @@
         </p>
       </nz-upload>
       <button nz-button nzType="primary" [nzLoading]="uploading" (click)="handleUploaded()"
-              [disabled]="fileList.length === 0">
+        [disabled]="fileList.length === 0"
+      >
         {{uploading ? 'Uploading' : 'Upload'}}
       </button>
     </div>
