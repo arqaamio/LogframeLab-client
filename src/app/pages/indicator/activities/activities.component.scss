@@ -1,0 +1,94 @@
+.activities-container{
+  //width: 300px;
+  //height: 50px;
+  //padding: 50px;
+  margin: 50px;
+  //border-bottom: 0.5px solid #C6C6C5;
+  //box-sizing: border-box;
+}
+
+nz-select {
+  margin: 0 8px 10px 0;
+  width: 200px;
+}
+
+.steps-content {
+  margin-top: 16px;
+  border: 1px dashed #e9e9e9;
+  border-radius: 6px;
+  background-color: #fafafa;
+  min-height: 100px;
+  text-align: center;
+  padding: 20px;
+}
+
+.steps-action {
+  margin-top: 24px;
+}
+
+::ng-deep
+.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot{
+  background: #A5C2AE;
+}
+
+::ng-deep
+.ant-steps-item-active .ant-steps-icon{
+  padding: 0 0 0 0;
+}
+
+::ng-deep
+.ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+  padding: 0 0 0 0;
+}
+
+::ng-deep
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
+  background: #A7A1B0;
+}
+
+::ng-deep
+.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+  background-color: #A7A1B0;
+}
+
+::ng-deep
+.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: #A7A1B0;
+}
+
+button {
+  margin-right: 8px;
+}
+
+
+.flex-container {
+  position: static;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.flex-container > div {
+  width: 50%;
+  margin: 10px 10px 10px 10px;
+  text-align: left;
+}
+
+.activity-list{
+  border: 0.5px dashed #e9e9e9;
+}
+
+nz-select {
+  margin: 0 8px 10px 0;
+  width: 100%;
+}
+
+input{
+  width: 100%;
+}
+
+.add-button{
+  align-content: flex-end;
+}
