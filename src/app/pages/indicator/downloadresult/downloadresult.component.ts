@@ -25,19 +25,19 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
           data.selectedData != null
         ) {
           this.dataExport = data.selectedData.map((x)=> {
-          if(x.yearSelected && (x.baselineValue || x.baselineValue === 0)) {
-            x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
-            x.indicator.value = x.baselineValue;
-          }
-          x.indicator.statement = x.statement?.statement;
-          if(x.targetDate && (x.targetValue || x.targetValue === 0)) {
-            x.indicator.targetDate = (<Date>x.targetDate).getFullYear().toString();
-            x.indicator.targetValue = x.targetValue;
-          } else {
-            x.indicator.targetDate = null;
-            x.indicator.targetValue = null;
-          }
-          return x.indicator;
+            if(x.yearSelected && (x.baselineValue || x.baselineValue === 0)) {
+              x.indicator.date = (<Date>x.yearSelected).getFullYear().toString();
+              x.indicator.value = x.baselineValue;
+            }
+            x.indicator.statement = x.statement?.statement;
+            if(x.targetDate && (x.targetValue || x.targetValue === 0)) {
+              x.indicator.targetDate = (<Date>x.targetDate).getFullYear().toString();
+              x.indicator.targetValue = x.targetValue;
+            } else {
+              x.indicator.targetDate = null;
+              x.indicator.targetValue = null;
+            }
+           return x.indicator;
         });
       }
     });
@@ -49,20 +49,20 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
    */
   downloadFile(format: string): void {
     this.indicatorService
-      .downloadIndicators(this.dataExport, format, this.indicatorService.statementData)
-      .subscribe((response) => {
-        let blob = new Blob([response.body], { type: "application/octet-stream" });
-        var link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = response.headers.get("filename");
-        link.click();
-      });
+    .downloadIndicators(this.dataExport, format, this.indicatorService.statementData)
+    .subscribe((response) => {
+      let blob = new Blob([response.body], { type: "application/octet-stream" });
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = response.headers.get("filename");
+      link.click();
+    });
   }
 
-  downloadSvgAndPng(type){
+  downloadSvgAndPng(type) {
     let body = this.indicatorService.exportSvg.value;
     var link = document.createElement("a");
-    if(type == 'svg'){
+    if(type == 'svg') {
       let blob = new Blob([body[type]], { type: "application/octet-stream" });
       link.href = URL.createObjectURL(blob);
     } else {

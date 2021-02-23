@@ -1,5 +1,5 @@
 <div nz-col nzSpan="22" nzOffset="1">
-  <div nz-col style="margin-bottom: 30px; margin-top: 50px;">
+  <div nz-col class="col_indicator">
     <button
       nz-button
       (click)="create()"
@@ -9,7 +9,7 @@
     >
       Add Indicator
     </button>
-    <nz-input-group style="margin-top: 5px;" nzSearch [nzAddOnAfter]="suffixIconButton">
+    <nz-input-group class="inpt_group" nzSearch [nzAddOnAfter]="suffixIconButton">
       <input type="text" nz-input placeholder="Search for indicator by name" [(ngModel)]="filters.indicatorName"/>
     </nz-input-group>
     <ng-template #suffixIconButton>
@@ -32,48 +32,49 @@
     nzSize="small"
   >
     <thead>
-    <tr>
-      <th>ID</th>
-      <th nzShowFilter [nzFilters]="crsCodeFilter" (nzFilterChange)="addFilter('crsCode', $event)">CRS Code</th>
-      <th>Data Source</th>
-      <th>Description</th>
-      <th>Disaggregation</th>
-      <th>Keywords</th>
-      <th>Name</th>
-      <th nzShowFilter [nzFilters]="sdgCodeFilter" (nzFilterChange)="addFilter('sdgCode', $event)">SDG Goal</th>
-      <th nzShowFilter [nzFilters]="sourceFilter" (nzFilterChange)="addFilter('source', $event)">Source</th>
-      <th>Source Verification</th>
-      <th nzShowFilter [nzFilters]="sectorFilter" (nzFilterChange)="addFilter('sector', $event)">Sector</th>
-      <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">Level</th>
-      <th>Times Downloaded</th>
-      <th>Actions</th>
-    </tr>
+      <tr>
+        <th>ID</th>
+        <th nzShowFilter [nzFilters]="crsCodeFilter" (nzFilterChange)="addFilter('crsCode', $event)">CRS Code</th>
+        <th>Data Source</th>
+        <th>Description</th>
+        <th>Disaggregation</th>
+        <th>Keywords</th>
+        <th>Name</th>
+        <th nzShowFilter [nzFilters]="sdgCodeFilter" (nzFilterChange)="addFilter('sdgCode', $event)">SDG Goal</th>
+        <th nzShowFilter [nzFilters]="sourceFilter" (nzFilterChange)="addFilter('source', $event)">Source</th>
+        <th>Source Verification</th>
+        <th nzShowFilter [nzFilters]="sectorFilter" (nzFilterChange)="addFilter('sector', $event)">Sector</th>
+        <th nzShowFilter [nzFilters]="levelFilter" (nzFilterChange)="addFilter('levelIds', $event)">Level</th>
+        <th>Times Downloaded</th>
+        <th>Actions</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let ind of indicators.data">
-      <td>{{ind.id}}</td>
-      <td nzBreakWord>{{printArray(ind.crsCode, 'name')}}</td>
-      <td nzBreakWord>{{ind.dataSource}}</td>
-      <td nzBreakWord>{{ind.description}}</td>
-      <td>{{ind.disaggregation}}</td>
-      <td nzBreakWord>{{ind.keywords}}</td>
-      <td>{{ind.name}}</td>
-      <td nzBreakWord>{{printArray(ind.sdgCode, 'name')}}</td>
-      <td nzBreakWord>{{printArray(ind.source, 'name')}}</td>
-      <td nzBreakWord>{{ind.sourceVerification}}</td>
-      <td>{{ind.sector}}</td>
-      <td>{{ind.level.name}}</td>
-      <td>{{ind.timesDownloaded}}</td>
-      <td>
-        <div>
-          <div nz-row><a (click)="edit(ind)">Edit</a></div>
-          <div nz-row><a (click)="delete(ind)">Remove</a></div>
-        </div>
-      </td>
-    </tr>
+      <tr *ngFor="let ind of indicators.data">
+        <td>{{ind.id}}</td>
+        <td nzBreakWord>{{printArray(ind.crsCode, 'name')}}</td>
+        <td nzBreakWord>{{ind.dataSource}}</td>
+        <td nzBreakWord>{{ind.description}}</td>
+        <td>{{ind.disaggregation}}</td>
+        <td nzBreakWord>{{ind.keywords}}</td>
+        <td>{{ind.name}}</td>
+        <td nzBreakWord>{{printArray(ind.sdgCode, 'name')}}</td>
+        <td nzBreakWord>{{printArray(ind.source, 'name')}}</td>
+        <td nzBreakWord>{{ind.sourceVerification}}</td>
+        <td>{{ind.sector}}</td>
+        <td>{{ind.level.name}}</td>
+        <td>{{ind.timesDownloaded}}</td>
+        <td>
+          <div>
+            <div nz-row><a (click)="edit(ind)">Edit</a></div>
+            <div nz-row><a (click)="delete(ind)">Remove</a></div>
+          </div>
+        </td>
+      </tr>
     </tbody>
   </nz-table>
 </div>
+
 <app-crud-indicator
   (hideCrudModal)="hideCrudModal($event)"
   (indicatorAdded)="refreshIndicatorList(true)"

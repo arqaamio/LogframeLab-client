@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { AuthGuard } from 'src/app/utils/auth.guard';
 
-
 const routes: Routes = [
   { path: 'statistics', component: StatisticsComponent, canActivate: [AuthGuard] }
 ];

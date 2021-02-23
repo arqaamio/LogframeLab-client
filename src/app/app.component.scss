@@ -6,6 +6,7 @@ nz-footer {
   margin: 0;
   padding: 0;
 }
+
 .nz-header {
   border-bottom-style: solid;
   border-bottom-color: #e8e8e8;
@@ -33,6 +34,7 @@ nz-footer {
     color: white;
   }
 }
+
 nz-layout {
   min-height: 100%;
 }
@@ -43,6 +45,7 @@ nz-content {
   justify-content: center;
   width: inherit !important;
 }
+
 .content-layout {
   overflow: auto;
   height: 100vh;
@@ -52,4 +55,28 @@ nz-content {
   float: right;
   right: 40px;
   top: 15px;
+}
+
+.route-link {
+  color: black;
+}
+
+.link-route {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 28px;
+  background-color: #222222;
+}
+
+.link-icon {
+  padding-left: 20px;
+  font-size: 15px;
+}
+
+.arqaam-link {
+  margin: auto;
+  padding-right: 9%;
+  text-align: center;
+  line-height: 28px;
 }

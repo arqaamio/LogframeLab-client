@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import {ManageIndicatorsService} from '../services/indicators-management/manage-indicators.service';
-import {NzMessageService} from 'ng-zorro-antd/message';
+import { ManageIndicatorsService } from '../services/indicators-management/manage-indicators.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from '../services/indicator.service';
+import { Title, Meta } from '@angular/platform-browser';
 
 export const XLSX_FORMAT = "xlsx";
 @Component({
@@ -15,8 +16,24 @@ export class IndicatorsUploadComponent implements OnInit {
   uploading = false;
   visible = false;
 
-  constructor(private indicatorsService: ManageIndicatorsService, private msg: NzMessageService,
-    private indicatorService: IndicatorService) { }
+  constructor(private indicatorsService: ManageIndicatorsService,
+              private msg: NzMessageService,
+              private indicatorService: IndicatorService,
+              private titleService: Title,
+              private metaService: Meta) {
+    this.setTitle('Terms Of Use | Logframe Lab - The Free, Open-Source Logframe Builder');
+    this.metaService.updateTag(
+      {
+        name: 'description',
+        content: 'Using intelligent machine learning, Logframe Lab produces practical, relevant indicators taken from securely ' +
+          'uploaded project proposals. Once confirmed, these indicators are turned into a useable logical framework. '
+      }
+    );
+  }
+
+  public setTitle( newTitle: string) {
+    this.titleService.setTitle( newTitle );
+  }
 
   ngOnInit(): void {
   }

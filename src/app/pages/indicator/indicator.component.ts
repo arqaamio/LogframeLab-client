@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IndicatorService } from 'src/app/services/indicator.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Router } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-indicator',
@@ -23,8 +24,23 @@ export class IndicatorComponent implements OnInit, OnDestroy {
     private indicatorService: IndicatorService,
     private messageService: NzMessageService,
     private modal: NzModalService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private titleService: Title,
+    private metaService: Meta
+  ) {
+    this.setTitle('Logframe Lab - The Free, Open-Source Logframe Builder');
+    this.metaService.updateTag(
+      {
+        name: 'description',
+        content: 'Using intelligent machine learning, Logframe Lab produces practical, relevant indicators taken from securely ' +
+          'uploaded project proposals. Once confirmed, these indicators are turned into a useable logical framework. '
+      }
+    );
+  }
+
+  public setTitle( newTitle: string) {
+    this.titleService.setTitle( newTitle );
+  }
 
   ngOnInit() {
     // To reload when clicking on the logo while already on the route

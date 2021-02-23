@@ -12,7 +12,6 @@ export class FilterDto {
   public indicatorName: string = '';
 }
 
-
 export class Level {
   public id: number;
   public name: string;

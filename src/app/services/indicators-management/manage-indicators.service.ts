@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
-import {Sort} from '../../manage-indicators/utils/sort';
-import {environment} from '../../../environments/environment';
-import {IndicatorDto} from '../../manage-indicators/utils/indicator.dto';
-import {PageDto} from '../../manage-indicators/utils/page.dto';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { Sort } from '../../manage-indicators/utils/sort';
+import { environment } from '../../../environments/environment';
+import { IndicatorDto } from '../../manage-indicators/utils/indicator.dto';
+import { PageDto } from '../../manage-indicators/utils/page.dto';
 import { Observable } from 'rxjs/internal/Observable';
-import {FilterDto} from '../dto/filter.dto';
-import {ApprovalDto} from '../../manage-indicators/utils/approval.dto';
+import { FilterDto } from '../dto/filter.dto';
+import { ApprovalDto } from '../../manage-indicators/utils/approval.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,12 @@ export class ManageIndicatorsService {
   private INDICATORS_URL = `${environment.apiBaseUrl}/indicators`;
   private INDICATORS_APPROVAL_URL = `${this.INDICATORS_URL}/approvals`;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   getIndicators(page: number, pageSize: number, filter: FilterDto, sortBy?: Sort): Observable<HttpResponse<PageDto<IndicatorDto>>> {
     const url = this.INDICATORS_URL;
-
     const params = this.prepParams(page, pageSize, filter, sortBy);
 
     return this.http.get<PageDto<IndicatorDto>>(url, {observe: 'response', params});
@@ -31,17 +31,16 @@ export class ManageIndicatorsService {
     formData.append('file', file);
 
     return this.http.post(`${this.INDICATORS_URL}/upload`,
-      formData,
-      {
-        observe: 'response',
-        reportProgress: true
-      });
+    formData,
+    {
+      observe: 'response',
+      reportProgress: true
+    });
   }
 
   getIndicatorsForApproval(page: number, pageSize: number, filter: FilterDto, sortBy?: Sort)
     : Observable<HttpResponse<PageDto<IndicatorDto>>> {
     const url = this.INDICATORS_APPROVAL_URL;
-
     const params = this.prepParams(page, pageSize, filter, sortBy);
 
     return this.http.get<PageDto<IndicatorDto>>(url, {observe: 'response', params});
@@ -57,7 +56,7 @@ export class ManageIndicatorsService {
 
     if (sortBy && sortBy.direction && sortBy.property) {
       params = params.append('sortBy.property', sortBy.property).append('sortBy.direction',
-        sortBy.direction);
+      sortBy.direction);
     }
 
     filter.sector.forEach(sector => params = params.append('filters.sectors', sector));
