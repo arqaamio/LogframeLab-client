@@ -255,6 +255,18 @@ export class ScanResultComponent implements OnInit, OnDestroy {
     }
   }
 
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      var value = this.activeItem.targetValue.split('')
+      value.pop();
+      this.activeItem.targetValue = value.join('');
+      return false;
+    }
+    return true;
+
+  }
+
   /**
    * Triggered when selected item in the table
    * Updates the list of selected indicators and clear search of selected indicator

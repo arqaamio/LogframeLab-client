@@ -56,6 +56,7 @@
         style="padding-right: 30px"
         type="text"
         nz-input
+        name="searchValue"
         placeholder="Search indicator"
         [(ngModel)]="searchValue"
       />
@@ -245,11 +246,11 @@
           </tr>
           <tr [nzExpand]="expandSet.has(data.indicator.id)">
             <span>Country: </span>
-            <nz-select style="margin-left: 5px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(data, $event)" nzPlaceHolder="Select a country" [(ngModel)]="data.countryCodeSelected">
+            <nz-select style="margin-left: 5px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(data, $event)" name="countryCodeSelected" nzPlaceHolder="Select a country" [(ngModel)]="data.countryCodeSelected">
               <nz-option *ngFor="let country of countriesList" nzLabel="{{country.label}}" nzValue="{{country.code}}"></nz-option>
             </nz-select>
             <span style="margin-left: 5px;">Year: </span>
-            <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(data, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="data.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
+            <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(data, $event)" [nzDisabledDate]="disabledDate" name="yearSelected" [(ngModel)]="data.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
             <span style="margin-left: 5px;">Baseline value: <strong>{{ data.baselineValue }}</strong></span>
           </tr>
         </ng-template>
@@ -267,6 +268,7 @@
           style="padding-right: 30px"
           type="text"
           nz-input
+          name="nameSelected"
           placeholder="Search selected indicator"
           [(ngModel)]="searchSelected"
         />
@@ -454,11 +456,11 @@
         <strong>Baseline Value</strong>
       </h3>
       <span>Country: </span>
-      <nz-select style="margin-left: 5px; min-width: 200px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(activeItem, $event)" nzPlaceHolder="Select a country" [(ngModel)]="activeItem.countryCodeSelected">
+      <nz-select style="margin-left: 5px; min-width: 200px;" nzShowSearch nzAllowClear (ngModelChange)="ngModelCountryChange(activeItem, $event)" nzPlaceHolder="Select a country" name="baselineCountryCode" [(ngModel)]="activeItem.countryCodeSelected">
         <nz-option *ngFor="let country of countriesList" nzLabel="{{country.label}}" nzValue="{{country.code}}"></nz-option>
       </nz-select>
       <span style="margin-left: 5px;">Year: </span>
-      <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(activeItem, $event)" [nzDisabledDate]="disabledDate" [(ngModel)]="activeItem.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
+      <nz-year-picker style="margin-left: 5px;" (ngModelChange)="ngModelYearChange(activeItem, $event)" [nzDisabledDate]="disabledDate" name="baselineYearSelected" [(ngModel)]="activeItem.yearSelected" nzPlaceHolder="Select year"></nz-year-picker>
       <button nz-button nzType="primary" (click)="getLatestBaselineValue()" id="baselineLatest" [disabled]="!activeItem.countryCodeSelected">SELECT LATEST</button>
       <nz-spin nzSimple *ngIf="showLoadingBaseline" id="baselineSpin"></nz-spin>
       <span style="margin-left: 5px;">Baseline value:
@@ -471,9 +473,9 @@
         <strong>Baseline Value</strong>
       </h3>
       <span>Year: </span>
-      <nz-year-picker style="margin-left: 5px;" [(ngModel)]="activeItem.yearSelected" [nzDisabledDate]="disabledDate" nzPlaceHolder="Select year"></nz-year-picker>
+      <nz-year-picker style="margin-left: 5px;" name="baseYearSelected" [(ngModel)]="activeItem.yearSelected" [nzDisabledDate]="disabledDate" nzPlaceHolder="Select year"></nz-year-picker>
       <span style="margin-left: 5px;">Baseline value:</span>
-      <input nz-input placeholder="Baseline value" [(ngModel)]="activeItem.baselineValue" id="baselineInput">
+      <input nz-input placeholder="Baseline value" name="baselineValue" [(ngModel)]="activeItem.baselineValue" id="baselineInput">
     </div>
     
     <div style="width: 650px;">
@@ -483,11 +485,11 @@
         </strong>
       </h3>
       <span>Target Year: </span>
-      <nz-year-picker style="margin-left: 5px; min-width: 170px;" [(ngModel)]="activeItem.targetDate" nzPlaceHolder="Select target year"
+      <nz-year-picker style="margin-left: 5px; min-width: 170px;" name="targetDate" [(ngModel)]="activeItem.targetDate" nzPlaceHolder="Select target year"
         (ngModelChange)="onTargetChange($event, activeItem)"
       ></nz-year-picker>
       <span style="margin-left: 5px;">Target value:</span>
-      <nz-input-number style="max-width: 200px; margin-left: 5px;" [(ngModel)]="activeItem.targetValue" [nzStep]="1" id="targetValueInput"></nz-input-number>
+      <input style="max-width: 200px; margin-left: 5px;" #myInput (keyup)="numberOnly($event)" nz-input placeholder="Target value" name="targetValue" [(ngModel)]="activeItem.targetValue" id="targetValueInput">
     </div>
   </div>
   
