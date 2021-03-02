@@ -114,52 +114,52 @@ describe('User Page', ()=> {
     });
 
 
-    it('should edit a user', () => {
-        cy.fixture('users.json').as('users');
-        cy.route('**/auth/groups', [{'id':2,'name':'APP_USER'},{'id':3,'name':'INDICATOR_ADMIN'},{'id':1,'name':'SEC_ADMIN'}]);
+    // it('should edit a user', () => {
+    //     cy.fixture('users.json').as('users');
+    //     cy.route('**/auth/groups', [{'id':2,'name':'APP_USER'},{'id':3,'name':'INDICATOR_ADMIN'},{'id':1,'name':'SEC_ADMIN'}]);
 
-        cy.contains('Edit user').click();
+    //     cy.contains('Edit user').click();
 
-        // with username
-        const user: string = 'fakeuser';
-        const password: string = 'new password';
-        cy.get('#username').should('be.visible');
-        cy.get('#password').should('be.visible');
-        cy.get('#passwordConfirm').should('be.visible');
-        cy.get('#groups').should('be.visible');
-        cy.contains('Submit').should('be.visible');
+    //     // with username
+    //     const user: string = 'fakeuser';
+    //     const password: string = 'new password';
+    //     cy.get('#username').should('be.visible');
+    //     cy.get('#password').should('be.visible');
+    //     cy.get('#passwordConfirm').should('be.visible');
+    //     cy.get('#groups').should('be.visible');
+    //     cy.contains('Submit').should('be.visible');
 
-        cy.get('#username').wait(500).should('have.value', user);
-        cy.get('#groups').should('not.be.empty');
-        cy.get('#username').should('be.disabled');
+    //     cy.get('#username').wait(500).should('have.value', user);
+    //     cy.get('#groups').should('not.be.empty');
+    //     cy.get('#username').should('be.disabled');
 
-        // with username and password
-        cy.get('#password').type(password).should('have.value', password);
+    //     // with username and password
+    //     cy.get('#password').type(password).should('have.value', password);
 
-        cy.contains('Submit').click({force: true});
+    //     cy.contains('Submit').click({force: true});
 
-        cy.get('#username').should('be.visible');
-        cy.get('#password').should('be.visible');
-        cy.get('#passwordConfirm').should('be.visible');
-        cy.get('#groups').should('be.visible');
-        cy.contains('Submit').should('be.visible');
+    //     cy.get('#username').should('be.visible');
+    //     cy.get('#password').should('be.visible');
+    //     cy.get('#passwordConfirm').should('be.visible');
+    //     cy.get('#groups').should('be.visible');
+    //     cy.contains('Submit').should('be.visible');
 
-        // with username, password and password confirm
-        cy.get('#passwordConfirm').type(password).should('have.value', password);
+    //     // with username, password and password confirm
+    //     cy.get('#passwordConfirm').type(password).should('have.value', password);
 
-        cy.contains('Submit').click({force: true});
+    //     cy.contains('Submit').click({force: true});
 
-        cy.get('#username').should('be.visible');
-        cy.get('#password').should('be.visible');
-        cy.get('#passwordConfirm').should('be.visible');
-        cy.get('#groups').should('be.visible');
-        cy.contains('Submit').should('be.visible');
+    //     cy.get('#username').should('be.visible');
+    //     cy.get('#password').should('be.visible');
+    //     cy.get('#passwordConfirm').should('be.visible');
+    //     cy.get('#groups').should('be.visible');
+    //     cy.contains('Submit').should('be.visible');
 
-        // close form
-        cy.contains('Cancel').click();
+    //     // close form
+    //     cy.contains('Cancel').click();
 
-        cy.get('.ant-modal-body').should('not.exist');
-    });
+    //     cy.get('.ant-modal-body').should('not.exist');
+    // });
 
     it('should delete user', () => {
         // Cancel
