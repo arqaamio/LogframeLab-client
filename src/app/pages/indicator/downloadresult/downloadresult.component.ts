@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IndicatorService } from "src/app/services/indicator.service";
 import { Subscription } from 'rxjs/internal/Subscription';
+import {ActivitiesService} from '../../../services/activities.service';
 
 @Component({
   selector: "app-downloadresult",
@@ -12,6 +13,7 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
   indicatorSubscription: Subscription = null;
 
   constructor(
+    private activityService: ActivitiesService,
     private indicatorService: IndicatorService
   ) { }
 
@@ -48,8 +50,20 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
    * @param format Format in which the file will be downloaded in
    */
   downloadFile(format: string): void {
+    const activities = {
+      activity: this.activityService.activitiesList,
+      politicalMeans: this.activityService.politicalMeans,
+      technicalMeans: this.activityService.technicalMeans,
+      financialMeans: this.activityService.financialMeans,
+      materialMeans: this.activityService.materialMeans,
+      humanMeans: this.activityService.humanMeans,
+      cost: this.activityService.cost,
+      assumptions: this.activityService.assumptions
+
+    };
+
     this.indicatorService
-    .downloadIndicators(this.dataExport, format, this.indicatorService.statementData)
+    .downloadIndicators(activities,this.dataExport, format, this.indicatorService.statementData)
     .subscribe((response) => {
       let blob = new Blob([response.body], { type: "application/octet-stream" });
       var link = document.createElement("a");

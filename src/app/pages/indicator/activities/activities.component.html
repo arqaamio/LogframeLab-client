@@ -1,0 +1,45 @@
+<div class="activities-container">
+  <nz-steps [nzCurrent]="current" nzProgressDot>
+    <nz-step nzTitle="Add Activities" ></nz-step>
+    <nz-step nzTitle="Add Means"></nz-step>
+    <nz-step nzTitle="Add Costs"></nz-step>
+    <nz-step nzTitle="Add Assumptions"></nz-step>
+
+  </nz-steps>
+<!--  <nz-divider></nz-divider>-->
+<!--  <ng-template #progressTemplate let-dot let-status="status" let-index="index">-->
+<!--      <span nz-popover nzPopoverContent="steps {{ index }} status: {{ status }}" style="margin-left: -100%;">-->
+<!--        <ng-template [ngTemplateOutlet]="dot"></ng-template>-->
+<!--      </span>-->
+<!--  </ng-template>-->
+
+  <div class="steps-content">
+    <app-add-activities *ngIf="current === 0" ></app-add-activities>
+    <app-add-means *ngIf="current === 1"></app-add-means>
+    <app-add-costs *ngIf="current === 2"></app-add-costs>
+    <app-add-assumptions *ngIf="current === 3"></app-add-assumptions>
+
+  </div>
+  <div class="steps-action">
+    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+      <span>Previous</span>
+    </button>
+    <button nz-button nzType="default" (click)="next()" *ngIf="current === 0">
+      <span>Add Means</span>
+    </button>
+    <button nz-button nzType="default" (click)="next()" *ngIf="current === 1">
+      <span>Add Costs</span>
+    </button>
+    <button nz-button nzType="primary" (click)="next()" *ngIf="current === 2">
+      <span>Add Assumptions</span>
+    </button>
+  </div>
+
+<!--    <div>-->
+<!--      <button nz-button [nzType]="'primary'" ><span>Add Activity</span></button>-->
+
+<!--    </div>-->
+
+<!--  </div>-->
+</div>
+
