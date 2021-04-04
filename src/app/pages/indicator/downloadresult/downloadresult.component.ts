@@ -61,9 +61,8 @@ export class DownloadResultComponent implements OnInit, OnDestroy {
       assumptions: this.activityService.assumptions
 
     };
-
     this.indicatorService
-    .downloadIndicators(activities,this.dataExport, format, this.indicatorService.statementData)
+    .downloadIndicators(activities, this.dataExport, format, this.indicatorService.statementData)
     .subscribe((response) => {
       let blob = new Blob([response.body], { type: "application/octet-stream" });
       var link = document.createElement("a");

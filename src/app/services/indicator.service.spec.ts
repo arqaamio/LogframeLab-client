@@ -48,7 +48,7 @@ describe('IndicatorService', () => {
 				id: 1, level: 'IMPACT', color: '', label: 'Name', description: '', keys: [], date:'', value: ''
       }]
       const format: string = 'docx';
-      indicatorService.downloadIndicators(indicatorsList, format, [], [])
+      indicatorService.downloadIndicators([], indicatorsList, format, [])
         .subscribe((response: HttpResponse<Blob>) => {
 					expect(response.body).not.toBeNull;
 			});
